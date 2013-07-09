@@ -1,0 +1,83 @@
+/**
+
+ @mainpage  SIMD Generic Library
+ 
+ SIMD Generic Library provides C++ based simple interfaces to use SIMD intrinsics.
+ 
+ The current implementation have short vector with lanes=4 support.
+ Here lanes=4 means all the short vector data types in this library contains 
+ 4 scalar elements.
+ A generic short vector library with lanes could be 2,4,8,16,32... is in developing.
+ 
+ Here is the hello vector example.
+ 
+ @code{.cpp}
+#include <iostream>
+#include <power_vsx4.h> //SIMD Generic Library for power platform
+
+using namespace vsx; //Name space for vsx interfaces
+
+int main (int argc, char* argv[])
+{
+    svec4_f v1(1.1, 2.2, 3.3, 4.4);
+    svec4_f v2 = v1 * 2;
+    std::cout << "Hello, " << v2 << std::endl;
+    return 0;
+}
+ @endcode
+
+Compile and run it.
+
+@code{.sh}
+$ g++ -I../intrinsics HelloSIMD.cpp -mvsx -flax-vector-conversions -o HelloSIMD -Wno-int-to-pointer-cast
+% ./HelloSIMD
+Hello, svec4_f[2.2, 4.4, 6.6, 8.8]
+@endcode
+
+The current implementation needs gcc to compile.
+<ul>
+<li>../intrinsics contains the header files</li>
+<li>-mvsx enable gcc support power vsx SIMD</li>
+<li>-Wno-int-to-pointer-cast -flax-vector-conversions not show warnings and enable vector casts</li>
+</ul>
+
+
+<h2> Data Types </h2>
+The current library has short vector types for bool (svec4_i1), char (svec4_i8,
+svec4_u8), short (svec4_i16, svec4_u16), integer (svec4_i32, svec4_u32),
+long long (svec4_i64, svec4_u64), float (svec4_f) and double (svec4_d). Here "i"
+means signed types, and "u" means unsigned types.
+
+<h3> Construction of a short vector </h3>
+<ul>
+<li> Default constructor returns a vector with undefined value. e.g. "svec4_i32 v;" 
+    We can modify it's elements by "[]" operator. </li>
+<li> Construct a short vector with four scalar values. e.g. "svec4_i32 v(1,2,3,4)" </li>
+<li> Construct a short vector with one scalar value. e.g. "svec4_i32 v(100)". 
+All the four values in the short vector is 100. </li>
+</ul>
+
+<h3> Access single elements in the short vector</h3>
+"[]" operator is used to get and set the elements.
+@code{.cpp}
+svec4_i32 v(1,2,3,4);
+int a = v[2]; //a is 3 now.
+v[3] = 10; //v is [1,2,3,10] now.
+@endcode
+
+<h3>operations of short vector</h3>
+
+
+
+<h2> Other Operations </h2>
+
+<h2> Developer Guide</h2>
+
+<h3> Source code structure </h3>
+
+<h3> Run unit tests </h3>
+
+<h3> Generate document </h3>
+
+
+*/
