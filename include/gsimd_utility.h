@@ -1,5 +1,5 @@
 /*
- * intrinsics_utility.h
+ * gsimd_utility.h
  *
  *  Created on: Jun 12, 2013
  *      Author: haichuan
@@ -8,8 +8,8 @@
  *  Should be included in all intrinsics header files
  */
 
-#ifndef INTRINSICS_UTILITY_H_
-#define INTRINSICS_UTILITY_H_
+#ifndef GSIMD_UTILITY_H_
+#define GSIMD_UTILITY_H_
 
 #include <stdint.h>
 #include <iostream>
@@ -119,16 +119,6 @@ typedef float svec1_f;
 typedef double svec1_d;
 
 
-/**
- * LANES=1 short vector definition for ISPC interfaces
- */
-typedef int8_t __vec1_i8;
-typedef int16_t __vec1_i16;
-typedef int32_t __vec1_i32;
-typedef int64_t __vec1_i64;
-typedef float __vec1_f;
-typedef double __vec1_d;
-
 /*
  * Register scalar type names and use iu_get_type_name to query the short type name
  */
@@ -215,20 +205,4 @@ friend std::ostream& operator<< (std::ostream &out, const VTYPE &v) { \
   return out; \
 } \
 
-/**
- * The below two marcos are only used for template cases implementation
- * of ISPC interfaces. E.g. generic-4 and generic4-8...
- */
-#define SUBSCRIPT_FUNC_TLT() \
-T& operator[](int index) {return ((T *)&v)[index];}  \
-const T& operator[](int index) const {return ((T *)&v)[index];} \
-
-#define COUT_FUNC_TLT(LANES) \
-friend std::ostream& operator<< (std::ostream &out, const vec4 &v) { \
-  out << "__vec"<< LANES <<"_" << iu_get_type_name<T>() << "[" << v[0]; \
-  for(int i = 1; i < LANES ; i++) { out << ", " << v[i];} \
-  out << "]"; \
-  return out; \
-} \
-
-#endif /* INTRINSICS_UTILITY_H_ */
+#endif /* GSIMD_UTILITY_H_ */
