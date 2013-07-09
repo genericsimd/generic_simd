@@ -5,7 +5,7 @@
  SIMD Generic Library provides C++ based simple interfaces to use SIMD intrinsics.
  
  The current implementation have short vector with lanes=4 support.
- Here lanes=4 means all the short vector data types in this library contains 
+ Here lanes=4 means all the short vector data types in this library contain 
  4 scalar elements.
  A generic short vector library with lanes could be 2,4,8,16,32... is in developing.
  
@@ -29,15 +29,15 @@ int main (int argc, char* argv[])
 Compile and run it.
 
 @code{.sh}
-$ g++ -I../intrinsics HelloSIMD.cpp -mvsx -flax-vector-conversions -o HelloSIMD -Wno-int-to-pointer-cast
+$ g++ -I../../include HelloSIMD.cpp -mvsx -flax-vector-conversions -o HelloSIMD -Wno-int-to-pointer-cast
 % ./HelloSIMD
 Hello, svec4_f[2.2, 4.4, 6.6, 8.8]
 @endcode
 
 The current implementation needs gcc to compile.
 <ul>
-<li>../intrinsics contains the header files</li>
-<li>-mvsx enable gcc support power vsx SIMD</li>
+<li>../../include contains the header files</li>
+<li>-mvsx enable gcc support Power vsx SIMD</li>
 <li>-Wno-int-to-pointer-cast -flax-vector-conversions not show warnings and enable vector casts</li>
 </ul>
 
@@ -45,19 +45,22 @@ The current implementation needs gcc to compile.
 <h2> Data Types </h2>
 The current library has short vector types for bool (svec4_i1), char (svec4_i8,
 svec4_u8), short (svec4_i16, svec4_u16), integer (svec4_i32, svec4_u32),
-long long (svec4_i64, svec4_u64), float (svec4_f) and double (svec4_d). Here "i"
-means signed types, and "u" means unsigned types.
+long long (svec4_i64, svec4_u64), float (svec4_f) and double (svec4_d). "i"
+means signed types, and "u" means unsigned types. 
 
-<h3> Construction of a short vector </h3>
+In the following document we use VTYPE to express the short vector types, and
+STYPE to express scalar types.
+
+<h3> Short vector construction</h3>
 <ul>
 <li> Default constructor returns a vector with undefined value. e.g. "svec4_i32 v;" 
-    We can modify it's elements by "[]" operator. </li>
+    You can modify it's elements by "[]" operator. </li>
 <li> Construct a short vector with four scalar values. e.g. "svec4_i32 v(1,2,3,4)" </li>
 <li> Construct a short vector with one scalar value. e.g. "svec4_i32 v(100)". 
 All the four values in the short vector is 100. </li>
 </ul>
 
-<h3> Access single elements in the short vector</h3>
+<h3> Access single element in the short vector</h3>
 "[]" operator is used to get and set the elements.
 @code{.cpp}
 svec4_i32 v(1,2,3,4);
@@ -65,11 +68,91 @@ int a = v[2]; //a is 3 now.
 v[3] = 10; //v is [1,2,3,10] now.
 @endcode
 
-<h3>operations of short vector</h3>
+Due to the current limitation, bool vector's setter must use "-1" as true in the right hand side.
+@code{.cpp}
+svec4_i1 m(0); //all elements are false
+m[0] = -1; //m's first element is true.
+@endcode
 
+<h3>Common operations</h3>
+Here is a short list for common operations. 
+Please refer the detail documents for all operations.
 
+<h4> Load and Store </h4>
+Store a vector to location p through instance method store (VTYPE *).
 
-<h2> Other Operations </h2>
+Load a vector from location p through class static method VTYPE::(VTYPE *).
+e.g. "svec4_i32::load(an_address)" will return a new svec4_i32 vector.
+
+Load a scalar value from an address and splat it into the whole vector could 
+be done through class static method VTYPE::load_and_splat(STYPE *)
+
+There is another method called VTYPE::load_const(STYPE*), which has similar semantics.
+
+<h4> Compare</h4>
+Compare two vectors, and return a svec4_i1 vector.
+
+Operators: == != for all types
+
+Operators: >, >=, <, <= for all types except svec4_i1.
+
+<h4> Bit operations </h4>
+svec4_i1 has operator ~ to reverse the boolean value.
+
+Binary bit operators &, |, ^ are available for all integer vector types.
+
+<h4> Math operations </h4>
+Support all types except svec4_i1.
+
+Unary operator "-" is used to get the neg value for non-boolean vectors
+
+Binary operators +, -, *, / can support VTYPE op VTYPE, VTYPE op STYPE, STYPE op VTYPE.
+
+Binary operators &gt;&gt;, &lt;&lt;, % can support VTYPE op VTYPE, VTYPE op STYPE over
+all integer types. 
+&gt;&gt; and &lt;&lt; for shift, and % for remainder.
+Please not shift can only has unsigned integer vector in the right hand.
+
+<h4> Instance methods based operations </h4>
+broadcast(), rotate(), shuffle() support all types exclude svec4_i1().
+
+round(), floor(), ceil(), sqrt(), rcp(), rsqrt(), exp(), log(), 
+pow(VTYPE) support svec4_f, and svec4_d.
+
+All above will return a new vector.
+
+reduce_add(), reduce_max(), reduce_min() do a vector scope's reduction,
+and return a scalar value.
+
+any_true(), all_true(), none_true() do a svec4_i1 vector's reduction, and
+return a boolean scalar value.
+
+<h4> Gather and Scatter </h4>
+Please refer the detail document for how to use gather and scatter.
+The current power processor has no gather/scatter instructions. So the software
+based implementation is slow right now.
+
+<h3> Other Operations </h3>
+<h4> Multiply-Add and Multiply-Sub</h4>
+VTYPE svec_madd(VTYPE a, VTYPE b, VTYPE c) returns a * b + c;
+
+VTYPE svec_msub(VTYPE a, VTYPE b, VTYPE c) returns a * b - c;
+
+<h4> Select operation </h4>
+The prototype is svec_select(svec4_i1 mask, VTYPE a, VTYPE b), and return
+a new vector whose elements are selected from a or b based on the mask.
+True from a and false from b.
+
+There is another select svec_select(bool cond, VTYPE a, VTYPE b), which
+is the same as "cond ? a : b".
+
+<h4> Type cast operation </h4>
+The prototype is svec_cast<TO_VTYPE>(FROM_VTYPE). It supports all combinations
+of type cast. Each element's cast semantics is the same as scalar cast.
+
+<h3> Operation with mask </h3>
+load, store, gatter, scatter, compare operations have a masked version.
+Please refer the detail document for detail.
 
 <h2> Developer Guide</h2>
 

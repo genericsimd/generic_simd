@@ -374,6 +374,9 @@ struct svec4_u8 {
     VEC_INT_CLASS_METHOD_DECL(svec4_u8, svec4_u8, uint8_t);
 };
 
+/**
+ * @brief signed short vector, with 4 elements in the vector.
+ */
 struct svec4_i16 {
     __vector signed short v;
     /**
@@ -419,6 +422,9 @@ struct svec4_i16 {
 
 };
 
+/**
+ * @brief unsigned short vector, with 4 elements in the vector.
+ */
 struct svec4_u16 {
     __vector unsigned short v;
     /**
@@ -464,8 +470,9 @@ struct svec4_u16 {
 
 };
 
-
-
+/**
+ * @brief signed int vector, with 4 elements in the vector.
+ */
 struct svec4_i32 {
     __vector signed int v;
     /**
@@ -521,6 +528,9 @@ struct svec4_i32 {
 
 };
 
+/**
+ * @brief unsigned int vector, with 4 elements in the vector.
+ */
 struct svec4_u32 {
     __vector unsigned int v;
     /**
@@ -575,7 +585,9 @@ struct svec4_u32 {
     VEC_INT_CLASS_METHOD_DECL(svec4_u32, svec4_u32, uint32_t);
 };
 
-
+/**
+ * @brief signed long long vector, with 4 elements in the vector.
+ */
 struct svec4_i64 {
     __vector signed long long v[2];
     /**
@@ -648,6 +660,9 @@ struct svec4_i64 {
     VEC_INT_CLASS_METHOD_DECL(svec4_i64, svec4_u64, int64_t);
 };
 
+/**
+ * @brief unsigned long long vector, with 4 elements in the vector.
+ */
 struct svec4_u64 {
     __vector unsigned long long v[2];
     /**
@@ -720,7 +735,9 @@ struct svec4_u64 {
     VEC_INT_CLASS_METHOD_DECL(svec4_u64, svec4_u64, uint64_t);
 };
 
-
+/**
+ * @brief float vector, with 4 elements in the vector.
+ */
 struct svec4_f {
     __vector float v;
     /**
@@ -792,6 +809,9 @@ struct svec4_f {
 
 };
 
+/**
+ * @brief double vector, with 4 elements in the vector.
+ */
 struct svec4_d {
     __vector double v[2];
     /**
