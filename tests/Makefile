@@ -18,7 +18,7 @@ power_vsx4: power_vsx4.cpp libgtest.a ../include/power_vsx4.h
 	g++ -I${GTEST_DIR}/include -l pthread -mvsx ${CXXFLAGS} $^ -o $@
 
 
-power_vsx4_test: power_vsx4
+test: power_vsx4
 	./$<
 
 test_svec: test_svec.cpp libgtest.a ../include/svec-vsx.h

@@ -7,7 +7,7 @@
 
 
 /*
- *  g++ -DLANES=4 -I../intrinsics RGB2Gray.cpp -DVSX4 -mvsx -flax-vector-conversions -Wno-int-to-pointer-cast -g -O2
+ *  g++ -I../../include RGB2Gray.cpp -mvsx -flax-vector-conversions -Wno-int-to-pointer-cast -g -O2 -o RGB2Gray
  * */
 
 #include <getopt.h>
@@ -16,14 +16,13 @@
 #include <string.h>
 #include <assert.h>
 #include <power_vsx4.h>
-#include "../timing.h"
+#include <timing.h>
 
 
 
 
 using namespace vsx;
 
-#define DUMP(v) std::cout << #v << ":" << v << std::endl
 
 #define N 1048576
 void serial_rgb2gray(float* ra, float* ga, float* ba, float* gray) {
@@ -48,10 +47,10 @@ void svec4_rgb2gray2(float* ra, float* ga, float* ba, float* gray) {
         svec4_f a = svec4_f::load((svec4_f*)(ra+i));
         svec4_f b = svec4_f::load((svec4_f*)(ga+i));
         svec4_f c = svec4_f::load((svec4_f*)(ba+i));
-        svec4_f out = svec4_f::smear(0);
-        out = svec_madd(svec4_f::smear(0.3), a, out);
-        out = svec_madd(svec4_f::smear(0.59), b, out);
-        out = svec_madd(svec4_f::smear(0.11), c, out);
+        svec4_f out = svec4_f(0);
+        out = svec_madd(svec4_f(0.3), a, out);
+        out = svec_madd(svec4_f(0.59), b, out);
+        out = svec_madd(svec4_f(0.11), c, out);
         out.store((svec4_f*)(gray+i));
     }
 }
@@ -69,6 +68,8 @@ int main (int argc, char* argv[])
         g[N] = random() % 256;
         b[N] = random() % 256;
     }
+    std::cout<< "Convert " << N << " pixels RGB to gray." << std::endl;
+
     reset_and_start_stimer();
     serial_rgb2gray(r, g, b, gray);
     double dt = get_elapsed_seconds();

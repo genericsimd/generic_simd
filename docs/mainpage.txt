@@ -73,11 +73,44 @@ v[3] = 10; //v is [1,2,3,10] now.
 
 <h2> Developer Guide</h2>
 
+<h3> Get the source code </h3>
+Make sure you have the access right to yktgsa projects/g/generic_simd directory.
+
+Clone in a server that has direct gsa directory access
+@code{.sh}
+git clone /gsa/yktgsa/projects/g/generic_simd/gsimd.git gsimd
+@endcode
+
+Clone through a server that has gsa directory access.
+@code{.sh}
+git clone userName@serverName:/gsa/yktgsa/projects/g/generic_simd/gsimd.git gsimd
+@endcode
+
 <h3> Source code structure </h3>
+<ul>
+<li><b>docs</b> Generate html docs through doxygen</li>
+<li><b>examples</b> Examples using this library. </li>
+<li><b>gtest-1.6.0</b> Google test framework used in unit test</li>
+<li><b>include</b> The library source code</li>
+<li><b>tests</b> Unit tests </li>
+</ul>
 
 <h3> Run unit tests </h3>
+The unit tests are in tests directory. The current unit test only covers power_vsx4.h.
+@code{.sh}
+$ cd tests
+$ make test
+@endcode
+The test app will generate the report.
+
 
 <h3> Generate document </h3>
+Make sure you have doxygen installed.
+@code{.sh}
+$ cd docs
+$ make
+$ make publish #You must run publish in a server that has direct gsa directory access.
+@endcode
 
 
 */

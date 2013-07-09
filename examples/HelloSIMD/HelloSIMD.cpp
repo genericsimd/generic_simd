@@ -1,6 +1,6 @@
 
 /*
- *  g++ -I../intrinsics HelloSIMD.cpp -mvsx -flax-vector-conversions -Wno-int-to-pointer-cast -o HelloSIMD
+ *  g++ -I../../include HelloSIMD.cpp -mvsx -flax-vector-conversions -Wno-int-to-pointer-cast -o HelloSIMD
  * */
 
 #include <iostream>
