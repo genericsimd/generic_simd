@@ -217,7 +217,8 @@ struct svec4_i1 {
     __vector unsigned int v; //!< use __vector unsigned int v for storage
 
     /**
-     * @brief default constructor. Return an undefined svec4_i1.
+     * @brief default constructor. 
+     * @return a vector of 4 undefined boolean/mask values.
      */
     FORCEINLINE svec4_i1() { }
     /**
@@ -226,17 +227,18 @@ struct svec4_i1 {
      * @return a mask vector whose value is from the vv.
      */
     FORCEINLINE svec4_i1(__vector unsigned int vv) : v(vv) { }
-    /**
-     * @brief Construct a vector mask with four scalar values.
-     * @return a mask vector with the specified scalar values.
+    /** 
+     * @brief Constructor.
+     * @return a vector of 4 mask/booleans: {a,b,c,d}.
      */
     FORCEINLINE svec4_i1(uint32_t a, uint32_t b, uint32_t c, uint32_t d) {
         __vector unsigned int t = { a ? -1 : 0, b ? -1 : 0, c ? -1 : 0, d ? -1 : 0 };
         v = t;
     }
     /**
-     * @brief Construct a vector mask with one scalar value. All the elements are the same as the input value.
-     * @return a mask vector. Each element is the same as the input a.
+     * @brief Constructor.
+     * @param a a mask/boolean value
+     * @return a vector of 4 signed chars: {a,a,a,a}.
      */
     FORCEINLINE svec4_i1( uint32_t a) {
       if(__builtin_constant_p(a)){
@@ -249,7 +251,7 @@ struct svec4_i1 {
     }
 
     /**
-     * @brief [] subscript to directly access one element in the vector
+     * @brief operator [] to get or set the specified vector element.
      * Note: For svec4_i1 [] operator in the left(assign case), -1 must be used to represent true in the right.
      * \code{.cpp}
      *   svec4_i1 a;
@@ -275,13 +277,14 @@ struct svec4_i1 {
 };
 
 /**
- * @brief signed char vector, with 4 elements in the vector.
+ * @brief data representation and operations on a vector of 4 signed chars
  */
 struct svec4_i8 {
     __vector signed char v;
 
     /**
-     * @brief Default constructor, return an undefined svec4_i8.
+     * @brief Default constructor
+     * @return a vector of 4 undefined signed chars.
      */
     FORCEINLINE svec4_i8() { }
     /**
@@ -291,8 +294,8 @@ struct svec4_i8 {
      */
     FORCEINLINE svec4_i8(__vector signed char vv) : v(vv) {  }
     /**
-     * @brief Construct a signed char vector with four scalar values.
-     * @return a signed char vector with the specified scalar values.
+     * @brief Constructor
+     * @return a vector of 4 signed chars: {a,b,c,d}.
      */
     FORCEINLINE svec4_i8(int8_t a, int8_t b, int8_t c, int8_t d) {
         __vector signed char t = {a,b,c,d,0,0,0,0,
@@ -300,8 +303,8 @@ struct svec4_i8 {
         v = t;
     }
     /**
-     * @brief Construct a signed char vector with one scalar value. All the elements are the same as the input value.
-     * @return a signed char vector. Each element is the same as the input a.
+     * @brief Constructor.
+     * @return a vector of 4 signed chars: {a,a,a,a}.
      */
     FORCEINLINE svec4_i8( int8_t a) {
       if(__builtin_constant_p(a) && (a <= 15) && (a >= -16)){
@@ -314,7 +317,8 @@ struct svec4_i8 {
       }
     }
     /**
-     * @brief [] subscript to directly access (set or get) one element in the vector.
+     * @brief operator [] to set or get the specified vector element.
+     * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(int8_t);
     COUT_FUNC_I8(svec4_i8, LANES);
@@ -326,12 +330,13 @@ struct svec4_i8 {
 };
 
 /**
- * @brief unsigned char vector, with 4 elements in the vector
+ * @brief data representation and operations on a vector of 4 unsigned chars
  */
 struct svec4_u8 {
     __vector unsigned char v;
     /**
-     * @brief Default constructor, return an undefined svec4_u8.
+     * @brief Default constructor
+     * @return a vector of 4 undefined unsigned chars.
      */
     FORCEINLINE svec4_u8() { }
     /**
@@ -341,8 +346,8 @@ struct svec4_u8 {
      */
     FORCEINLINE svec4_u8(__vector unsigned char vv) : v(vv) {  }
     /**
-     * @brief Construct an unsigned char vector with four scalar values.
-     * @return an unsigned char vector with the specified scalar values.
+     * @brief Constructor
+     * @return a vector of 4 unsigned chars: {a,b,c,d}.
      */
     FORCEINLINE svec4_u8(uint8_t a, uint8_t b, uint8_t c, uint8_t d) {
         __vector unsigned char t = {a,b,c,d,0,0,0,0,
@@ -350,8 +355,9 @@ struct svec4_u8 {
         v = t;
     }
     /**
-     * @brief Construct a unsigned char vector with one scalar value. All the elements are the same as the input value.
-     * @return an unsigned char vector. Each element is the same as the input a.
+     * @brief Constructor.
+     * @param a an unsigned char value
+     * @return a vector of 4 unsigned chars: {a,a,a,a}.
      */
     FORCEINLINE svec4_u8(uint8_t a) {
       if(__builtin_constant_p(a) && (a <= 15)){
@@ -364,7 +370,8 @@ struct svec4_u8 {
       }
     }
     /**
-     * @brief [] subscript to directly access (set or get) one element in the vector.
+     * @brief operator [] to set or get the specified vector element.
+     * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(uint8_t);
     COUT_FUNC_I8(svec4_u8, LANES);
@@ -374,10 +381,14 @@ struct svec4_u8 {
     VEC_INT_CLASS_METHOD_DECL(svec4_u8, svec4_u8, uint8_t);
 };
 
+/**
+ * @brief data representation and operations on a vector of 4 signed short
+ */
 struct svec4_i16 {
     __vector signed short v;
     /**
-     * @brief Default constructor, return a undefined svec4_i16.
+     * @brief Default constructor
+     * @return a vector of 4 undefined signed short.
      */
     FORCEINLINE svec4_i16() { }
     /**
@@ -386,17 +397,18 @@ struct svec4_i16 {
      * @return a signed short vector, whose value is from the vv.
      */
     FORCEINLINE svec4_i16(__vector signed short vv) : v(vv) {  }
-    /**
-     * @brief Construct a signed short vector with four scalar values.
-     * @return a signed short vector with the specified scalar values.
+    /** 
+     * @brief Constructor.
+     * @return a vector of 4 signed short: {a,b,c,d}.
      */
     FORCEINLINE svec4_i16(int16_t a, int16_t b, int16_t c, int16_t d) {
         __vector signed short t = {a,b,c,d, 0,0,0,0};
         v = t;
     }
     /**
-     * @brief Construct a signed short vector with one scalar value. All the elements are the same as the input value.
-     * @return a signed short vector. Each element is the same as the input a.
+     * @brief Constructor.
+     * @param a a signed short
+     * @return a vector of 4 signed short: {a,a,a,a}.
      */
     FORCEINLINE svec4_i16( int16_t a) {
       if(__builtin_constant_p(a) && (a <= 15) && (a >= -16)){
@@ -408,7 +420,8 @@ struct svec4_i16 {
       }
     }
     /**
-     * @brief [] subscript to directly access (set or get) one element in the vector.
+     * @brief operator [] to set or get the specified vector element.
+     * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(int16_t);
     COUT_FUNC(svec4_i16, LANES);
@@ -419,10 +432,14 @@ struct svec4_i16 {
 
 };
 
+/**
+ * @brief data representation and operations on a vector of 4 unsigned short
+ */
 struct svec4_u16 {
     __vector unsigned short v;
     /**
-     * @brief Default constructor, return a undefined svec4_u16.
+     * @brief Default constructor
+     * @return a vector of 4 undefined unsigned short.
      */
     FORCEINLINE svec4_u16() { }
     /**
@@ -431,17 +448,18 @@ struct svec4_u16 {
      * @return an unsigned char vector, whose value is from the vv.
      */
     FORCEINLINE svec4_u16(__vector unsigned short vv) : v(vv) {  }
-    /**
-     * @brief Construct an unsigned short vector with four scalar values.
-     * @return an unsigned short vector with the specified scalar values.
+    /** 
+     * @brief Constructor.
+     * @return a vector of 4 unsigned short: {a,b,c,d}.
      */
     FORCEINLINE svec4_u16(uint16_t a, uint16_t b, uint16_t c, uint16_t d) {
         __vector unsigned short t = {a,b,c,d, 0,0,0,0};
         v = t;
     }
     /**
-     * @brief Construct an unsigned char vector with one scalar value. All the elements are the same as the input value.
-     * @return an unsigned short vector. Each element is the same as the input a.
+     * @brief Constructor.
+     * @param a an unsigned short
+     * @return a vector of 4 unsigned short: {a,a,a,a}.
      */
     FORCEINLINE svec4_u16( uint16_t a) {
       if(__builtin_constant_p(a) && (a <= 15)){
@@ -453,7 +471,8 @@ struct svec4_u16 {
       }
     }
     /**
-     * @brief [] subscript to directly access (set or get) one element in the vector.
+     * @brief operator [] to set or get the specified vector element.
+     * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(uint16_t);
     COUT_FUNC(svec4_u16, LANES);
@@ -464,12 +483,14 @@ struct svec4_u16 {
 
 };
 
-
-
+/**
+ * @brief data representation and operations on a vector of 4 signed int
+ */
 struct svec4_i32 {
     __vector signed int v;
     /**
-     * @brief Default constructor, return a undefined svec4_i32.
+     * @brief Default constructor
+     * @return a vector of 4 undefined signed int.
      */
     FORCEINLINE svec4_i32() { }
     /**
@@ -478,17 +499,18 @@ struct svec4_i32 {
      * @return a signed int vector, whose value is from the vv.
      */
     FORCEINLINE svec4_i32(__vector signed int vv) : v(vv) {  }
-    /**
-     * @brief Construct a signed int vector with four scalar values.
-     * @return a signed int vector with the specified scalar values.
+    /** 
+     * @brief Constructor.
+     * @return a vector of 4 signed int: {a,b,c,d}.
      */
     FORCEINLINE svec4_i32(int a, int b, int c, int d) {
       __vector signed int t = {a,b,c,d};
         v = t;
     }
     /**
-     * @brief Construct a signed int vector with one scalar value. All the elements are the same as the input value.
-     * @return a signed int vector. Each element is the same as the input a.
+     * @brief Constructor.
+     * @param a a signed int
+     * @return a vector of 4 signed int: {a,a,a,a}.
      */
     FORCEINLINE svec4_i32(int32_t a) {
       if(__builtin_constant_p(a)){
@@ -510,7 +532,8 @@ struct svec4_i32 {
       }
     }
     /**
-     * @brief [] subscript to directly access (set or get) one element in the vector.
+     * @brief operator [] to set or get the specified vector element.
+     * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(int32_t);
     COUT_FUNC(svec4_i32, LANES);
@@ -521,10 +544,14 @@ struct svec4_i32 {
 
 };
 
+/**
+ * @brief data representation and operations on a vector of 4 unsigned int
+ */
 struct svec4_u32 {
     __vector unsigned int v;
     /**
-     * @brief Default constructor, return a undefined svec4_u32.
+     * @brief Default constructor
+     * @return a vector of 4 undefined unsigned int.
      */
     FORCEINLINE svec4_u32() { }
     /**
@@ -533,17 +560,18 @@ struct svec4_u32 {
      * @return an unsigned int vector, whose value is from the vv.
      */
     FORCEINLINE svec4_u32(__vector unsigned int vv) : v(vv) {  }
-    /**
-     * @brief Construct an unsigned int vector with four scalar values.
-     * @return an unsigned int vector with the specified scalar values.
+    /** 
+     * @brief Constructor.
+     * @return a vector of 4 unsigned int: {a,b,c,d}.
      */
     FORCEINLINE svec4_u32(int a, int b, int c, int d) {
       __vector unsigned int t = {a,b,c,d};
         v = t;
     }
     /**
-     * @brief Construct an unsigned int vector with one scalar value. All the elements are the same as the input value.
-     * @return an unsigned int vector. Each element is the same as the input a.
+     * @brief Constructor.
+     * @param a an unsigned int
+     * @return a vector of 4 unsigned int: {a,a,a,a}.
      */
     FORCEINLINE svec4_u32( uint32_t a) {
       if(__builtin_constant_p(a)){
@@ -565,7 +593,8 @@ struct svec4_u32 {
       }
     }
     /**
-     * @brief [] subscript to directly access (set or get) one element in the vector.
+     * @brief operator [] to set or get the specified vector element.
+     * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(uint32_t);
     COUT_FUNC(svec4_u32, LANES);
@@ -575,11 +604,14 @@ struct svec4_u32 {
     VEC_INT_CLASS_METHOD_DECL(svec4_u32, svec4_u32, uint32_t);
 };
 
-
+/**
+ * @brief data representation and operations on a vector of 4 signed long long
+ */
 struct svec4_i64 {
     __vector signed long long v[2];
     /**
-     * @brief Default constructor, return a undefined svec4_i64.
+     * @brief Default constructor,
+     * @return a vector of 4 undefined signed long long.
      */
     FORCEINLINE svec4_i64() { }
     /**
@@ -590,9 +622,9 @@ struct svec4_i64 {
         v[0] = a;
         v[1] = b;
     }
-    /**
-     * @brief Construct a signed long long vector with four scalar values.
-     * @return a signed long long vector with the specified scalar values.
+    /** 
+     * @brief Constructor.
+     * @return a vector of 4 signed long long: {a,b,c,d}.
      */
     FORCEINLINE svec4_i64(int64_t a, int64_t b, int64_t c, int64_t d) {
       __vector signed long long t1 = {a,b};
@@ -601,8 +633,9 @@ struct svec4_i64 {
         v[1] = t2;
     }
     /**
-     * @brief Construct a signed long long vector with one scalar value. All the elements are the same as the input value.
-     * @return a signed long long vector. Each element is the same as the input a.
+     * @brief Constructor.
+     * @param a a signed long long
+     * @return a vector of 4 signed long long: {a,a,a,a}.
      */
     FORCEINLINE svec4_i64( int64_t a) {
       if(__builtin_constant_p(a)){
@@ -638,7 +671,8 @@ struct svec4_i64 {
       } //non const
     }
     /**
-     * @brief [] subscript to directly access (set or get) one element in the vector.
+     * @brief operator [] to set or get the specified vector element.
+     * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(int64_t);
     COUT_FUNC(svec4_i64, LANES);
@@ -648,10 +682,14 @@ struct svec4_i64 {
     VEC_INT_CLASS_METHOD_DECL(svec4_i64, svec4_u64, int64_t);
 };
 
+/**
+ * @brief data representation and operations on a vector of 4 unsigned long long
+ */
 struct svec4_u64 {
     __vector unsigned long long v[2];
     /**
-     * @brief Default constructor, return a undefined svec4_u64.
+     * @brief Default constructor
+     * @return a vector of 4 undefined unsigned long long.
      */
     FORCEINLINE svec4_u64() { }
     /**
@@ -662,9 +700,9 @@ struct svec4_u64 {
         v[0] = a;
         v[1] = b;
     }
-    /**
-     * @brief Construct an unsigned long long vector with four scalar values.
-     * @return an unsigned long long vector with the specified scalar values.
+    /** 
+     * @brief Constructor.
+     * @return a vector of 4 unsigned long long: {a,b,c,d}.
      */
     FORCEINLINE svec4_u64(uint64_t a, uint64_t b, uint64_t c, uint64_t d) {
       __vector unsigned long long t1 = {a,b};
@@ -673,8 +711,9 @@ struct svec4_u64 {
         v[1] = t2;
     }
     /**
-     * @brief Construct an unsigned long long vector with one scalar value. All the elements are the same as the input value.
-     * @return an unsigned long long vector. Each element is the same as the input a.
+     * @brief Constructor.
+     * @param a an unsigned long long.
+     * @return a vector of 4 unsigned long long: {a,a,a,a}.
      */
     FORCEINLINE svec4_u64( uint64_t a) {
       if(__builtin_constant_p(a)){
@@ -710,7 +749,8 @@ struct svec4_u64 {
       }
     }
     /**
-     * @brief [] subscript to directly access (set or get) one element in the vector.
+     * @brief operator [] to set or get the specified vector element.
+     * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(uint64_t);
     COUT_FUNC(svec4_u64, LANES);
@@ -720,11 +760,14 @@ struct svec4_u64 {
     VEC_INT_CLASS_METHOD_DECL(svec4_u64, svec4_u64, uint64_t);
 };
 
-
+/**
+ * @brief data representation and operations on a vector of 4 float
+ */
 struct svec4_f {
     __vector float v;
     /**
-     * @brief Default constructor, return a undefined svec4_f.
+     * @brief Default constructor
+     * @return a vector of 4 undefined float.
      */
     FORCEINLINE svec4_f() { }
     /**
@@ -733,17 +776,18 @@ struct svec4_f {
      * @return a float vector, whose value is from the vv.
      */
     FORCEINLINE svec4_f(__vector float vv) : v(vv) {  }
-    /**
-     * @brief Construct a float vector with four scalar values.
-     * @return a float vector with the specified scalar values.
+    /** 
+     * @brief Constructor.
+     * @return a vector of 4 float: {a,b,c,d}.
      */
     FORCEINLINE svec4_f(float a, float b, float c, float d) {
       __vector float t = {a,b,c,d};
         v = t;
     }
     /**
-     * @brief Construct a float  vector with one scalar value. All the elements are the same as the input value.
-     * @return a float vector. Each element is the same as the input a.
+     * @brief Constructor.
+     * @param a a float
+     * @return a vector of 4 floats: {a,a,a,a}.
      */
     FORCEINLINE svec4_f( float a) {
       if(__builtin_constant_p(a)){
@@ -781,7 +825,8 @@ struct svec4_f {
       }
     }
     /**
-     * @brief [] subscript to directly access (set or get) one element in the vector.
+     * @brief operator [] to set or get the specified vector element.
+     * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(float);
     COUT_FUNC(svec4_f, LANES);
@@ -792,10 +837,14 @@ struct svec4_f {
 
 };
 
+/**
+ * @brief data representation and operations on a vector of 4 double
+ */
 struct svec4_d {
     __vector double v[2];
     /**
-     * @brief Default constructor, return a undefined svec4_d.
+     * @brief Default constructor
+     * @return a vector of 4 undefined double.
      */
     FORCEINLINE svec4_d() { }
     /**
@@ -806,9 +855,9 @@ struct svec4_d {
         v[0] = a;
         v[1] = b;
     }
-    /**
-     * @brief Construct a double  vector with four scalar values.
-     * @return a double vector with the specified scalar values.
+    /** 
+     * @brief Constructor.
+     * @return a vector of 4 double: {a,b,c,d}.
      */
     FORCEINLINE svec4_d(double a, double b, double c, double d) {
       __vector double t1 = {a,b};
@@ -817,8 +866,9 @@ struct svec4_d {
         v[1] = t2;
     }
     /**
-     * @brief Construct a double  vector with one scalar value. All the elements are the same as the input value.
-     * @return a double vector. Each element is the same as the input a.
+     * @brief Constructor.
+     * @param a a double
+     * @return a vector of 4 doubles: {a,a,a,a}.
      */
     FORCEINLINE svec4_d( double a) {
       if(__builtin_constant_p(a)){
@@ -835,7 +885,8 @@ struct svec4_d {
       }
     }
     /**
-     * @brief [] subscript to directly access (set or get) one element in the vector.
+     * @brief operator [] to set or get the specified vector element.
+     * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(double);
     COUT_FUNC(svec4_d, LANES);
@@ -1760,32 +1811,32 @@ static FORCEINLINE svec4_d svec_load_and_splat(double* p) {
  * Here, we will define a special compile time dependent type for ptrs vector
  *
  */
-
 #define IS64BIT
 
 #ifdef IS64BIT
 /**
- * @brief svec4_ptr on 64bit platform. It inherits svec4_u64.
- * Only used in gather and scatter to store addresses.
- * @see gather(
+ * @brief data representation and operations on a vector of 4 pointers.
+ * It inherits svec4_u64 and is only used in gather and scatter for 64-bit platforms
+ * @see gather
  */
 struct svec4_ptr : public svec4_u64{
     /**
-     * @brief Construct a svec4_ptr from four addresses.
-     * @return a svec4_ptr vector with the four addresses
+     * @brief Constructor.
+     * @return a vector of 4 pointers: {p10, p1, p2, p3}.
      */
     FORCEINLINE svec4_ptr(void* p0, void* p1, void* p2, void* p3):
         svec4_u64((uint64_t)(p0),(uint64_t)(p1),(uint64_t)(p2),(uint64_t)(p3)){}
 };
 #else //IS32BIT
 /**
- * @brief svec4_ptr on 32bit platform. It inherits svec4_u32.
- * Only used in gather and scatter to store addresses.
+ * @brief data representation and operations on a vector of 4 pointers.
+ * It inherits svec4_u32 and is only used in gather and scatter for 32-bit platforms
+ * @see gather
  */
 struct svec4_ptr: public svec4_u32{
     /**
-     * @brief Construct a svec4_ptr from four addresses.
-     * @return a svec4_ptr vector with the four addresses
+     * @brief Constructor.
+     * @return a vector of 4 pointers: {p0, p1, p2, p3}.
      */
     FORCEINLINE svec4_ptr(void* p0, void* p1, void* p2, void* p3):
         svec4_u32((uint32_t)(p0),(uint32_t)(p1),(uint32_t)(p2),(uint32_t)(p3)){}
