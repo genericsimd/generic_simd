@@ -14,7 +14,7 @@
 #include <assert.h>
 #include <iostream>
 
-#include "intrinsics_utility.h"
+#include "gsimd_utility.h"
 #include "power9_intrinsics.h"
 
 std::ostream& operator<< (std::ostream &out, uint8_t &v) {

@@ -81,7 +81,7 @@
 #include <assert.h>
 #include <iostream>
 
-#include "intrinsics_utility.h"
+#include "gsimd_utility.h"
 #include "power9_intrinsics.h"
 
 namespace vsx {
