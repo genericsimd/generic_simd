@@ -95,9 +95,9 @@ namespace vsx {
 //////////////////////////////////////////////////////////////
 
 
-/**
- * @brief macros to define compare methods
- * == and != are available for all the types.
+/*!
+   @brief macros to define compare methods
+   == and != are available for all the types.
  */
 #define VEC_CMP_EQ_DECL(VTYPE, MTYPE)     \
   FORCEINLINE MTYPE operator==(VTYPE a); \
@@ -255,16 +255,6 @@ struct svec4_i1 {
       }
     }
 
-    /**
-     * @brief operator [] to get or set the vector element specified by index.
-     * @param[in] index vector element index
-     * \note: For svec4_i1 [] operator in the left(assign case), -1 must be used to represent true in the right.
-     * \code{.cpp}
-     *   svec4_i1 a;
-     *   a[0] = 0; //assign the 1st element as false;
-     *   a[1] = -1; //assign the 2nd element as true.
-     * \endcode
-     */
     SUBSCRIPT_FUNC(uint32_t);
     COUT_FUNC_I1(svec4_i1, LANES);
 
@@ -4458,83 +4448,83 @@ VEC_CMP_IMPL(svec4_d, svec4_i1);
  * @brief mask class's class method impl
  */
 #define MVEC_CLASS_METHOD_IMPL(VTYPE, STYPE) \
-/**
- * @brief load a new vector from the pointer p
- * @param[in] p load address
- * \note p does not have to be aligned
- * @return a new vector loaded from the specified address
+/*!
+   @brief load a new vector from the pointer p
+   @param[in] p load address
+   \note p does not have to be aligned
+   @return a new vector loaded from the specified address
  */\
   FORCEINLINE VTYPE VTYPE::load(VTYPE* p){ return svec_load(p); } \
-/**
- * @brief Store this vector to the address specified by pointer p.
- * @param[in] p store address
- * \note p does not have to be aligned
+/*!
+   @brief Store this vector to the address specified by pointer p.
+   @param[in] p store address
+   \note p does not have to be aligned
  */\
   FORCEINLINE void VTYPE::store(VTYPE* p){ svec_store(p, *this); }
 
 
 #define VEC_CLASS_METHOD_IMPL(VTYPE, STYPE) \
   MVEC_CLASS_METHOD_IMPL(VTYPE, STYPE); \
-/**
- * @brief Return a new vector by only loading the value from the pointer p if the mask element is true
+/*!
+   @brief Return a new vector by only loading the value from the pointer p if the mask element is true
  */\
   FORCEINLINE VTYPE VTYPE::masked_load(VTYPE* p, svec4_i1 mask){ return svec_masked_load(p, mask); } \
-/**
- * @brief Store the vector element's value to pointer p if the mask element is true
+/*!
+   @brief Store the vector element's value to pointer p if the mask element is true
  */\
   FORCEINLINE void VTYPE::masked_store(VTYPE* p, svec4_i1 mask){ svec_masked_store(p, *this, mask); } \
   VEC_UNARY_IMPL(VTYPE, STYPE); \
   VEC_BIN_IMPL(VTYPE, STYPE); \
-/**
- * @brief Construct a vector by loading a scalar value from pointer p, and splat it to all the elements in the vector
+/*!
+   @brief Construct a vector by loading a scalar value from pointer p, and splat it to all the elements in the vector
  */\
   FORCEINLINE VTYPE VTYPE::load_const(const STYPE* p) {return svec_load_const(p);} \
-/**
- * @brief Construct a vector by loading a scalar value from pointer p, and splat it to all the elements in the vector
+/*!
+   @brief Construct a vector by loading a scalar value from pointer p, and splat it to all the elements in the vector
  */\
   FORCEINLINE VTYPE VTYPE::load_and_splat(STYPE* p) {return svec_load_and_splat(p); } \
-  /**
-   * @brief Gather the elements pointed by the vector ptrs if the mask element is true, and return a vector.
+  /*!
+     @brief Gather the elements pointed by the vector ptrs if the mask element is true, and return a vector.
    */\
   FORCEINLINE VTYPE VTYPE::gather(svec4_ptr ptrs, svec4_i1 mask) {return svec_gather<VTYPE>(ptrs, mask); } \
-  /**
-   * @brief Scatter the vector's elements to the locations pointed by the vector ptrs if the mask element is true.
+  /*!
+     @brief Scatter the vector's elements to the locations pointed by the vector ptrs if the mask element is true.
    */\
   FORCEINLINE void VTYPE::scatter(svec4_ptr ptrs, svec4_i1 mask) { svec_scatter(ptrs, *this, mask); } \
-  /**
-   * @brief Gather the elements pointed by calculating the addresses (b + scale * offsets) if the mask element is true, and return a vector.
+  /*!
+     @brief Gather the elements pointed by calculating the addresses (b + scale * offsets) if the mask element is true, and return a vector.
    */\
   FORCEINLINE VTYPE VTYPE::gather_base_offsets(STYPE* b, uint32_t scale, svec4_i32 offsets, svec4_i1 mask) { \
     return svec_gather_base_offsets(b, scale, offsets, mask); \
   } \
-  /**
-   * @brief Gather the elements pointed by calculating the addresses (b + scale * offsets) if the mask element is true, and return a vector.
+  /*!
+     @brief Gather the elements pointed by calculating the addresses (b + scale * offsets) if the mask element is true, and return a vector.
    */\
   FORCEINLINE VTYPE VTYPE::gather_base_offsets(STYPE* b, uint32_t scale, svec4_i64 offsets, svec4_i1 mask) {\
       return svec_gather_base_offsets(b, scale, offsets, mask); \
   } \
-  /**
-   * @brief Scatter the vector's elements to the addresses (b + scale * offsets) if the mask element is true.
+  /*!
+     @brief Scatter the vector's elements to the addresses (b + scale * offsets) if the mask element is true.
    */\
   FORCEINLINE void VTYPE::scatter_base_offsets(STYPE* b, uint32_t scale, svec4_i32 offsets, svec4_i1 mask) { \
       svec_scatter_base_offsets(b, scale, offsets, *this, mask); \
   } \
-  /**
-   * @brief Scatter the vector's elements to the addresses (b + scale * offsets) if the mask element is true.
+  /*!
+     @brief Scatter the vector's elements to the addresses (b + scale * offsets) if the mask element is true.
    */\
   FORCEINLINE void VTYPE::scatter_base_offsets(STYPE* b, uint32_t scale, svec4_i64 offsets, svec4_i1 mask) {\
       svec_scatter_base_offsets(b, scale, offsets, *this, mask); \
   } \
-  /**
-   * @brief Return a new vector by setting all the elements of the new vector with this vector's index element.
+  /*!
+     @brief Return a new vector by setting all the elements of the new vector with this vector's index element.
    */\
   FORCEINLINE VTYPE VTYPE::broadcast(int32_t index) { return svec_broadcast(*this, index);} \
-  /**
-   * @brief Return a new vector by rotate this vector's elements. e.g. newVec[i] = thisVec[i+index]
+  /*!
+     @brief Return a new vector by rotate this vector's elements. e.g. newVec[i] = thisVec[i+index]
    */\
   FORCEINLINE VTYPE VTYPE::rotate(int32_t index) { return svec_rotate(*this, index); } \
-  /**
-   * @brief Return a new vector by shuffle this vector's elements with index vector e.g. newVec[i] = thisVec[index[i]]
+  /*!
+     @brief Return a new vector by shuffle this vector's elements with index vector e.g. newVec[i] = thisVec[index[i]]
    */\
   FORCEINLINE VTYPE VTYPE::shuffle(svec4_i32 index) { return svec_shuffle(*this, index); }
 

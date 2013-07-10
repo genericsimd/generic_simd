@@ -170,10 +170,19 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
  * @brief macros to define vector type's [] operators
  */
 #define SUBSCRIPT_FUNC(STYPE)    \
+/*!
+   @brief Operator [] to set a vector element. E.g., "a[1] = ..." 
+   @param[in] index the index of the vector element. 
+ */ \
 FORCEINLINE STYPE& operator[](int index) {   \
   INC_STATS_NAME(STATS_INSERT, 1, "insert "#STYPE);   \
   return ((STYPE *)&v)[index];   \
 }  \
+/*!
+   @brief Operator [] to get a vector element. E.g., "... = a[1]"  
+   @param[in] index the index of the vector element.
+   @return the specified vector element
+ */ \
 const STYPE& operator[](int index) const { \
   INC_STATS_NAME(STATS_EXTRACT, 1, "extract "#STYPE);    \
   return ((STYPE *)&v)[index];   \
