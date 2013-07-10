@@ -238,7 +238,7 @@ struct svec4_i1 {
     /**
      * @brief Constructor.
      * @param a a mask/boolean value
-     * @return a vector of 4 signed chars: {a,a,a,a}.
+     * @return a vector of 4 mask/booleans: {a,a,a,a}.
      */
     FORCEINLINE svec4_i1( uint32_t a) {
       if(__builtin_constant_p(a)){
@@ -1811,14 +1811,13 @@ static FORCEINLINE svec4_d svec_load_and_splat(double* p) {
  * Here, we will define a special compile time dependent type for ptrs vector
  *
  */
-#define IS64BIT
-
-#ifdef IS64BIT
 /**
  * @brief data representation and operations on a vector of 4 pointers.
- * It inherits svec4_u64 and is only used in gather and scatter for 64-bit platforms
+ * For 32-bit or 64-bit platforms, it inherits svec4_u32 or svec4_u64 respectively.
+ * This is only used in gather and scatter for 64-bit platforms
  * @see gather
  */
+#ifdef __PPC64__
 struct svec4_ptr : public svec4_u64{
     /**
      * @brief Constructor.
@@ -1827,12 +1826,7 @@ struct svec4_ptr : public svec4_u64{
     FORCEINLINE svec4_ptr(void* p0, void* p1, void* p2, void* p3):
         svec4_u64((uint64_t)(p0),(uint64_t)(p1),(uint64_t)(p2),(uint64_t)(p3)){}
 };
-#else //IS32BIT
-/**
- * @brief data representation and operations on a vector of 4 pointers.
- * It inherits svec4_u32 and is only used in gather and scatter for 32-bit platforms
- * @see gather
- */
+#else // 32-bit
 struct svec4_ptr: public svec4_u32{
     /**
      * @brief Constructor.
@@ -1841,7 +1835,7 @@ struct svec4_ptr: public svec4_u32{
     FORCEINLINE svec4_ptr(void* p0, void* p1, void* p2, void* p3):
         svec4_u32((uint32_t)(p0),(uint32_t)(p1),(uint32_t)(p2),(uint32_t)(p3)){}
 };
-#endif //IS64BIT
+#endif // __PPC64__
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS //not want generate svec_gather*/svec_scatter methods
 
