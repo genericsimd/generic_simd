@@ -206,29 +206,33 @@ struct svec4_d;
 
 
 /**
- * @brief i1 vector type, typically as a mask vector, or bool vector.
- * The back-end storage is a __vector unsigned int. So one __vector can
- * hold 4 masks. The reason to choose  __vector unsigned int as back storage is that the bool
- * vector is frequently used in i32/u32/float vector operations.
- * In these cases, the mask vector doesn't need pack or unpack operation.
+ * @brief Data representation and operations on a vector of 4 boolean values.
+ * This is used in predicated vector operations. Specifically the ith value of 
+ * svec4_i1 indicates whether the ith lane of a predicated vector operation is 
+ * enabled or not.
+ * 
+ * See also gather, scatter, load, store, and compare operations.
  */
 struct svec4_i1 {
 
     __vector unsigned int v; //!< use __vector unsigned int v for storage
 
     /**
-     * @brief default constructor. 
-     * @return a vector of 4 undefined boolean/mask values.
+     * @brief Default constructor. 
+     * @return a vector of 4 undefined values.
      */
     FORCEINLINE svec4_i1() { }
     /**
      * @brief For internal use only.
-     * @param vv a __vector unsigned int. Each scalar in the vector should be either 0 or -1(0XFFFFFFFF).
+     * @param[in] vv a __vector unsigned int. 
+     * \note each value in vv must be either 0 or -1.
      * @return a mask vector whose value is from the vv.
      */
     FORCEINLINE svec4_i1(__vector unsigned int vv) : v(vv) { }
     /** 
      * @brief Constructor.
+     * @param[in] a,b,c,d boolean values
+     * \note a,b,c,d must be either 0 or -1
      * @return a vector of 4 mask/booleans: {a,b,c,d}.
      */
     FORCEINLINE svec4_i1(uint32_t a, uint32_t b, uint32_t c, uint32_t d) {
@@ -237,7 +241,8 @@ struct svec4_i1 {
     }
     /**
      * @brief Constructor.
-     * @param a a mask/boolean value
+     * @param[in] a a boolean value
+     * \note a must be either 0 or -1
      * @return a vector of 4 mask/booleans: {a,a,a,a}.
      */
     FORCEINLINE svec4_i1( uint32_t a) {
@@ -251,8 +256,9 @@ struct svec4_i1 {
     }
 
     /**
-     * @brief operator [] to get or set the specified vector element.
-     * Note: For svec4_i1 [] operator in the left(assign case), -1 must be used to represent true in the right.
+     * @brief operator [] to get or set the vector element specified by index.
+     * @param[in] index vector element index
+     * \note: For svec4_i1 [] operator in the left(assign case), -1 must be used to represent true in the right.
      * \code{.cpp}
      *   svec4_i1 a;
      *   a[0] = 0; //assign the 1st element as false;
@@ -277,7 +283,7 @@ struct svec4_i1 {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 signed chars
+ * @brief data representation and operations on a vector of 4 signed chars.
  */
 struct svec4_i8 {
     __vector signed char v;
@@ -317,7 +323,7 @@ struct svec4_i8 {
       }
     }
     /**
-     * @brief operator [] to set or get the specified vector element.
+     * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(int8_t);
@@ -330,7 +336,7 @@ struct svec4_i8 {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 unsigned chars
+ * @brief data representation and operations on a vector of 4 unsigned chars.
  */
 struct svec4_u8 {
     __vector unsigned char v;
@@ -370,7 +376,7 @@ struct svec4_u8 {
       }
     }
     /**
-     * @brief operator [] to set or get the specified vector element.
+     * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(uint8_t);
@@ -382,7 +388,7 @@ struct svec4_u8 {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 signed short
+ * @brief data representation and operations on a vector of 4 signed short.
  */
 struct svec4_i16 {
     __vector signed short v;
@@ -420,7 +426,7 @@ struct svec4_i16 {
       }
     }
     /**
-     * @brief operator [] to set or get the specified vector element.
+     * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(int16_t);
@@ -433,7 +439,7 @@ struct svec4_i16 {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 unsigned short
+ * @brief data representation and operations on a vector of 4 unsigned short.
  */
 struct svec4_u16 {
     __vector unsigned short v;
@@ -471,7 +477,7 @@ struct svec4_u16 {
       }
     }
     /**
-     * @brief operator [] to set or get the specified vector element.
+     * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(uint16_t);
@@ -484,7 +490,7 @@ struct svec4_u16 {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 signed int
+ * @brief data representation and operations on a vector of 4 signed int.
  */
 struct svec4_i32 {
     __vector signed int v;
@@ -532,7 +538,7 @@ struct svec4_i32 {
       }
     }
     /**
-     * @brief operator [] to set or get the specified vector element.
+     * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(int32_t);
@@ -545,7 +551,7 @@ struct svec4_i32 {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 unsigned int
+ * @brief data representation and operations on a vector of 4 unsigned int.
  */
 struct svec4_u32 {
     __vector unsigned int v;
@@ -593,7 +599,7 @@ struct svec4_u32 {
       }
     }
     /**
-     * @brief operator [] to set or get the specified vector element.
+     * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(uint32_t);
@@ -605,7 +611,7 @@ struct svec4_u32 {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 signed long long
+ * @brief data representation and operations on a vector of 4 signed long long.
  */
 struct svec4_i64 {
     __vector signed long long v[2];
@@ -671,7 +677,7 @@ struct svec4_i64 {
       } //non const
     }
     /**
-     * @brief operator [] to set or get the specified vector element.
+     * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(int64_t);
@@ -683,7 +689,7 @@ struct svec4_i64 {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 unsigned long long
+ * @brief data representation and operations on a vector of 4 unsigned long long.
  */
 struct svec4_u64 {
     __vector unsigned long long v[2];
@@ -749,7 +755,7 @@ struct svec4_u64 {
       }
     }
     /**
-     * @brief operator [] to set or get the specified vector element.
+     * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(uint64_t);
@@ -761,7 +767,7 @@ struct svec4_u64 {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 float
+ * @brief data representation and operations on a vector of 4 float.
  */
 struct svec4_f {
     __vector float v;
@@ -825,7 +831,7 @@ struct svec4_f {
       }
     }
     /**
-     * @brief operator [] to set or get the specified vector element.
+     * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(float);
@@ -838,7 +844,7 @@ struct svec4_f {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 double
+ * @brief data representation and operations on a vector of 4 double.
  */
 struct svec4_d {
     __vector double v[2];
@@ -885,7 +891,7 @@ struct svec4_d {
       }
     }
     /**
-     * @brief operator [] to set or get the specified vector element.
+     * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC(double);
@@ -1813,9 +1819,8 @@ static FORCEINLINE svec4_d svec_load_and_splat(double* p) {
  */
 /**
  * @brief data representation and operations on a vector of 4 pointers.
- * For 32-bit or 64-bit platforms, it inherits svec4_u32 or svec4_u64 respectively.
- * This is only used in gather and scatter for 64-bit platforms
- * @see gather
+ * This is only used in gather and scatter.
+ * @see gather and scatter
  */
 #ifdef __PPC64__
 struct svec4_ptr : public svec4_u64{
@@ -4263,54 +4268,64 @@ static FORCEINLINE uint64_t svec_movmsk(svec4_i1 mask) {
 }
 
 /**
- * @brief Check any element in the mask vector is true
- * @return true if at least one element in the mask vector is true.
+ * @brief Check if any element in the mask vector is true. 
+ * \note This is a reduction operation that returns a scalar value.
+ * @return true if at least one element in the mask vector is true, otherwise false
  */
 FORCEINLINE bool svec4_i1::any_true() { return svec_any_true(*this); }
 
 /**
- * @brief Check all the elements in the mask vector is true
- * @return true if all the elements in the mask vector are true
+ * @brief Check if all the elements in the mask vector is true. 
+ * \note This is a reduction operation that returns a scalar value.
+ * @return true if all the elements in the mask vector are true, otherwise false.
  */
 FORCEINLINE bool svec4_i1::all_true() { return svec_all_true(*this); }
 
 /**
- * @brief Check all the element sin the mask vector is false
- * @return true if all the elements in the mask vector are false
+ * @brief Check all the elements in the mask vector is false. 
+ * \note This is a reduction operation that returns a scalar value.
+ * @return true if all the elements in the mask vector are false, otherwise false.
  */
 FORCEINLINE bool svec4_i1::none_true() { return svec_none_true(*this); }
 
 /**
- * @brief reverse the mask's value
+ * @brief Element-wise bit-wise compliment operator. E.g., "~a"
+ * @return the result of bit-wise compliment as a boolean vector. 
  */
 FORCEINLINE svec4_i1 svec4_i1::operator~() { return svec_not(*this); }
 
 /**
- * @brief or operator of svec4_i1. E.g. "a | b"
+ * @brief Element-wise bit-wise OR operator. E.g., "a | b"
+ * @param[in] a a boolean vector
+ * @return the result of bit-wise OR as a boolean vector.
  */
 FORCEINLINE svec4_i1 svec4_i1::operator|(svec4_i1 a) { return svec_or(*this, a); }
 /**
- * @brief and operator of svec4_i1. E.g. "a & b"
+ * @brief Element-wise bit-wise AND operator. E.g., "a & b"
+ * @param[in] a a boolean vector
+ * @return the result of bit-wise AND as a boolean vector.
  */
 FORCEINLINE svec4_i1 svec4_i1::operator&(svec4_i1 a) { return svec_and(*this, a); }
 /**
- * @brief xor operator of svec4_i1. E.g. "a ^ b"
+ * @brief Element-wise bit-wise XOR operator. E.g., "a ^ b"
+ * @param[in] a a boolean vector
+ * @return the result of bit-wise XOR as a boolean vector.
  */
 FORCEINLINE svec4_i1 svec4_i1::operator^(svec4_i1 a) { return svec_xor(*this, a); }
 
-
-
-
-
 /**
- * @brief compare equal, return a bool vector. E.g. "a == b"
+ * @brief Element-wise compare equal. E.g., "a == b"
+ * @param[in] a a boolean vector
+ * @return the result of compare-equal as a boolean vector
  */
 FORCEINLINE svec4_i1 svec4_i1::operator ==(svec4_i1 a) {
     return svec_equal(*this, a);
 }
 
 /**
- * @brief compare not equal, return a bool vector. E.g. "a != b"
+ * @brief Element-wise compare not equal, return a bool vector. E.g. "a != b"
+ * @param[in] a a boolean vector
+ * @return the result of compare-not-equal as a boolean vector
  */
 FORCEINLINE svec4_i1 svec4_i1::operator !=(svec4_i1 a) {
     return svec_not_equal(*this, a);
@@ -4323,27 +4338,39 @@ FORCEINLINE svec4_i1 svec4_i1::operator !=(svec4_i1 a) {
 
 #define VEC_CMP_IMPL(VTYPE, MTYPE)     \
 /**
- * @brief compare equal, return a bool vector. E.g. "a == b"
+ * @brief Element-wise compare equal, return a bool vector, e.g., "a == b"
+ * @param[in] a a vector
+ * @return the result of compare equal as a boolean vector.
  */\
   FORCEINLINE MTYPE VTYPE::operator==(VTYPE a) { return svec_equal(*this, a); } \
 /**
- * @brief compare not equal, return a bool vector. E.g. "a != b"
+ * @brief Element-wise compare not equal, return a bool vector. E.g. "a != b"
+ * @param[in] a a vector
+ * @return the result of compare not equal as a boolean vector.
  */\
   FORCEINLINE MTYPE VTYPE::operator!=(VTYPE a) { return svec_not_equal(*this, a); } \
 /**
- * @brief compare less than, return a bool vector. E.g. "a < b"
+ * @brief Element-wise compare less than, return a bool vector. E.g. "a < b"
+ * @param[in] a a vector
+ * @return the result of compare less than as a boolean vector.
  */\
   FORCEINLINE MTYPE VTYPE::operator<(VTYPE a) { return svec_less_than(*this, a); } \
 /**
- * @brief compare less equal, return a bool vector. E.g. "a <= b"
+ * @brief Element-wise compare less equal, return a bool vector. E.g. "a <= b"
+ * @param[in] a a vector
+ * @return the result of compare less equal as a boolean vector.
  */\
   FORCEINLINE MTYPE VTYPE::operator<=(VTYPE a) { return svec_less_equal(*this, a); } \
 /**
- * @brief compare greater than, return a bool vector. E.g. "a > b"
+ * @brief Element-wise compare greater than, return a bool vector. E.g. "a > b"
+ * @param[in] a a vector
+ * @return the result of compare greater than as a boolean vector.
  */\
   FORCEINLINE MTYPE VTYPE::operator>(VTYPE a) { return svec_greater_than(*this, a); } \
 /**
- * @brief compare greater equal, return a bool vector. E.g. "a >= b"
+ * @brief Element-wise compare greater equal, return a bool vector. E.g. "a >= b"
+ * @param[in] a a vector
+ * @return the result of compare greater equal as a boolean vector.
  */\
   FORCEINLINE MTYPE VTYPE::operator>=(VTYPE a) { return svec_greater_equal(*this, a); }
 
@@ -4432,11 +4459,16 @@ VEC_CMP_IMPL(svec4_d, svec4_i1);
  */
 #define MVEC_CLASS_METHOD_IMPL(VTYPE, STYPE) \
 /**
- * @brief Return a new vector by loading the value from the pointer p.
+ * @brief load a new vector from the pointer p
+ * @param[in] p load address
+ * \note p does not have to be aligned
+ * @return a new vector loaded from the specified address
  */\
   FORCEINLINE VTYPE VTYPE::load(VTYPE* p){ return svec_load(p); } \
 /**
- * @brief Store the vector value to pointer p.
+ * @brief Store this vector to the address specified by pointer p.
+ * @param[in] p store address
+ * \note p does not have to be aligned
  */\
   FORCEINLINE void VTYPE::store(VTYPE* p){ svec_store(p, *this); }
 
