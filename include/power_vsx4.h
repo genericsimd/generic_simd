@@ -949,11 +949,14 @@ struct svec4_d {
 
 // 1. Load / Store
 
-/**
- * @brief macros for svec's load and store method implementation
- */
 #define LOAD_STORE(VTYPE, STYPE)                       \
-static FORCEINLINE VTYPE svec_load(const VTYPE *p) {      \
+/*!
+   @brief construct a new vector from values loaded from a pointer
+   @param[in] p load address
+   \note p does not have to be aligned
+   @return a new vector loaded from p
+*/							  \
+static FORCEINLINE VTYPE svec_load(const VTYPE *p) {	  \
     STYPE *ptr = (STYPE *)p;                           \
     VTYPE ret;                                         \
     INC_STATS_NAME(STATS_LOAD_SLOW, 1, #VTYPE);             \
@@ -961,6 +964,12 @@ static FORCEINLINE VTYPE svec_load(const VTYPE *p) {      \
       ret[i] = ptr[i];             \
     return ret;                                        \
 }                                                      \
+/*!						       
+   @brief store a vector to an address
+   @param[in] p store address
+   \note p does not have to be aligned
+   @param[in] v vector to be stored
+*/							  \
 static FORCEINLINE void svec_store(VTYPE *p, VTYPE v) {   \
   STYPE *ptr = (STYPE *)p;                 \
   INC_STATS_NAME(STATS_STORE_SLOW, 1, #VTYPE);              \
@@ -969,7 +978,10 @@ static FORCEINLINE void svec_store(VTYPE *p, VTYPE v) {   \
 }
 
 /**
- * @brief load a vector from an address
+ * @brief load a new vector from a pointer
+ * @param[in] p load address
+ * \note p does not have to be aligned
+ * @return a new vector loaded from p
  */
 static FORCEINLINE svec4_i1 svec_load(const svec4_i1 *p) {
   return *((__vector unsigned int *)p);
@@ -977,23 +989,50 @@ static FORCEINLINE svec4_i1 svec_load(const svec4_i1 *p) {
 
 /**
  * @brief store a vector to an address
+ * @param[in] p store address
+ * \note p does not have to be aligned
+ * @param[in] v vector to be stored
  */
 static FORCEINLINE void svec_store(svec4_i1 *p, svec4_i1 v) {
   *((__vector unsigned int*)p) = v.v;
 }
 
+/**
+ * @brief load a new vector from a pointer
+ * @param[in] p load address
+ * \note p does not have to be aligned
+ * @return a new vector loaded from p
+ */
 static FORCEINLINE svec4_i8 svec_load(const svec4_i8 *p) {
   return vec_vsx_ld(0, (signed int*)p);
 }
 
+/**
+ * @brief store a vector to an address
+ * @param[in] p store address
+ * \note p does not have to be aligned
+ * @param[in] v vector to be stored
+ */
 static FORCEINLINE void svec_store(svec4_i8 *p, svec4_i8 v) {
   vec_vsx_st(v.v, 0, (signed char*)p);
 }
 
+/**
+ * @brief load a new vector from a pointer
+ * @param[in] p load address
+ * \note p does not have to be aligned
+ * @return a new vector loaded from p
+ */
 static FORCEINLINE svec4_u8 svec_load(const svec4_u8 *p) {
   return vec_vsx_ld(0, (signed int*)p);
 }
 
+/**
+ * @brief store a vector to an address
+ * @param[in] p store address
+ * \note p does not have to be aligned
+ * @param[in] v vector to be stored
+ */
 static FORCEINLINE void svec_store(svec4_u8 *p, svec4_u8 v) {
   vec_vsx_st(v.v, 0, (unsigned char*)p);
 }
@@ -1006,59 +1045,130 @@ LOAD_STORE(svec4_i16, int16_t);
 
 LOAD_STORE(svec4_u16, uint16_t);
 
+/**
+ * @brief load a new vector from a pointer
+ * @param[in] p load address
+ * \note p does not have to be aligned
+ * @return a new vector loaded from p
+ */
 static FORCEINLINE svec4_i32 svec_load(const svec4_i32 *p) {
   return *((__vector signed int *)p);
 }
 
+/**
+ * @brief store a vector to an address
+ * @param[in] p store address
+ * \note p does not have to be aligned
+ * @param[in] v vector to be stored
+ */
 static FORCEINLINE void svec_store(svec4_i32 *p, svec4_i32 v) {
   *((__vector signed int*)p) = v.v;
 }
 
+/**
+ * @brief load a new vector from a pointer
+ * @param[in] p load address
+ * \note p does not have to be aligned
+ * @return a new vector loaded from p
+ */
 static FORCEINLINE svec4_u32 svec_load(const svec4_u32 *p) {
   return *((__vector unsigned int *)p);
 }
 
+/**
+ * @brief store a vector to an address
+ * @param[in] p store address
+ * \note p does not have to be aligned
+ * @param[in] v vector to be stored
+ */
 static FORCEINLINE void svec_store(svec4_u32 *p, svec4_u32 v) {
   *((__vector unsigned int*)p) = v.v;
 }
 
+/**
+ * @brief load a new vector from a pointer
+ * @param[in] p load address
+ * \note p does not have to be aligned
+ * @return a new vector loaded from p
+ */
 static FORCEINLINE svec4_i64 svec_load(const svec4_i64 *p) {
   __vector signed long long v0 = *(((__vector signed long long *)p)+0);
   __vector signed long long v1 = *(((__vector signed long long *)p)+1);
   return svec4_i64(v0,v1);
 }
 
+/**
+ * @brief store a vector to an address
+ * @param[in] p store address
+ * \note p does not have to be aligned
+ * @param[in] v vector to be stored
+ */
 static FORCEINLINE void svec_store(svec4_i64 *p, svec4_i64 v) {
   *(((__vector signed long long *)p)+0) = v.v[0];
   *(((__vector signed long long *)p)+1) = v.v[1];
 }
 
+/**
+ * @brief load a new vector from a pointer
+ * @param[in] p load address
+ * \note p does not have to be aligned
+ * @return a new vector loaded from p
+ */
 static FORCEINLINE svec4_u64 svec_load(const svec4_u64 *p) {
   __vector unsigned long long v0 = *(((__vector unsigned long long *)p)+0);
   __vector unsigned long long v1 = *(((__vector unsigned long long *)p)+1);
   return svec4_u64(v0,v1);
 }
 
+/**
+ * @brief load a new vector from a pointer
+ * @param[in] p load address
+ * \note p does not have to be aligned
+ * @return a new vector loaded from p
+ */
 static FORCEINLINE svec4_f svec_load(const svec4_f *p) {
   return *((__vector float *)p);
 }
 
+/**
+ * @brief store a vector to an address
+ * @param[in] p store address
+ * \note p does not have to be aligned
+ * @param[in] v vector to be stored
+ */
 static FORCEINLINE void svec_store(svec4_f *p, svec4_f v) {
   *((__vector float*)p) = v.v;
 }
 
+/**
+ * @brief store a vector to an address
+ * @param[in] p store address
+ * \note p does not have to be aligned
+ * @param[in] v vector to be stored
+ */
 static FORCEINLINE void svec_store(svec4_u64 *p, svec4_u64 v) {
   *(((__vector unsigned long long *)p)+0) = v.v[0];
   *(((__vector unsigned long long *)p)+1) = v.v[1];
 }
 
-
+/**
+ * @brief load a new vector from a pointer
+ * @param[in] p load address
+ * \note p does not have to be aligned
+ * @return a new vector loaded from p
+ */
 static FORCEINLINE svec4_d svec_load(const svec4_d *p) {
   __vector double v0 = *(((__vector double *)p)+0);
   __vector double v1 = *(((__vector double *)p)+1);
   return svec4_d(v0,v1);
 }
 
+/**
+ * @brief store a vector to an address
+ * @param[in] p store address
+ * \note p does not have to be aligned
+ * @param[in] v vector to be stored
+ */
 static FORCEINLINE void svec_store(svec4_d *p, svec4_d v) {
   *(((__vector double *)p)+0) = v.v[0];
   *(((__vector double *)p)+1) = v.v[1];
@@ -4449,14 +4559,14 @@ VEC_CMP_IMPL(svec4_d, svec4_i1);
  */
 #define MVEC_CLASS_METHOD_IMPL(VTYPE, STYPE) \
 /*!
-   @brief load a new vector from the pointer p
+   @brief load the vector from the pointer p
    @param[in] p load address
    \note p does not have to be aligned
-   @return a new vector loaded from the specified address
+   @return no return value. This vector is updated with value loaded from p.
  */\
   FORCEINLINE VTYPE VTYPE::load(VTYPE* p){ return svec_load(p); } \
 /*!
-   @brief Store this vector to the address specified by pointer p.
+   @brief Store the vector to address p.
    @param[in] p store address
    \note p does not have to be aligned
  */\
