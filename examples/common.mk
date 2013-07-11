@@ -8,8 +8,8 @@ endif
 BITS=64
 CC=gcc
 CXX=g++ 
-CCFLAGS=-I${BASE_DIR}/include -O2 -m$(BITS)
-CXXFLAGS=-I${BASE_DIR}/include -O2  -m$(BITS)
+CCFLAGS+= -I${BASE_DIR}/include -O2 -m$(BITS)
+CXXFLAGS+= -I${BASE_DIR}/include -O2  -m$(BITS)
 
 #compile power vsx
 CXXFLAGS+= -mvsx -flax-vector-conversions -Wno-int-to-pointer-cast
