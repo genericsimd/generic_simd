@@ -8,6 +8,7 @@
 //#define ORIG
 //#define SPLIT_SCALAR
 //#define SPLIT_SIMD
+//#define MAT_ORIG
 //#define UNROLLED_SCALAR
 //#define UNROLLED_SIMD
 
@@ -725,6 +726,61 @@ void sweep_unrolled_simd(double *fSym) {
 }
 #endif
 
+#ifdef MAT_ORIG
+#define addr(row,col) (fNRows*(row) + (col))
+void sweep(double *fSym) {
+  int fNRows = MATRIX_SIZE;
+  int p, i, j;
+  int Ii0j, Ii1j, Ii2j, Ii3j;
+  int Ii0p, Ii1p, Ii2p, Ii3p;
+  double App, Bpp, absBpp, Aip, Apj;
+  double Api0, Ai1p, Ai2p, Ai3p;
+
+  for (p = 0; p < fNRows; p++) {
+    App = fSym[addr(p,p)];
+
+    // The a(p,p) element
+    Bpp = -1.0 / App;
+    absBpp = fabs(Bpp);
+    fSym[addr(p,p)] = Bpp;
+
+    for (i = 0; i < p; i++) {
+      double Api0 = fSym[ addr(p,i)];
+
+      fSym[ addr(p,i)] = absBpp * Api0;
+      if (Bpp < 0.0)
+        Api0 = -Api0;
+
+      for (j = 0; j <= i; j++) {
+        Apj = fSym[ addr(p,j)];
+        fSym[ addr(i+0,j)] += Api0 * Apj;
+      }
+    }
+    i++;
+    for (; i < fNRows; i++) {
+      Aip = fSym[ addr(i,p)];
+      fSym[ addr(i,p)] = absBpp * Aip;
+
+      // The a(i,j) elements, i,j both != p
+      if (Bpp < 0.0) {
+        Aip = -Aip;
+      }
+
+      for (j = 0; j < p; j++) {
+        Apj = fSym[ addr(p,j)];
+        fSym[ addr(i,j)] += Aip * Apj;
+      }
+      // Skip the pivot column
+      j++;
+      for (; j <= i; j++) {
+        Apj = fSym[ addr(j,p)];
+        fSym[ addr(i,j)] += Aip * Apj;
+      }
+    }
+  }
+}
+#endif
+
 #ifdef UNROLLED_SCALAR
 #ifdef  UNROLLED_SCALAR_COUNT_ITERS
 long long int       num_iters_jip   = 0;
@@ -1425,6 +1481,8 @@ int main(int argc, char *argv[])
      "SPLIT_SCALAR"
 #elif defined(SPLIT_SIMD)
      "SPLIT_SIMD"
+#elif defined(MAT_ORIG)
+     "MAT_ORIG"
 #elif defined(UNROLLED_SCALAR)
      "UNROLLED_SCALAR"
 #elif defined(UNROLLED_SIMD)
@@ -1456,6 +1514,8 @@ int main(int argc, char *argv[])
     tri_sweep_orig(matrix1);
 #elif defined(SPLIT_SCALAR) || defined(SPLIT_SIMD)
     tri_sweep(matrix1);
+#elif defined(MAT_ORIG)
+    sweep(matrix1);
 #elif defined(UNROLLED_SIMD)
     sweep_unrolled_simd(matrix1);
 #elif defined(UNROLLED_SCALAR)
