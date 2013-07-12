@@ -20,7 +20,7 @@ cmpxlc: ${XLC_SRC}
 	xlc ${XLC_FLAGS} -DSPLIT_SCALAR $< -o ${EXAMPLE}_xlc_split_scalar
 	xlc ${XLC_FLAGS} -DSPLIT_SIMD $< -o ${EXAMPLE}_xlc_split_simd
 	xlc ${XLC_FLAGS} -DUNROLLED_SCALAR $< -o ${EXAMPLE}_xlc_unrolled_scalar
-	xlc ${XLC_FLAGS} -DUNROLLED_SCALAR $< -o ${EXAMPLE}_xlc_unrolled_simd	
+	xlc ${XLC_FLAGS} -DUNROLLED_SIMD $< -o ${EXAMPLE}_xlc_unrolled_simd	
 
 INTRINSICS_SRC=sweep_intrinsics.cpp
 
@@ -36,7 +36,7 @@ cmpintrinsics: ${INTRINSICS_SRC}
 	${CXX} ${CXXFLAGS} -DSPLIT_SCALAR $< -o ${EXAMPLE}_split_scalar
 	${CXX} ${CXXFLAGS} -DSPLIT_SIMD $< -o ${EXAMPLE}_split_simd
 	${CXX} ${CXXFLAGS} -DUNROLLED_SCALAR $< -o ${EXAMPLE}_unrolled_scalar
-	${CXX} ${CXXFLAGS} -DUNROLLED_SCALAR $< -o ${EXAMPLE}_unrolled_simd	
+	${CXX} ${CXXFLAGS} -DUNROLLED_SIMD $< -o ${EXAMPLE}_unrolled_simd	
 
 
 

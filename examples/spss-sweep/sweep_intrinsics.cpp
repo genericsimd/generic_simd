@@ -9,7 +9,7 @@
 //#define SPLIT_SCALAR
 //#define SPLIT_SIMD
 //#define UNROLLED_SCALAR
-#define UNROLLED_SIMD
+//#define UNROLLED_SIMD
 
 #if defined(SPLIT_SIMD) || defined(UNROLLED_SIMD)
 #define SIMD

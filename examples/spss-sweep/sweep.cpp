@@ -273,35 +273,29 @@ void sweep(double *fSym) {
   }
 }
 
+const svec4_i32 base_off(0,1,2,3);
+
+//generic simd 4 based approach
 void sweep_simd(double *fSym) {
+  int p, i, j;
   int fNRows = MATRIX_SIZE;
-  int Ipp, Iip, Ipj, Iij, p, i, j;
-  int Ii0j, Ii1j, Ii2j, Ii3j;
-  int Ii0p, Ii1p, Ii2p, Ii3p;
-  double App, Bpp, absBpp, Aip, Apj;
-  double Ai0p, Ai1p, Ai2p, Ai3p;
 
   for (p = 0; p < fNRows; p++) {
-//    printf("==>Inside p loop, p=%d\n", p);
-    App = fSym[addr(p,p)];
+    double App = fSym[addr(p,p)];
 
     // The a(p,p) element
-    Bpp = -1.0 / App;
-    absBpp = fabs(Bpp);
+    double Bpp = -1.0 / App;
+    double absBpp = fabs(Bpp);
     fSym[addr(p,p)] = Bpp;
 
     for (i = 0; i < p - 3; i += 4) { //each time calc 4 doubles
-//      printf("==>  Inside i step4 loop, i=[%d,%d)\n", i, i+4);
       svec4_d vec_Api = *(svec4_d*)(&fSym[addr(p,i)]); //do load
-      *(svec4_d*)(&fSym[addr(p,i)]) = absBpp * vec_Api; //add and store
-
+      (absBpp * vec_Api).store((svec4_d*)(&fSym[addr(p,i)]));
 
       vec_Api = (Bpp / absBpp) * vec_Api; //if (Bpp < 0.0) Api = -Api;
 
       for (j = 0; j < i; j += 4) { //note as i%4==0, j also has the property
-//        printf("==>    Inside j step4 loop, j=[%d,%d)\n", j, j+4);
         svec4_d vec_Apj = svec4_d::load((svec4_d*)(&fSym[addr(p,j)]));
-        //accumulate
         svec4_d vec_Ai0j = svec4_d::load((svec4_d*)(&fSym[addr(i,j)]));
         svec4_d vec_Ai1j = svec4_d::load((svec4_d*)(&fSym[addr(i+1,j)]));
         svec4_d vec_Ai2j = svec4_d::load((svec4_d*)(&fSym[addr(i+2,j)]));
@@ -317,20 +311,20 @@ void sweep_simd(double *fSym) {
         vec_Ai2j.store((svec4_d*)(&fSym[addr(i+2,j)]));
         vec_Ai3j.store((svec4_d*)(&fSym[addr(i+3,j)]));
       }
-      //then the left part. j = i case.
 
-//      printf("==>    after j step4 loop, j=%d\n", j);
-      svec4_d vec_Apj = *(svec4_d*)(&fSym[addr(p,j)]); //do load
+      //then the left part. j = i case.
+      svec4_d vec_Apj = svec4_d::load((svec4_d*)(&fSym[addr(p,j)]));
+
       fSym[addr(i,j)] += vec_Api[0] * vec_Apj[0];
       fSym[addr(i+1,j)] += vec_Api[1] * vec_Apj[0];
       fSym[addr(i+1,j+1)] += vec_Api[1] * vec_Apj[1];
       fSym[addr(i+2,j)] += vec_Api[2] * vec_Apj[0];
       fSym[addr(i+2,j+1)] += vec_Api[2] * vec_Apj[1];
       fSym[addr(i+2,j+2)] += vec_Api[2] * vec_Apj[2];
-      fSym[addr(i+3,j)] += vec_Api[3] * vec_Apj[0];
-      fSym[addr(i+3,j+1)] += vec_Api[3] * vec_Apj[1];
-      fSym[addr(i+3,j+2)] += vec_Api[3] * vec_Apj[2];
-      fSym[addr(i+3,j+3)] += vec_Api[3] * vec_Apj[3];
+      //the last one could be in SIMD
+      svec4_d vec_Ai3j = svec4_d::load((svec4_d*)(&fSym[addr(i+3,j)]));
+      vec_Ai3j = vec_Ai3j + vec_Api[3] * vec_Apj;
+      vec_Ai3j.store((svec4_d*)(&fSym[addr(i+3,j)]));
     }
 
     //now i < p loop, rest, for both j and i
@@ -338,30 +332,23 @@ void sweep_simd(double *fSym) {
       double Api = fSym[addr(p,i)];
 
       fSym[addr(p,i)] = absBpp * Api;
-      if (Bpp < 0.0)
-        Api = -Api;
+      if (Bpp < 0.0) {  Api = -Api; }
 
       for (j = 0; j <= i; j++) {
-        Apj = fSym[addr(p,j)];
+        double Apj = fSym[addr(p,j)];
         fSym[addr(i,j)] += Api * Apj;
       }
     }
     i++; //skip the p
     for (; i < fNRows - 3; i += 4) {
-//      printf("==>  Inside i step4 loop, i=[%d,%d)\n", i, i+4);
-      //Iip = i * fNRows + p;
-      //gather and scatter
-      svec4_i32 base_off(0,1,2,3);
-      svec4_i32 off = fNRows * (i + base_off) + p;
-      svec4_d vec_Aip = svec4_d::gather_base_offsets(fSym, sizeof(double), off, svec4_i1(1));
-
-      (absBpp * vec_Aip).scatter_base_offsets(fSym, sizeof(double), off, svec4_i1(1));
+      svec4_i32 off_ip = fNRows * (i + base_off) + p;
+      svec4_d vec_Aip = svec4_d::gather_base_offsets(fSym, sizeof(double), off_ip, svec4_i1(1));
+      (absBpp * vec_Aip).scatter_base_offsets(fSym, sizeof(double), off_ip, svec4_i1(1));
 
       vec_Aip = (Bpp / absBpp) * vec_Aip; //if (Bpp < 0.0) Api = -Api;
 
       //part 1, j = 0..p, with step 4, always vec_i4
       for(j = 0; j < p - 3; j+=4) {
-//        printf("==>    Inside j < p-3 step 4, j=%d\n", j);
         svec4_d vec_Apj = svec4_d::load((svec4_d*)(&fSym[addr(p,j)]));
         //accumulate
         svec4_d vec_Ai0j = svec4_d::load((svec4_d*)(&fSym[addr(i,j)]));
@@ -382,27 +369,21 @@ void sweep_simd(double *fSym) {
 
       //part 2, j < p rest, always vec_i4
       for(; j < p; j++) {
-//        printf("==>    Rest j < p, j=%d\n", j);
-        Apj = fSym[ addr(p,j)];
-        svec4_i32 base_off(0,1,2,3);
+        double Apj = fSym[ addr(p,j)];
         svec4_i32 off_ij = fNRows * (i + base_off) + j;
         svec4_d vec_Aij = svec4_d::gather_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
         vec_Aij = vec_Aij + vec_Aip * Apj;
         vec_Aij.scatter_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
       }
+
       j++;
 
-      //part 1, p< j <= i, with step 4, always vec_i4
-      //here i is regular,but j may not so regular, so the upper bound should be careful
+      //part 1, j < i with step 4
       for(; j < i; j+=4) {
-//        printf("==>    Inside j <i, step 4 j=%d\n", j);
-        //gather and scatter
-        svec4_i32 base_off(0,1,2,3);
-        svec4_i32 off = fNRows * (j + base_off) + p;
-        svec4_d vec_Apj = svec4_d::gather_base_offsets(fSym, sizeof(double), off, svec4_i1(1));
+        svec4_i32 off_jp = fNRows * (j + base_off) + p;
+        svec4_d vec_Apj = svec4_d::gather_base_offsets(fSym, sizeof(double), off_jp, svec4_i1(1));
 
-        //svec4_d vec_Apj = svec4_d::load((svec4_d*)(&fSym[addr(p,j)]));
-        //accumulate
+         //accumulate
         svec4_d vec_Ai0j = svec4_d::load((svec4_d*)(&fSym[addr(i,j)]));
         svec4_d vec_Ai1j = svec4_d::load((svec4_d*)(&fSym[addr(i+1,j)]));
         svec4_d vec_Ai2j = svec4_d::load((svec4_d*)(&fSym[addr(i+2,j)]));
@@ -421,260 +402,31 @@ void sweep_simd(double *fSym) {
 
 
       //part 2, j <= i, rest, always vec_i4, i from i to i+3
-      //Gather Ajp
-
       for(; j <=i; j++) {
-//        printf("==>    Rest j <=i, j=%d\n", j);
-        double Apj = fSym[ addr(j,p)];
-
-        fSym[ addr(i,j)] += vec_Aip[0] * Apj;
-        fSym[ addr(i+1,j)] += vec_Aip[1] * Apj;
-        fSym[ addr(i+2,j)] += vec_Aip[2] * Apj;
-        fSym[ addr(i+3,j)] += vec_Aip[3] * Apj;
+        double Ajp = fSym[ addr(j,p)];
+        svec4_i32 off_ij = fNRows * (i + base_off) + j;
+        svec4_d vec_Aij = svec4_d::gather_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
+        vec_Aij = vec_Aij + vec_Aip * Ajp;
+        vec_Aij.scatter_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
       }
       //now th rest
-//      printf("==>    Rest j <=i, j=%d\n", j);
-      Apj = fSym[ addr(j,p)];
-      fSym[ addr(i+1,j)] += vec_Aip[1] * Apj;
-      fSym[ addr(i+2,j)] += vec_Aip[2] * Apj;
-      fSym[ addr(i+3,j)] += vec_Aip[3] * Apj;
-
+      double Ajp = fSym[ addr(j,p)];
+      fSym[ addr(i+1,j)] += vec_Aip[1] * Ajp;
+      fSym[ addr(i+2,j)] += vec_Aip[2] * Ajp;
+      fSym[ addr(i+3,j)] += vec_Aip[3] * Ajp;
       j++;
-//      printf("==>    Rest j <=i, j=%d\n", j);
-      Apj = fSym[ addr(j,p)];
-      fSym[ addr(i+2,j)] += vec_Aip[2] * Apj;
-      fSym[ addr(i+3,j)] += vec_Aip[3] * Apj;
-
+      Ajp = fSym[ addr(j,p)];
+      fSym[ addr(i+2,j)] += vec_Aip[2] * Ajp;
+      fSym[ addr(i+3,j)] += vec_Aip[3] * Ajp;
       j++;
-//      printf("==>    Rest j <=i, j=%d\n", j);
-      Apj = fSym[ addr(j,p)];
-      fSym[ addr(i+3,j)] += vec_Aip[3] * Apj;
-
-
-//      double Ai0p = vec_Aip[0];
-//      double Ai1p = vec_Aip[1];
-//      double Ai2p = vec_Aip[2];
-//      double Ai3p = vec_Aip[3];
-//
-//      vector double vec_Ai0p = vec_splats(Ai0p);
-//      vector double vec_Ai1p = vec_splats(Ai1p);
-//      vector double vec_Ai2p = vec_splats(Ai2p);
-//      vector double vec_Ai3p = vec_splats(Ai3p);
-//      if (p % 2) { // p is ODD
-//        for (j = 0; j < p - 1; j += 2) {
-//          Ipj = p * fNRows + j;
-//          Ii0j = (i + 0) * fNRows + j;
-//          Ii1j = (i + 1) * fNRows + j;
-//          Ii2j = (i + 2) * fNRows + j;
-//          Ii3j = (i + 3) * fNRows + j;
-//
-//          vector double vec_Apj = *(vector double*) (fSym + Ipj);
-//          vector double vec_Ai0j = *(vector double*) (fSym + Ii0j);
-//          vector double vec_Ai1j = *(vector double*) (fSym + Ii1j);
-//          vector double vec_Ai2j = *(vector double*) (fSym + Ii2j);
-//          vector double vec_Ai3j = *(vector double*) (fSym + Ii3j);
-//
-//          vec_Ai0j = vec_madd(vec_Ai0p, vec_Apj, vec_Ai0j);
-//          vec_Ai1j = vec_madd(vec_Ai1p, vec_Apj, vec_Ai1j);
-//          vec_Ai2j = vec_madd(vec_Ai2p, vec_Apj, vec_Ai2j);
-//          vec_Ai3j = vec_madd(vec_Ai3p, vec_Apj, vec_Ai3j);
-//
-//          vec_vsx_st(vec_Ai0j, 0, (vector double*) (fSym + Ii0j));
-//          vec_vsx_st(vec_Ai1j, 0, (vector double*) (fSym + Ii1j));
-//          vec_vsx_st(vec_Ai2j, 0, (vector double*) (fSym + Ii2j));
-//          vec_vsx_st(vec_Ai3j, 0, (vector double*) (fSym + Ii3j));
-//#if 0
-//          Apj = fSym[ Ipj ];
-//          fSym[ Ii0j ] += Ai0p * Apj;
-//          fSym[ Ii1j ] += Ai1p * Apj;
-//          fSym[ Ii2j ] += Ai2p * Apj;
-//          fSym[ Ii3j ] += Ai3p * Apj;
-//#endif
-//        }
-//        for (; j < p; j++) {
-//          Ipj = p * fNRows + j;
-//          Ii0j = (i + 0) * fNRows + j;
-//          Ii1j = (i + 1) * fNRows + j;
-//          Ii2j = (i + 2) * fNRows + j;
-//          Ii3j = (i + 3) * fNRows + j;
-//
-//          Apj = fSym[Ipj];
-//          fSym[Ii0j] += Ai0p * Apj;
-//          fSym[Ii1j] += Ai1p * Apj;
-//          fSym[Ii2j] += Ai2p * Apj;
-//          fSym[Ii3j] += Ai3p * Apj;
-//        }
-//        // Skip the pivot column
-//        j++;
-//        for (; j < ((i + 1) / 2) * 2; j += 2) {
-//          int Ipj0 = (j + 0) * fNRows + p;
-//          int Ipj1 = (j + 1) * fNRows + p;
-//          Ii0j = (i + 0) * fNRows + j;
-//          Ii1j = (i + 1) * fNRows + j;
-//          Ii2j = (i + 2) * fNRows + j;
-//          Ii3j = (i + 3) * fNRows + j;
-//
-//          //vector double vec_Apj0 = vec_splats(fSym[ Ipj0 ]);
-//          //vector double vec_Apj1 = vec_splats(fSym[ Ipj1 ]);
-//          vector double vec_Apj0 = *(vector double*) (fSym + Ipj0 - 1);
-//          vector double vec_Apj1 = *(vector double*) (fSym + Ipj1 - 1);
-//          vector double vec_Apj = vec_mergel(vec_Apj0, vec_Apj1);
-//
-//          vector double vec_Ai0j = *(vector double*) (fSym + Ii0j);
-//          vector double vec_Ai1j = *(vector double*) (fSym + Ii1j);
-//          vector double vec_Ai2j = *(vector double*) (fSym + Ii2j);
-//          vector double vec_Ai3j = *(vector double*) (fSym + Ii3j);
-//
-//          vec_Ai0j = vec_madd(vec_Ai0p, vec_Apj, vec_Ai0j);
-//          vec_Ai1j = vec_madd(vec_Ai1p, vec_Apj, vec_Ai1j);
-//          vec_Ai2j = vec_madd(vec_Ai2p, vec_Apj, vec_Ai2j);
-//          vec_Ai3j = vec_madd(vec_Ai3p, vec_Apj, vec_Ai3j);
-//
-//          vec_vsx_st(vec_Ai0j, 0, (vector double*) (fSym + Ii0j));
-//          vec_vsx_st(vec_Ai1j, 0, (vector double*) (fSym + Ii1j));
-//          vec_vsx_st(vec_Ai2j, 0, (vector double*) (fSym + Ii2j));
-//          vec_vsx_st(vec_Ai3j, 0, (vector double*) (fSym + Ii3j));
-//#if 0
-//          Apj = fSym[ Ipj ];
-//          fSym[ Ii0j ] += Ai0p * Apj;
-//          fSym[ Ii1j ] += Ai1p * Apj;
-//          fSym[ Ii2j ] += Ai2p * Apj;
-//          fSym[ Ii3j ] += Ai3p * Apj;
-//#endif
-//        }
-//        for (; j <= i; j++) {
-//          Ipj = j * fNRows + p;
-//          Ii0j = (i + 0) * fNRows + j;
-//          Ii1j = (i + 1) * fNRows + j;
-//          Ii2j = (i + 2) * fNRows + j;
-//          Ii3j = (i + 3) * fNRows + j;
-//
-//          Apj = fSym[Ipj];
-//          fSym[Ii0j] += Ai0p * Apj;
-//          fSym[Ii1j] += Ai1p * Apj;
-//          fSym[Ii2j] += Ai2p * Apj;
-//          fSym[Ii3j] += Ai3p * Apj;
-//        }
-//      } else { // p is EVEN
-//        for (j = 0; j < p; j += 2) {
-//          Ipj = p * fNRows + j;
-//          Ii0j = (i + 0) * fNRows + j;
-//          Ii1j = (i + 1) * fNRows + j;
-//          Ii2j = (i + 2) * fNRows + j;
-//          Ii3j = (i + 3) * fNRows + j;
-//
-//          vector double vec_Apj = *(vector double*) (fSym + Ipj);
-//          vector double vec_Ai0j = *(vector double*) (fSym + Ii0j);
-//          vector double vec_Ai1j = *(vector double*) (fSym + Ii1j);
-//          vector double vec_Ai2j = *(vector double*) (fSym + Ii2j);
-//          vector double vec_Ai3j = *(vector double*) (fSym + Ii3j);
-//
-//          vec_Ai0j = vec_madd(vec_Ai0p, vec_Apj, vec_Ai0j);
-//          vec_Ai1j = vec_madd(vec_Ai1p, vec_Apj, vec_Ai1j);
-//          vec_Ai2j = vec_madd(vec_Ai2p, vec_Apj, vec_Ai2j);
-//          vec_Ai3j = vec_madd(vec_Ai3p, vec_Apj, vec_Ai3j);
-//
-//          vec_vsx_st(vec_Ai0j, 0, (vector double*) (fSym + Ii0j));
-//          vec_vsx_st(vec_Ai1j, 0, (vector double*) (fSym + Ii1j));
-//          vec_vsx_st(vec_Ai2j, 0, (vector double*) (fSym + Ii2j));
-//          vec_vsx_st(vec_Ai3j, 0, (vector double*) (fSym + Ii3j));
-//#if 0
-//          Apj = fSym[ Ipj ];
-//          fSym[ Ii0j ] += Ai0p * Apj;
-//          fSym[ Ii1j ] += Ai1p * Apj;
-//          fSym[ Ii2j ] += Ai2p * Apj;
-//          fSym[ Ii3j ] += Ai3p * Apj;
-//#endif
-//        }
-//        // Skip the pivot column
-//        j++;
-//        for (; j <= i && j == (p + 1); j++) {
-//          Ipj = (j + 0) * fNRows + p;
-//          Ii0j = (i + 0) * fNRows + j;
-//          Ii1j = (i + 1) * fNRows + j;
-//          Ii2j = (i + 2) * fNRows + j;
-//          Ii3j = (i + 3) * fNRows + j;
-//
-//          Apj = fSym[Ipj];
-//          fSym[Ii0j] += Ai0p * Apj;
-//          fSym[Ii1j] += Ai1p * Apj;
-//          fSym[Ii2j] += Ai2p * Apj;
-//          fSym[Ii3j] += Ai3p * Apj;
-//        }
-//        for (; j < ((i + 1) / 2) * 2; j += 2) {
-//          int Ipj0 = (j + 0) * fNRows + p;
-//          int Ipj1 = (j + 1) * fNRows + p;
-//          Ii0j = (i + 0) * fNRows + j;
-//          Ii1j = (i + 1) * fNRows + j;
-//          Ii2j = (i + 2) * fNRows + j;
-//          Ii3j = (i + 3) * fNRows + j;
-//
-//          vector double vec_Apj0 = vec_splats(fSym[Ipj0]);
-//          vector double vec_Apj1 = vec_splats(fSym[Ipj1]);
-//          vector double vec_Apj = vec_mergeh(vec_Apj0, vec_Apj1);
-//
-//          vector double vec_Ai0j = *(vector double*) (fSym + Ii0j);
-//          vector double vec_Ai1j = *(vector double*) (fSym + Ii1j);
-//          vector double vec_Ai2j = *(vector double*) (fSym + Ii2j);
-//          vector double vec_Ai3j = *(vector double*) (fSym + Ii3j);
-//
-//          vec_Ai0j = vec_madd(vec_Ai0p, vec_Apj, vec_Ai0j);
-//          vec_Ai1j = vec_madd(vec_Ai1p, vec_Apj, vec_Ai1j);
-//          vec_Ai2j = vec_madd(vec_Ai2p, vec_Apj, vec_Ai2j);
-//          vec_Ai3j = vec_madd(vec_Ai3p, vec_Apj, vec_Ai3j);
-//
-//          vec_vsx_st(vec_Ai0j, 0, (vector double*) (fSym + Ii0j));
-//          vec_vsx_st(vec_Ai1j, 0, (vector double*) (fSym + Ii1j));
-//          vec_vsx_st(vec_Ai2j, 0, (vector double*) (fSym + Ii2j));
-//          vec_vsx_st(vec_Ai3j, 0, (vector double*) (fSym + Ii3j));
-//#if 0
-//          Apj = fSym[ Ipj ];
-//          fSym[ Ii0j ] += Ai0p * Apj;
-//          fSym[ Ii1j ] += Ai1p * Apj;
-//          fSym[ Ii2j ] += Ai2p * Apj;
-//          fSym[ Ii3j ] += Ai3p * Apj;
-//#endif
-//        }
-//        for (; j <= i; j++) {
-//          Ipj = j * fNRows + p;
-//          Ii0j = (i + 0) * fNRows + j;
-//          Ii1j = (i + 1) * fNRows + j;
-//          Ii2j = (i + 2) * fNRows + j;
-//          Ii3j = (i + 3) * fNRows + j;
-//
-//          Apj = fSym[Ipj];
-//          fSym[Ii0j] += Ai0p * Apj;
-//          fSym[Ii1j] += Ai1p * Apj;
-//          fSym[Ii2j] += Ai2p * Apj;
-//          fSym[Ii3j] += Ai3p * Apj;
-//        }
-//      }
-//      Ipj = j * fNRows + p;
-//      Ii1j = (i + 1) * fNRows + j;
-//      Ii2j = (i + 2) * fNRows + j;
-//      Ii3j = (i + 3) * fNRows + j;
-//      Apj = fSym[Ipj];
-//      fSym[Ii1j] += Ai1p * Apj;
-//      fSym[Ii2j] += Ai2p * Apj;
-//      fSym[Ii3j] += Ai3p * Apj;
-//      j++;
-//      Ipj = j * fNRows + p;
-//      Ii2j = (i + 2) * fNRows + j;
-//      Ii3j = (i + 3) * fNRows + j;
-//      Apj = fSym[Ipj];
-//      fSym[Ii2j] += Ai2p * Apj;
-//      fSym[Ii3j] += Ai3p * Apj;
-//      j++;
-//      Ipj = j * fNRows + p;
-//      Ii3j = (i + 3) * fNRows + j;
-//      Apj = fSym[Ipj];
-//      fSym[Ii3j] += Ai3p * Apj;
-//
+      Ajp = fSym[ addr(j,p)];
+      fSym[ addr(i+3,j)] += vec_Aip[3] * Ajp;
     } // p < i < fNows - 3
+
     //the left i rows
     for (; i < fNRows; i++) {
 
-      Aip = fSym[addr(i,p)];
+      double Aip = fSym[addr(i,p)];
       fSym[addr(i,p)] = absBpp * Aip;
 
       // The a(i,j) elements, i,j both != p
@@ -683,19 +435,438 @@ void sweep_simd(double *fSym) {
       }
 
       for (j = 0; j < p; j++) {
-        Apj = fSym[addr(p,j)];
+        double Apj = fSym[addr(p,j)];
         fSym[addr(i,j)] += Aip * Apj;
       }
       // Skip the pivot column
       j++;
       for (; j <= i; j++) {
-        Apj = fSym[addr(j,p)];
+        double Apj = fSym[addr(j,p)];
         fSym[addr(i,j)] += Aip * Apj;
       }
     }
   }
 }
 
+//original intrinsics based approach
+void sweep_unrolled_simd(double *fSym) {
+  int fNRows = MATRIX_SIZE;
+  int Ipp, Iip, Ipj, Iij, p, i, j;
+  int Ii0j, Ii1j, Ii2j, Ii3j;
+  int Ii0p, Ii1p, Ii2p, Ii3p;
+  double App, Bpp, absBpp, Aip, Apj;
+  double Ai0p, Ai1p, Ai2p, Ai3p;
+
+  for (p = 0; p < fNRows; p++) {
+    Ipp = p * fNRows + p;
+    App = fSym[Ipp];
+
+    // The a(p,p) element
+    Bpp = -1.0 / App;
+    absBpp = fabs(Bpp);
+    fSym[Ipp] = Bpp;
+    i = 0;
+
+    for (i = 0; i < p - 3; i += 4) {
+      Iip = p * fNRows + i;
+
+#if 0
+      double Ai0p = fSym[ Iip+0 ];
+      double Ai1p = fSym[ Iip+1 ];
+      double Ai2p = fSym[ Iip+2 ];
+      double Ai3p = fSym[ Iip+3 ];
+
+      fSym[ Iip+0 ] = absBpp * Ai0p;
+      fSym[ Iip+1 ] = absBpp * Ai1p;
+      fSym[ Iip+2 ] = absBpp * Ai2p;
+      fSym[ Iip+3 ] = absBpp * Ai3p;
+#endif
+      vector double vec_Ai01p = *(vector double*) (fSym + Iip);
+      vector double vec_Ai23p = *(vector double*) (fSym + Iip + 2);
+      vector double vec_Ai0p = vec_mergeh(vec_Ai01p, vec_Ai01p);
+      vector double vec_Ai1p = vec_mergel(vec_Ai01p, vec_Ai01p);
+      vector double vec_Ai2p = vec_mergeh(vec_Ai23p, vec_Ai23p);
+      vector double vec_Ai3p = vec_mergel(vec_Ai23p, vec_Ai23p);
+
+      vector double vec_absBpp = vec_splats(absBpp);
+      vec_Ai01p = vec_mul(vec_absBpp, vec_Ai01p);
+      vec_Ai23p = vec_mul(vec_absBpp, vec_Ai23p);
+      vec_vsx_st(vec_Ai01p, 0, (vector double*) (fSym + Iip));
+      vec_vsx_st(vec_Ai23p, 0, (vector double*) (fSym + Iip + 2));
+
+      double signBpp = Bpp / absBpp;
+      vector double vec_signBpp = vec_splats(signBpp);
+      vec_Ai0p = vec_mul(vec_signBpp, vec_Ai0p);
+      vec_Ai1p = vec_mul(vec_signBpp, vec_Ai1p);
+      vec_Ai2p = vec_mul(vec_signBpp, vec_Ai2p);
+      vec_Ai3p = vec_mul(vec_signBpp, vec_Ai3p);
+#if 0
+      if ( Bpp < 0.0 )
+      {
+        Ai0p = -Ai0p;
+        Ai1p = -Ai1p;
+        Ai2p = -Ai2p;
+        Ai3p = -Ai3p;
+      }
+#endif
+      for (j = 0; j < (i / 2) * 2; j += 2) {
+        Ipj = p * fNRows + j;
+        Ii0j = fNRows * (i + 0) + j;
+        Ii1j = fNRows * (i + 1) + j;
+        Ii2j = fNRows * (i + 2) + j;
+        Ii3j = fNRows * (i + 3) + j;
+
+        vector double vec_Apj = *(vector double*) (fSym + Ipj);
+        vector double vec_Ai0j = *(vector double*) (fSym + Ii0j);
+        vector double vec_Ai1j = *(vector double*) (fSym + Ii1j);
+        vector double vec_Ai2j = *(vector double*) (fSym + Ii2j);
+        vector double vec_Ai3j = *(vector double*) (fSym + Ii3j);
+
+        vec_Ai0j = vec_madd(vec_Ai0p, vec_Apj, vec_Ai0j);
+        vec_Ai1j = vec_madd(vec_Ai1p, vec_Apj, vec_Ai1j);
+        vec_Ai2j = vec_madd(vec_Ai2p, vec_Apj, vec_Ai2j);
+        vec_Ai3j = vec_madd(vec_Ai3p, vec_Apj, vec_Ai3j);
+
+        vec_vsx_st(vec_Ai0j, 0, (vector double*) (fSym + Ii0j));
+        vec_vsx_st(vec_Ai1j, 0, (vector double*) (fSym + Ii1j));
+        vec_vsx_st(vec_Ai2j, 0, (vector double*) (fSym + Ii2j));
+        vec_vsx_st(vec_Ai3j, 0, (vector double*) (fSym + Ii3j));
+#if 0
+        Apj = fSym[ Ipj ];
+        fSym[ Ii0j ] += Ai0p * Apj;
+        fSym[ Ii1j ] += Ai1p * Apj;
+        fSym[ Ii2j ] += Ai2p * Apj;
+        fSym[ Ii3j ] += Ai3p * Apj;
+#endif
+      }
+
+      Ai0p = vec_extract(vec_Ai0p, 0);
+      Ai1p = vec_extract(vec_Ai1p, 0);
+      Ai2p = vec_extract(vec_Ai2p, 0);
+      Ai3p = vec_extract(vec_Ai3p, 0);
+
+      for (; j <= i; j++) {
+        Ipj = p * fNRows + j;
+        Ii0j = fNRows * (i + 0) + j;
+        Ii1j = fNRows * (i + 1) + j;
+        Ii2j = fNRows * (i + 2) + j;
+        Ii3j = fNRows * (i + 3) + j;
+
+        Apj = fSym[Ipj];
+        fSym[Ii0j] += Ai0p * Apj;
+        fSym[Ii1j] += Ai1p * Apj;
+        fSym[Ii2j] += Ai2p * Apj;
+        fSym[Ii3j] += Ai3p * Apj;
+      }
+
+      Ipj = p * fNRows + j;
+      Apj = fSym[Ipj];
+      Ii1j = fNRows * (i + 1) + j;
+      Ii2j = fNRows * (i + 2) + j;
+      Ii3j = fNRows * (i + 3) + j;
+      fSym[Ii1j] += Ai1p * Apj;
+      fSym[Ii2j] += Ai2p * Apj;
+      fSym[Ii3j] += Ai3p * Apj;
+      j++;
+      Ipj = p * fNRows + j;
+      Apj = fSym[Ipj];
+      Ii2j = fNRows * (i + 2) + j;
+      Ii3j = fNRows * (i + 3) + j;
+      fSym[Ii2j] += Ai2p * Apj;
+      fSym[Ii3j] += Ai3p * Apj;
+      j++;
+      Ipj = p * fNRows + j;
+      Apj = fSym[Ipj];
+      Ii3j = fNRows * (i + 3) + j;
+      fSym[Ii3j] += Ai3p * Apj;
+    }
+
+    for (; i < p; i++) {
+      Iip = p * fNRows + i;
+
+      double Ai0p = fSym[Iip];
+
+      fSym[Iip] = absBpp * Ai0p;
+      if (Bpp < 0.0)
+        Ai0p = -Ai0p;
+
+      for (j = 0; j <= i; j++) {
+        Ipj = p * fNRows + j;
+        Apj = fSym[Ipj];
+        Ii0j = fNRows * (i + 0) + j;
+        fSym[Ii0j] += Ai0p * Apj;
+      }
+    }
+    i++;
+    for (; i < fNRows - 3; i += 4) {
+      //Iip = i * fNRows + p;
+      Ii0p = fNRows * (i + 0) + p;
+      Ii1p = fNRows * (i + 1) + p;
+      Ii2p = fNRows * (i + 2) + p;
+      Ii3p = fNRows * (i + 3) + p;
+
+      double Ai0p = fSym[Ii0p];
+      double Ai1p = fSym[Ii1p];
+      double Ai2p = fSym[Ii2p];
+      double Ai3p = fSym[Ii3p];
+
+      fSym[Ii0p] = absBpp * Ai0p;
+      fSym[Ii1p] = absBpp * Ai1p;
+      fSym[Ii2p] = absBpp * Ai2p;
+      fSym[Ii3p] = absBpp * Ai3p;
+
+      // The a(i,j) elements, i,j both != p
+      if (Bpp < 0.0) {
+        Ai0p = -Ai0p;
+        Ai1p = -Ai1p;
+        Ai2p = -Ai2p;
+        Ai3p = -Ai3p;
+      }
+      vector double vec_Ai0p = vec_splats(Ai0p);
+      vector double vec_Ai1p = vec_splats(Ai1p);
+      vector double vec_Ai2p = vec_splats(Ai2p);
+      vector double vec_Ai3p = vec_splats(Ai3p);
+      if (p % 2) { // p is ODD
+        for (j = 0; j < p - 1; j += 2) {
+          Ipj = p * fNRows + j;
+          Ii0j = (i + 0) * fNRows + j;
+          Ii1j = (i + 1) * fNRows + j;
+          Ii2j = (i + 2) * fNRows + j;
+          Ii3j = (i + 3) * fNRows + j;
+
+          vector double vec_Apj = *(vector double*) (fSym + Ipj);
+          vector double vec_Ai0j = *(vector double*) (fSym + Ii0j);
+          vector double vec_Ai1j = *(vector double*) (fSym + Ii1j);
+          vector double vec_Ai2j = *(vector double*) (fSym + Ii2j);
+          vector double vec_Ai3j = *(vector double*) (fSym + Ii3j);
+
+          vec_Ai0j = vec_madd(vec_Ai0p, vec_Apj, vec_Ai0j);
+          vec_Ai1j = vec_madd(vec_Ai1p, vec_Apj, vec_Ai1j);
+          vec_Ai2j = vec_madd(vec_Ai2p, vec_Apj, vec_Ai2j);
+          vec_Ai3j = vec_madd(vec_Ai3p, vec_Apj, vec_Ai3j);
+
+          vec_vsx_st(vec_Ai0j, 0, (vector double*) (fSym + Ii0j));
+          vec_vsx_st(vec_Ai1j, 0, (vector double*) (fSym + Ii1j));
+          vec_vsx_st(vec_Ai2j, 0, (vector double*) (fSym + Ii2j));
+          vec_vsx_st(vec_Ai3j, 0, (vector double*) (fSym + Ii3j));
+#if 0
+          Apj = fSym[ Ipj ];
+          fSym[ Ii0j ] += Ai0p * Apj;
+          fSym[ Ii1j ] += Ai1p * Apj;
+          fSym[ Ii2j ] += Ai2p * Apj;
+          fSym[ Ii3j ] += Ai3p * Apj;
+#endif
+        }
+        for (; j < p; j++) {
+          Ipj = p * fNRows + j;
+          Ii0j = (i + 0) * fNRows + j;
+          Ii1j = (i + 1) * fNRows + j;
+          Ii2j = (i + 2) * fNRows + j;
+          Ii3j = (i + 3) * fNRows + j;
+
+          Apj = fSym[Ipj];
+          fSym[Ii0j] += Ai0p * Apj;
+          fSym[Ii1j] += Ai1p * Apj;
+          fSym[Ii2j] += Ai2p * Apj;
+          fSym[Ii3j] += Ai3p * Apj;
+        }
+        // Skip the pivot column
+        j++;
+        for (; j < ((i + 1) / 2) * 2; j += 2) {
+          int Ipj0 = (j + 0) * fNRows + p;
+          int Ipj1 = (j + 1) * fNRows + p;
+          Ii0j = (i + 0) * fNRows + j;
+          Ii1j = (i + 1) * fNRows + j;
+          Ii2j = (i + 2) * fNRows + j;
+          Ii3j = (i + 3) * fNRows + j;
+
+          //vector double vec_Apj0 = vec_splats(fSym[ Ipj0 ]);
+          //vector double vec_Apj1 = vec_splats(fSym[ Ipj1 ]);
+          vector double vec_Apj0 = *(vector double*) (fSym + Ipj0 - 1);
+          vector double vec_Apj1 = *(vector double*) (fSym + Ipj1 - 1);
+          vector double vec_Apj = vec_mergel(vec_Apj0, vec_Apj1);
+
+          vector double vec_Ai0j = *(vector double*) (fSym + Ii0j);
+          vector double vec_Ai1j = *(vector double*) (fSym + Ii1j);
+          vector double vec_Ai2j = *(vector double*) (fSym + Ii2j);
+          vector double vec_Ai3j = *(vector double*) (fSym + Ii3j);
+
+          vec_Ai0j = vec_madd(vec_Ai0p, vec_Apj, vec_Ai0j);
+          vec_Ai1j = vec_madd(vec_Ai1p, vec_Apj, vec_Ai1j);
+          vec_Ai2j = vec_madd(vec_Ai2p, vec_Apj, vec_Ai2j);
+          vec_Ai3j = vec_madd(vec_Ai3p, vec_Apj, vec_Ai3j);
+
+          vec_vsx_st(vec_Ai0j, 0, (vector double*) (fSym + Ii0j));
+          vec_vsx_st(vec_Ai1j, 0, (vector double*) (fSym + Ii1j));
+          vec_vsx_st(vec_Ai2j, 0, (vector double*) (fSym + Ii2j));
+          vec_vsx_st(vec_Ai3j, 0, (vector double*) (fSym + Ii3j));
+#if 0
+          Apj = fSym[ Ipj ];
+          fSym[ Ii0j ] += Ai0p * Apj;
+          fSym[ Ii1j ] += Ai1p * Apj;
+          fSym[ Ii2j ] += Ai2p * Apj;
+          fSym[ Ii3j ] += Ai3p * Apj;
+#endif
+        }
+        for (; j <= i; j++) {
+          Ipj = j * fNRows + p;
+          Ii0j = (i + 0) * fNRows + j;
+          Ii1j = (i + 1) * fNRows + j;
+          Ii2j = (i + 2) * fNRows + j;
+          Ii3j = (i + 3) * fNRows + j;
+
+          Apj = fSym[Ipj];
+          fSym[Ii0j] += Ai0p * Apj;
+          fSym[Ii1j] += Ai1p * Apj;
+          fSym[Ii2j] += Ai2p * Apj;
+          fSym[Ii3j] += Ai3p * Apj;
+        }
+      } else { // p is EVEN
+        for (j = 0; j < p; j += 2) {
+          Ipj = p * fNRows + j;
+          Ii0j = (i + 0) * fNRows + j;
+          Ii1j = (i + 1) * fNRows + j;
+          Ii2j = (i + 2) * fNRows + j;
+          Ii3j = (i + 3) * fNRows + j;
+
+          vector double vec_Apj = *(vector double*) (fSym + Ipj);
+          vector double vec_Ai0j = *(vector double*) (fSym + Ii0j);
+          vector double vec_Ai1j = *(vector double*) (fSym + Ii1j);
+          vector double vec_Ai2j = *(vector double*) (fSym + Ii2j);
+          vector double vec_Ai3j = *(vector double*) (fSym + Ii3j);
+
+          vec_Ai0j = vec_madd(vec_Ai0p, vec_Apj, vec_Ai0j);
+          vec_Ai1j = vec_madd(vec_Ai1p, vec_Apj, vec_Ai1j);
+          vec_Ai2j = vec_madd(vec_Ai2p, vec_Apj, vec_Ai2j);
+          vec_Ai3j = vec_madd(vec_Ai3p, vec_Apj, vec_Ai3j);
+
+          vec_vsx_st(vec_Ai0j, 0, (vector double*) (fSym + Ii0j));
+          vec_vsx_st(vec_Ai1j, 0, (vector double*) (fSym + Ii1j));
+          vec_vsx_st(vec_Ai2j, 0, (vector double*) (fSym + Ii2j));
+          vec_vsx_st(vec_Ai3j, 0, (vector double*) (fSym + Ii3j));
+#if 0
+          Apj = fSym[ Ipj ];
+          fSym[ Ii0j ] += Ai0p * Apj;
+          fSym[ Ii1j ] += Ai1p * Apj;
+          fSym[ Ii2j ] += Ai2p * Apj;
+          fSym[ Ii3j ] += Ai3p * Apj;
+#endif
+        }
+        // Skip the pivot column
+        j++;
+        for (; j <= i && j == (p + 1); j++) {
+          Ipj = (j + 0) * fNRows + p;
+          Ii0j = (i + 0) * fNRows + j;
+          Ii1j = (i + 1) * fNRows + j;
+          Ii2j = (i + 2) * fNRows + j;
+          Ii3j = (i + 3) * fNRows + j;
+
+          Apj = fSym[Ipj];
+          fSym[Ii0j] += Ai0p * Apj;
+          fSym[Ii1j] += Ai1p * Apj;
+          fSym[Ii2j] += Ai2p * Apj;
+          fSym[Ii3j] += Ai3p * Apj;
+        }
+        for (; j < ((i + 1) / 2) * 2; j += 2) {
+          int Ipj0 = (j + 0) * fNRows + p;
+          int Ipj1 = (j + 1) * fNRows + p;
+          Ii0j = (i + 0) * fNRows + j;
+          Ii1j = (i + 1) * fNRows + j;
+          Ii2j = (i + 2) * fNRows + j;
+          Ii3j = (i + 3) * fNRows + j;
+
+          vector double vec_Apj0 = vec_splats(fSym[Ipj0]);
+          vector double vec_Apj1 = vec_splats(fSym[Ipj1]);
+          vector double vec_Apj = vec_mergeh(vec_Apj0, vec_Apj1);
+
+          vector double vec_Ai0j = *(vector double*) (fSym + Ii0j);
+          vector double vec_Ai1j = *(vector double*) (fSym + Ii1j);
+          vector double vec_Ai2j = *(vector double*) (fSym + Ii2j);
+          vector double vec_Ai3j = *(vector double*) (fSym + Ii3j);
+
+          vec_Ai0j = vec_madd(vec_Ai0p, vec_Apj, vec_Ai0j);
+          vec_Ai1j = vec_madd(vec_Ai1p, vec_Apj, vec_Ai1j);
+          vec_Ai2j = vec_madd(vec_Ai2p, vec_Apj, vec_Ai2j);
+          vec_Ai3j = vec_madd(vec_Ai3p, vec_Apj, vec_Ai3j);
+
+          vec_vsx_st(vec_Ai0j, 0, (vector double*) (fSym + Ii0j));
+          vec_vsx_st(vec_Ai1j, 0, (vector double*) (fSym + Ii1j));
+          vec_vsx_st(vec_Ai2j, 0, (vector double*) (fSym + Ii2j));
+          vec_vsx_st(vec_Ai3j, 0, (vector double*) (fSym + Ii3j));
+#if 0
+          Apj = fSym[ Ipj ];
+          fSym[ Ii0j ] += Ai0p * Apj;
+          fSym[ Ii1j ] += Ai1p * Apj;
+          fSym[ Ii2j ] += Ai2p * Apj;
+          fSym[ Ii3j ] += Ai3p * Apj;
+#endif
+        }
+        for (; j <= i; j++) {
+          Ipj = j * fNRows + p;
+          Ii0j = (i + 0) * fNRows + j;
+          Ii1j = (i + 1) * fNRows + j;
+          Ii2j = (i + 2) * fNRows + j;
+          Ii3j = (i + 3) * fNRows + j;
+
+          Apj = fSym[Ipj];
+          fSym[Ii0j] += Ai0p * Apj;
+          fSym[Ii1j] += Ai1p * Apj;
+          fSym[Ii2j] += Ai2p * Apj;
+          fSym[Ii3j] += Ai3p * Apj;
+        }
+      }
+      Ipj = j * fNRows + p;
+      Ii1j = (i + 1) * fNRows + j;
+      Ii2j = (i + 2) * fNRows + j;
+      Ii3j = (i + 3) * fNRows + j;
+      Apj = fSym[Ipj];
+      fSym[Ii1j] += Ai1p * Apj;
+      fSym[Ii2j] += Ai2p * Apj;
+      fSym[Ii3j] += Ai3p * Apj;
+      j++;
+      Ipj = j * fNRows + p;
+      Ii2j = (i + 2) * fNRows + j;
+      Ii3j = (i + 3) * fNRows + j;
+      Apj = fSym[Ipj];
+      fSym[Ii2j] += Ai2p * Apj;
+      fSym[Ii3j] += Ai3p * Apj;
+      j++;
+      Ipj = j * fNRows + p;
+      Ii3j = (i + 3) * fNRows + j;
+      Apj = fSym[Ipj];
+      fSym[Ii3j] += Ai3p * Apj;
+
+    }
+    for (; i < fNRows; i++) {
+      Iip = i * fNRows + p;
+
+      Aip = fSym[Iip];
+      fSym[Iip] = absBpp * Aip;
+
+      // The a(i,j) elements, i,j both != p
+      if (Bpp < 0.0) {
+        Aip = -Aip;
+      }
+
+      for (j = 0; j < p; j++) {
+        Iij = i * fNRows + j;
+        Ipj = p * fNRows + j;
+
+        Apj = fSym[Ipj];
+        fSym[Iij] += Aip * Apj;
+      }
+      // Skip the pivot column
+      j++;
+      for (; j <= i; j++) {
+        Iij = i * fNRows + j;
+        Ipj = j * fNRows + p;
+
+        Apj = fSym[Ipj];
+        fSym[Iij] += Aip * Apj;
+      }
+    }
+  }
+}
 
 void initTriMatrix(double *matrix, int COUNT) 
 {
@@ -809,7 +980,7 @@ int main(int argc, char *argv[])
     tri_sweep_orig(matrix1);
   }
   double org_t = get_elapsed_seconds();
-  printf("Org Version Time = %f seconds\n", org_t);
+  printf("Tri-Org Version Time = %f seconds\n", org_t);
   
 
   //run tri simd
@@ -819,7 +990,7 @@ int main(int argc, char *argv[])
     tri_sweep(matrix2);
   }
   double tri_simd_t = get_elapsed_seconds();
-  printf("Split SIMD Version Time = %f seconds\n", tri_simd_t);
+  printf("Tri-Split SIMD Version Time = %f seconds\n", tri_simd_t);
   if (compareTriMatrix(matrix2, matrix1, TRI_COUNT)) {
     printf("PASSED!\n");
   } else {
@@ -833,7 +1004,7 @@ int main(int argc, char *argv[])
     sweep(matrix2);
   }
   double normal_t = get_elapsed_seconds();
-  printf("Normal Version Time = %f seconds\n", normal_t);
+  printf("Normal Scalar Version Time = %f seconds\n", normal_t);
   if (compareMatrix(matrix2, matrix1, MATRIX_SIZE)) {
     printf("PASSED!\n");
   } else {
@@ -841,14 +1012,28 @@ int main(int argc, char *argv[])
   }
   
 
-  //run org-normal version
+  //run generic simd4 version
   initMatrix(matrix2, MATRIX_SIZE);
   reset_and_start_stimer();
   for (count = 0; count < NUM_ITERATIONS; count++) {
     sweep_simd(matrix2);
   }
   double simd_t = get_elapsed_seconds();
-  printf("SIMD Version Time = %f seconds\n", simd_t);
+  printf("Generic SIMD svec4 Version Time = %f seconds\n", simd_t);
+  if (compareMatrix(matrix2, matrix1, MATRIX_SIZE)) {
+    printf("PASSED!\n");
+  } else {
+    printf("FAILED!\n");
+  }
+
+  //run unrolled simd-normal version
+  initMatrix(matrix2, MATRIX_SIZE);
+  reset_and_start_stimer();
+  for (count = 0; count < NUM_ITERATIONS; count++) {
+    sweep_unrolled_simd(matrix2);
+  }
+  double unrolled_simd_t = get_elapsed_seconds();
+  printf("Unrolled SIMD svec4 Version Time = %f seconds\n", unrolled_simd_t);
   if (compareMatrix(matrix2, matrix1, MATRIX_SIZE)) {
     printf("PASSED!\n");
   } else {
