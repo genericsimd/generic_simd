@@ -724,16 +724,56 @@ SCATTER_D_WORD_OFF32_Z_P8(signed long)
 //
 
 static FORCEINLINE __vector float               vec_splat_p7(__vector float a, const int v){
-  __vector float register r;
-  asm ("xxspltw %x[xt], %x[xa],%[im] "  : [xt] VSXW(r) : [xa] VSXR(a), [im] "i"(v)    );
-  return r;
+  if(__builtin_constant_p(v) && v >= 0 && v < 4) {
+    __vector float register r;
+    asm ("xxspltw %x[xt], %x[xa],%[im] "  : [xt] VSXW(r) : [xa] VSXR(a), [im] "i"(v)    );
+    return r;
+  } else {
+    float f = vec_extract(a, v);
+    __vector float r = {f,f,f,f};
+    return r;
+  }
 }
 
 static FORCEINLINE __vector signed int          vec_splat_p7(__vector signed int a, const int v){
-  __vector signed int register r;
-  asm ("xxspltw %x[xt], %x[xa],%[im] "  : [xt] VSXW(r) : [xa] VSXR(a), [im] "i"(v)    );
-  return r;
+  return (__vector signed int)vec_splat_p7((__vector float)a, v);
 }
+
+static FORCEINLINE __vector unsigned int          vec_splat_p7(__vector unsigned int a, const int v){
+  return (__vector unsigned int)vec_splat_p7((__vector float)a, v);
+}
+
+/**
+ * @brief use xxpermdi
+ */
+static FORCEINLINE __vector double               vec_splat_p7(__vector double a, const int v){
+  if(__builtin_constant_p(v) && v >= 0 && v < 2) {
+      __vector double register r;
+      const int perm_v = (v == 0 ? 0 : 3);
+      asm ("xxpermdi %x[xt], %x[xa], %x[xb], %[im] "  : [xt] VSXW(r) : [xa] VSXR(a), [xb] VSXR(a), [im] "i"(perm_v)    );
+      return r;
+  } else {
+    double d = vec_extract(a, v);
+    __vector double r = {d,d};
+    return r;
+  }
+}
+
+/**
+ * @brief use xxpermdi
+ */
+static FORCEINLINE __vector long long            vec_splat_p7(__vector long long a, const int v){
+  return (__vector long long)vec_splat_p7((__vector double )a, v);
+}
+
+/**
+ * @brief use xxpermdi
+ */
+static FORCEINLINE __vector unsigned long long   vec_splat_p7(__vector unsigned long long a, const int v){
+  return (__vector unsigned long long)vec_splat_p7((__vector double )a, v);
+}
+
+
 
 static FORCEINLINE __vector double              vec_smear_p7(double a){
   __vector double register r;

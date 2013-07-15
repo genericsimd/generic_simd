@@ -1,7 +1,7 @@
 
 
 GTEST_DIR=../gtest-1.6.0
-TARGETS=power_vsx4 test_svec
+TARGETS=vsx4 generic4 test_svec
 
 
 CXXFLAGS=-I../include -Wno-int-to-pointer-cast -flax-vector-conversions -g
@@ -14,15 +14,24 @@ libgtest.a:
 	g++ -I${GTEST_DIR}/include -I${GTEST_DIR} -c ${GTEST_DIR}/src/gtest-all.cc
 	ar -rv $@ gtest-all.o
 
-power_vsx4: power_vsx4.cpp libgtest.a ../include/power_vsx4.h
-	g++ -I${GTEST_DIR}/include -l pthread -mvsx ${CXXFLAGS} $^ -o $@
+vsx4: test_lanes4.cpp libgtest.a ../include/power_vsx4.h
+	g++ -I${GTEST_DIR}/include -l pthread -mvsx -DVSX ${CXXFLAGS} $^ -o $@
+
+generic4: test_lanes4.cpp libgtest.a ../include/generic4.h
+	g++ -I${GTEST_DIR}/include -l pthread ${CXXFLAGS} $^ -o $@
 
 
-test: power_vsx4
-	./$<
+test: vsx4 generic4
+	./vsx4
+	./generic4
 
 test_svec: test_svec.cpp libgtest.a ../include/svec-vsx.h
 	g++ -I${GTEST_DIR}/include -l pthread -mvsx ${CXXFLAGS} $^ -o $@
+
+
+codegen: codegen.cpp
+	g++ -mno-vrsave -mvsx ${CXXFLAGS} $< -O2 -S
+#	g++ -mno-vrsave -mvsx ${CXXFLAGS} $< -O2 -c -g -Wa,-a,-ad > $@.cs
 
 clean:
 	rm -f *.o core *~ ${TARGETS} *.output *.a

@@ -38,7 +38,7 @@ void svec4_rgb2gray(float* ra, float* ga, float* ba, float* gray ) {
         svec4_f a = svec4_f::load((svec4_f*)(ra+i));
         svec4_f b = svec4_f::load((svec4_f*)(ga+i));
         svec4_f c = svec4_f::load((svec4_f*)(ba+i));
-        svec4_f out = 0.3f * a  + 0.59f * b  + 0.11f * c ;
+        svec4_f out = svec4_f(vec_splats(0.3f)) * a  + svec4_f(vec_splats(0.59f)) * b  + svec4_f(vec_splats(0.11f)) * c ;
         out.store((svec4_f*)(gray+i));
     }
 }

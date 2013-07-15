@@ -1,19 +1,29 @@
 /*
- * power_vsx4.cpp
+ * test_lanes4.cpp
  *
  *  Created on: Jun 21, 2013
  *      Author: haichuan
  */
 
 #include <gtest/gtest.h>
-#include <power_vsx4.h>
 
+//#define VSX
+#ifdef VSX
+#include <power_vsx4.h>
 using namespace vsx;
 
 #define EXPECT_VEC_EQ(v1, v2) EXPECT_TRUE(vec_all_eq(v1, v2))
 
+#else
+#include <generic4.h>
+using namespace generic;
+#endif
+
 #define EXPECT_SVEC_EQ(v1, v2) EXPECT_TRUE(((v1) == (v2)).all_true())
 #define EXPECT_SVEC_MASKED_EQ(v1, v2, mask) EXPECT_TRUE((svec_masked_equal((v1), (v2), (mask)) == mask).all_true())
+
+
+
 /**
  * @brief macros for check float equal
  */
@@ -28,59 +38,30 @@ using namespace vsx;
  * Test Constructors for all types
  */
 
+#ifdef VSX //these constructors uses power intrinsics
+
 TEST(svec4_i1, ConstructorByScalars)
 {
     svec4_i1 v1(1,0,1,0);
     __vector unsigned int t = { -1, 0, -1, 0};
     EXPECT_VEC_EQ(v1.v, t);
 }
-
-TEST(svec4_i1, ConstructorByVector)
-{
-    __vector unsigned int t = { -1, 0, -1, 0};
-    svec4_i1 v1(t);
-    EXPECT_VEC_EQ(v1.v, t);
-}
-
 TEST(svec4_i8, ConstructorByScalars)
 {
     svec4_i8 v1(100,0,-50,1);
     __vector signed char t = { 100, 0, -50, 1, 0,0,0,0, 0,0,0,0, 0,0,0,0};
     EXPECT_VEC_EQ(v1.v, t);
 }
-
-TEST(svec4_i8, ConstructorByVector)
-{
-    __vector signed char t = { 100, 0, -50, 1, 0,0,0,0, 0,0,0,0, 0,0,0,0};
-    svec4_i8 v1(t);
-    EXPECT_VEC_EQ(v1.v, t);
-}
-
 TEST(svec4_u8, ConstructorByScalars)
 {
     svec4_u8 v1(100,0,150,1);
     __vector unsigned char t = { 100, 0, 150, 1, 0,0,0,0, 0,0,0,0, 0,0,0,0};
     EXPECT_VEC_EQ(v1.v, t);
 }
-
-TEST(svec4_u8, ConstructorByVector)
-{
-    __vector unsigned char t = { 100, 0, 150, 1, 0,0,0,0, 0,0,0,0, 0,0,0,0};
-    svec4_u8 v1(t);
-    EXPECT_VEC_EQ(v1.v, t);
-}
-
 TEST(svec4_i16, ConstructorByScalars)
 {
     svec4_i16 v1(100,0,-50,1);
     __vector signed short t = { 100, 0, -50, 1, 0,0,0,0};
-    EXPECT_VEC_EQ(v1.v, t);
-}
-
-TEST(svec4_i16, ConstructorByVector)
-{
-    __vector signed short t = { 100, 0, -50, 1, 0,0,0,0};
-    svec4_i16 v1(t);
     EXPECT_VEC_EQ(v1.v, t);
 }
 
@@ -91,13 +72,6 @@ TEST(svec4_u16, ConstructorByScalars)
     EXPECT_VEC_EQ(v1.v, t);
 }
 
-TEST(svec4_u16, ConstructorByVector)
-{
-    __vector unsigned short t = { 100, 0, 150, 1, 0,0,0,0};
-    svec4_u16 v1(t);
-    EXPECT_VEC_EQ(v1.v, t);
-}
-
 TEST(svec4_i32, ConstructorByScalars)
 {
     svec4_i32 v1(100,0,-50,1);
@@ -105,12 +79,6 @@ TEST(svec4_i32, ConstructorByScalars)
     EXPECT_VEC_EQ(v1.v, t);
 }
 
-TEST(svec4_i32, ConstructorByVector)
-{
-    __vector signed int t = { 100, 0, -50, 1};
-    svec4_i32 v1(t);
-    EXPECT_VEC_EQ(v1.v, t);
-}
 
 TEST(svec4_u32, ConstructorByScalars)
 {
@@ -119,28 +87,9 @@ TEST(svec4_u32, ConstructorByScalars)
     EXPECT_VEC_EQ(v1.v, t);
 }
 
-TEST(svec4_u32, ConstructorByVector)
-{
-    __vector unsigned int t = { 100, 0, 150, 1};
-    svec4_u32 v1(t);
-    EXPECT_VEC_EQ(v1.v, t);
-}
-
 TEST(svec4_i64, ConstructorByScalars)
 {
     svec4_i64 v1(100,0,-50,1);
-    //no direct vector cmp available, had to use [] to do scalar cmp
-    EXPECT_EQ(v1[0], 100);
-    EXPECT_EQ(v1[1], 0);
-    EXPECT_EQ(v1[2], -50);
-    EXPECT_EQ(v1[3], 1);
-}
-
-TEST(svec4_i64, ConstructorByVector)
-{
-    __vector signed long long t1 = { 100, 0};
-    __vector signed long long t2 = { -50, 1};
-    svec4_i64 v1(t1, t2);
     //no direct vector cmp available, had to use [] to do scalar cmp
     EXPECT_EQ(v1[0], 100);
     EXPECT_EQ(v1[1], 0);
@@ -158,6 +107,84 @@ TEST(svec4_u64, ConstructorByScalars)
     EXPECT_EQ(v1[3], 1);
 }
 
+TEST(svec4_f, ConstructorByScalars)
+{
+    svec4_f v1(100,0,-50,1.5);
+    __vector float t = { 100, 0, -50, 1.5};
+    EXPECT_VEC_EQ(v1.v, t);
+}
+
+TEST(svec4_d, ConstructorByScalars)
+{
+    svec4_d v1(100,0,-50,1.5);
+    //no direct vector cmp available, had to use [] to do scalar cmp
+    EXPECT_EQ(v1[0], 100);
+    EXPECT_EQ(v1[1], 0);
+    EXPECT_EQ(v1[2], -50);
+    EXPECT_EQ(v1[3], 1.5);
+}
+
+TEST(svec4_i1, ConstructorByVector)
+{
+    __vector unsigned int t = { -1, 0, -1, 0};
+    svec4_i1 v1(t);
+    EXPECT_VEC_EQ(v1.v, t);
+}
+
+TEST(svec4_i8, ConstructorByVector)
+{
+    __vector signed char t = { 100, 0, -50, 1, 0,0,0,0, 0,0,0,0, 0,0,0,0};
+    svec4_i8 v1(t);
+    EXPECT_VEC_EQ(v1.v, t);
+}
+
+TEST(svec4_u8, ConstructorByVector)
+{
+    __vector unsigned char t = { 100, 0, 150, 1, 0,0,0,0, 0,0,0,0, 0,0,0,0};
+    svec4_u8 v1(t);
+    EXPECT_VEC_EQ(v1.v, t);
+}
+
+TEST(svec4_i16, ConstructorByVector)
+{
+    __vector signed short t = { 100, 0, -50, 1, 0,0,0,0};
+    svec4_i16 v1(t);
+    EXPECT_VEC_EQ(v1.v, t);
+}
+
+TEST(svec4_u16, ConstructorByVector)
+{
+    __vector unsigned short t = { 100, 0, 150, 1, 0,0,0,0};
+    svec4_u16 v1(t);
+    EXPECT_VEC_EQ(v1.v, t);
+}
+
+TEST(svec4_i32, ConstructorByVector)
+{
+    __vector signed int t = { 100, 0, -50, 1};
+    svec4_i32 v1(t);
+    EXPECT_VEC_EQ(v1.v, t);
+}
+
+TEST(svec4_u32, ConstructorByVector)
+{
+    __vector unsigned int t = { 100, 0, 150, 1};
+    svec4_u32 v1(t);
+    EXPECT_VEC_EQ(v1.v, t);
+}
+
+TEST(svec4_i64, ConstructorByVector)
+{
+    __vector signed long long t1 = { 100, 0};
+    __vector signed long long t2 = { -50, 1};
+    svec4_i64 v1(t1, t2);
+    //no direct vector cmp available, had to use [] to do scalar cmp
+    EXPECT_EQ(v1[0], 100);
+    EXPECT_EQ(v1[1], 0);
+    EXPECT_EQ(v1[2], -50);
+    EXPECT_EQ(v1[3], 1);
+}
+
 TEST(svec4_u64, ConstructorByVector)
 {
     __vector unsigned long long t1 = { 100, 0};
@@ -170,28 +197,11 @@ TEST(svec4_u64, ConstructorByVector)
     EXPECT_EQ(v1[3], 1);
 }
 
-TEST(svec4_f, ConstructorByScalars)
-{
-    svec4_f v1(100,0,-50,1.5);
-    __vector float t = { 100, 0, -50, 1.5};
-    EXPECT_VEC_EQ(v1.v, t);
-}
-
 TEST(svec4_f, ConstructorByVector)
 {
     __vector float t = { 100, 0, -50, 1.5};
     svec4_f v1(t);
     EXPECT_VEC_EQ(v1.v, t);
-}
-
-TEST(svec4_d, ConstructorByScalars)
-{
-    svec4_d v1(100,0,-50,1.5);
-    //no direct vector cmp available, had to use [] to do scalar cmp
-    EXPECT_EQ(v1[0], 100);
-    EXPECT_EQ(v1[1], 0);
-    EXPECT_EQ(v1[2], -50);
-    EXPECT_EQ(v1[3], 1.5);
 }
 
 TEST(svec4_d, ConstructorByVector)
@@ -206,11 +216,10 @@ TEST(svec4_d, ConstructorByVector)
     EXPECT_EQ(v1[3], 1.5);
 }
 
-
+#endif //VSX
 /**
  * Test subscript for all types
  */
-
 
 TEST(svec4_i1, SubScriptGet)
 {
@@ -1060,8 +1069,8 @@ TEST(svec4_u32, zero_smear_load_const)
     EXPECT_SVEC_EQ(svec4_u32(30), svec4_u32(30, 30, 30, 30));
     EXPECT_SVEC_EQ(svec4_u32(15), svec4_u32(15, 15, 15, 15));
     EXPECT_SVEC_EQ(svec4_u32(228), svec4_u32(228, 228, 228, 228));
-    EXPECT_SVEC_EQ(svec4_u32::load_const((const uint32_t*)cint32), svec4_u32(4294967295, 4294967295, 4294967295, 4294967295));
-    EXPECT_SVEC_EQ(svec4_u32::load_and_splat((uint32_t*)cint32), svec4_u32(4294967295, 4294967295, 4294967295, 4294967295));
+    EXPECT_SVEC_EQ(svec4_u32::load_const((const uint32_t*)cint32), svec4_u32(4294967295u, 4294967295u, 4294967295u, 4294967295u));
+    EXPECT_SVEC_EQ(svec4_u32::load_and_splat((uint32_t*)cint32), svec4_u32(4294967295u, 4294967295u, 4294967295u, 4294967295u));
 }
 
 TEST(svec4_i64, zero_smear_load_const)

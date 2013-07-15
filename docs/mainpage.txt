@@ -1,8 +1,8 @@
 /**
 
- @mainpage  SIMD Generic Library
+ @mainpage  Generic SIMD Library
  
- SIMD Generic Library provides C++ based simple interfaces to use SIMD intrinsics.
+ Generic SIMD Library provides C++ based simple interfaces to use SIMD intrinsics.
  
  The current implementation have short vector with lanes=4 support.
  Here lanes=4 means all the short vector data types in this library contain 
@@ -30,7 +30,7 @@ Compile and run it.
 
 @code{.sh}
 $ g++ -I../../include HelloSIMD.cpp -mvsx -flax-vector-conversions -o HelloSIMD -Wno-int-to-pointer-cast
-% ./HelloSIMD
+$ ./HelloSIMD
 Hello, svec4_f[2.2, 4.4, 6.6, 8.8]
 @endcode
 
@@ -175,7 +175,7 @@ git clone userName@serverName:/gsa/yktgsa/projects/g/generic_simd/gsimd.git gsim
 <li><b>examples</b> Examples using this library. </li>
 <li><b>gtest-1.6.0</b> Google test framework used in unit test</li>
 <li><b>include</b> The library source code</li>
-<li><b>tests</b> Unit tests </li>
+<li><b>tests</b> Unit tests, test both vsx4 and generic4 implementation </li>
 </ul>
 
 <h3> Run unit tests </h3>
@@ -184,7 +184,7 @@ The unit tests are in tests directory. The current unit test only covers power_v
 $ cd tests
 $ make test
 @endcode
-The test app will generate the report.
+The test app will test vsx4 and generic4 interfaces, and generate the report.
 
 
 <h3> Generate document </h3>

@@ -24,3 +24,7 @@ ${EXAMPLE}: ${EXAMPLE}.cpp
 	
 run: ${EXAMPLE}
 	./$< ${RUN_ARGS}
+
+clean:
+	rm -f ${EXAMPLE}
+	

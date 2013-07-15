@@ -1,6 +1,6 @@
 
-EXAMPLE=sweep
-CPP_SRC=sweep.cpp
+EXAMPLE=sweep_tune
+CPP_SRC=sweep_tune.cpp
 
 
 include ../common.mk
