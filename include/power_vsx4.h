@@ -2218,7 +2218,7 @@ MASKED_LOAD_STORE(svec4_d, double, svec4_i1);
  * @param mask the svec_i1 type vector
  * @return true is at least one element in the mask is true
  */
-static FORCEINLINE bool svec_any_true(svec4_i1& mask) {
+static FORCEINLINE bool svec_any_true(const svec4_i1& mask) {
     return vec_any_ne(mask.v, vec_splat_u32(0));
 }
 
@@ -2227,7 +2227,7 @@ static FORCEINLINE bool svec_any_true(svec4_i1& mask) {
  * @param mask the svec_i1 type vector
  * @return true is all elements in the mask are true
  */
-static FORCEINLINE bool svec_all_true(svec4_i1& mask) {
+static FORCEINLINE bool svec_all_true(const svec4_i1& mask) {
     return vec_all_ne(mask.v, vec_splat_u32(0));
 }
 
@@ -2517,7 +2517,9 @@ static FORCEINLINE svec4_i32 svec_mul (svec4_i32 a, svec4_i32 b) {
 #ifdef __POWER8
   return ((__vector signed int)vec_mul_p8((vector unsigned int)a.v,(vector unsigned int)b.v));
 #else
-  //return vec_mulo((__vector signed short)a.v, (__vector signed short)(b.v));
+
+  return vec_mulo((__vector signed short)a.v, (__vector signed short)(b.v));
+
   //adapted from apple web site
   __vector unsigned int bSwapped, BD, AD_plus_BC;
   __vector unsigned int sixteen = vec_splat_u32(-16 ); //only low 5 bits important here
