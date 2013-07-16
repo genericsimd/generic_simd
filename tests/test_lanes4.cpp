@@ -742,6 +742,7 @@ TEST(svec4_i1, and)
     svec4_i1 v1(1,0,1,0);
     svec4_i1 v2(1,1,1,0);
     EXPECT_SVEC_EQ(v1 & v2, svec4_i1(1,0,1,0));
+    EXPECT_SVEC_EQ(v1 && v2, svec4_i1(1,0,1,0));
 }
 
 TEST(svec4_i1, or)
@@ -749,6 +750,7 @@ TEST(svec4_i1, or)
     svec4_i1 v1(1,0,1,0);
     svec4_i1 v2(1,1,1,0);
     EXPECT_SVEC_EQ((v1 | v2), svec4_i1(1, 1, 1, 0));
+    EXPECT_SVEC_EQ((v1 || v2), svec4_i1(1, 1, 1, 0));
 }
 
 TEST(svec4_i1, xor)
@@ -762,6 +764,7 @@ TEST(svec4_i1, not)
 {
     svec4_i1 v1(1,0,1,0);
     EXPECT_SVEC_EQ((~v1), svec4_i1(0, 1, 0, 1));
+    EXPECT_SVEC_EQ((!v1), svec4_i1(0, 1, 0, 1));
 }
 
 

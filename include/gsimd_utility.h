@@ -289,7 +289,10 @@ friend std::ostream& operator<< (std::ostream &out, const VTYPE &v) { \
   FORCEINLINE VTYPE operator|(VTYPE); \
   FORCEINLINE VTYPE operator&(VTYPE a); \
   FORCEINLINE VTYPE operator^(VTYPE a); \
-  FORCEINLINE VTYPE operator~();
+  FORCEINLINE VTYPE operator~(); \
+  FORCEINLINE VTYPE operator!(); \
+  FORCEINLINE VTYPE operator&&(VTYPE a); \
+  FORCEINLINE VTYPE operator||(VTYPE a);
 
 
 /**
