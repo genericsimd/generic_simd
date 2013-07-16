@@ -2218,7 +2218,7 @@ MASKED_LOAD_STORE(svec4_d, double, svec4_i1);
  * @param mask the svec_i1 type vector
  * @return true is at least one element in the mask is true
  */
-static FORCEINLINE bool svec_any_true(svec4_i1& mask) {
+static FORCEINLINE bool svec_any_true(const svec4_i1& mask) {
     return vec_any_ne(mask.v, vec_splat_u32(0));
 }
 
@@ -2227,7 +2227,7 @@ static FORCEINLINE bool svec_any_true(svec4_i1& mask) {
  * @param mask the svec_i1 type vector
  * @return true is all elements in the mask are true
  */
-static FORCEINLINE bool svec_all_true(svec4_i1& mask) {
+static FORCEINLINE bool svec_all_true(const svec4_i1& mask) {
     return vec_all_ne(mask.v, vec_splat_u32(0));
 }
 
@@ -2237,7 +2237,7 @@ static FORCEINLINE bool svec_all_true(svec4_i1& mask) {
  * @param mask the svec_i1 type vector
  * @return true is all elements in the mask are false
  */
-static FORCEINLINE bool svec_none_true(svec4_i1& mask) {
+static FORCEINLINE bool svec_none_true(const svec4_i1& mask) {
     return vec_all_eq(mask.v, vec_splat_u32(0));
 }
 
@@ -3684,6 +3684,24 @@ FORCEINLINE svec4_i1 svec4_i1::operator&(svec4_i1 a) { return svec_and(*this, a)
  * @return the result of bit-wise XOR as a boolean vector.
  */
 FORCEINLINE svec4_i1 svec4_i1::operator^(svec4_i1 a) { return svec_xor(*this, a); }
+/**
+ * @brief Element-wise bit-wise not operator. E.g., "!a"
+ * @return the result of bit-wise compliment as a boolean vector.
+ */
+FORCEINLINE svec4_i1 svec4_i1::operator!() { return svec_not(*this); }
+
+/**
+ * @brief Element-wise boolean AND operator. E.g., "a && b"
+ * @param[in] a a boolean vector
+ * @return the result of boolean AND as a boolean vector.
+ */
+FORCEINLINE svec4_i1 svec4_i1::operator&&(svec4_i1 a) { return svec_and(*this, a); }
+/**
+ * @brief Element-wise boolean OR operator. E.g., "a || b"
+ * @param[in] a a boolean vector
+ * @return the result of boolean OR as a boolean vector.
+ */
+FORCEINLINE svec4_i1 svec4_i1::operator||(svec4_i1 a) { return svec_or(*this, a); }
 
 /**
  * @brief Element-wise compare equal. E.g., "a == b"
