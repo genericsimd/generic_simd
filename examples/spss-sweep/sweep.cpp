@@ -2,83 +2,73 @@
 #include <stdio.h>
 #include <math.h>
 #include <timing.h>
+#include <altivec.h>
 #include <power_vsx4.h>
+//#include <generic4.h>
 
 // the simdized version assumes P7 VSX
-
 using namespace vsx;
-
+//using namespace generic;
 
 #define MATRIX_SIZE 1000
 
 // an original sweep function for a triangular matrix
-void tri_sweep_orig(double *fSym) 
-{
-  size_t    fNRows  = MATRIX_SIZE;
-  size_t    Ipp, Iip, Ipj, Iij, p, i, j;
-  double    App, Bpp, absBpp, Aip, Apj;
+void tri_sweep_orig(double *fSym) {
+  size_t fNRows = MATRIX_SIZE;
+  size_t Ipp, Iip, Ipj, Iij, p, i, j;
+  double App, Bpp, absBpp, Aip, Apj;
 
-  for (p = 0; p < fNRows; p++)
-    {
-      Ipp = (p + 1) * (p + 2) / 2 - 1;
-      App   = fSym[Ipp];
+  for (p = 0; p < fNRows; p++) {
+    Ipp = (p + 1) * (p + 2) / 2 - 1;
+    App = fSym[Ipp];
 
-      Iij = -1;
-      Iip = Ipp - p - 1;
+    Iij = -1;
+    Iip = Ipp - p - 1;
 
-      // The a(p,p) element
-      Bpp = -1.0 / App;
-      absBpp = fabs( Bpp );
-      fSym[ Ipp ] = Bpp;
+    // The a(p,p) element
+    Bpp = -1.0 / App;
+    absBpp = fabs(Bpp);
+    fSym[Ipp] = Bpp;
 
-      for (i = 0; i < fNRows; i++ )
-    {
+    for (i = 0; i < fNRows; i++) {
       Iip++;
 
-      if ( i == p )
-        {
-          // Skip the pivot row
-          Iij += (p + 1);
-        }
-      else
-        {
-          // The a(i,p) elements, i != p
-          if ( i > p )
-        {
+      if (i == p) {
+        // Skip the pivot row
+        Iij += (p + 1);
+      } else {
+        // The a(i,p) elements, i != p
+        if (i > p) {
           Iip += (i - 1);
         }
 
-          Aip = fSym[ Iip ];
-          fSym[ Iip ] = absBpp * Aip;
+        Aip = fSym[Iip];
+        fSym[Iip] = absBpp * Aip;
 
-          // The a(i,j) elements, i,j both != p
-          if ( Bpp < 0.0 )
-        {
+        // The a(i,j) elements, i,j both != p
+        if (Bpp < 0.0) {
           Aip = -Aip;
         }
 
-          Ipj = Ipp - p - 1;
+        Ipj = Ipp - p - 1;
 
-          for (j = 0; j <= i; j++ )
-        {
+        for (j = 0; j <= i; j++) {
           Iij++;
           Ipj++;
 
           // Skip the pivot column
-          if ( j != p )
-            {
-              if ( j > p )
-            {
+          if (j != p) {
+            if (j > p) {
               Ipj += (j - 1);
             }
 
-              Apj = fSym[ Ipj ];
-              fSym[ Iij ] += Aip * Apj;
-            }
+            Apj = fSym[Ipj];
+            fSym[Iij] += Aip * Apj;
+          }
         }
-        }
+      }
     }
-    }
+  }
 }
 
 // a sweep function (without unrolling) for a triangular matrix
@@ -224,29 +214,24 @@ void tri_sweep(double *fSym) {
 void sweep(double *fSym) {
   int fNRows = MATRIX_SIZE;
   int p, i, j;
-  int Ii0j, Ii1j, Ii2j, Ii3j;
-  int Ii0p, Ii1p, Ii2p, Ii3p;
-  double App, Bpp, absBpp, Aip, Apj;
-  double Api0, Ai1p, Ai2p, Ai3p;
+  double App, Bpp, absBpp, Aip, Apj, Api;
 
   for (p = 0; p < fNRows; p++) {
-    App = fSym[addr(p,p)];
+    App = fSym[addr(p,p)]; // The a(p,p) element
 
-    // The a(p,p) element
     Bpp = -1.0 / App;
     absBpp = fabs(Bpp);
     fSym[addr(p,p)] = Bpp;
 
     for (i = 0; i < p; i++) {
-      double Api0 = fSym[ addr(p,i)];
+      Api = fSym[ addr(p,i)];
 
-      fSym[ addr(p,i)] = absBpp * Api0;
-      if (Bpp < 0.0)
-        Api0 = -Api0;
+      fSym[ addr(p,i)] = absBpp * Api;
+      if (Bpp < 0.0) {  Api = -Api; }
 
       for (j = 0; j <= i; j++) {
         Apj = fSym[ addr(p,j)];
-        fSym[ addr(i+0,j)] += Api0 * Apj;
+        fSym[ addr(i+0,j)] += Api * Apj;
       }
     }
     i++;
@@ -254,7 +239,7 @@ void sweep(double *fSym) {
       Aip = fSym[ addr(i,p)];
       fSym[ addr(i,p)] = absBpp * Aip;
 
-      // The a(i,j) elements, i,j both != p
+
       if (Bpp < 0.0) {
         Aip = -Aip;
       }
@@ -263,8 +248,7 @@ void sweep(double *fSym) {
         Apj = fSym[ addr(p,j)];
         fSym[ addr(i,j)] += Aip * Apj;
       }
-      // Skip the pivot column
-      j++;
+      j++; // Skip the pivot column
       for (; j <= i; j++) {
         Apj = fSym[ addr(j,p)];
         fSym[ addr(i,j)] += Aip * Apj;
@@ -409,7 +393,7 @@ void sweep_simd(double *fSym) {
         vec_Aij = vec_Aij + vec_Aip * Ajp;
         vec_Aij.scatter_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
       }
-      //now th rest
+      //now the rest
       double Ajp = fSym[ addr(j,p)];
       fSym[ addr(i+1,j)] += vec_Aip[1] * Ajp;
       fSym[ addr(i+2,j)] += vec_Aip[2] * Ajp;
@@ -1039,7 +1023,6 @@ int main(int argc, char *argv[])
   } else {
     printf("FAILED!\n");
   }
-
 
   return 0;
 }
