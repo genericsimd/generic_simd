@@ -22,17 +22,17 @@ MACHINE=$(shell uname -m)
 ifeq ($(firstword $(filter ppc64,$(MACHINE))),ppc64)
   CXXFLAGS += -mno-vrsave -mvsx -flax-vector-conversions -mcpu=power7
   CCFLAGS += -mno-vrsave -mvsx -flax-vector-conversions -mcpu=power7
-  ifeq (${PPC_ISA}, P7)
-    PLATFORM = ppc64_P7
-  else
-  ifeq (${PPC_ISA}, P8)
-    PLATFORM = ppc64_P9
-    CCFLAGS += -D__POWER8
-    CXXFLAGS += -D__POWER8
-  else
+  ifeq (${PPC_ISA}, P9)
     PLATFORM = ppc64_P9
     CCFLAGS += -D__POWER8 -D__POWER9
     CXXFLAGS += -D__POWER8 -D__POWER9
+  else
+  ifeq (${PPC_ISA}, P8)
+    PLATFORM = ppc64_P8
+    CCFLAGS += -D__POWER8
+    CXXFLAGS += -D__POWER8
+  else
+    PLATFORM = ppc64_P7
   endif
   endif
 else
