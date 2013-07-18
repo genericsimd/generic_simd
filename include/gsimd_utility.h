@@ -778,11 +778,21 @@ static FORCEINLINE VTYPE NAME(STYPE s, VTYPE a) {                   \
 /**
  * @brief vector multiply and add operation. return a * b + c.
  */ \
-FORCEINLINE VTYPE svec_madd(VTYPE a, VTYPE b, VTYPE c) { return a*b+c;} \
+FORCEINLINE VTYPE svec_madd(VTYPE a, VTYPE b, VTYPE c) { \
+  VTYPE res; \
+  for(int i = 0; i < LANES; ++i) { res[i] = a[i]*b[i]+c[i]; } \
+  return res; \
+} \
 /**
  * @brief vector multiply and add operation. return a * b - c.
  */ \
-FORCEINLINE VTYPE svec_msub(VTYPE a, VTYPE b, VTYPE c) { return a*b-c;}
+FORCEINLINE VTYPE svec_msub(VTYPE a, VTYPE b, VTYPE c) { \
+  VTYPE res; \
+  for(int i = 0; i < LANES; ++i) { res[i] = a[i]*b[i]-c[i]; } \
+  return res; \
+}
+
+
 
 //  5. Max/Min
 

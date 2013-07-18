@@ -4,11 +4,12 @@
 #include <string.h>
 #include <assert.h>
 #include <power_vsx4.h>
+//#include <generic4.h>
 #include <timing.h>
 #include <stdio.h>
 
 using namespace vsx;
-
+//using namespace generic;
 
 /*
   g++ -I../../include mandelbrot.cc -mvsx -flax-vector-conversions -Wno-int-to-pointer-cast -O3 -o mandelbrot
@@ -347,7 +348,7 @@ int main() {
     }
     printf("[mandelbrot intrinsics simd]:\t\t[%.4f] seconds\n", minIntrinsics);
     writePPM(buf, width, height, "mandelbrot-intrinsics.ppm");
-    printf("[mandelbrot intrinsics speedup]:\t\t%.2fx from INTRINSICS\n", minSerial/minIntrinsics);
+    printf("[mandelbrot intrinsics speedup]:\t%.2fx from INTRINSICS\n", minSerial/minIntrinsics);
 #endif
     return 0;
 }

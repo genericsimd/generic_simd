@@ -1,0 +1,18 @@
+/**
+
+@page issues Limitations and Issues
+
+@section impl_limit Implementation Limitations
+
+@subsection fma_issue Multiply-add Multiply-sub's precision
+
+The vsx's vsx::svec_madd(), vsx::svec_msub() are mapped into madd and msub intrinsics directly,
+while generic::svec_madd, generic::svec_msub() is implemented by scalar code. 
+There are rare cases that fused operation by one hardware instruction provides higher precision in float operations.
+
+So it's possible the vsx and generic provide slightly different results.
+
+@section bugs Known Bugs
+
+
+*/

@@ -4,7 +4,7 @@ GSIMD_DOC_ROOT=/gsa/yktgsa/projects/g/generic_simd/docs/
 default: html
 
 
-html: intrinsics.doxyfile ../include/power_vsx4.h mainpage.txt
+html: intrinsics.doxyfile ../include/power_vsx4.h mainpage.txt developer_guide.txt history.txt issues.txt
 	doxygen $<
 
 publish: html

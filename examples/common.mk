@@ -49,7 +49,13 @@ ${EXAMPLE}: ${EXAMPLE}.cpp
 	
 run: ${EXAMPLE}
 	./$< ${RUN_ARGS}
+	
+${EXAMPLE}_tune: ${EXAMPLE}_tune.cpp
+	${CXX} ${CXXFLAGS} $< -o $@
+
+tune: ${EXAMPLE}_tune
+	./$< ${RUN_ARGS}
 
 clean:
-	rm -f ${EXAMPLE}
+	rm -f ${EXAMPLE} ${EXAMPLE}_tune
 	

@@ -1021,8 +1021,10 @@ static FORCEINLINE void svec_store(svec4_u64 *p, svec4_u64 v) {
  * @return a new vector loaded from p
  */
 static FORCEINLINE svec4_d svec_load(const svec4_d *p) {
-  __vector double v0 = *(((__vector double *)p)+0);
-  __vector double v1 = *(((__vector double *)p)+1);
+//  __vector double v0 = *(((__vector double *)p)+0);
+//  __vector double v1 = *(((__vector double *)p)+1);
+  __vector double v0 = vec_vsx_ld(0, ((__vector double *)p));
+  __vector double v1 = vec_vsx_ld(0, ((__vector double *)p)+1);
   return svec4_d(v0,v1);
 }
 
@@ -1033,8 +1035,10 @@ static FORCEINLINE svec4_d svec_load(const svec4_d *p) {
  * @param[in] v vector to be stored
  */
 static FORCEINLINE void svec_store(svec4_d *p, svec4_d v) {
-  *(((__vector double *)p)+0) = v.v[0];
-  *(((__vector double *)p)+1) = v.v[1];
+//  *(((__vector double *)p)+0) = v.v[0];
+//  *(((__vector double *)p)+1) = v.v[1];
+  vec_vsx_st(v.v[0], 0, (__vector double *)p);
+  vec_vsx_st(v.v[1], 0, (__vector double *)p + 1);
 }
 
 // 3. Select

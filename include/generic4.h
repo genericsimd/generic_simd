@@ -227,9 +227,8 @@ struct svec4_i16 {
      */
     FORCEINLINE svec4_i16() { }
     /**
-     * @brief For internal use only.
-     * @param vv a __vector signed short.
-     * @return a signed short vector, whose value is from the vv.
+     * @brief Constructor.
+     * @return a vector of 4 signed short: {a,b,c,d}.
      */
     FORCEINLINE svec4_i16(int16_t a, int16_t b, int16_t c, int16_t d) {
       v[0] = a; v[1] = b; v[2] = c; v[3] = d;
