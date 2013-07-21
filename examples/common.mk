@@ -1,3 +1,4 @@
+.PONY: %.perfexe %.perfcollect %.perfbr %.perhw
 
 
 ifeq (${BASE_DIR},)
@@ -55,6 +56,54 @@ ${EXAMPLE}_tune: ${EXAMPLE}_tune.cpp
 
 tune: ${EXAMPLE}_tune
 	./$< ${RUN_ARGS}
+
+TMP=__perf.tmp
+
+#special for collecting all perf data
+%.perf: %.perfbr %.perficache %.perfdcache %.perfllc
+	@echo "end"
+	@rm -f ${TMP}
+
+
+
+
+%.perfhw: CXXFLAGS+= -DPERF_HW
+%.perfhw: %.cpp
+	${CXX} ${CXXFLAGS} $< -o $@
+	./$@ | tee ${TMP}
+	@grep "HPM Event" ${TMP} | tail -1
+	@grep "HPM Values" ${TMP}
+
+
+%.perfbr: CXXFLAGS+= -DPERF_BR
+%.perfbr: %.cpp
+	${CXX} ${CXXFLAGS} $< -o $@
+	./$@ | tee ${TMP}
+	@grep "HPM Event" ${TMP} | tail -1
+	@grep "HPM Values" ${TMP}
+	
+%.perficache: CXXFLAGS+= -DPERF_ICACHE
+%.perficache: %.cpp
+	${CXX} ${CXXFLAGS} $< -o $@
+	./$@ | tee ${TMP}
+	@grep "HPM Event" ${TMP} | tail -1
+	@grep "HPM Values" ${TMP}
+
+
+%.perfdcache: CXXFLAGS+= -DPERF_DCACHE
+%.perfdcache: %.cpp
+	${CXX} ${CXXFLAGS} $< -o $@
+	./$@ | tee ${TMP}
+	@grep "HPM Event" ${TMP} | tail -1
+	@grep "HPM Values" ${TMP}
+
+%.perfllc: CXXFLAGS+= -DPERF_LLC
+%.perfllc: %.cpp
+	${CXX} ${CXXFLAGS} $< -o $@
+	./$@ | tee ${TMP}
+	@grep "HPM Event" ${TMP} | tail -1
+	@grep "HPM Values" ${TMP}
+
 
 clean:
 	rm -f ${EXAMPLE} ${EXAMPLE}_tune
