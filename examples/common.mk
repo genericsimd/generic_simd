@@ -38,6 +38,8 @@ ifeq ($(firstword $(filter ppc64,$(MACHINE))),ppc64)
   endif
 else
   PLATFORM=x86-64
+  CCFLAGS += -msse4.2
+  CXXFLAGS += -msse4.2
 endif
 
 

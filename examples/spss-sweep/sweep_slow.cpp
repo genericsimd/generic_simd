@@ -267,6 +267,8 @@ void sweep(double *fSym) {
   }
 }
 
+const svec4_i32 base_off(0,1,2,3);
+
 //generic simd 4 based approach
 void sweep_simd(double *fSym) {
   int p, i, j;
@@ -333,8 +335,9 @@ void sweep_simd(double *fSym) {
     }
     i++; //skip the p
     for (; i < fNRows - 3; i += 4) {
-      svec4_d vec_Aip = svec4_d::gather_base_steps(fSym+addr(i,p), fNRows);
-      (absBpp * vec_Aip).scatter_base_steps(fSym+addr(i,p), fNRows);
+      svec4_i32 off_ip = fNRows * (i + base_off) + p;
+      svec4_d vec_Aip = svec4_d::gather_base_offsets(fSym, sizeof(double), off_ip, svec4_i1(1));
+      (absBpp * vec_Aip).scatter_base_offsets(fSym, sizeof(double), off_ip, svec4_i1(1));
 
       vec_Aip = (Bpp / absBpp) * vec_Aip; //if (Bpp < 0.0) Api = -Api;
 
@@ -361,16 +364,18 @@ void sweep_simd(double *fSym) {
       //part 2, j < p rest, always vec_i4
       for(; j < p; j++) {
         double Apj = fSym[ addr(p,j)];
-        svec4_d vec_Aij = svec4_d::gather_base_steps(fSym+addr(i,j), fNRows);
+        svec4_i32 off_ij = fNRows * (i + base_off) + j;
+        svec4_d vec_Aij = svec4_d::gather_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
         vec_Aij = vec_Aij + vec_Aip * Apj;
-        vec_Aij.scatter_base_steps(fSym+addr(i,j), fNRows);
+        vec_Aij.scatter_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
       }
 
       j++;
 
       //part 1, j < i with step 4
       for(; j < i; j+=4) {
-        svec4_d vec_Apj = svec4_d::gather_base_steps(fSym+addr(j,p), fNRows);
+        svec4_i32 off_jp = fNRows * (j + base_off) + p;
+        svec4_d vec_Apj = svec4_d::gather_base_offsets(fSym, sizeof(double), off_jp, svec4_i1(1));
 
          //accumulate
         svec4_d vec_Ai0j = svec4_d::load((svec4_d*)(&fSym[addr(i,j)]));
@@ -389,12 +394,14 @@ void sweep_simd(double *fSym) {
         vec_Ai3j.store((svec4_d*)(&fSym[addr(i+3,j)]));
       }
 
+
       //part 2, j <= i, rest, always vec_i4, i from i to i+3
       for(; j <=i; j++) {
         double Ajp = fSym[ addr(j,p)];
-        svec4_d vec_Aij = svec4_d::gather_base_steps(fSym+addr(i,j), fNRows);
+        svec4_i32 off_ij = fNRows * (i + base_off) + j;
+        svec4_d vec_Aij = svec4_d::gather_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
         vec_Aij = vec_Aij + vec_Aip * Ajp;
-        vec_Aij.scatter_base_steps(fSym+addr(i,j), fNRows);
+        vec_Aij.scatter_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
       }
       //now the rest
       double Ajp = fSym[ addr(j,p)];
@@ -511,8 +518,9 @@ void sweep_simd2(double *fSym) {
     }
     i++;
     for (; i < fNRows - 3; i += 4) {
-      svec4_d vec_Aip = svec4_d::gather_base_steps(fSym+addr(i,p), fNRows);
-      (absBpp * vec_Aip).scatter_base_steps(fSym+addr(i,p), fNRows);
+      svec4_i32 off_ip = fNRows * (i + base_off) + p;
+      svec4_d vec_Aip = svec4_d::gather_base_offsets(fSym, sizeof(double), off_ip, svec4_i1(1));
+      (absBpp * vec_Aip).scatter_base_offsets(fSym, sizeof(double), off_ip, svec4_i1(1));
       vec_Aip = (Bpp / absBpp) * vec_Aip;
 
       svec4_d vec_Aip0_ = vec_Aip.broadcast(0);
@@ -548,14 +556,18 @@ void sweep_simd2(double *fSym) {
         }
         for (; j < p; j++) {
           Apj = fSym[ addr(p,j)];
-          svec4_d vec_Aij = svec4_d::gather_base_steps(fSym+addr(i,j), fNRows);
+          svec4_i32 off_ij = fNRows * (i + base_off) + j;
+          svec4_d vec_Aij = svec4_d::gather_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
           vec_Aij = vec_Aij + vec_Aip * Apj;
-          vec_Aij.scatter_base_steps(fSym+addr(i,j), fNRows);
+          vec_Aij.scatter_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
         }
         // Skip the pivot column
         j++;
         for (; j < ((i - 1) / 2) * 2; j += 4) {
-          svec4_d vec_Apj = svec4_d::gather_base_steps(fSym+addr(j,p), fNRows);
+
+
+          svec4_i32 off_jp = fNRows * (j + base_off) + p;
+          svec4_d vec_Apj = svec4_d::gather_base_offsets(fSym, sizeof(double), off_jp, svec4_i1(1));
 
            //accumulate
           svec4_d vec_Ai0j = svec4_d::load((svec4_d*)&fSym[addr(i,j)]);
@@ -574,9 +586,10 @@ void sweep_simd2(double *fSym) {
         }
         for (; j <= i; j++) {
           Apj = fSym[ addr(j,p)];
-          svec4_d vec_Aij = svec4_d::gather_base_steps(fSym+addr(i,j), fNRows);
+          svec4_i32 off_ij = fNRows * (i + base_off) + j;
+          svec4_d vec_Aij = svec4_d::gather_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
           vec_Aij = vec_Aij + vec_Aip * Apj;
-          vec_Aij.scatter_base_steps(fSym+addr(i,j), fNRows);
+          vec_Aij.scatter_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
         }
       } else { // p is EVEN
         j = 0;
@@ -602,20 +615,23 @@ void sweep_simd2(double *fSym) {
         //use scalar to replace the missing part
         for(; j < p; j++) {
           Apj = fSym[ addr(p,j)];
-          svec4_d vec_Aij = svec4_d::gather_base_steps(fSym+addr(i,j), fNRows);
+          svec4_i32 off_ij = fNRows * (i + base_off) + j;
+          svec4_d vec_Aij = svec4_d::gather_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
           vec_Aij = vec_Aij + vec_Aip * Apj;
-          vec_Aij.scatter_base_steps(fSym+addr(i,j), fNRows);
+          vec_Aij.scatter_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
         }
         // Skip the pivot column
         j++;
         for (; j <= i && j == (p + 1); j++) {
           Apj = fSym[ addr(j,p)];
-          svec4_d vec_Aij = svec4_d::gather_base_steps(fSym+addr(i,j), fNRows);
+          svec4_i32 off_ij = fNRows * (i + base_off) + j;
+          svec4_d vec_Aij = svec4_d::gather_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
           vec_Aij = vec_Aij + vec_Aip * Apj;
-          vec_Aij.scatter_base_steps(fSym+addr(i,j), fNRows);
+          vec_Aij.scatter_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
         }
         for (; j < ((i - 1) / 2) * 2; j += 4) {
-          svec4_d vec_Apj = svec4_d::gather_base_steps(fSym+addr(j,p), fNRows);
+          svec4_i32 off_jp = fNRows * (j + base_off) + p;
+          svec4_d vec_Apj = svec4_d::gather_base_offsets(fSym, sizeof(double), off_jp, svec4_i1(1));
 
            //accumulate
           svec4_d vec_Ai0j = svec4_d::load((svec4_d*)&fSym[addr(i,j)]);
@@ -635,9 +651,10 @@ void sweep_simd2(double *fSym) {
         }
         for (; j <= i; j++) {
           Apj = fSym[ addr(p,j)];
-          svec4_d vec_Aij = svec4_d::gather_base_steps(fSym+addr(i,j), fNRows);
+          svec4_i32 off_ij = fNRows * (i + base_off) + j;
+          svec4_d vec_Aij = svec4_d::gather_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
           vec_Aij = vec_Aij + vec_Aip * Apj;
-          vec_Aij.scatter_base_steps(fSym+addr(i,j), fNRows);
+          vec_Aij.scatter_base_offsets(fSym, sizeof(double), off_ij, svec4_i1(1));
         }
       }
       Ipj = j * fNRows + p;
@@ -691,7 +708,6 @@ void sweep_simd2(double *fSym) {
     }
   }
 }
-
 
 #ifdef __ALTIVEC__
 //original intrinsics based approach
@@ -1200,7 +1216,7 @@ int compareMatrix(double *mat, double *tri, int size)
   return 0;
 }
 
-#define NUM_ITERATIONS 1
+#define NUM_ITERATIONS 10
 
 int main(int argc, char *argv[])
 {
@@ -1229,7 +1245,7 @@ int main(int argc, char *argv[])
   double org_t = get_elapsed_seconds();
   printf("Tri-Org Version Time = %f seconds\n", org_t);
   
-#ifdef __ALTIVEC__
+#if 0 //def __ALTIVEC__
   //run tri simd
   initTriMatrix(matrix2, TRI_COUNT);
   reset_and_start_stimer();
@@ -1297,11 +1313,11 @@ int main(int argc, char *argv[])
   }
   double unrolled_simd_t = get_elapsed_seconds();
   printf("Unrolled SIMD svec4 Version Time = %f seconds\n", unrolled_simd_t);
-  if (compareMatrix(matrix2, matrix1, MATRIX_SIZE)) {
-    printf("PASSED!\n");
-  } else {
-    printf("FAILED!\n");
-  }
+//  if (compareMatrix(matrix2, matrix1, MATRIX_SIZE)) {
+//    printf("PASSED!\n");
+//  } else {
+//    printf("FAILED!\n");
+//  }
 #endif
 
   return 0;

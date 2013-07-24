@@ -15,18 +15,27 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include <power_vsx4.h>
 #include <timing.h>
-
-
-
-
+#ifdef __ALTIVEC__
+#include <power_vsx4.h>
 using namespace vsx;
+#else
+#ifdef __SSE4_2__
+#include <sse4.h>
+using namespace sse;
+#else
+#include <generic4.h>
+using namespace generic;
+#endif //__SSE4_2__
+#endif //__ALTIVEC__
 
 
-#define N (1048576)
+//#define N (1048576)
+#define N (1000000)
 
-void serial_rgb2gray(float* ra, float* ga, float* ba, float* gray) {
+void
+__attribute__((optimize("no-tree-vectorize")))
+serial_rgb2gray(float* ra, float* ga, float* ba, float* gray) {
     for(int i = 0; i < N; i++) {
         gray[i] = 0.3f * ra[i] + 0.59f * ga[i] + 0.11f * ba[i];
     }
@@ -54,7 +63,7 @@ void svec4_rgb2gray_ptr(float* ra, float* ga, float* ba, float* gray ) {
     }
 }
 
-
+//__attribute__((noinline,optimize("unroll-loops")))
 void svec4_rgb2gray_fma(float* ra, float* ga, float* ba, float* gray) {
     for(int i = 0; i < N; i+=4) {
         svec4_f a = svec4_f::load((svec4_f*)(ra+i));
@@ -67,16 +76,18 @@ void svec4_rgb2gray_fma(float* ra, float* ga, float* ba, float* gray) {
     }
 }
 
+#ifdef __ALTIVEC__
 void intrinsics_rgb2gray(float* ra, float* ga, float* ba, float* gray ) {
 
     for(int i = 0; i < N; i+=4) {
-        __vector float a = vec_ld(i, ra);
-        __vector float b = vec_ld(i, ga);
-        __vector float c = vec_ld(i, ba);
+        __vector float a = vec_vsx_ld(0, ra+i);
+        __vector float b = vec_vsx_ld(0, ga+i);
+        __vector float c = vec_vsx_ld(0, ba+i);
         __vector float out = vec_splats(0.3f) * a  + vec_splats(0.59f) * b  + vec_splats(0.11f) * c ;
-        vec_st(out, i, gray);
+        vec_vsx_st(out, 0, gray+i);
     }
 }
+#endif
 
 
 float r[N] POST_ALIGN(16);
@@ -84,7 +95,7 @@ float g[N] POST_ALIGN(16);
 float b[N] POST_ALIGN(16);
 float gray[N] POST_ALIGN(16);
 
-#define ITERATIONS 100
+#define ITERATIONS 1000
 int main (int argc, char* argv[])
 {
     for(int i = 0; i < N; i++) {
@@ -114,11 +125,12 @@ int main (int argc, char* argv[])
     double dt4 = get_elapsed_seconds();
     std::cout<< "svec4 fma version: " << dt4 << " seconds" << std::endl;
 
+#ifdef __ALTIVEC__
     reset_and_start_stimer();
     for(int i = 0; i < ITERATIONS; i++) { intrinsics_rgb2gray(r, g, b, gray);}
     double dt5 = get_elapsed_seconds();
     std::cout<< "Intrinsics version: " << dt5 << " seconds" << std::endl;
-
+#endif
     return 0;
 }
 

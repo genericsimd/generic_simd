@@ -20,9 +20,12 @@ vsx4: test_lanes4.cpp libgtest.a ../include/power_vsx4.h
 generic4: test_lanes4.cpp libgtest.a ../include/generic4.h
 	g++ -I${GTEST_DIR}/include -l pthread ${CXXFLAGS} $^ -o $@
 
+sse4: test_lanes4.cpp libgtest.a ../include/sse4.h
+	g++ -I${GTEST_DIR}/include -l pthread -msse4.2 -DSSE ${CXXFLAGS} $^ -o $@
 
-test: vsx4 generic4
+test: vsx4 generic4 sse4
 	./vsx4
+	./sse4
 	./generic4
 
 test_svec: test_svec.cpp libgtest.a ../include/svec-vsx.h

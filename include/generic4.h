@@ -341,7 +341,7 @@ struct svec4_u32 {
      * @brief Constructor.
      * @return a vector of 4 unsigned int: {a,b,c,d}.
      */
-    FORCEINLINE svec4_u32(int a, int b, int c, int d) {
+    FORCEINLINE svec4_u32(uint32_t a, uint32_t b, uint32_t c, uint32_t d) {
       v[0] = a; v[1] = b; v[2] = c; v[3] = d;
     }
     /**
@@ -723,6 +723,29 @@ GATHER_BASE_OFFSETS(svec4_f, float, svec4_i64, svec4_i1);
 GATHER_BASE_OFFSETS(svec4_d, double, svec4_i32, svec4_i1);
 GATHER_BASE_OFFSETS(svec4_d, double, svec4_i64, svec4_i1);
 
+GATHER_BASE_STEPS_L4(svec4_i8, int8_t, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_i8, int8_t, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_u8, uint8_t, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_u8, uint8_t, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_i16, int16_t, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_i16, int16_t, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_u16, uint16_t, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_u16, uint16_t, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_i32, int32_t, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_i32, int32_t, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_u32, uint32_t, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_u32, uint32_t, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_i64, int64_t, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_i64, int64_t, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_u64, uint64_t, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_u64, uint64_t, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_f, float, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_f, float, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_d, double, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_d, double, int64_t, svec4_i1);
+
+
+
 SCATTER_GENERAL(svec4_i8, int8_t, svec4_u32, svec4_i1);
 SCATTER_GENERAL(svec4_i8, int8_t, svec4_u64, svec4_i1);
 SCATTER_GENERAL(svec4_u8, uint8_t, svec4_u32, svec4_i1);
@@ -764,6 +787,27 @@ SCATTER_BASE_OFFSETS(svec4_f, float, svec4_i32, svec4_i1);
 SCATTER_BASE_OFFSETS(svec4_f, float, svec4_i64, svec4_i1);
 SCATTER_BASE_OFFSETS(svec4_d, double, svec4_i32, svec4_i1);
 SCATTER_BASE_OFFSETS(svec4_d, double, svec4_i64, svec4_i1);
+
+SCATTER_BASE_STEPS_L4(svec4_i8, int8_t, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_i8, int8_t, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_u8, uint8_t, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_u8, uint8_t, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_i16, int16_t, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_i16, int16_t, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_u16, uint16_t, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_u16, uint16_t, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_i32, int32_t, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_i32, int32_t, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_u32, uint32_t, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_u32, uint32_t, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_i64, int64_t, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_i64, int64_t, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_u64, uint64_t, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_u64, uint64_t, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_f, float, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_f, float, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_d, double, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_d, double, int64_t, svec4_i1);
 
 #endif //DOXYGEN_SHOULD_SKIP_THIS
 

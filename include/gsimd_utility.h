@@ -314,6 +314,10 @@ friend std::ostream& operator<< (std::ostream &out, const VTYPE &v) { \
   static FORCEINLINE VTYPE gather_base_offsets(STYPE* b, uint32_t scale, VTYPEI64 offsets, MTYPE mask);\
   FORCEINLINE void scatter_base_offsets(STYPE* b, uint32_t scale, VTYPEI32 offsets, MTYPE mask); \
   FORCEINLINE void scatter_base_offsets(STYPE* b, uint32_t scale, VTYPEI64 offsets, MTYPE mask); \
+  static FORCEINLINE VTYPE gather_base_steps(STYPE* b, int32_t step);\
+  static FORCEINLINE VTYPE gather_base_steps(STYPE* b, int64_t step);\
+  FORCEINLINE void scatter_base_steps(STYPE* b, int32_t step); \
+  FORCEINLINE void scatter_base_steps(STYPE* b, int64_t step); \
   FORCEINLINE VTYPE broadcast(int32_t index); \
   FORCEINLINE VTYPE rotate(int32_t index); \
   FORCEINLINE VTYPE shuffle(VTYPEI32 index);
@@ -527,10 +531,10 @@ template<typename RetVec, typename RetScalar, typename PTRS, typename MSK>
 static FORCEINLINE RetVec
 lGatherGeneral(PTRS ptrs, MSK mask) {
   RetScalar r[4];
-  if(mask[0]) { r[0] = *((RetScalar*)ptrs[0]);}
-  if(mask[1]) { r[1] = *((RetScalar*)ptrs[1]);}
-  if(mask[2]) { r[2] = *((RetScalar*)ptrs[2]);}
-  if(mask[3]) { r[3] = *((RetScalar*)ptrs[3]);}
+  if(svec_extract(mask,0)) { r[0] = *((RetScalar*)svec_extract(ptrs, 0));}
+  if(svec_extract(mask,1)) { r[1] = *((RetScalar*)svec_extract(ptrs, 1));}
+  if(svec_extract(mask,2)) { r[2] = *((RetScalar*)svec_extract(ptrs, 2));}
+  if(svec_extract(mask,3)) { r[3] = *((RetScalar*)svec_extract(ptrs, 3));}
   INC_STATS_NAME(STATS_GATHER_SLOW,1, "Gather general");
   return RetVec(r[0],r[1],r[2],r[3]);
 }
@@ -575,13 +579,13 @@ static FORCEINLINE RetVec
 lGatherBaseOffsets(unsigned char *p, uint32_t scale,
                      OFF offsets, MSK mask) {
   RetScalar r[4];
-  OFF vzero(0,0,0,0);
+  OFF vzero(0);
 
   offsets = svec_select(mask.v, offsets, vzero);
-  r[0] = *(RetScalar *)(p + scale * offsets[0]);
-  r[1] = *(RetScalar *)(p + scale * offsets[1]);
-  r[2] = *(RetScalar *)(p + scale * offsets[2]);
-  r[3] = *(RetScalar *)(p + scale * offsets[3]);
+  r[0] = *(RetScalar *)(p + scale * svec_extract(offsets, 0));
+  r[1] = *(RetScalar *)(p + scale * svec_extract(offsets, 1));
+  r[2] = *(RetScalar *)(p + scale * svec_extract(offsets, 2));
+  r[3] = *(RetScalar *)(p + scale * svec_extract(offsets, 3));
   INC_STATS_NAME(STATS_GATHER_SLOW,1, "Gather offset with select");
   return RetVec(r[0], r[1], r[2], r[3]);
 }
@@ -602,6 +606,28 @@ FORCEINLINE VTYPE svec_gather_base_offsets(STYPE* b, uint32_t scale, OTYPE offse
   return lGatherBaseOffsets<VTYPE, STYPE, OTYPE, MTYPE>((uint8_t*)b, scale, offsets, mask);                                \
 }
 
+/**
+ * @brief macros for fast impl of gather base step
+ */
+#define GATHER_BASE_STEPS_L4(VTYPE, STYPE, OTYPE, MTYPE)         \
+FORCEINLINE VTYPE svec_gather_base_steps(STYPE* b, OTYPE step) {   \
+  STYPE v0 = *b; \
+  b += step; STYPE v1 = *b; \
+  b += step; STYPE v2 = *b; \
+  b += step; STYPE v3 = *b; \
+  return VTYPE(v0, v1, v2, v3); \
+}
+
+#define SCATTER_BASE_STEPS_L4(VTYPE, STYPE, OTYPE, MTYPE)         \
+FORCEINLINE void svec_scatter_base_steps(STYPE* b, OTYPE step, VTYPE val) {   \
+  *b = svec_extract(val, 0); \
+  b += step; *b = svec_extract(val, 1); \
+  b += step; *b = svec_extract(val, 2); \
+  b += step; *b = svec_extract(val, 3); \
+}
+
+
+
 #define SCATTER_GENERAL(VTYPE, STYPE, PTRTYPE, MTYPE)            \
 static FORCEINLINE void svec_scatter(PTRTYPE ptrs, VTYPE val, MTYPE mask) { \
     for(int i = 0; i < LANES; ++i) { if(mask[i]){ *((STYPE*)ptrs[i]) = val[i];} } \
@@ -615,10 +641,10 @@ static FORCEINLINE void svec_scatter(PTRTYPE ptrs, VTYPE val, MTYPE mask) { \
 template<typename STYPE, typename PTRTYPE, typename VTYPE, typename MTYPE>
 static FORCEINLINE void lScatterGeneral(PTRTYPE ptrs,
                         VTYPE val, MTYPE mask) {
-  if(mask[0]) { *((STYPE*)ptrs[0]) = val[0]; }
-  if(mask[1]) { *((STYPE*)ptrs[1]) = val[1]; }
-  if(mask[2]) { *((STYPE*)ptrs[2]) = val[2]; }
-  if(mask[3]) { *((STYPE*)ptrs[3]) = val[3]; }
+  if(svec_extract(mask,0)) { *((STYPE*)svec_extract(ptrs, 0)) = val[0]; }
+  if(svec_extract(mask,1)) { *((STYPE*)svec_extract(ptrs, 1)) = val[1]; }
+  if(svec_extract(mask,2)) { *((STYPE*)svec_extract(ptrs, 2)) = val[2]; }
+  if(svec_extract(mask,3)) { *((STYPE*)svec_extract(ptrs, 3)) = val[3]; }
   INC_STATS_NAME(STATS_SCATTER_SLOW,1, "scatter general");
 }
 
@@ -645,10 +671,10 @@ static FORCEINLINE void lScatterBaseOffsets(unsigned char *b,
                         uint32_t scale, OTYPE offsets,
                         VTYPE val, MTYPE mask) {
   unsigned char *base = b;
-  if(mask[0]) { *(STYPE*)(b + scale * offsets[0]) = val[0]; }
-  if(mask[1]) { *(STYPE*)(b + scale * offsets[1]) = val[1]; }
-  if(mask[2]) { *(STYPE*)(b + scale * offsets[2]) = val[2]; }
-  if(mask[3]) { *(STYPE*)(b + scale * offsets[3]) = val[3]; }
+  if(svec_extract(mask,0)) { *(STYPE*)(b + scale * svec_extract(offsets, 0)) = val[0]; }
+  if(svec_extract(mask,1)) { *(STYPE*)(b + scale * svec_extract(offsets, 1)) = val[1]; }
+  if(svec_extract(mask,2)) { *(STYPE*)(b + scale * svec_extract(offsets, 2)) = val[2]; }
+  if(svec_extract(mask,3)) { *(STYPE*)(b + scale * svec_extract(offsets, 3)) = val[3]; }
   INC_STATS_NAME(STATS_SCATTER_SLOW,1, "scatter offset");
 }
 
@@ -696,7 +722,10 @@ static FORCEINLINE TYPE NAME(TYPE v) {      \
 #define UNARY_OP_L4(TYPE, NAME, OP)            \
 static FORCEINLINE TYPE NAME(TYPE v) {      \
   INC_STATS_NAME(STATS_UNARY_SLOW, 1, #OP);           \
-  return TYPE(OP(v[0]), OP(v[1]), OP(v[2]), OP(v[3]));\
+  return TYPE(OP(svec_extract(v, 0)),\
+              OP(svec_extract(v, 1)),\
+              OP(svec_extract(v, 2)),\
+              OP(svec_extract(v, 3)));\
 }
 
 /**
@@ -732,14 +761,20 @@ static FORCEINLINE TYPE NAME(TYPE a, TYPE b) {                   \
 #define BINARY_OP_L4(TYPE, NAME, OP)                \
 static FORCEINLINE TYPE NAME(TYPE a, TYPE b) {                   \
   INC_STATS_NAME(STATS_BINARY_SLOW, 1, #NAME);               \
-  TYPE ret(a[0] OP b[0], a[1] OP b[1], a[2] OP b[2], a[3] OP b[3]); \
+  TYPE ret(svec_extract(a, 0) OP svec_extract(b, 0),\
+           svec_extract(a, 1) OP svec_extract(b, 1),\
+           svec_extract(a, 2) OP svec_extract(b, 2),\
+           svec_extract(a, 3) OP svec_extract(b, 3));\
   return ret;                            \
 }
 
 #define BINARY_OP_FUNC_L4(TYPE, NAME, FUNC)                \
 static FORCEINLINE TYPE NAME(TYPE a, TYPE b) {                   \
   INC_STATS_NAME(STATS_BINARY_SLOW, 1, #NAME);               \
-  TYPE ret(FUNC(a[0], b[0]), FUNC(a[1], b[1]), FUNC(a[2], b[2]), FUNC(a[3], b[3])); \
+  TYPE ret(FUNC(svec_extract(a, 0), svec_extract(b, 0)),\
+           FUNC(svec_extract(a, 1), svec_extract(b, 1)),\
+           FUNC(svec_extract(a, 2), svec_extract(b, 2)),\
+           FUNC(svec_extract(a, 3), svec_extract(b, 3))); \
   return ret;                            \
 }
 
@@ -749,7 +784,10 @@ static FORCEINLINE TYPE NAME(TYPE a, TYPE b) {                   \
 #define BINARY_OP_SCALAR_L4(VTYPE, STYPE, NAME, OP)                \
 static FORCEINLINE VTYPE NAME(VTYPE a, STYPE s) {                   \
   INC_STATS_NAME(STATS_BINARY_SLOW, 1, #NAME);               \
-  VTYPE ret(a[0] OP s, a[1] OP s, a[2] OP s, a[3] OP s); \
+  VTYPE ret(svec_extract(a, 0) OP s,\
+            svec_extract(a, 1) OP s,\
+            svec_extract(a, 2) OP s,\
+            svec_extract(a, 3) OP s);\
   return ret;                            \
 }
 
@@ -790,6 +828,28 @@ FORCEINLINE VTYPE svec_msub(VTYPE a, VTYPE b, VTYPE c) { \
   VTYPE res; \
   for(int i = 0; i < LANES; ++i) { res[i] = a[i]*b[i]-c[i]; } \
   return res; \
+}
+
+#define TERNERY_L4(VTYPE) \
+/**
+ * @brief vector multiply and add operation. return a * b + c.
+ */ \
+FORCEINLINE VTYPE svec_madd(VTYPE a, VTYPE b, VTYPE c) { \
+  VTYPE ret(svec_extract(a, 0) * svec_extract(b, 0) + svec_extract(c, 0),\
+            svec_extract(a, 1) * svec_extract(b, 1) + svec_extract(c, 1),\
+            svec_extract(a, 2) * svec_extract(b, 2) + svec_extract(c, 2),\
+            svec_extract(a, 3) * svec_extract(b, 3) + svec_extract(c, 3));\
+  return ret;                            \
+} \
+/**
+ * @brief vector multiply and add operation. return a * b - c.
+ */ \
+FORCEINLINE VTYPE svec_msub(VTYPE a, VTYPE b, VTYPE c) { \
+  VTYPE ret(svec_extract(a, 0) * svec_extract(b, 0) - svec_extract(c, 0),\
+            svec_extract(a, 1) * svec_extract(b, 1) - svec_extract(c, 1),\
+            svec_extract(a, 2) * svec_extract(b, 2) - svec_extract(c, 2),\
+            svec_extract(a, 3) * svec_extract(b, 3) - svec_extract(c, 3));\
+  return ret;                            \
 }
 
 
@@ -1103,28 +1163,52 @@ const FORCEINLINE STYPE  VTYPE::operator[](int index) const { \
    */\
   FORCEINLINE void VTYPE::scatter(svec4_ptr ptrs, svec4_i1 mask) { svec_scatter(ptrs, *this, mask); } \
   /*!
-     @brief Gather the elements pointed by calculating the addresses (b + scale * offsets) if the mask element is true, and return a vector.
+     @brief Gather the elements pointed by calculating the addresses ((char*)b + scale * offsets) if the mask element is true, and return a vector.
    */\
   FORCEINLINE VTYPE VTYPE::gather_base_offsets(STYPE* b, uint32_t scale, svec4_i32 offsets, svec4_i1 mask) { \
     return svec_gather_base_offsets(b, scale, offsets, mask); \
   } \
   /*!
-     @brief Gather the elements pointed by calculating the addresses (b + scale * offsets) if the mask element is true, and return a vector.
+     @brief Gather the elements pointed by calculating the addresses ((char*)b + scale * offsets) if the mask element is true, and return a vector.
    */\
   FORCEINLINE VTYPE VTYPE::gather_base_offsets(STYPE* b, uint32_t scale, svec4_i64 offsets, svec4_i1 mask) {\
       return svec_gather_base_offsets(b, scale, offsets, mask); \
   } \
   /*!
-     @brief Scatter the vector's elements to the addresses (b + scale * offsets) if the mask element is true.
+     @brief Scatter the vector's elements to the addresses ((char*)b + scale * offsets) if the mask element is true.
    */\
   FORCEINLINE void VTYPE::scatter_base_offsets(STYPE* b, uint32_t scale, svec4_i32 offsets, svec4_i1 mask) { \
       svec_scatter_base_offsets(b, scale, offsets, *this, mask); \
   } \
   /*!
-     @brief Scatter the vector's elements to the addresses (b + scale * offsets) if the mask element is true.
+     @brief Scatter the vector's elements to the addresses ((char*)b + scale * offsets) if the mask element is true.
    */\
   FORCEINLINE void VTYPE::scatter_base_offsets(STYPE* b, uint32_t scale, svec4_i64 offsets, svec4_i1 mask) {\
       svec_scatter_base_offsets(b, scale, offsets, *this, mask); \
+  } \
+  /*!
+     @brief Gather the elements pointed by (b, b+step, b+2*step, b+3*step).
+   */\
+  FORCEINLINE VTYPE VTYPE::gather_base_steps(STYPE* b, int32_t step) { \
+    return svec_gather_base_steps(b, step); \
+  } \
+  /*!
+     @brief Gather the elements pointed by (b, b+step, b+2*step, b+3*step).
+   */\
+  FORCEINLINE VTYPE VTYPE::gather_base_steps(STYPE* b, int64_t step) {\
+      return svec_gather_base_steps(b, step); \
+  } \
+  /*!
+     @brief Scatter the vector's elements to the addresses (b, b+step, b+2*step, b+3*step).
+   */\
+  FORCEINLINE void VTYPE::scatter_base_steps(STYPE* b, int32_t step) { \
+      svec_scatter_base_steps(b, step, *this); \
+  } \
+  /*!
+     @brief Scatter the vector's elements to the addresses (b, b+step, b+2*step, b+3*step).
+   */\
+  FORCEINLINE void VTYPE::scatter_base_steps(STYPE* b, int64_t step) {\
+    svec_scatter_base_steps(b, step, *this); \
   } \
   /*!
      @brief Return a new vector by setting all the elements of the new vector with this vector's index element.

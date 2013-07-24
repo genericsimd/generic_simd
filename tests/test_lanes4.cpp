@@ -15,9 +15,15 @@ using namespace vsx;
 #define EXPECT_VEC_EQ(v1, v2) EXPECT_TRUE(vec_all_eq(v1, v2))
 
 #else
+#ifdef SSE
+#include <sse4.h>
+using namespace sse;
+#else
 #include <generic4.h>
 using namespace generic;
-#endif
+#endif //SSE
+
+#endif //VSX
 
 #define EXPECT_SVEC_EQ(v1, v2) EXPECT_TRUE(((v1) == (v2)).all_true())
 #define EXPECT_SVEC_MASKED_EQ(v1, v2, mask) EXPECT_TRUE((svec_masked_equal((v1), (v2), (mask)) == mask).all_true())
@@ -241,6 +247,14 @@ TEST(svec4_i1, SubScriptSet)
     EXPECT_FALSE(v1[1]);
     EXPECT_TRUE(v1[2]);
     EXPECT_FALSE(v1[3]);
+    svec_insert(&v1, 0, 0);
+    svec_insert(&v1, 1, 1);
+    svec_insert(&v1, 2, 0);
+    svec_insert(&v1, 3, 1);
+    EXPECT_FALSE(v1[0]);
+    EXPECT_TRUE(v1[1]);
+    EXPECT_FALSE(v1[2]);
+    EXPECT_TRUE(v1[3]);
 }
 
 TEST(svec4_i8, SubScriptGet)
@@ -263,6 +277,14 @@ TEST(svec4_i8, SubScriptSet)
     EXPECT_EQ(v1[1], 0);
     EXPECT_EQ(v1[2], -50);
     EXPECT_EQ(v1[3], 1);
+    svec_insert(&v1, 0, 99);
+    svec_insert(&v1, 1, 1);
+    svec_insert(&v1, 2, -49);
+    svec_insert(&v1, 3, 0);
+    EXPECT_EQ(svec_extract(v1, 0), 99);
+    EXPECT_EQ(svec_extract(v1, 1), 1);
+    EXPECT_EQ(svec_extract(v1, 2), -49);
+    EXPECT_EQ(svec_extract(v1, 3), 0);
 }
 
 TEST(svec4_u8, SubScriptGet)
@@ -285,6 +307,14 @@ TEST(svec4_u8, SubScriptSet)
     EXPECT_EQ(v1[1], 0);
     EXPECT_EQ(v1[2], 150);
     EXPECT_EQ(v1[3], 1);
+    svec_insert(&v1, 0, 99);
+    svec_insert(&v1, 1, 1);
+    svec_insert(&v1, 2, 149);
+    svec_insert(&v1, 3, 0);
+    EXPECT_EQ(svec_extract(v1, 0), 99);
+    EXPECT_EQ(svec_extract(v1, 1), 1);
+    EXPECT_EQ(svec_extract(v1, 2), 149);
+    EXPECT_EQ(svec_extract(v1, 3), 0);
 }
 
 TEST(svec4_i16, SubScriptGet)
@@ -307,6 +337,14 @@ TEST(svec4_i16, SubScriptSet)
     EXPECT_EQ(v1[1], 0);
     EXPECT_EQ(v1[2], -50);
     EXPECT_EQ(v1[3], 1);
+    svec_insert(&v1, 0, 99);
+    svec_insert(&v1, 1, 1);
+    svec_insert(&v1, 2, -49);
+    svec_insert(&v1, 3, 0);
+    EXPECT_EQ(svec_extract(v1, 0), 99);
+    EXPECT_EQ(svec_extract(v1, 1), 1);
+    EXPECT_EQ(svec_extract(v1, 2), -49);
+    EXPECT_EQ(svec_extract(v1, 3), 0);
 }
 
 TEST(svec4_u16, SubScriptGet)
@@ -329,6 +367,14 @@ TEST(svec4_u16, SubScriptSet)
     EXPECT_EQ(v1[1], 0);
     EXPECT_EQ(v1[2], 150);
     EXPECT_EQ(v1[3], 1);
+    svec_insert(&v1, 0, 99);
+    svec_insert(&v1, 1, 1);
+    svec_insert(&v1, 2, 149);
+    svec_insert(&v1, 3, 0);
+    EXPECT_EQ(svec_extract(v1, 0), 99);
+    EXPECT_EQ(svec_extract(v1, 1), 1);
+    EXPECT_EQ(svec_extract(v1, 2), 149);
+    EXPECT_EQ(svec_extract(v1, 3), 0);
 }
 
 TEST(svec4_i32, SubScriptGet)
@@ -351,6 +397,14 @@ TEST(svec4_i32, SubScriptSet)
     EXPECT_EQ(v1[1], 0);
     EXPECT_EQ(v1[2], -50);
     EXPECT_EQ(v1[3], 1);
+    svec_insert(&v1, 0, 99);
+    svec_insert(&v1, 1, 1);
+    svec_insert(&v1, 2, -49);
+    svec_insert(&v1, 3, 0);
+    EXPECT_EQ(svec_extract(v1, 0), 99);
+    EXPECT_EQ(svec_extract(v1, 1), 1);
+    EXPECT_EQ(svec_extract(v1, 2), -49);
+    EXPECT_EQ(svec_extract(v1, 3), 0);
 }
 
 TEST(svec4_u32, SubScriptGet)
@@ -360,6 +414,14 @@ TEST(svec4_u32, SubScriptGet)
     EXPECT_EQ(v1[1], 0);
     EXPECT_EQ(v1[2], 150);
     EXPECT_EQ(v1[3], 1);
+    svec_insert(&v1, 0, 99);
+    svec_insert(&v1, 1, 1);
+    svec_insert(&v1, 2, 149);
+    svec_insert(&v1, 3, 0);
+    EXPECT_EQ(svec_extract(v1, 0), 99);
+    EXPECT_EQ(svec_extract(v1, 1), 1);
+    EXPECT_EQ(svec_extract(v1, 2), 149);
+    EXPECT_EQ(svec_extract(v1, 3), 0);
 }
 
 TEST(svec4_u32, SubScriptSet)
@@ -395,6 +457,14 @@ TEST(svec4_i64, SubScriptSet)
     EXPECT_EQ(v1[1], 0);
     EXPECT_EQ(v1[2], -50);
     EXPECT_EQ(v1[3], 1);
+    svec_insert(&v1, 0, 99);
+    svec_insert(&v1, 1, 1);
+    svec_insert(&v1, 2, -49);
+    svec_insert(&v1, 3, 0);
+    EXPECT_EQ(svec_extract(v1, 0), 99);
+    EXPECT_EQ(svec_extract(v1, 1), 1);
+    EXPECT_EQ(svec_extract(v1, 2), -49);
+    EXPECT_EQ(svec_extract(v1, 3), 0);
 }
 
 TEST(svec4_u64, SubScriptGet)
@@ -417,6 +487,14 @@ TEST(svec4_u64, SubScriptSet)
     EXPECT_EQ(v1[1], 0);
     EXPECT_EQ(v1[2], 150);
     EXPECT_EQ(v1[3], 1);
+    svec_insert(&v1, 0, 99);
+    svec_insert(&v1, 1, 1);
+    svec_insert(&v1, 2, 149);
+    svec_insert(&v1, 3, 0);
+    EXPECT_EQ(svec_extract(v1, 0), 99);
+    EXPECT_EQ(svec_extract(v1, 1), 1);
+    EXPECT_EQ(svec_extract(v1, 2), 149);
+    EXPECT_EQ(svec_extract(v1, 3), 0);
 }
 
 TEST(svec4_f, SubScriptGet)
@@ -439,6 +517,14 @@ TEST(svec4_f, SubScriptSet)
     EXPECT_EQ(v1[1], 0);
     EXPECT_EQ(v1[2], -50);
     EXPECT_EQ(v1[3], 1.5);
+    svec_insert(&v1, 0, 99);
+    svec_insert(&v1, 1, 1);
+    svec_insert(&v1, 2, -49);
+    svec_insert(&v1, 3, 0);
+    EXPECT_EQ(svec_extract(v1, 0), 99);
+    EXPECT_EQ(svec_extract(v1, 1), 1);
+    EXPECT_EQ(svec_extract(v1, 2), -49);
+    EXPECT_EQ(svec_extract(v1, 3), 0);
 }
 
 TEST(svec4_d, SubScriptGet)
@@ -461,13 +547,21 @@ TEST(svec4_d, SubScriptSet)
     EXPECT_EQ(v1[1], 0);
     EXPECT_EQ(v1[2], -50);
     EXPECT_EQ(v1[3], 1.5);
+    svec_insert(&v1, 0, 99);
+    svec_insert(&v1, 1, 1);
+    svec_insert(&v1, 2, -49);
+    svec_insert(&v1, 3, 0);
+    EXPECT_EQ(svec_extract(v1, 0), 99);
+    EXPECT_EQ(svec_extract(v1, 1), 1);
+    EXPECT_EQ(svec_extract(v1, 2), -49);
+    EXPECT_EQ(svec_extract(v1, 3), 0);
 }
 
 /**
  * Test load/store for all types
  */
 #define ALIGN_VLENGTH 16
-static char mem[8] POST_ALIGN(ALIGN_VLENGTH);
+static char mem[32] POST_ALIGN(ALIGN_VLENGTH);
 //const arrays, int/also used as unsigned
 static const int8_t cint8[] POST_ALIGN(ALIGN_VLENGTH) = { -1, 0, 1, 2, 0, 0, 0, 0 };
 static const int16_t cint16[] POST_ALIGN(ALIGN_VLENGTH) = { -1, 0, 1, 2, 0, 0, 0, 0 };
@@ -582,7 +676,7 @@ TEST(svec4_i1, select) {
     svec4_i1 mask(0, 1, 0, 1);
     svec4_i1 v0(1, 0, 1, 0);
     svec4_i1 v1(0, 1, 0, 1);
-
+    DUMP(svec_select(mask, v0, v1));
     EXPECT_SVEC_EQ(svec_select(mask, v0, v1), svec4_i1(0,0,0,0));
     EXPECT_SVEC_EQ(svec_select(~mask, v0, v1), svec4_i1(1,1,1,1));
     EXPECT_SVEC_EQ(svec_select(true, v0, v1), v0 );
@@ -784,6 +878,8 @@ TEST(svec4_i1, NeOp)
     svec4_i1 v1(1,0,1,0);
     svec4_i1 v2(1,0,1,0);
     svec4_i1 v3(0,1,0,1);
+    DUMP((v1 != v2));
+    DUMP((v1 != v3));
     EXPECT_FALSE((v1 != v2).any_true());
     EXPECT_TRUE((v1 != v3).any_true());
     EXPECT_TRUE((v1 != v3).all_true());
@@ -1102,8 +1198,8 @@ TEST(svec4_f, zero_smear_load_const)
     EXPECT_SVEC_EQ(svec4_f(-15), svec4_f(-15, -15, -15, -15));
     EXPECT_SVEC_EQ(svec4_f(-8), svec4_f(-8, -8, -8, -8));
     EXPECT_SVEC_EQ(svec4_f(100), svec4_f(100, 100, 100, 100));
-//    EXPECT_SVEC_EQ(svec4_f::load_const(cfloat), svec4_f(-1, -1, -1, -1));
-    EXPECT_SVEC_EQ(svec4_f::load_const(cfloat), svec4_f(-1, 0, 1, 2));
+    EXPECT_SVEC_EQ(svec4_f::load_const(cfloat), svec4_f(-1, -1, -1, -1));
+//    EXPECT_SVEC_EQ(svec4_f::load_const(cfloat), svec4_f(-1, 0, 1, 2));
     EXPECT_SVEC_EQ(svec4_f::load_and_splat((float*)cfloat), svec4_f(-1, -1, -1, -1));
 }
 

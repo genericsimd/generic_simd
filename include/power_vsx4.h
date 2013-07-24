@@ -444,7 +444,7 @@ struct svec4_u32 {
      * @brief Constructor.
      * @return a vector of 4 unsigned int: {a,b,c,d}.
      */
-    FORCEINLINE svec4_u32(int a, int b, int c, int d) {
+    FORCEINLINE svec4_u32(uint32_t a, uint32_t b, uint32_t c, uint32_t d) {
       __vector unsigned int t = {a,b,c,d};
         v = t;
     }
@@ -982,6 +982,16 @@ static FORCEINLINE svec4_u64 svec_load(const svec4_u64 *p) {
   __vector unsigned long long v1 = *(((__vector unsigned long long *)p)+1);
   return svec4_u64(v0,v1);
 }
+/**
+ * @brief store a vector to an address
+ * @param[in] p store address
+ * \note p does not have to be aligned
+ * @param[in] v vector to be stored
+ */
+static FORCEINLINE void svec_store(svec4_u64 *p, svec4_u64 v) {
+  *(((__vector unsigned long long *)p)+0) = v.v[0];
+  *(((__vector unsigned long long *)p)+1) = v.v[1];
+}
 
 /**
  * @brief load a new vector from a pointer
@@ -1001,17 +1011,6 @@ static FORCEINLINE svec4_f svec_load(const svec4_f *p) {
  */
 static FORCEINLINE void svec_store(svec4_f *p, svec4_f v) {
   *((__vector float*)p) = v.v;
-}
-
-/**
- * @brief store a vector to an address
- * @param[in] p store address
- * \note p does not have to be aligned
- * @param[in] v vector to be stored
- */
-static FORCEINLINE void svec_store(svec4_u64 *p, svec4_u64 v) {
-  *(((__vector unsigned long long *)p)+0) = v.v[0];
-  *(((__vector unsigned long long *)p)+1) = v.v[1];
 }
 
 /**
@@ -1886,6 +1885,41 @@ static FORCEINLINE void lScatter64_32(PTRTYPE ptrs,
 }
 #endif
 
+GATHER_BASE_STEPS_L4(svec4_i8, int8_t, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_i8, int8_t, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_u8, uint8_t, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_u8, uint8_t, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_i16, int16_t, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_i16, int16_t, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_u16, uint16_t, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_u16, uint16_t, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_i32, int32_t, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_i32, int32_t, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_u32, uint32_t, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_u32, uint32_t, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_i64, int64_t, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_i64, int64_t, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_u64, uint64_t, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_u64, uint64_t, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_f, float, int32_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_f, float, int64_t, svec4_i1);
+GATHER_BASE_STEPS_L4(svec4_d, double, int32_t, svec4_i1);
+//FORCEINLINE svec4_d svec_gather_base_steps(double* b, int32_t step) {
+//  __vector double v0 = vec_splats(*b);
+//  b += step;
+//  __vector double v1 = vec_splats(*b);
+//  __vector double v01 = vec_mergeh(v0, v1);
+//  b += step;
+//  __vector double v2 = vec_splats(*b);
+//  b += step;
+//  __vector double v3 = vec_splats(*b);
+//  __vector double v23 = vec_mergeh(v2, v3);
+//  return svec4_d(v01, v23);
+//}
+GATHER_BASE_STEPS_L4(svec4_d, double, int64_t, svec4_i1);
+
+
+
 
 SCATTER_GENERAL_L4(svec4_i8, int8_t, svec4_u32, svec4_i1);
 SCATTER_GENERAL_L4(svec4_i8, int8_t, svec4_u64, svec4_i1);
@@ -2190,6 +2224,27 @@ svec_scatter_base_offsets(double* p, uint32_t scale, svec4_i64 offsets,
   lScatterBaseOffsets<double, svec4_i64, svec4_d>(b,scale,offsets,val,mask);
 #endif
 }
+
+SCATTER_BASE_STEPS_L4(svec4_i8, int8_t, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_i8, int8_t, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_u8, uint8_t, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_u8, uint8_t, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_i16, int16_t, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_i16, int16_t, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_u16, uint16_t, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_u16, uint16_t, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_i32, int32_t, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_i32, int32_t, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_u32, uint32_t, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_u32, uint32_t, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_i64, int64_t, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_i64, int64_t, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_u64, uint64_t, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_u64, uint64_t, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_f, float, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_f, float, int64_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_d, double, int32_t, svec4_i1);
+SCATTER_BASE_STEPS_L4(svec4_d, double, int64_t, svec4_i1);
 
 #endif //DOXYGEN_SHOULD_SKIP_THIS
 
@@ -2751,10 +2806,10 @@ BINARY_OP_SCALAR_L4(svec4_u64, uint64_t, svec_rem, %);
 //  4. Ternary
 
 //madd / msub for only int32/u32/float/double
-TERNERY(svec4_i32);
-TERNERY(svec4_u32);
-TERNERY(svec4_i64);
-TERNERY(svec4_u64);
+TERNERY_L4(svec4_i32);
+TERNERY_L4(svec4_u32);
+TERNERY_L4(svec4_i64);
+TERNERY_L4(svec4_u64);
 
 /**
  * @brief vector multiply and add operation. return a * b + c.
