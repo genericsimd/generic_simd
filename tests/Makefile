@@ -1,6 +1,6 @@
 
 
-GTEST_DIR=../gtest-1.6.0
+GTEST_DIR=gtest-1.6.0
 TARGETS=vsx4 generic4 test_svec
 
 

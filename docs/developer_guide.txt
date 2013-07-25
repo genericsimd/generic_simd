@@ -27,12 +27,19 @@ git clone userName@serverName:/gsa/yktgsa/projects/g/generic_simd/gsimd.git gsim
 </ul>
 
 @section runtest Run unit tests
-The unit tests are in tests directory. The current unit test only covers power_vsx4.h.
+The unit tests are in tests directory. The current unit test covers power_vsx4.h, generic4.h and sse4.h
+
+Please download googletest framework first from https://code.google.com/p/googletest/, 
+and unzip it into "tests/gtest-1.6.0" dirctory.
+Or you can unzip it to where you want, and modify the "GTEST_DIR" value in tests/Makefile.
+
+Then you can run the test
+
 @code{.sh}
 $ cd tests
 $ make test
 @endcode
-The test app will test vsx4 and generic4 interfaces, and generate the report.
+The test app will test vsx4, generic4 and sse4 interfaces, and generate the report.
 
 
 @section gendoc Generate document 
