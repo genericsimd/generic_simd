@@ -14,7 +14,6 @@ using namespace sse;
 using namespace generic;
 #endif //__SSE4_2__
 #endif //__ALTIVEC__
-#include <perfmeasure.h>
 
 #define MATRIX_SIZE 1000
 
@@ -2000,29 +1999,24 @@ int main(int argc, char *argv[])
   //matrix2 stores different versions of optimization
   double *matrix2 = (double *)malloc((COUNT+1) * sizeof(double));
   if (((unsigned long)matrix2)%16) matrix2++; //make 16 align
-  HPM_PERF_CREATE;
 
 
   //run base.
   initTriMatrix(matrix1, TRI_COUNT);
-  HPM_PERF_START;
   reset_and_start_stimer();
   for (count = 0; count < NUM_ITERATIONS; count++) {
     tri_sweep_orig(matrix1);
   }
   double org_t = get_elapsed_seconds();
-  HPM_PERF_STOP;
   printf("Tri-Org Version Time = %f seconds\n", org_t);
   
   //run tri split scalar
   initTriMatrix(matrix2, TRI_COUNT);
-  HPM_PERF_START;
   reset_and_start_stimer();
   for (count = 0; count < NUM_ITERATIONS; count++) {
     tri_split_scalar(matrix2);
   }
   double tri_split_t = get_elapsed_seconds();
-  HPM_PERF_STOP;
   printf("Tri-Split Scalar Version Time = %f seconds\n", tri_split_t);
   if (compareTriMatrix(matrix2, matrix1, TRI_COUNT)) {
     printf("PASSED!\n");
@@ -2034,13 +2028,11 @@ int main(int argc, char *argv[])
 #ifdef __ALTIVEC__
   //run tri simd
   initTriMatrix(matrix2, TRI_COUNT);
-  HPM_PERF_START;
   reset_and_start_stimer();
   for (count = 0; count < NUM_ITERATIONS; count++) {
     tri_sweep_simd(matrix2);
   }
   double tri_simd_t = get_elapsed_seconds();
-  HPM_PERF_STOP;
   printf("Tri-Split SIMD Version Time = %f seconds\n", tri_simd_t);
   if (compareTriMatrix(matrix2, matrix1, TRI_COUNT)) {
     printf("PASSED!\n");
@@ -2051,13 +2043,11 @@ int main(int argc, char *argv[])
 
   //run org-normal version
   initMatrix(matrix2, MATRIX_SIZE);
-  HPM_PERF_START;
   reset_and_start_stimer();
   for (count = 0; count < NUM_ITERATIONS; count++) {
     sweep(matrix2);
   }
   double normal_t = get_elapsed_seconds();
-  HPM_PERF_STOP;
   printf("Normal Scalar Version Time = %f seconds\n", normal_t);
   if (compareMatrix(matrix2, matrix1, MATRIX_SIZE)) {
     printf("PASSED!\n");
@@ -2067,13 +2057,11 @@ int main(int argc, char *argv[])
   
   //run unroll-scalar version
   initMatrix(matrix2, MATRIX_SIZE);
-  HPM_PERF_START;
   reset_and_start_stimer();
   for (count = 0; count < NUM_ITERATIONS; count++) {
     sweep_unrolled_scalar(matrix2);
   }
   double unrolled_t = get_elapsed_seconds();
-  HPM_PERF_STOP;
   printf("Normal Unrolled Scalar Version Time = %f seconds\n", unrolled_t);
   if (compareMatrix(matrix2, matrix1, MATRIX_SIZE)) {
     printf("PASSED!\n");
@@ -2084,13 +2072,11 @@ int main(int argc, char *argv[])
 
   //run generic simd4 version
   initMatrix(matrix2, MATRIX_SIZE);
-  HPM_PERF_START;
   reset_and_start_stimer();
   for (count = 0; count < NUM_ITERATIONS; count++) {
     sweep_simd(matrix2);
   }
   double simd_t = get_elapsed_seconds();
-  HPM_PERF_STOP;
   printf("Generic SIMD svec4 Version Time = %f seconds\n", simd_t);
   if (compareMatrix(matrix2, matrix1, MATRIX_SIZE)) {
     printf("PASSED!\n");
@@ -2100,13 +2086,11 @@ int main(int argc, char *argv[])
 
   //run generic simd4 version 2
   initMatrix(matrix2, MATRIX_SIZE);
-  HPM_PERF_START;
   reset_and_start_stimer();
   for (count = 0; count < NUM_ITERATIONS; count++) {
     sweep_simd2(matrix2);
   }
   double simd2_t = get_elapsed_seconds();
-  HPM_PERF_STOP;
   printf("Generic SIMD svec4 Version2 Time = %f seconds\n", simd2_t);
   if (compareMatrix(matrix2, matrix1, MATRIX_SIZE)) {
     printf("PASSED!\n");
@@ -2117,14 +2101,12 @@ int main(int argc, char *argv[])
 #ifdef __ALTIVEC__
   //run unrolled simd-normal version
   initMatrix(matrix2, MATRIX_SIZE);
-  HPM_PERF_START;
   reset_and_start_stimer();
   for (count = 0; count < NUM_ITERATIONS; count++) {
     sweep_unrolled_simd(matrix2);
   }
   double unrolled_simd_t = get_elapsed_seconds();
-  HPM_PERF_STOP;
-  printf("Unrolled SIMD svec4 Version Time = %f seconds\n", unrolled_simd_t);
+  printf("Unrolled SIMD Version Time = %f seconds\n", unrolled_simd_t);
   if (compareMatrix(matrix2, matrix1, MATRIX_SIZE)) {
     printf("PASSED!\n");
   } else {
