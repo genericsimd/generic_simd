@@ -638,6 +638,7 @@ LOAD_CONST(svec4_d, double);
 /**
  * @brief data representation and operations on a vector of 4 pointers.
  * This is only used in gather and scatter.
+ * @note In 32bit platform, svec4_ptr extends svec4_u32, while in 64bit platform, svec4_ptr extends svec4_u64.
  * @see gather and scatter
  */
 #if defined(__x86_64__) || defined(__PPC64__)
@@ -723,26 +724,26 @@ GATHER_BASE_OFFSETS(svec4_f, float, svec4_i64, svec4_i1);
 GATHER_BASE_OFFSETS(svec4_d, double, svec4_i32, svec4_i1);
 GATHER_BASE_OFFSETS(svec4_d, double, svec4_i64, svec4_i1);
 
-GATHER_BASE_STEPS_L4(svec4_i8, int8_t, int32_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_i8, int8_t, int64_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_u8, uint8_t, int32_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_u8, uint8_t, int64_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_i16, int16_t, int32_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_i16, int16_t, int64_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_u16, uint16_t, int32_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_u16, uint16_t, int64_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_i32, int32_t, int32_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_i32, int32_t, int64_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_u32, uint32_t, int32_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_u32, uint32_t, int64_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_i64, int64_t, int32_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_i64, int64_t, int64_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_u64, uint64_t, int32_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_u64, uint64_t, int64_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_f, float, int32_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_f, float, int64_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_d, double, int32_t, svec4_i1);
-GATHER_BASE_STEPS_L4(svec4_d, double, int64_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_i8, int8_t, int32_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_i8, int8_t, int64_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_u8, uint8_t, int32_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_u8, uint8_t, int64_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_i16, int16_t, int32_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_i16, int16_t, int64_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_u16, uint16_t, int32_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_u16, uint16_t, int64_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_i32, int32_t, int32_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_i32, int32_t, int64_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_u32, uint32_t, int32_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_u32, uint32_t, int64_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_i64, int64_t, int32_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_i64, int64_t, int64_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_u64, uint64_t, int32_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_u64, uint64_t, int64_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_f, float, int32_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_f, float, int64_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_d, double, int32_t, svec4_i1);
+GATHER_STRIDE_L4(svec4_d, double, int64_t, svec4_i1);
 
 
 
@@ -788,26 +789,26 @@ SCATTER_BASE_OFFSETS(svec4_f, float, svec4_i64, svec4_i1);
 SCATTER_BASE_OFFSETS(svec4_d, double, svec4_i32, svec4_i1);
 SCATTER_BASE_OFFSETS(svec4_d, double, svec4_i64, svec4_i1);
 
-SCATTER_BASE_STEPS_L4(svec4_i8, int8_t, int32_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_i8, int8_t, int64_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_u8, uint8_t, int32_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_u8, uint8_t, int64_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_i16, int16_t, int32_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_i16, int16_t, int64_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_u16, uint16_t, int32_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_u16, uint16_t, int64_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_i32, int32_t, int32_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_i32, int32_t, int64_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_u32, uint32_t, int32_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_u32, uint32_t, int64_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_i64, int64_t, int32_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_i64, int64_t, int64_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_u64, uint64_t, int32_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_u64, uint64_t, int64_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_f, float, int32_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_f, float, int64_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_d, double, int32_t, svec4_i1);
-SCATTER_BASE_STEPS_L4(svec4_d, double, int64_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_i8, int8_t, int32_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_i8, int8_t, int64_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_u8, uint8_t, int32_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_u8, uint8_t, int64_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_i16, int16_t, int32_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_i16, int16_t, int64_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_u16, uint16_t, int32_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_u16, uint16_t, int64_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_i32, int32_t, int32_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_i32, int32_t, int64_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_u32, uint32_t, int32_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_u32, uint32_t, int64_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_i64, int64_t, int32_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_i64, int64_t, int64_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_u64, uint64_t, int32_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_u64, uint64_t, int64_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_f, float, int32_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_f, float, int64_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_d, double, int32_t, svec4_i1);
+SCATTER_STRIDE_L4(svec4_d, double, int64_t, svec4_i1);
 
 #endif //DOXYGEN_SHOULD_SKIP_THIS
 
@@ -957,6 +958,17 @@ UNARY_OP(svec4_d, svec_exp, exp);
 //log
 UNARY_OP(svec4_f, svec_log, logf);
 UNARY_OP(svec4_d, svec_log, log);
+//abs - for all types
+UNARY_OP(svec4_i8, svec_abs, abs<int8_t>);
+static FORCEINLINE svec4_u8  svec_abs(svec4_u8 v) { return v;}
+UNARY_OP(svec4_i16, svec_abs, abs<int16_t>);
+static FORCEINLINE svec4_u16  svec_abs(svec4_u16 v) { return v;}
+UNARY_OP(svec4_i32, svec_abs, abs<int32_t>);
+static FORCEINLINE svec4_u32  svec_abs(svec4_u32 v) { return v;}
+UNARY_OP(svec4_i64, svec_abs, abs<int64_t>);
+static FORCEINLINE svec4_u64  svec_abs(svec4_u64 v) { return v;}
+UNARY_OP(svec4_f, svec_abs, abs);
+UNARY_OP(svec4_d, svec_abs, abs);
 
 //  3. Binary
 
@@ -979,8 +991,8 @@ BINARY_SCALAR_OP(VTYPE, STYPE, svec_scalar_div, /); \
 BINARY_OP(VTYPE, svec_or, |); \
 BINARY_OP(VTYPE, svec_and, &); \
 BINARY_OP(VTYPE, svec_xor, ^); \
-BINARY_OP_SCALAR(VTYPE, STYPE, svec_shl, <<); \
-BINARY_OP_SCALAR(VTYPE, STYPE, svec_shr, >>); \
+BINARY_OP_SCALAR(VTYPE, int32_t, svec_shl, <<); \
+BINARY_OP_SCALAR(VTYPE, int32_t, svec_shr, >>); \
 BINARY_OP(VTYPE, svec_rem, %); \
 BINARY_OP_SCALAR(VTYPE, STYPE, svec_rem, %);
 
@@ -1027,7 +1039,7 @@ BINARY_OP2(svec4_u16, svec4_u16, svec_shr, >>);
 BINARY_OP2(svec4_i32, svec4_u32, svec_shr, >>);
 BINARY_OP2(svec4_u32, svec4_u32, svec_shr, >>);
 BINARY_OP2(svec4_i64, svec4_u64, svec_shr, >>);
-BINARY_OP2(svec4_u64, svec4_u64, svec_shr, >);
+BINARY_OP2(svec4_u64, svec4_u64, svec_shr, >>);
 
 //  4. Ternary
 

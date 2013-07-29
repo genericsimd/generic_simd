@@ -96,7 +96,7 @@ Here is a short list for common operations.
 Please refer the detail documents for all operations.
 
 <h4> Load and Store </h4>
-Store a vector to location p through instance method store (VTYPE *).
+Store a vector to location p through instance method store(VTYPE *).
 
 Load a vector from location p through class static method VTYPE::(VTYPE *).
 e.g. "svec4_i32::load(an_address)" will return a new svec4_i32 vector.
@@ -118,6 +118,8 @@ svec4_i1 has operator ~ to reverse the boolean value.
 
 Binary bit operators &, |, ^ are available for all integer vector types.
 
+Logical operators !, &&, || are available for svec4_i1 type.
+
 @subsection math Math operations
 Support all types except svec4_i1.
 
@@ -128,7 +130,7 @@ Binary operators +, -, *, / can support VTYPE op VTYPE, VTYPE op STYPE, STYPE op
 Binary operators &gt;&gt;, &lt;&lt;, % can support VTYPE op VTYPE, VTYPE op STYPE over
 all integer types. 
 &gt;&gt; and &lt;&lt; for shift, and % for remainder.
-Please not shift can only has unsigned integer vector in the right hand.
+Please note shift by a vector can only has unsigned integer vector in the right hand.
 
 @subsection methodop Instance methods operations
 broadcast(), rotate(), shuffle() support all types exclude svec4_i1().
@@ -148,16 +150,22 @@ return a boolean scalar value.
 Please refer the detail document for how to use gather and scatter.
 E.g. svec4_i32 type
 <ul>
-<li>vsx::svec4_i8::gather()</li>
-<li>vsx::svec4_i8::scatter()</li>
-<li>vsx::svec4_i8::gather_base_offsets()</li>
-<li>vsx::svec4_i8::scatter_base_offsets()</li>
+<li>vsx::svec4_i32::gather()</li>
+<li>vsx::svec4_i32::scatter()</li>
+<li>vsx::svec4_i32::gather_base_offsets()</li>
+<li>vsx::svec4_i32::scatter_base_offsets()</li>
+<li>vsx::svec4_i32::gather_stride()</li>
+<li>vsx::svec4_i32::scatter_stride()</li>
 </ul>
-The current power processor has no gather/scatter instructions. So the software
-based implementation is slow right now.
+<b>Note</b> The current power processor has no gather/scatter instructions. The software
+based implementation is slow right now, especially the gather_base_offsets() and
+scatter_base_offsets().
+
+In case of regular stride style gather/scatter, it's better to use gather_stride()
+and scatter_stride().
 
 @subsection otherop Other Operations
-@subsubsection fmaop Multiply-Add and Multiply-Sub</h4>
+@subsubsection fmaop Multiply-Add and Multiply-Sub
 VTYPE svec_madd(VTYPE a, VTYPE b, VTYPE c) returns a * b + c;
 
 VTYPE svec_msub(VTYPE a, VTYPE b, VTYPE c) returns a * b - c;

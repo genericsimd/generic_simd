@@ -314,13 +314,14 @@ friend std::ostream& operator<< (std::ostream &out, const VTYPE &v) { \
   static FORCEINLINE VTYPE gather_base_offsets(STYPE* b, uint32_t scale, VTYPEI64 offsets, MTYPE mask);\
   FORCEINLINE void scatter_base_offsets(STYPE* b, uint32_t scale, VTYPEI32 offsets, MTYPE mask); \
   FORCEINLINE void scatter_base_offsets(STYPE* b, uint32_t scale, VTYPEI64 offsets, MTYPE mask); \
-  static FORCEINLINE VTYPE gather_base_steps(STYPE* b, int32_t step);\
-  static FORCEINLINE VTYPE gather_base_steps(STYPE* b, int64_t step);\
-  FORCEINLINE void scatter_base_steps(STYPE* b, int32_t step); \
-  FORCEINLINE void scatter_base_steps(STYPE* b, int64_t step); \
+  static FORCEINLINE VTYPE gather_stride(STYPE* b, int32_t off, int32_t stride);\
+  static FORCEINLINE VTYPE gather_stride(STYPE* b, int64_t off, int64_t stride);\
+  FORCEINLINE void scatter_stride(STYPE* b, int32_t off, int32_t stride); \
+  FORCEINLINE void scatter_stride(STYPE* b, int64_t off, int64_t stride); \
   FORCEINLINE VTYPE broadcast(int32_t index); \
   FORCEINLINE VTYPE rotate(int32_t index); \
-  FORCEINLINE VTYPE shuffle(VTYPEI32 index);
+  FORCEINLINE VTYPE shuffle(VTYPEI32 index); \
+  FORCEINLINE VTYPE abs();
 
 /**
  * @brief macros method definition for integer vector only
@@ -331,9 +332,9 @@ friend std::ostream& operator<< (std::ostream &out, const VTYPE &v) { \
   FORCEINLINE VTYPE operator&(VTYPE a); \
   FORCEINLINE VTYPE operator^(VTYPE a); \
   FORCEINLINE VTYPE operator<<(VTYPE_B a); \
-  FORCEINLINE VTYPE operator<<(STYPE s); \
+  FORCEINLINE VTYPE operator<<(int32_t s); \
   FORCEINLINE VTYPE operator>>(VTYPE_B a); \
-  FORCEINLINE VTYPE operator>>(STYPE s); \
+  FORCEINLINE VTYPE operator>>(int32_t s); \
   FORCEINLINE VTYPE operator%(VTYPE a); \
   FORCEINLINE VTYPE operator%(STYPE s);
 
@@ -609,22 +610,45 @@ FORCEINLINE VTYPE svec_gather_base_offsets(STYPE* b, uint32_t scale, OTYPE offse
 /**
  * @brief macros for fast impl of gather base step
  */
-#define GATHER_BASE_STEPS_L4(VTYPE, STYPE, OTYPE, MTYPE)         \
-FORCEINLINE VTYPE svec_gather_base_steps(STYPE* b, OTYPE step) {   \
-  STYPE v0 = *b; \
-  b += step; STYPE v1 = *b; \
-  b += step; STYPE v2 = *b; \
-  b += step; STYPE v3 = *b; \
+#define GATHER_STRIDE_L4(VTYPE, STYPE, OTYPE, MTYPE)         \
+FORCEINLINE VTYPE svec_gather_stride(STYPE* b, OTYPE o, OTYPE s) {   \
+  int64_t off = (int64_t)o; int64_t stride = (int64_t)s;\
+  OTYPE stride2 = stride * 2; \
+  STYPE v0 = *(b + off); \
+  STYPE v1 = *(b + off + stride); \
+  STYPE v2 = *(b + off + stride2); \
+  STYPE v3 = *(b + off + stride2 + stride); \
   return VTYPE(v0, v1, v2, v3); \
 }
 
-#define SCATTER_BASE_STEPS_L4(VTYPE, STYPE, OTYPE, MTYPE)         \
-FORCEINLINE void svec_scatter_base_steps(STYPE* b, OTYPE step, VTYPE val) {   \
-  *b = svec_extract(val, 0); \
-  b += step; *b = svec_extract(val, 1); \
-  b += step; *b = svec_extract(val, 2); \
-  b += step; *b = svec_extract(val, 3); \
+//#define GATHER_STRIDE_L4(VTYPE, STYPE, OTYPE, MTYPE)         \
+//FORCEINLINE VTYPE svec_gather_stride(STYPE* b, OTYPE o, OTYPE s) {   \
+//  int64_t off = (int64_t)o; int64_t stride = (int64_t)s;\
+//  b += off; STYPE v0 = *b; \
+//  b += stride; STYPE v1 = *b; \
+//  b += stride; STYPE v2 = *b; \
+//  b += stride; STYPE v3 = *b;  \
+//  return VTYPE(v0, v1, v2, v3); \
+//}
+
+#define SCATTER_STRIDE_L4(VTYPE, STYPE, OTYPE, MTYPE)         \
+FORCEINLINE void svec_scatter_stride(STYPE* b, OTYPE o, OTYPE s, VTYPE val) {   \
+  int64_t off = (int64_t)o; int64_t stride = (int64_t)s;\
+  OTYPE stride2 = stride * 2; \
+  *(b + off) = svec_extract(val, 0); \
+  *(b + off + stride) = svec_extract(val, 1); \
+  *(b + off + stride2) = svec_extract(val, 2); \
+  *(b + off + stride2 + stride) = svec_extract(val, 3); \
 }
+
+//#define SCATTER_STRIDE_L4(VTYPE, STYPE, OTYPE, MTYPE)         \
+//FORCEINLINE void svec_scatter_stride(STYPE* b, OTYPE o, OTYPE s, VTYPE val) {   \
+//  int64_t off = (int64_t)o; int64_t stride = (int64_t)s;\
+//  b += off; *b = svec_extract(val, 0);\
+//  b += stride; *b = svec_extract(val, 1); \
+//  b += stride; *b = svec_extract(val, 2); \
+//  b += stride; *b = svec_extract(val, 3); \
+//}
 
 
 
@@ -711,6 +735,10 @@ static FORCEINLINE void svec_masked_store(VTYPE *p, VTYPE v, MTYPE mask) { \
 //
 //////////////////////////////////////////////////////////////
 
+template<class T> static FORCEINLINE T abs(T a) {
+  return a >= 0 ? a : -a;
+}
+
 #define UNARY_OP(TYPE, NAME, OP)            \
 static FORCEINLINE TYPE NAME(TYPE v) {      \
   INC_STATS_NAME(STATS_UNARY_SLOW, 1, #OP);           \
@@ -767,6 +795,20 @@ static FORCEINLINE TYPE NAME(TYPE a, TYPE b) {                   \
            svec_extract(a, 3) OP svec_extract(b, 3));\
   return ret;                            \
 }
+
+/**
+ * @brief macros for generic slow imple of binary operation, style 2
+ */
+#define BINARY_OP2_L4(TYPE, TYPB_B, NAME, OP)                \
+static FORCEINLINE TYPE NAME(TYPE a, TYPB_B b) {                   \
+  INC_STATS_NAME(STATS_BINARY_SLOW, 1, #NAME);               \
+  TYPE ret(svec_extract(a, 0) OP svec_extract(b, 0),\
+           svec_extract(a, 1) OP svec_extract(b, 1),\
+           svec_extract(a, 2) OP svec_extract(b, 2),\
+           svec_extract(a, 3) OP svec_extract(b, 3));\
+  return ret;                            \
+}
+
 
 #define BINARY_OP_FUNC_L4(TYPE, NAME, FUNC)                \
 static FORCEINLINE TYPE NAME(TYPE a, TYPE b) {                   \
@@ -915,6 +957,9 @@ FORCEINLINE MTYPE svec_masked_##NAME(VTYPE a, VTYPE b, \
                                       MTYPE mask) { \
   return svec_and(svec_##NAME(a,b) , mask);              \
 }
+
+
+
 
 #define CMP_ALL_NOMASK_OP(VTYPE, MTYPE)    \
   CMP_OP(VTYPE, MTYPE, equal, ==) \
@@ -1187,28 +1232,28 @@ const FORCEINLINE STYPE  VTYPE::operator[](int index) const { \
       svec_scatter_base_offsets(b, scale, offsets, *this, mask); \
   } \
   /*!
-     @brief Gather the elements pointed by (b, b+step, b+2*step, b+3*step).
+     @brief Gather the elements pointed by (b+off, b++off+stride, b+off+2*stride, b+off+3*step).
    */\
-  FORCEINLINE VTYPE VTYPE::gather_base_steps(STYPE* b, int32_t step) { \
-    return svec_gather_base_steps(b, step); \
+  FORCEINLINE VTYPE VTYPE::gather_stride(STYPE* b, int32_t off, int32_t stride) { \
+    return svec_gather_stride(b, off, stride); \
   } \
   /*!
-     @brief Gather the elements pointed by (b, b+step, b+2*step, b+3*step).
+     @brief Gather the elements pointed by (b+off, b++off+stride, b+off+2*stride, b+off+3*step).
    */\
-  FORCEINLINE VTYPE VTYPE::gather_base_steps(STYPE* b, int64_t step) {\
-      return svec_gather_base_steps(b, step); \
+  FORCEINLINE VTYPE VTYPE::gather_stride(STYPE* b, int64_t off, int64_t stride) {\
+      return svec_gather_stride(b, off, stride); \
   } \
   /*!
-     @brief Scatter the vector's elements to the addresses (b, b+step, b+2*step, b+3*step).
+     @brief Scatter the vector's elements to the addresses (b+off, b++off+stride, b+off+2*stride, b+off+3*step).
    */\
-  FORCEINLINE void VTYPE::scatter_base_steps(STYPE* b, int32_t step) { \
-      svec_scatter_base_steps(b, step, *this); \
+  FORCEINLINE void VTYPE::scatter_stride(STYPE* b, int32_t off, int32_t stride) { \
+      svec_scatter_stride(b, off, stride, *this); \
   } \
   /*!
-     @brief Scatter the vector's elements to the addresses (b, b+step, b+2*step, b+3*step).
+     @brief Scatter the vector's elements to the addresses (b+off, b++off+stride, b+off+2*stride, b+off+3*step).
    */\
-  FORCEINLINE void VTYPE::scatter_base_steps(STYPE* b, int64_t step) {\
-    svec_scatter_base_steps(b, step, *this); \
+  FORCEINLINE void VTYPE::scatter_stride(STYPE* b, int64_t off, int64_t stride) {\
+    svec_scatter_stride(b, off, stride, *this); \
   } \
   /*!
      @brief Return a new vector by setting all the elements of the new vector with this vector's index element.
@@ -1221,7 +1266,11 @@ const FORCEINLINE STYPE  VTYPE::operator[](int index) const { \
   /*!
      @brief Return a new vector by shuffle this vector's elements with index vector e.g. newVec[i] = thisVec[index[i]]
    */\
-  FORCEINLINE VTYPE VTYPE::shuffle(svec4_i32 index) { return svec_shuffle(*this, index); }
+  FORCEINLINE VTYPE VTYPE::shuffle(svec4_i32 index) { return svec_shuffle(*this, index); } \
+  /*!
+     @brief Return a new vector of the vector's abs value.
+   */\
+  FORCEINLINE VTYPE VTYPE::abs() { return svec_abs(*this); }
 
 #define VEC_INT_CLASS_METHOD_IMPL(VTYPE, VTYPE_B, STYPE) \
   /**
@@ -1243,7 +1292,7 @@ const FORCEINLINE STYPE  VTYPE::operator[](int index) const { \
   /**
    * @brief Left shift operator by a scalar. E.g. "a << 5".
    */\
-  FORCEINLINE VTYPE VTYPE::operator<<(STYPE s) { return svec_shl(*this, s); } \
+  FORCEINLINE VTYPE VTYPE::operator<<(int32_t s) { return svec_shl(*this, s); } \
   /**
    * @brief Right shift operator. E.g. "a >> b".The b must be unsigned vector
    */\
@@ -1251,7 +1300,7 @@ const FORCEINLINE STYPE  VTYPE::operator[](int index) const { \
   /**
    * @brief Right shift operator by a scalar. E.g. "a >> 5".
    */\
-  FORCEINLINE VTYPE VTYPE::operator>>(STYPE s) { return svec_shr(*this, s); } \
+  FORCEINLINE VTYPE VTYPE::operator>>(int32_t s) { return svec_shr(*this, s); } \
   /**
    * @brief Remainder operator on a vector. E.g. "a % b".
    */\

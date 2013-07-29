@@ -561,7 +561,7 @@ TEST(svec4_d, SubScriptSet)
  * Test load/store for all types
  */
 #define ALIGN_VLENGTH 16
-static char mem[32] POST_ALIGN(ALIGN_VLENGTH);
+static char mem[40] POST_ALIGN(ALIGN_VLENGTH);
 //const arrays, int/also used as unsigned
 static const int8_t cint8[] POST_ALIGN(ALIGN_VLENGTH) = { -1, 0, 1, 2, 0, 0, 0, 0 };
 static const int16_t cint16[] POST_ALIGN(ALIGN_VLENGTH) = { -1, 0, 1, 2, 0, 0, 0, 0 };
@@ -676,7 +676,6 @@ TEST(svec4_i1, select) {
     svec4_i1 mask(0, 1, 0, 1);
     svec4_i1 v0(1, 0, 1, 0);
     svec4_i1 v1(0, 1, 0, 1);
-    DUMP(svec_select(mask, v0, v1));
     EXPECT_SVEC_EQ(svec_select(mask, v0, v1), svec4_i1(0,0,0,0));
     EXPECT_SVEC_EQ(svec_select(~mask, v0, v1), svec4_i1(1,1,1,1));
     EXPECT_SVEC_EQ(svec_select(true, v0, v1), v0 );
@@ -878,8 +877,6 @@ TEST(svec4_i1, NeOp)
     svec4_i1 v1(1,0,1,0);
     svec4_i1 v2(1,0,1,0);
     svec4_i1 v3(0,1,0,1);
-    DUMP((v1 != v2));
-    DUMP((v1 != v3));
     EXPECT_FALSE((v1 != v2).any_true());
     EXPECT_TRUE((v1 != v3).any_true());
     EXPECT_TRUE((v1 != v3).all_true());
@@ -1231,6 +1228,11 @@ TEST(svec4_i8, gather_scatter)
     v1.scatter(ptrs2, mask);
     EXPECT_SVEC_EQ(svec_load((svec4_i8*)mem), v2);
 
+    v0.scatter_stride(dst, (int64_t)1, (int64_t)1);
+    EXPECT_SVEC_EQ(svec4_i8::gather_stride(dst, 1, 1), v0);
+    v1.scatter_stride(dst, 0, 1);
+    EXPECT_SVEC_EQ(svec4_i8::gather_stride(dst, (int64_t)0, (int64_t)1), v1);
+
     svec4_i32 off32(0,1,2,3);
     svec4_i64 off64(0,1,2,3);
 
@@ -1270,6 +1272,11 @@ TEST(svec4_u8, gather_scatter)
     svec4_ptr ptrs2(dst, dst+1, dst+2, dst+3);
     v1.scatter(ptrs2, mask);
     EXPECT_SVEC_EQ(svec_load((svec4_u8*)mem), v2);
+
+    v0.scatter_stride(dst, (int64_t)1, (int64_t)1);
+    EXPECT_SVEC_EQ(svec4_u8::gather_stride(dst, 1, 1), v0);
+    v1.scatter_stride(dst, 0, 1);
+    EXPECT_SVEC_EQ(svec4_u8::gather_stride(dst, (int64_t)0, (int64_t)1), v1);
 
     svec4_i32 off32(0,1,2,3);
     svec4_i64 off64(0,1,2,3);
@@ -1311,6 +1318,11 @@ TEST(svec4_i16, gather_scatter)
     v1.scatter(ptrs2, mask);
     EXPECT_SVEC_EQ(svec_load((svec4_i16*)mem), v2);
 
+    v0.scatter_stride(dst, (int64_t)1, (int64_t)1);
+    EXPECT_SVEC_EQ(svec4_i16::gather_stride(dst, 1, 1), v0);
+    v1.scatter_stride(dst, 0, 1);
+    EXPECT_SVEC_EQ(svec4_i16::gather_stride(dst, (int64_t)0, (int64_t)1), v1);
+
     svec4_i32 off32(0,2,4,6);
     svec4_i64 off64(0,2,4,6);
 
@@ -1349,6 +1361,11 @@ TEST(svec4_u16, gather_scatter)
     svec4_ptr ptrs2(dst, dst+1, dst+2, dst+3);
     v1.scatter(ptrs2, mask);
     EXPECT_SVEC_EQ(svec_load((svec4_u16*)mem), v2);
+
+    v0.scatter_stride(dst, (int64_t)1, (int64_t)1);
+    EXPECT_SVEC_EQ(svec4_u16::gather_stride(dst, 1, 1), v0);
+    v1.scatter_stride(dst, 0, 1);
+    EXPECT_SVEC_EQ(svec4_u16::gather_stride(dst, (int64_t)0, (int64_t)1), v1);
 
     svec4_i32 off32(0,2,4,6);
     svec4_i64 off64(0,2,4,6);
@@ -1390,6 +1407,11 @@ TEST(svec4_i32, gather_scatter)
     v1.scatter(ptrs2, mask);
     EXPECT_SVEC_EQ(svec_load((svec4_i32*)mem), v2);
 
+    v0.scatter_stride(dst, (int64_t)1, (int64_t)1);
+    EXPECT_SVEC_EQ(svec4_i32::gather_stride(dst, 1, 1), v0);
+    v1.scatter_stride(dst, 0, 1);
+    EXPECT_SVEC_EQ(svec4_i32::gather_stride(dst, (int64_t)0, (int64_t)1), v1);
+
     svec4_i32 off32(0,4,8,12);
     svec4_i64 off64(0,4,8,12);
 
@@ -1429,6 +1451,11 @@ TEST(svec4_u32, gather_scatter)
     v1.scatter(ptrs2, mask);
     EXPECT_SVEC_EQ(svec_load((svec4_u32*)mem), v2);
 
+    v0.scatter_stride(dst, (int64_t)1, (int64_t)1);
+    EXPECT_SVEC_EQ(svec4_u32::gather_stride(dst, 1, 1), v0);
+    v1.scatter_stride(dst, 0, 1);
+    EXPECT_SVEC_EQ(svec4_u32::gather_stride(dst, (int64_t)0, (int64_t)1), v1);
+
     svec4_i32 off32(0,4,8,12);
     svec4_i64 off64(0,4,8,12);
 
@@ -1467,6 +1494,11 @@ TEST(svec4_i64, gather_scatter)
     svec4_ptr ptrs2(dst, dst+1, dst+2, dst+3);
     v1.scatter(ptrs2, mask);
     EXPECT_SVEC_EQ(svec_load((svec4_i64*)mem), v2);
+
+    v0.scatter_stride(dst, (int64_t)1, (int64_t)1);
+    EXPECT_SVEC_EQ(svec4_i64::gather_stride(dst, 1, 1), v0);
+    v1.scatter_stride(dst, 0, 1);
+    EXPECT_SVEC_EQ(svec4_i64::gather_stride(dst, (int64_t)0, (int64_t)1), v1);
 
     svec4_i32 off32(0,8,16,24);
     svec4_i64 off64(0,8,16,24);
@@ -1508,6 +1540,11 @@ TEST(svec4_u64, gather_scatter)
     v1.scatter(ptrs2, mask);
     EXPECT_SVEC_EQ(svec_load((svec4_u64*)mem), v2);
 
+    v0.scatter_stride(dst, (int64_t)1, (int64_t)1);
+    EXPECT_SVEC_EQ(svec4_u64::gather_stride(dst, 1, 1), v0);
+    v1.scatter_stride(dst, 0, 1);
+    EXPECT_SVEC_EQ(svec4_u64::gather_stride(dst, (int64_t)0, (int64_t)1), v1);
+
     svec4_i32 off32(0,8,16,24);
     svec4_i64 off64(0,8,16,24);
 
@@ -1546,6 +1583,11 @@ TEST(svec4_f, gather_scatter)
     svec4_ptr ptrs2(dst, dst+1, dst+2, dst+3);
     v1.scatter(ptrs2, mask);
     EXPECT_SVEC_EQ(svec_load((svec4_f*)mem), v2);
+
+    v0.scatter_stride(dst, (int64_t)1, (int64_t)1);
+    EXPECT_SVEC_EQ(svec4_f::gather_stride(dst, 1, 1), v0);
+    v1.scatter_stride(dst, 0, 1);
+    EXPECT_SVEC_EQ(svec4_f::gather_stride(dst, (int64_t)0, (int64_t)1), v1);
 
     svec4_i32 off32(0,4,8,12);
     svec4_i64 off64(0,4,8,12);
@@ -1586,6 +1628,11 @@ TEST(svec4_d, gather_scatter)
     v1.scatter(ptrs2, mask);
     EXPECT_SVEC_EQ(svec_load((svec4_d*)mem), v2);
 
+    v0.scatter_stride(dst, (int64_t)1, (int64_t)1);
+    EXPECT_SVEC_EQ(svec4_d::gather_stride(dst, 1, 1), v0);
+    v1.scatter_stride(dst, 0, 1);
+    EXPECT_SVEC_EQ(svec4_d::gather_stride(dst, (int64_t)0, (int64_t)1), v1);
+
     svec4_i32 off32(0,8,16,24);
     svec4_i64 off64(0,8,16,24);
 
@@ -1611,65 +1658,79 @@ TEST(svec4_d, gather_scatter)
 TEST(svec4_i8, unary){
     svec4_i8 v0(2, -4, 8, -16);
     svec4_i8 v1(-2, 4, -8, 16);
+    svec4_i8 v3(2, 4, 8, 16);
     EXPECT_SVEC_EQ(-v0, v1);
+    EXPECT_SVEC_EQ(v0.abs(), v3);
+
+
 }
 
 TEST(svec4_i16, unary){
     svec4_i16 v0(2, -4, 8, -16);
     svec4_i16 v1(-2, 4, -8, 16);
+    svec4_i16 v3(2, 4, 8, 16);
     EXPECT_SVEC_EQ(-v0, v1);
+    EXPECT_SVEC_EQ(v0.abs(), v3);
 }
 
 TEST(svec4_i32, unary){
     svec4_i32 v0(2, -4, 8, -16);
     svec4_i32 v1(-2, 4, -8, 16);
+    svec4_i32 v3(2, 4, 8, 16);
     EXPECT_SVEC_EQ(-v0, v1);
+    EXPECT_SVEC_EQ(v0.abs(), v3);
 }
 
 TEST(svec4_i64, unary){
     svec4_i64 v0(2, -4, 8, -16);
     svec4_i64 v1(-2, 4, -8, 16);
+    svec4_i64 v3(2, 4, 8, 16);
     EXPECT_SVEC_EQ(-v0, v1);
+    EXPECT_SVEC_EQ(v0.abs(), v3);
 }
 
 TEST(svec4_f, unary){
     svec4_f v0(2.3, -4.6, 8.7, -16.2);
     svec4_f v1(-2.3, 4.6, -8.7, 16.2);
+    svec4_f v3(2.3, 4.6, 8.7, 16.2);
     EXPECT_SVEC_EQ(-v0, v1);
+    //EXPECT_SVEC_EQ(v0.abs(), v3);
 
     svec4_f v_round(roundf(2.3), roundf(-4.6), roundf(8.7), roundf(-16.2));
     svec4_f v_ceil(ceilf(2.3), ceilf(-4.6), ceilf(8.7), ceilf(-16.2));
     svec4_f v_floor(floorf(2.3), floorf(-4.6), floorf(8.7), floorf(-16.2));
-    svec4_f v_sqrt(sqrtf(2.3), sqrtf(-4.6), sqrtf(8.7), sqrtf(-16.2));
+    svec4_f v_sqrt(sqrtf(2.3), sqrtf(4.6), sqrtf(8.7), sqrtf(16.2));
     svec4_f v_rcp(1.0f/(2.3), 1.0f/(-4.6), 1.0f/(8.7), 1.0f/(-16.2));
-    svec4_f v_rsqrt(1.0f/sqrtf(2.3), 1.0f/sqrtf(-4.6), 1.0f/sqrtf(8.7), 1.0f/sqrtf(-16.2));
+    svec4_f v_rsqrt(1.0f/sqrtf(2.3), 1.0f/sqrtf(4.6), 1.0f/sqrtf(8.7), 1.0f/sqrtf(16.2));
 
     EXPECT_SVEC_EQ(v0.round(), v_round);
     EXPECT_SVEC_EQ(v0.ceil(), v_ceil);
     EXPECT_SVEC_EQ(v0.floor(), v_floor);
-    EXPECT_SVEC_FEQ(v0.sqrt(), v_sqrt);
+    EXPECT_SVEC_FEQ(v3.sqrt(), v_sqrt);
     EXPECT_SVEC_FEQ(v0.rcp(), v_rcp);
-    EXPECT_SVEC_FEQ(v0.rsqrt(), v_rsqrt);
+    EXPECT_SVEC_FEQ(v3.rsqrt(), v_rsqrt);
 }
 
 TEST(svec4_d, unary){
     svec4_d v0(2.3, -4.6, 8.7, -16.2);
     svec4_d v1(-2.3, 4.6, -8.7, 16.2);
+    svec4_d v3(2.3, 4.6, 8.7, 16.2);
     EXPECT_SVEC_EQ(-v0, v1);
+    //EXPECT_SVEC_EQ(v0.abs(), v3);
 
     svec4_d v_round(round(2.3), round(-4.6), round(8.7), round(-16.2));
     svec4_d v_ceil(ceil(2.3), ceil(-4.6), ceil(8.7), ceil(-16.2));
     svec4_d v_floor(floor(2.3), floor(-4.6), floor(8.7), floor(-16.2));
-    svec4_d v_sqrt(sqrt(2.3), sqrt(-4.6), sqrt(8.7), sqrt(-16.2));
+    svec4_d v_sqrt(sqrt(2.3), sqrt(4.6), sqrt(8.7), sqrt(16.2));
     svec4_d v_rcp(1.0/(2.3), 1.0/(-4.6), 1.0/(8.7), 1.0/(-16.2));
-    svec4_d v_rsqrt(1.0/sqrt(2.3), 1.0/sqrt(-4.6), 1.0/sqrt(8.7), 1.0f/sqrtf(-16.2));
+    svec4_d v_rsqrt(1.0/sqrt(2.3), 1.0/sqrt(4.6), 1.0/sqrt(8.7), 1.0f/sqrtf(16.2));
 
     EXPECT_SVEC_EQ(v0.round(), v_round);
     EXPECT_SVEC_EQ(v0.ceil(), v_ceil);
     EXPECT_SVEC_EQ(v0.floor(), v_floor);
-    EXPECT_SVEC_FEQ(v0.sqrt(), v_sqrt);
+    EXPECT_SVEC_FEQ(v3.sqrt(), v_sqrt);
     EXPECT_SVEC_FEQ(v0.rcp(), v_rcp);
-    EXPECT_SVEC_FEQ(v0.rsqrt(), v_rsqrt);
+    EXPECT_SVEC_FEQ(v3.rsqrt(), v_rsqrt);
 }
 
 TEST(svec4_i8, binary)
@@ -1958,6 +2019,118 @@ VTYPE random_vec() {
   random_vec<STYPE, VTYPE>(-1);
 }
 
+template <class VTYPE, class VTYPE2>
+VTYPE ref_shr(VTYPE val, VTYPE2 s) {
+    return VTYPE(val[0] >> s[0], val[1] >> s[1], val[2] >> s[2], val[3] >> s[3]);
+}
+
+template <class VTYPE>
+VTYPE ref_shr(VTYPE val, int s) {
+    return VTYPE(val[0] >> s, val[1] >> s, val[2] >> s, val[3] >> s);
+}
+
+
+template <class VTYPE, class VTYPE2>
+VTYPE ref_shl(VTYPE val, VTYPE2 s) {
+    return VTYPE(val[0] << s[0], val[1] << s[1], val[2] << s[2], val[3] << s[3]);
+}
+
+template <class VTYPE>
+VTYPE ref_shl(VTYPE val, int s) {
+    return VTYPE(val[0] << s, val[1] << s, val[2] << s, val[3] << s);
+}
+
+
+TEST(svec4_i8, shift)
+{
+  svec4_i8 v = random_vec<int8_t, svec4_i8>();
+  svec4_u8 sv = random_vec<uint8_t, svec4_u8>(8);
+  int s = random() % 8;
+  EXPECT_SVEC_EQ(svec_shl(v, sv), (ref_shl<svec4_i8, svec4_u8>(v, sv)));
+  EXPECT_SVEC_EQ(svec_shr(v, sv), (ref_shr<svec4_i8, svec4_u8>(v, sv)));
+  EXPECT_SVEC_EQ(svec_shl(v, s), (ref_shl<svec4_i8>(v, s)));
+  EXPECT_SVEC_EQ(svec_shr(v, s), (ref_shr<svec4_i8>(v, s)));
+}
+
+TEST(svec4_u8, shift)
+{
+  svec4_u8 v = random_vec<uint8_t, svec4_u8>();
+  svec4_u8 sv = random_vec<uint8_t, svec4_u8>(8);
+  int s = random() % 8;
+  EXPECT_SVEC_EQ(svec_shl(v, sv), (ref_shl<svec4_u8, svec4_u8>(v, sv)));
+  EXPECT_SVEC_EQ(svec_shr(v, sv), (ref_shr<svec4_u8, svec4_u8>(v, sv)));
+  EXPECT_SVEC_EQ(svec_shl(v, s), (ref_shl<svec4_u8>(v, s)));
+  EXPECT_SVEC_EQ(svec_shr(v, s), (ref_shr<svec4_u8>(v, s)));
+}
+
+TEST(svec4_i16, shift)
+{
+  svec4_i16 v = random_vec<int16_t, svec4_i16>();
+  svec4_u16 sv = random_vec<uint16_t, svec4_u16>(16);
+  int s = random() % 16;
+  EXPECT_SVEC_EQ(svec_shl(v, sv), (ref_shl<svec4_i16, svec4_u16>(v, sv)));
+  EXPECT_SVEC_EQ(svec_shr(v, sv), (ref_shr<svec4_i16, svec4_u16>(v, sv)));
+  EXPECT_SVEC_EQ(svec_shl(v, s), (ref_shl<svec4_i16>(v, s)));
+  EXPECT_SVEC_EQ(svec_shr(v, s), (ref_shr<svec4_i16>(v, s)));
+}
+
+TEST(svec4_u16, shift)
+{
+  svec4_u16 v = random_vec<uint16_t, svec4_u16>();
+  svec4_u16 sv = random_vec<uint16_t, svec4_u16>(16);
+  int s = random() % 16;
+  EXPECT_SVEC_EQ(svec_shl(v, sv), (ref_shl<svec4_u16, svec4_u16>(v, sv)));
+  EXPECT_SVEC_EQ(svec_shr(v, sv), (ref_shr<svec4_u16, svec4_u16>(v, sv)));
+  EXPECT_SVEC_EQ(svec_shl(v, s), (ref_shl<svec4_u16>(v, s)));
+  EXPECT_SVEC_EQ(svec_shr(v, s), (ref_shr<svec4_u16>(v, s)));
+}
+
+TEST(svec4_i32, shift)
+{
+  svec4_i32 v = random_vec<int32_t, svec4_i32>();
+  svec4_u32 sv = random_vec<uint32_t, svec4_u32>(32);
+  int s = random() % 32;
+  EXPECT_SVEC_EQ(svec_shl(v, sv), (ref_shl<svec4_i32, svec4_u32>(v, sv)));
+  EXPECT_SVEC_EQ(svec_shr(v, sv), (ref_shr<svec4_i32, svec4_u32>(v, sv)));
+  EXPECT_SVEC_EQ(svec_shl(v, s), (ref_shl<svec4_i32>(v, s)));
+  EXPECT_SVEC_EQ(svec_shr(v, s), (ref_shr<svec4_i32>(v, s)));
+}
+
+TEST(svec4_u32, shift)
+{
+  svec4_u32 v = random_vec<uint32_t, svec4_u32>();
+  svec4_u32 sv = random_vec<uint32_t, svec4_u32>(32);
+  int s = random() % 32;
+  EXPECT_SVEC_EQ(svec_shl(v, sv), (ref_shl<svec4_u32, svec4_u32>(v, sv)));
+  EXPECT_SVEC_EQ(svec_shr(v, sv), (ref_shr<svec4_u32, svec4_u32>(v, sv)));
+  EXPECT_SVEC_EQ(svec_shl(v, s), (ref_shl<svec4_u32>(v, s)));
+  EXPECT_SVEC_EQ(svec_shr(v, s), (ref_shr<svec4_u32>(v, s)));
+}
+
+TEST(svec4_i64, shift)
+{
+  svec4_i64 v = random_vec<int64_t, svec4_i64>();
+  svec4_u64 sv = random_vec<uint64_t, svec4_u64>(64);
+  int s = random() % 64;
+  EXPECT_SVEC_EQ(svec_shl(v, sv), (ref_shl<svec4_i64, svec4_u64>(v, sv)));
+  EXPECT_SVEC_EQ(svec_shr(v, sv), (ref_shr<svec4_i64, svec4_u64>(v, sv)));
+  EXPECT_SVEC_EQ(svec_shl(v, s), (ref_shl<svec4_i64>(v, s)));
+  EXPECT_SVEC_EQ(svec_shr(v, s), (ref_shr<svec4_i64>(v, s)));
+}
+
+TEST(svec4_u64, shift)
+{
+  svec4_u64 v = random_vec<uint64_t, svec4_u64>();
+  svec4_u64 sv = random_vec<uint64_t, svec4_u64>(64);
+  int s = random() % 64;
+  EXPECT_SVEC_EQ(svec_shl(v, sv), (ref_shl<svec4_u64, svec4_u64>(v, sv)));
+  EXPECT_SVEC_EQ(svec_shr(v, sv), (ref_shr<svec4_u64, svec4_u64>(v, sv)));
+  EXPECT_SVEC_EQ(svec_shl(v, s), (ref_shl<svec4_u64>(v, s)));
+  EXPECT_SVEC_EQ(svec_shr(v, s), (ref_shr<svec4_u64>(v, s)));
+}
+
+
+
 template <class FROM, class TO, class STO>
 TO ref_cast(FROM val) {
     return TO((STO)val[0],(STO)val[1],(STO)val[2],(STO)val[3]);
@@ -1976,7 +2149,11 @@ TEST(svec4_i1, cast)
   EXPECT_SVEC_EQ(svec_cast<svec4_u32>(v), (ref_cast<svec4_i1, svec4_u32, uint32_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_i64>(v), (ref_cast<svec4_i1, svec4_i64, int64_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_u64>(v), (ref_cast<svec4_i1, svec4_u64, uint64_t>(v)));
+  DUMP(svec_cast<svec4_f>(v));
+  DUMP((ref_cast<svec4_i1, svec4_f, float>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_f>(v), (ref_cast<svec4_i1, svec4_f, float>(v)));
+  DUMP(svec_cast<svec4_d>(v));
+  DUMP((ref_cast<svec4_i1, svec4_d, double>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_d>(v), (ref_cast<svec4_i1, svec4_d, double>(v)));
 }
 

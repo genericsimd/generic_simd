@@ -9,12 +9,116 @@
 #include <power_vsx4.h>
 using namespace vsx;
 
-static char mem[32] POST_ALIGN(16);
+static char mem[128] POST_ALIGN(16);
 static svec4_i1* p_vi1 = (svec4_i1*)mem;
 static svec4_i32* p_vi32 = (svec4_i32*)mem;
 static svec4_i64* p_vi64 = (svec4_i64*)mem;
 static svec4_f* p_vf = (svec4_f*)mem;
 static svec4_d* p_vd = (svec4_d*)mem;
+
+const svec4_i32 base_off(0,1,2,3);
+
+FORCEINLINE svec4_d gather(double* base, svec4_i32 off) {
+  int* off_addr = (int*)(&(off.v));
+
+  double d0 = *(base + svec_extract(off, 0));
+  double d1 = *(base + svec_extract(off, 1));
+  double d2 = *(base + svec_extract(off, 2));
+  double d3 = *(base + svec_extract(off, 3));
+  return svec4_d(d0, d1, d2, d3);
+}
+
+svec4_d test_gather(int scale) {
+  svec4_i32 off_ip = scale * base_off;
+  return gather((double*)mem, off_ip);
+}
+
+FORCEINLINE svec4_d gather_opt(double* base, svec4_i32 off) {
+  int* off_addr = (int*)(&(off.v));
+
+  double d0 = *(base + off_addr[0]);
+  double d1 = *(base + off_addr[1]);
+  double d2 = *(base + off_addr[2]);
+  double d3 = *(base + off_addr[3]);
+  return svec4_d(d0, d1, d2, d3);
+}
+
+svec4_d test_gather_opt(int scale) {
+  svec4_i32 off_ip = scale * base_off;
+  return gather_opt((double*)mem, off_ip);
+}
+
+
+FORCEINLINE svec4_d gather_stride(double* base, int off0, int off1, int off2, int off3) {
+  double d0 = *(base + off0);
+  double d1 = *(base + off1);
+  double d2 = *(base + off2);
+  double d3 = *(base + off3);
+  return svec4_d(d0, d1, d2, d3);
+}
+
+svec4_d test_gather_stride(int scale) {
+  return gather_stride((double*)mem, 0, scale*1, scale*2, scale*3);
+}
+
+FORCEINLINE svec4_d gather_stride2(double* base, long long off, long long stride) {
+  long long stride2 = stride * 2;
+  double d0 = *(base + off);
+  double d1 = *(base + off+stride);
+  double d2 = *(base + off+stride2);
+  double d3 = *(base + off+stride2+stride);
+  return svec4_d(d0, d1, d2, d3);
+}
+
+svec4_d test_gather_stride2(int scale) {
+  return gather_stride2((double*)mem, scale, (long long)scale);
+}
+
+
+FORCEINLINE svec4_d gather_stride3(double* base, long long stride) {
+  double d0 = *base;
+  base += stride;
+  double d1 = *base;
+  base += stride;
+  double d2 = *base;
+  base += stride;
+  double d3 = *base;
+  return svec4_d(d0, d1, d2, d3);
+}
+
+svec4_d test_gather_stride3(int scale) {
+  return gather_stride3((double*)(mem+scale), (long long)scale);
+}
+
+FORCEINLINE svec4_d gather_stride4(double* base, long long off, long long stride) {
+  base += off;
+  double d0 = *base;
+  base += stride;
+  double d1 = *base;
+  base += stride;
+  double d2 = *base;
+  base += stride;
+  double d3 = *base;
+  return svec4_d(d0, d1, d2, d3);
+}
+
+svec4_d test_gather_stride4(int scale) {
+  return gather_stride4((double*)mem, scale, (long long)scale);
+}
+
+FORCEINLINE svec4_d gather_stride5(double* base, long long stride) {
+  long long stride2 = stride * 2;
+  double d0 = *(base);
+  double d1 = *(base + stride);
+  double d2 = *(base + stride2);
+  double d3 = *(base + stride2+stride);
+  return svec4_d(d0, d1, d2, d3);
+}
+
+svec4_d test_gather_stride5(int scale) {
+  return gather_stride5((double*)(mem+scale), (long long)scale);
+}
+
 
 int test_access(svec4_i1 v) {
 //  li 0,48
@@ -73,7 +177,7 @@ int test_access(svec4_i1 v) {
 
   v[3] = 15;
 
-  int r = ((int*)((int)v[2]));
+  int r = v[2];
 
 
 //  .loc 1 43 0
@@ -294,6 +398,14 @@ int main(int argc, char* argv[])
     test_access(v_i1);
 //  test_broadcasts_32(v_i32);
 //  test_broadcasts_64(v_d);
+
+    DUMP(test_gather(argc+1));
+    DUMP(test_gather_opt(argc+1));
+    DUMP(test_gather_stride2(argc+1));
+    DUMP(test_gather_stride3(argc+1));
+    DUMP(test_gather_stride4(argc+1));
+    DUMP(test_gather_stride5(argc+1));
+
     return 0;
 }
 

@@ -30,11 +30,16 @@ using namespace generic;
 #endif //__ALTIVEC__
 
 
-//#define N (1048576)
-#define N (1000000)
+#define N (1048576)
+//#define N (1000000)
+
+//Doesn't work
+//__attribute__((optimize("no-tree-vectorize")))
 
 void
-__attribute__((optimize("no-tree-vectorize")))
+#ifdef __SSE4_2__
+__attribute__((target("no-sse")))
+#endif
 serial_rgb2gray(float* ra, float* ga, float* ba, float* gray) {
     for(int i = 0; i < N; i++) {
         gray[i] = 0.3f * ra[i] + 0.59f * ga[i] + 0.11f * ba[i];
@@ -63,7 +68,22 @@ void svec4_rgb2gray_ptr(float* ra, float* ga, float* ba, float* gray ) {
     }
 }
 
-//__attribute__((noinline,optimize("unroll-loops")))
+#ifdef __ALTIVEC__
+void intrinsics_rgb2gray(float* ra, float* ga, float* ba, float* gray ) {
+    __vector float c1 = vec_splats(0.3f);
+    __vector float c2 = vec_splats(0.59f);
+    __vector float c3 = vec_splats(0.11f);
+
+    for(int i = 0; i < N; i+=4) {
+        __vector float a = vec_vsx_ld(0, ra+i);
+        __vector float b = vec_vsx_ld(0, ga+i);
+        __vector float c = vec_vsx_ld(0, ba+i);
+        __vector float out = c1 * a  + c2 * b  +  c3 * c ;
+        vec_vsx_st(out, 0, gray+i);
+    }
+}
+#endif
+
 void svec4_rgb2gray_fma(float* ra, float* ga, float* ba, float* gray) {
     for(int i = 0; i < N; i+=4) {
         svec4_f a = svec4_f::load((svec4_f*)(ra+i));
@@ -76,24 +96,11 @@ void svec4_rgb2gray_fma(float* ra, float* ga, float* ba, float* gray) {
     }
 }
 
-#ifdef __ALTIVEC__
-void intrinsics_rgb2gray(float* ra, float* ga, float* ba, float* gray ) {
 
-    for(int i = 0; i < N; i+=4) {
-        __vector float a = vec_vsx_ld(0, ra+i);
-        __vector float b = vec_vsx_ld(0, ga+i);
-        __vector float c = vec_vsx_ld(0, ba+i);
-        __vector float out = vec_splats(0.3f) * a  + vec_splats(0.59f) * b  + vec_splats(0.11f) * c ;
-        vec_vsx_st(out, 0, gray+i);
-    }
-}
-#endif
-
-
-float r[N] POST_ALIGN(16);
-float g[N] POST_ALIGN(16);
-float b[N] POST_ALIGN(16);
-float gray[N] POST_ALIGN(16);
+float r[N+10000] POST_ALIGN(16);
+float g[N+20000] POST_ALIGN(16);
+float b[N+30000] POST_ALIGN(16);
+float gray[N+40000] POST_ALIGN(16);
 
 #define ITERATIONS 1000
 int main (int argc, char* argv[])
@@ -120,17 +127,19 @@ int main (int argc, char* argv[])
     double dt3 = get_elapsed_seconds();
     std::cout<< "svec4 ptr ld/st version: " << dt3 << " seconds" << std::endl;
 
-    reset_and_start_stimer();
-    for(int i = 0; i < ITERATIONS; i++) { svec4_rgb2gray_fma(r, g, b, gray); }
-    double dt4 = get_elapsed_seconds();
-    std::cout<< "svec4 fma version: " << dt4 << " seconds" << std::endl;
-
 #ifdef __ALTIVEC__
     reset_and_start_stimer();
     for(int i = 0; i < ITERATIONS; i++) { intrinsics_rgb2gray(r, g, b, gray);}
     double dt5 = get_elapsed_seconds();
     std::cout<< "Intrinsics version: " << dt5 << " seconds" << std::endl;
 #endif
+
+    reset_and_start_stimer();
+    for(int i = 0; i < ITERATIONS; i++) { svec4_rgb2gray_fma(r, g, b, gray); }
+    double dt4 = get_elapsed_seconds();
+    std::cout<< "svec4 fma version: " << dt4 << " seconds" << std::endl;
+
+
     return 0;
 }
 
