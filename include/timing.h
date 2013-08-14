@@ -98,7 +98,7 @@ static double start_s;
 
 static inline double get_usec()
 {
-  timeval tim;
+  struct timeval tim;
   gettimeofday(&tim, 0);
   return tim.tv_sec+(tim.tv_usec/1000000.0);
 }

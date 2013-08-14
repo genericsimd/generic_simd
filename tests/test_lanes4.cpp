@@ -34,8 +34,8 @@ using namespace generic;
  * @brief macros for check float equal
  */
 #define EXPECT_SVEC_FEQ(v1, v2) EXPECT_TRUE( \
-  abs((v1)[0] - (v2)[0]) < 0.001 && abs((v1)[1] - (v2)[1]) < 0.001 \
-  && abs((v1)[2] - (v2)[2]) < 0.001 && abs((v1)[3] - (v2)[3]) < 0.001)
+  abs((v1)[0] - (v2)[0]) < 0.005 && abs((v1)[1] - (v2)[1]) < 0.005 \
+  && abs((v1)[2] - (v2)[2]) < 0.005 && abs((v1)[3] - (v2)[3]) < 0.005)
 
 
 #define DUMP(v) std::cout << #v << ":" << (v) << std::endl
@@ -1196,7 +1196,6 @@ TEST(svec4_f, zero_smear_load_const)
     EXPECT_SVEC_EQ(svec4_f(-8), svec4_f(-8, -8, -8, -8));
     EXPECT_SVEC_EQ(svec4_f(100), svec4_f(100, 100, 100, 100));
     EXPECT_SVEC_EQ(svec4_f::load_const(cfloat), svec4_f(-1, -1, -1, -1));
-//    EXPECT_SVEC_EQ(svec4_f::load_const(cfloat), svec4_f(-1, 0, 1, 2));
     EXPECT_SVEC_EQ(svec4_f::load_and_splat((float*)cfloat), svec4_f(-1, -1, -1, -1));
 }
 
@@ -1702,6 +1701,7 @@ TEST(svec4_f, unary){
     svec4_f v_sqrt(sqrtf(2.3), sqrtf(4.6), sqrtf(8.7), sqrtf(16.2));
     svec4_f v_rcp(1.0f/(2.3), 1.0f/(-4.6), 1.0f/(8.7), 1.0f/(-16.2));
     svec4_f v_rsqrt(1.0f/sqrtf(2.3), 1.0f/sqrtf(4.6), 1.0f/sqrtf(8.7), 1.0f/sqrtf(16.2));
+    svec4_f v_log(logf(2.3), logf(4.6), logf(8.7), logf(16.2));
 
     EXPECT_SVEC_EQ(v0.round(), v_round);
     EXPECT_SVEC_EQ(v0.ceil(), v_ceil);
@@ -1709,6 +1709,7 @@ TEST(svec4_f, unary){
     EXPECT_SVEC_FEQ(v3.sqrt(), v_sqrt);
     EXPECT_SVEC_FEQ(v0.rcp(), v_rcp);
     EXPECT_SVEC_FEQ(v3.rsqrt(), v_rsqrt);
+    EXPECT_SVEC_FEQ(v3.log(), v_log);
 }
 
 TEST(svec4_d, unary){
@@ -1724,6 +1725,7 @@ TEST(svec4_d, unary){
     svec4_d v_sqrt(sqrt(2.3), sqrt(4.6), sqrt(8.7), sqrt(16.2));
     svec4_d v_rcp(1.0/(2.3), 1.0/(-4.6), 1.0/(8.7), 1.0/(-16.2));
     svec4_d v_rsqrt(1.0/sqrt(2.3), 1.0/sqrt(4.6), 1.0/sqrt(8.7), 1.0f/sqrtf(16.2));
+    svec4_d v_log(log(2.3), log(4.6), log(8.7), log(16.2));
 
     EXPECT_SVEC_EQ(v0.round(), v_round);
     EXPECT_SVEC_EQ(v0.ceil(), v_ceil);
@@ -1731,6 +1733,7 @@ TEST(svec4_d, unary){
     EXPECT_SVEC_FEQ(v3.sqrt(), v_sqrt);
     EXPECT_SVEC_FEQ(v0.rcp(), v_rcp);
     EXPECT_SVEC_FEQ(v3.rsqrt(), v_rsqrt);
+    EXPECT_SVEC_FEQ(v3.log(), v_log);
 }
 
 TEST(svec4_i8, binary)
@@ -1993,6 +1996,18 @@ TEST(svec4_d, binary)
     EXPECT_SVEC_EQ(s / v0, svec4_d(2/2.0, 2/4.0, 2/8.0, 2/16.0));
 }
 
+TEST(svec4_d, reduce)
+{
+  svec4_d v0(1, 2, 3, 4);
+  svec4_d v1(10, 20, 30, 40);
+  svec4_d v2(100, 200, 300, 400);
+  svec4_d v3(1000, 2000, 3000, 4000);
+
+  svec4_d sum = svec_preduce_add(v0, v1, v2, v3);
+  EXPECT_SVEC_EQ(sum, svec4_d(10, 100, 1000, 10000));
+}
+
+
 template<typename STYPE, typename VTYPE>
 VTYPE random_vec(int maxValue) {
   VTYPE vec;
@@ -2069,6 +2084,10 @@ TEST(svec4_i16, shift)
   svec4_u16 sv = random_vec<uint16_t, svec4_u16>(16);
   int s = random() % 16;
   EXPECT_SVEC_EQ(svec_shl(v, sv), (ref_shl<svec4_i16, svec4_u16>(v, sv)));
+//  DUMP(v);
+//  DUMP(sv);
+//  DUMP(svec_shr(v, sv));
+//  DUMP((ref_shr<svec4_i16, svec4_u16>(v, sv)));
   EXPECT_SVEC_EQ(svec_shr(v, sv), (ref_shr<svec4_i16, svec4_u16>(v, sv)));
   EXPECT_SVEC_EQ(svec_shl(v, s), (ref_shl<svec4_i16>(v, s)));
   EXPECT_SVEC_EQ(svec_shr(v, s), (ref_shr<svec4_i16>(v, s)));

@@ -1928,6 +1928,39 @@ MAX_MIN_REDUCE_METHODS(svec4_u64, uint64_t);
 MAX_MIN_REDUCE_METHODS(svec4_f, float);
 MAX_MIN_REDUCE_METHODS(svec4_d, double);
 
+//FORCEINLINE svec4_d svec_preduce_add(svec4_d v0, svec4_d v1, svec4_d v2, svec4_d v3) {
+//  return svec4_d(
+//      svec_reduce_add(v0),
+//      svec_reduce_add(v1),
+//      svec_reduce_add(v2),
+//      svec_reduce_add(v3)
+//      );
+//}
+
+//FORCEINLINE svec4_d svec_preduce_add(svec4_d v0, svec4_d v1, svec4_d v2, svec4_d v3) {
+//  __m128d s00 = _mm_hadd_pd(v0.v[0], v0.v[1]);
+//  __m128d s01 = _mm_hadd_pd(v1.v[0], v1.v[1]);
+//  __m128d s02 = _mm_hadd_pd(v2.v[0], v2.v[1]);
+//  __m128d s03 = _mm_hadd_pd(v3.v[0], v3.v[1]);
+//
+//  __m128d s0 = _mm_hadd_pd(s00, s01);
+//  __m128d s1 = _mm_hadd_pd(s02, s03);
+//
+//  return svec4_d(s0, s1);
+//}
+
+FORCEINLINE svec4_d svec_preduce_add(svec4_d v0, svec4_d v1, svec4_d v2, svec4_d v3) {
+  __m128d s00 = _mm_add_pd(v0.v[0], v0.v[1]);
+  __m128d s01 = _mm_add_pd(v1.v[0], v1.v[1]);
+  __m128d s02 = _mm_add_pd(v2.v[0], v2.v[1]);
+  __m128d s03 = _mm_add_pd(v3.v[0], v3.v[1]);
+
+  __m128d s0 = _mm_hadd_pd(s00, s01);
+  __m128d s1 = _mm_hadd_pd(s02, s03);
+
+  return svec4_d(s0, s1);
+}
+
 //  7. Compare
 /**
  * @brief element by element comparison of two svec_vec4_i1 type object

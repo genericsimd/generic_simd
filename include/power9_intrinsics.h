@@ -1,3 +1,7 @@
+/**
+ * IBM Confidential
+ */
+
 #define VSXW    "=wa"
 #define VSXR    "wa"
 #define VSXWC   "=&wa"
@@ -819,10 +823,14 @@ static FORCEINLINE __vector unsigned long long   vec_smear_const_i64_p7(const lo
   return r;
 }
 
+/**
+ *\brief This one is not really a smear constant. Need fix it.
+ */
 static FORCEINLINE __vector float               vec_smear_const_float_p7(const __vector float *ptr) {
-  __vector float r;
+  __vector float r, r1;
   asm ("lxvw4x %x[xt], 0, %[xb]"   : [xt] VSXW(r) : [xb] "b"(ptr) );
-  return r;
+  asm ("vspltw %x[xt], %x[xa], %[im]"   : [xt] VSXW(r1) : [xa] VSXR(r) , [im] "i"(0));;
+  return r1;
 }
 
 static FORCEINLINE __vector float vec_neg_p7(__vector float a) {

@@ -1001,6 +1001,7 @@ static FORCEINLINE void svec_store(svec4_u64 *p, svec4_u64 v) {
  */
 static FORCEINLINE svec4_f svec_load(const svec4_f *p) {
   return *((__vector float *)p);
+//  return vec_ld(0, (__vector float*)p);
 }
 
 /**
@@ -1011,6 +1012,7 @@ static FORCEINLINE svec4_f svec_load(const svec4_f *p) {
  */
 static FORCEINLINE void svec_store(svec4_f *p, svec4_f v) {
   *((__vector float*)p) = v.v;
+//  vec_st(v.v, 0, (__vector float*)p);
 }
 
 /**
@@ -1020,10 +1022,12 @@ static FORCEINLINE void svec_store(svec4_f *p, svec4_f v) {
  * @return a new vector loaded from p
  */
 static FORCEINLINE svec4_d svec_load(const svec4_d *p) {
-//  __vector double v0 = *(((__vector double *)p)+0);
-//  __vector double v1 = *(((__vector double *)p)+1);
-  __vector double v0 = vec_vsx_ld(0, ((__vector double *)p));
-  __vector double v1 = vec_vsx_ld(0, ((__vector double *)p)+1);
+  __vector double v0 = *(((__vector double *)p)+0);
+  __vector double v1 = *(((__vector double *)p)+1);
+//  __vector double v0 = vec_vsx_ld(0, ((__vector double *)p));
+//  __vector double v1 = vec_vsx_ld(0, ((__vector double *)p)+1);
+//  __vector double v0 = vec_ld(0, ((__vector double *)p));
+//  __vector double v1 = vec_ld(0, ((__vector double *)p)+1);
   return svec4_d(v0,v1);
 }
 
@@ -1034,10 +1038,12 @@ static FORCEINLINE svec4_d svec_load(const svec4_d *p) {
  * @param[in] v vector to be stored
  */
 static FORCEINLINE void svec_store(svec4_d *p, svec4_d v) {
-//  *(((__vector double *)p)+0) = v.v[0];
-//  *(((__vector double *)p)+1) = v.v[1];
-  vec_vsx_st(v.v[0], 0, (__vector double *)p);
-  vec_vsx_st(v.v[1], 0, (__vector double *)p + 1);
+  *(((__vector double *)p)+0) = v.v[0];
+  *(((__vector double *)p)+1) = v.v[1];
+//  vec_vsx_st(v.v[0], 0, (__vector double *)p);
+//  vec_vsx_st(v.v[1], 0, (__vector double *)p + 1);
+//  vec_st(v.v[0], 0, (__vector double *)p);
+//  vec_st(v.v[1], 0, (__vector double *)p + 1);
 }
 
 // 3. Select
@@ -1294,7 +1300,8 @@ static FORCEINLINE svec4_f svec_load_const(const float* p) {
 #ifdef __POWER9
   return vec_smear_const_float_p9(p);
 #else
-  return vec_smear_const_float_p7((const __vector float *)p);
+  //return vec_smear_const_float_p7((const __vector float *)p);
+  return vec_splat(*(__vector float*)p, 0);
 #endif
 }
 
@@ -2420,7 +2427,7 @@ UNARY_OP_L4(svec4_d, svec_exp, exp);
 
 //log
 static FORCEINLINE svec4_f svec_log(svec4_f v) {
-  return vec_loge(v.v);
+  return svec4_f(vec_loge(v.v)) * log(2);
 }
 UNARY_OP_L4(svec4_d, svec_log, log);
 //abs - for all types
@@ -2752,11 +2759,11 @@ static FORCEINLINE svec4_u64  svec_shl(svec4_u64 a, svec4_u64 b) {
   return svec4_u64(a[0] << b[0], a[1] << b[1], a[2] << b[2], a[3] << b[3]);
 }
 //shift right
-BINARY_OP_OPT_FUNC(svec4_i8, svec4_u8, svec_shr, vec_sr);
+BINARY_OP_OPT_FUNC(svec4_i8, svec4_u8, svec_shr, vec_sra);
 BINARY_OP_OPT_FUNC(svec4_u8, svec4_u8, svec_shr, vec_sr);
-BINARY_OP_OPT_FUNC(svec4_i16, svec4_u16, svec_shr, vec_sr);
+BINARY_OP_OPT_FUNC(svec4_i16, svec4_u16, svec_shr, vec_sra);
 BINARY_OP_OPT_FUNC(svec4_u16, svec4_u16, svec_shr, vec_sr);
-BINARY_OP_OPT_FUNC(svec4_i32, svec4_u32, svec_shr, vec_sr);
+BINARY_OP_OPT_FUNC(svec4_i32, svec4_u32, svec_shr, vec_sra);
 BINARY_OP_OPT_FUNC(svec4_u32, svec4_u32, svec_shr, vec_sr);
 
 //BINARY_OP_OPT_FUNC64(svec4_i64, svec4_u64, svec_shr, vec_sr);
@@ -2909,6 +2916,24 @@ BINARY_OP_REDUCE_FUNC_L4(svec4_u64, uint64_t, svec_reduce_min, min<uint64_t>);
 BINARY_OP_REDUCE_FUNC_L4(svec4_f, float, svec_reduce_min, min<float>);
 BINARY_OP_REDUCE_FUNC_L4(svec4_d, double, svec_reduce_min, min<double>);
 
+
+FORCEINLINE svec4_d svec_preduce_add(svec4_d v0, svec4_d v1, svec4_d v2, svec4_d v3) {
+  //parallel reduction using mergeh mergel
+  __vector double sv0 = v0.v[0] + v0.v[1];
+  __vector double sv1 = v1.v[0] + v1.v[1];
+  __vector double sv2 = v2.v[0] + v2.v[1];
+  __vector double sv3 = v3.v[0] + v3.v[1];
+
+  __vector double h0 = vec_mergeh(sv0, sv1);
+  __vector double l0 = vec_mergel(sv0, sv1);
+  __vector double h1 = vec_mergeh(sv2, sv3);
+  __vector double l1 = vec_mergel(sv2, sv3);
+
+  //reduction again
+  __vector double s0 = h0 + l0;
+  __vector double s1 = h1 + l1;
+  return svec4_d(s0, s1);
+}
 
 //  7. Compare
 
