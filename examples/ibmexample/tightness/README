@@ -1,0 +1,33 @@
+Still cannot link the tightness with MASS simd library.
+
+For example this simple code
+testv.c
+-----
+#include <mass_simdp7.h>
+#include <altivec.h>
+
+int main() {
+
+  vector double a = {1, 3};
+  vector double b = logd2(a);
+  return 0;
+}
+-----
+
+I cannot compile it in p7curielin  (MASS: I/opt/ibm/mass/6.0/sles10/)
+or p7curielin2 (MASS: /opt/ibmcmp/xlmass/7.1/)
+
+For example in p7curielin, 
+neither xlc nor gcc works.
+
+xlc -qaltivec -qarch=pwr7 -q64 -I/opt/ibm/mass/6.0/sles10/include -L/opt/ibm/mass/6.0/sles10/lib64 -lmass_simdp7_64 testv.c
+    testv.o:(.text+0x30): undefined reference to `logd2'
+
+gcc -m64 -mvsx -I/opt/ibm/mass/6.0/sles10/include -L/opt/ibm/mass/6.0/sles10/lib64 -lmass_simdp7_64 testv.c
+/tmp/ccVxcNPa.o:(.text+0x30): undefined reference to `logd2'
+collect2: error: ld returned 1 exit status
+
+
+The logd2 is defined in mass_simdp7.h and there is a symbol logd2 in libmass_simdp7_64.a
+
+But I can compile it in AIX.
