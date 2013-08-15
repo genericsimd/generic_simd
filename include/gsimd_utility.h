@@ -675,6 +675,20 @@ FORCEINLINE VTYPE svec_gather_base_offsets(STYPE* b, uint32_t scale, OTYPE offse
 }
 
 /**
+ * @brief macros for general impl of gather base step
+ */
+#define GATHER_STRIDE(VTYPE, STYPE, OTYPE, MTYPE)         \
+FORCEINLINE VTYPE svec_gather_stride(STYPE* b, OTYPE o, OTYPE s) {   \
+  VTYPE ret; \
+  b += o; \
+  for(int i = 0; i < LANES; ++i, b+=s) { \
+    ret[i] = *b; \
+  } \
+  INC_STATS_NAME(STATS_GATHER_SLOW,1, "Gather Steps"); \
+  return ret; \
+}
+
+/**
  * @brief macros for fast impl of gather base step
  */
 #define GATHER_STRIDE_L4(VTYPE, STYPE, OTYPE, MTYPE)         \
@@ -697,6 +711,16 @@ FORCEINLINE VTYPE svec_gather_stride(STYPE* b, OTYPE o, OTYPE s) {   \
 //  b += stride; STYPE v3 = *b;  \
 //  return VTYPE(v0, v1, v2, v3); \
 //}
+
+#define SCATTER_STRIDE(VTYPE, STYPE, OTYPE, MTYPE)         \
+FORCEINLINE void svec_scatter_stride(STYPE* b, OTYPE o, OTYPE s, VTYPE val) {   \
+  b += o; \
+  for(int i = 0; i < LANES; ++i, b+=s) { \
+    *b = svec_extract(val, i); \
+  }\
+  INC_STATS_NAME(STATS_SCATTER_SLOW,1, "scatter stride general "#VTYPE);          \
+}
+
 
 #define SCATTER_STRIDE_L4(VTYPE, STYPE, OTYPE, MTYPE)         \
 FORCEINLINE void svec_scatter_stride(STYPE* b, OTYPE o, OTYPE s, VTYPE val) {   \
@@ -787,6 +811,16 @@ static FORCEINLINE VTYPE svec_masked_load(VTYPE *p, MTYPE mask) { \
 static FORCEINLINE void svec_masked_store(VTYPE *p, VTYPE v, MTYPE mask) { \
     svec_scatter_base_offsets((STYPE*)p, sizeof(STYPE), svec4_i32(0,1,2,3), v, mask); \
 }
+
+#define MASKED_LOAD_STORE_L8(VTYPE, STYPE, MTYPE)                       \
+static FORCEINLINE VTYPE svec_masked_load(VTYPE *p, MTYPE mask) { \
+    return svec_gather_base_offsets((STYPE*)p, sizeof(STYPE), svec8_i32(0,1,2,3,4,5,6,7), mask);  \
+}                                                      \
+static FORCEINLINE void svec_masked_store(VTYPE *p, VTYPE v, MTYPE mask) { \
+    svec_scatter_base_offsets((STYPE*)p, sizeof(STYPE), svec8_i32(0,1,2,3,4,5,6,7), v, mask); \
+}
+
+
 
 //////////////////////////////////////////////////////////////
 //
@@ -1264,16 +1298,16 @@ const FORCEINLINE STYPE  VTYPE::operator[](int index) const { \
     FORCEINLINE void VTYPE::store(VTYPE* p){ svec_store(p, *this); }
 
 
-#define VEC_CLASS_METHOD_IMPL(VTYPE, STYPE) \
+#define VEC_CLASS_METHOD_IMPL(VTYPE, STYPE, OTYPE32, OTYPE64, MTYPE) \
   MVEC_CLASS_METHOD_IMPL(VTYPE, STYPE); \
 /*!
    @brief Return a new vector by only loading the value from the pointer p if the mask element is true
  */\
-  FORCEINLINE VTYPE VTYPE::masked_load(VTYPE* p, svec4_i1 mask){ return svec_masked_load(p, mask); } \
+  FORCEINLINE VTYPE VTYPE::masked_load(VTYPE* p, MTYPE mask){ return svec_masked_load(p, mask); } \
 /*!
    @brief Store the vector element's value to pointer p if the mask element is true
  */\
-  FORCEINLINE void VTYPE::masked_store(VTYPE* p, svec4_i1 mask){ svec_masked_store(p, *this, mask); } \
+  FORCEINLINE void VTYPE::masked_store(VTYPE* p, MTYPE mask){ svec_masked_store(p, *this, mask); } \
   VEC_UNARY_IMPL(VTYPE, STYPE); \
   VEC_BIN_IMPL(VTYPE, STYPE); \
 /*!
@@ -1287,33 +1321,33 @@ const FORCEINLINE STYPE  VTYPE::operator[](int index) const { \
   /*!
      @brief Gather the elements pointed by the vector ptrs if the mask element is true, and return a vector.
    */\
-  FORCEINLINE VTYPE VTYPE::gather(svec4_ptr ptrs, svec4_i1 mask) {return svec_gather<VTYPE>(ptrs, mask); } \
+  FORCEINLINE VTYPE VTYPE::gather(svec4_ptr ptrs, MTYPE mask) {return svec_gather<VTYPE>(ptrs, mask); } \
   /*!
      @brief Scatter the vector's elements to the locations pointed by the vector ptrs if the mask element is true.
    */\
-  FORCEINLINE void VTYPE::scatter(svec4_ptr ptrs, svec4_i1 mask) { svec_scatter(ptrs, *this, mask); } \
+  FORCEINLINE void VTYPE::scatter(svec4_ptr ptrs, MTYPE mask) { svec_scatter(ptrs, *this, mask); } \
   /*!
      @brief Gather the elements pointed by calculating the addresses ((char*)b + scale * offsets) if the mask element is true, and return a vector.
    */\
-  FORCEINLINE VTYPE VTYPE::gather_base_offsets(STYPE* b, uint32_t scale, svec4_i32 offsets, svec4_i1 mask) { \
+  FORCEINLINE VTYPE VTYPE::gather_base_offsets(STYPE* b, uint32_t scale, OTYPE32 offsets, svec4_i1 mask) { \
     return svec_gather_base_offsets(b, scale, offsets, mask); \
   } \
   /*!
      @brief Gather the elements pointed by calculating the addresses ((char*)b + scale * offsets) if the mask element is true, and return a vector.
    */\
-  FORCEINLINE VTYPE VTYPE::gather_base_offsets(STYPE* b, uint32_t scale, svec4_i64 offsets, svec4_i1 mask) {\
+  FORCEINLINE VTYPE VTYPE::gather_base_offsets(STYPE* b, uint32_t scale, OTYPE64 offsets, MTYPE mask) {\
       return svec_gather_base_offsets(b, scale, offsets, mask); \
   } \
   /*!
      @brief Scatter the vector's elements to the addresses ((char*)b + scale * offsets) if the mask element is true.
    */\
-  FORCEINLINE void VTYPE::scatter_base_offsets(STYPE* b, uint32_t scale, svec4_i32 offsets, svec4_i1 mask) { \
+  FORCEINLINE void VTYPE::scatter_base_offsets(STYPE* b, uint32_t scale, OTYPE32 offsets, MTYPE mask) { \
       svec_scatter_base_offsets(b, scale, offsets, *this, mask); \
   } \
   /*!
      @brief Scatter the vector's elements to the addresses ((char*)b + scale * offsets) if the mask element is true.
    */\
-  FORCEINLINE void VTYPE::scatter_base_offsets(STYPE* b, uint32_t scale, svec4_i64 offsets, svec4_i1 mask) {\
+  FORCEINLINE void VTYPE::scatter_base_offsets(STYPE* b, uint32_t scale, OTYPE64 offsets, MTYPE mask) {\
       svec_scatter_base_offsets(b, scale, offsets, *this, mask); \
   } \
   /*!
@@ -1351,7 +1385,7 @@ const FORCEINLINE STYPE  VTYPE::operator[](int index) const { \
   /*!
      @brief Return a new vector by shuffle this vector's elements with index vector e.g. newVec[i] = thisVec[index[i]]
    */\
-  FORCEINLINE VTYPE VTYPE::shuffle(svec4_i32 index) { return svec_shuffle(*this, index); } \
+  FORCEINLINE VTYPE VTYPE::shuffle(OTYPE32 index) { return svec_shuffle(*this, index); } \
   /*!
      @brief Return a new vector of the vector's abs value.
    */\

@@ -1290,7 +1290,6 @@ struct svec4_ptr: public svec4_u32{
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS //not want generate svec_gather*/svec_scatter methods
 
-
 template <class RetVecType> static RetVecType svec_gather(svec4_u32 ptrs, svec4_i1 mask);
 
 GATHER_GENERAL_L4(svec4_i8, int8_t, svec4_u32, svec4_i1);
@@ -2762,16 +2761,16 @@ VEC_CMP_IMPL(svec4_f, svec4_i1);
 VEC_CMP_IMPL(svec4_d, svec4_i1);
 
 MVEC_CLASS_METHOD_IMPL(svec4_i1, uint32_t);
-VEC_CLASS_METHOD_IMPL(svec4_i8, int8_t);
-VEC_CLASS_METHOD_IMPL(svec4_u8, uint8_t);
-VEC_CLASS_METHOD_IMPL(svec4_i16, int16_t);
-VEC_CLASS_METHOD_IMPL(svec4_u16, uint16_t);
-VEC_CLASS_METHOD_IMPL(svec4_i32, int32_t);
-VEC_CLASS_METHOD_IMPL(svec4_u32, uint32_t);
-VEC_CLASS_METHOD_IMPL(svec4_i64, int64_t);
-VEC_CLASS_METHOD_IMPL(svec4_u64, uint64_t);
-VEC_CLASS_METHOD_IMPL(svec4_f, float);
-VEC_CLASS_METHOD_IMPL(svec4_d, double);
+VEC_CLASS_METHOD_IMPL(svec4_i8, int8_t, svec4_i32, svec4_i64, svec4_i1);
+VEC_CLASS_METHOD_IMPL(svec4_u8, uint8_t, svec4_i32, svec4_i64, svec4_i1);
+VEC_CLASS_METHOD_IMPL(svec4_i16, int16_t, svec4_i32, svec4_i64, svec4_i1);
+VEC_CLASS_METHOD_IMPL(svec4_u16, uint16_t, svec4_i32, svec4_i64, svec4_i1);
+VEC_CLASS_METHOD_IMPL(svec4_i32, int32_t, svec4_i32, svec4_i64, svec4_i1);
+VEC_CLASS_METHOD_IMPL(svec4_u32, uint32_t, svec4_i32, svec4_i64, svec4_i1);
+VEC_CLASS_METHOD_IMPL(svec4_i64, int64_t, svec4_i32, svec4_i64, svec4_i1);
+VEC_CLASS_METHOD_IMPL(svec4_u64, uint64_t, svec4_i32, svec4_i64, svec4_i1);
+VEC_CLASS_METHOD_IMPL(svec4_f, float, svec4_i32, svec4_i64, svec4_i1);
+VEC_CLASS_METHOD_IMPL(svec4_d, double, svec4_i32, svec4_i64, svec4_i1);
 
 VEC_INT_CLASS_METHOD_IMPL(svec4_i8, svec4_u8, int8_t);
 VEC_INT_CLASS_METHOD_IMPL(svec4_u8, svec4_u8, uint8_t);
