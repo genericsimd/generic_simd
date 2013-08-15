@@ -2838,13 +2838,13 @@ FORCEINLINE svec4_f svec_madd(svec4_f a, svec4_f b, svec4_f c) {
     return vec_madd(a.v, b.v, c.v);
 }
 /**
- * @brief vector multiply and add operation. return a * b - c.
+ * @brief vector multiply and add operation. return a * b + c.
  */
 FORCEINLINE svec4_d svec_madd(svec4_d a, svec4_d b, svec4_d c) {
     return svec4_d(vec_madd(a.v[0], b.v[0], c.v[0]), vec_madd(a.v[1], b.v[1], c.v[1]));
 }
 /**
- * @brief vector multiply and add operation. return a * b + c.
+ * @brief vector multiply and add operation. return a * b - c.
  */
 FORCEINLINE svec4_f svec_msub(svec4_f a, svec4_f b, svec4_f c) {
     return vec_msub(a.v, b.v, c.v);
@@ -2854,6 +2854,18 @@ FORCEINLINE svec4_f svec_msub(svec4_f a, svec4_f b, svec4_f c) {
  */
 FORCEINLINE svec4_d svec_msub(svec4_d a, svec4_d b, svec4_d c) {
     return svec4_d(vec_msub(a.v[0], b.v[0], c.v[0]), vec_msub(a.v[1], b.v[1], c.v[1]));
+}
+/**
+ * @brief vector multiply and add operation. return -(a * b - c).
+ */
+FORCEINLINE svec4_f svec_nmsub(svec4_f a, svec4_f b, svec4_f c) {
+    return vec_nmsub(a.v, b.v, c.v);
+}
+/**
+ * @brief vector multiply and add operation. return -(a * b - c).
+ */
+FORCEINLINE svec4_d svec_nmsub(svec4_d a, svec4_d b, svec4_d c) {
+    return svec4_d(vec_nmsub(a.v[0], b.v[0], c.v[0]), vec_nmsub(a.v[1], b.v[1], c.v[1]));
 }
 
 //  5. Max/Min

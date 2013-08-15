@@ -2,20 +2,9 @@
 #include <stdio.h>
 #include <math.h>
 #include <timing.h>
-#ifdef __ALTIVEC__
-#include <power_vsx4.h>
-using namespace vsx;
-#else
-#ifdef __SSE4_2__
-#include <sse4.h>
-using namespace sse;
-#else
-#include <generic4.h>
-using namespace generic;
-#endif //__SSE4_2__
-#endif //__ALTIVEC__
+#include <gsimd.h>
 
-#define MATRIX_SIZE 50
+#define MATRIX_SIZE 1000
 
 // an original sweep function for a triangular matrix
 //__attribute__((optimize("no-tree-vectorize")))
@@ -1981,7 +1970,7 @@ int compareMatrix(double *mat, double *tri, int size)
   return 0;
 }
 
-#define NUM_ITERATIONS 10
+#define NUM_ITERATIONS 1
 
 int main(int argc, char *argv[])
 {

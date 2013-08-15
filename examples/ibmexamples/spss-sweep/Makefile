@@ -2,8 +2,8 @@
 EXAMPLE=sweep
 CPP_SRC=sweep.cpp
 
-
-include ../../common.mk
+BASE_DIR=../../..
+include ${BASE_DIR}/examples/common.mk
 
 ##XLC version
 XLC_SRC=sweep_xlc.cpp

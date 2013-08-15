@@ -5,19 +5,7 @@
 #include <assert.h>
 #include <timing.h>
 #include <stdio.h>
-
-#ifdef __ALTIVEC__
-#include <power_vsx4.h>
-using namespace vsx;
-#else
-#ifdef __SSE4_2__
-#include <sse4.h>
-using namespace sse;
-#else
-#include <generic4.h>
-using namespace generic;
-#endif //__SSE4_2__
-#endif //__ALTIVEC__
+#include <gsimd.h>
 
 /*
   g++ -I../../include mandelbrot.cc -mvsx -flax-vector-conversions -Wno-int-to-pointer-cast -O3 -o mandelbrot

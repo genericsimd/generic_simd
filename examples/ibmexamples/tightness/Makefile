@@ -6,7 +6,8 @@ RUN_ARGS=-repeats 10
 MASS_DIR=/opt/ibm/mass/6.0/sles10/include
 MASS_LIB_PATH=/opt/ibm/mass/6.0/sles10/lib64
 
-include ../../common.mk
+BASE_DIR=../../..
+include ${BASE_DIR}/examples/common.mk
 
 ##XLC version
 XLC_SRC=tightness_intrinsics.c

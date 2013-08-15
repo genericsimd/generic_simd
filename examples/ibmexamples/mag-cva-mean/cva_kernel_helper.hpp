@@ -548,18 +548,7 @@ public:
 #endif
 
 #ifdef ENABLE_SIMD
-#ifdef __ALTIVEC__
-#include <power_vsx4.h>
-using namespace vsx;
-#else
-#ifdef __SSE4_2__
-#include <sse4.h>
-using namespace sse;
-#else
-#include <generic4.h>
-using namespace generic;
-#endif //__SSE4_2__
-#endif //__ALTIVEC__
+#include <gsimd.h>
 #include <math.h>
 
 template <class VALUE_TYPE>

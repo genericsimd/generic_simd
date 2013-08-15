@@ -1873,6 +1873,12 @@ FORCEINLINE VTYPE svec_madd(VTYPE a, VTYPE b, VTYPE c) { \
  */ \
 FORCEINLINE VTYPE svec_msub(VTYPE a, VTYPE b, VTYPE c) { \
   return a * b - c;\
+} \
+/**
+ * @brief vector multiply and add operation. return -(a * b - c).
+ */ \
+FORCEINLINE VTYPE svec_nmsub(VTYPE a, VTYPE b, VTYPE c) { \
+  return c - a * b ;\
 }
 
 

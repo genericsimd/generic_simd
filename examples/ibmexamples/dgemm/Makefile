@@ -4,7 +4,8 @@ CPP_SRC=dgemm.cpp
 RUN_ARGS=10
 ITER=10
 
-include ../../common.mk
+BASE_DIR=../../..
+include ${BASE_DIR}/examples/common.mk
 
 ##XLC version
 XLC_SRC=dgemm_intrinsics.cpp

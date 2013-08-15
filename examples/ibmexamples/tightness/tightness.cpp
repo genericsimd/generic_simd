@@ -27,13 +27,12 @@ int vectsize = VECTSIZE;
 //#define FAST_LOG
 
 #ifdef SIMD
+#include <gsimd.h>
+
+#ifdef __ALTIVEC__
 #include <mass_simdp7.h>
 vector double logd2(vector double);
 vector double log1pd2(vector double);
-#ifdef __ALTIVEC__
-#include <power_vsx4.h>
-using namespace vsx;
-
 svec4_d svec_logd2(svec4_d v) {
   return svec4_d(logd2(v.v[0]), logd2(v.v[1]));
 }
@@ -42,27 +41,12 @@ svec4_d svec_log1pd2(svec4_d v) {
 }
 
 #else
-#ifdef __SSE4_2__
-#include <sse4.h>
-using namespace sse;
-
 svec4_d svec_logd2(svec4_d v) {
   return svec_log(v);
 }
 svec4_d svec_log1pd2(svec4_d v) {
   return svec_log(1+v);
 }
-
-#else
-#include <generic4.h>
-using namespace generic;
-svec4_d svec_logd2(svec4_d v) {
-  return svec_log(v);
-}
-svec4_d svec_log1pd2(svec4_d v) {
-  return svec_log(1+v);
-}
-#endif //__SSE4_2__
 #endif //__ALTIVEC__
 const svec4_d vzero(0);
 #endif

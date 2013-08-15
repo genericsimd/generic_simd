@@ -702,7 +702,7 @@ void sweep_simd_nogs(double *fSym) {
         j++;
         for (; j < ((i - 1) / 2) * 2; j += 4) {
 
-          svec4_d vec_Apj = svec_gather_base_steps(fSym+addr(j,p), fNRows);
+          svec4_d vec_Apj = svec4_d::gather_stride(fSym, addr(j,p), fNRows);
 //          int Ipj0 = (j + 0) * fNRows + p;
 //          int Ipj1 = (j + 1) * fNRows + p;
 //
@@ -806,7 +806,7 @@ void sweep_simd_nogs(double *fSym) {
           fSym[Ii3j] += Ai3p * Apj;
         }
         for (; j < ((i - 1) / 2) * 2; j += 4) {
-          svec4_d vec_Apj = svec_gather_base_steps(fSym+addr(j,p), fNRows);
+          svec4_d vec_Apj = svec4_d::gather_stride(fSym, addr(j,p), fNRows);
 //          int Ipj0 = (j + 0) * fNRows + p;
 //          int Ipj1 = (j + 1) * fNRows + p;
 //#ifndef __SSE4_2__

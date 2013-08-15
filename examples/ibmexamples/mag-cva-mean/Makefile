@@ -1,7 +1,7 @@
 TARGET_SRC=cva_kernel.cpp
 TARGET_NAME=cva_kernel
 
-BASE_DIR=../../include
+BASE_DIR=../../..
 
 include makefile.footer
 

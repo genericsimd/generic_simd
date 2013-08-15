@@ -16,19 +16,7 @@
 #include <string.h>
 #include <assert.h>
 #include <timing.h>
-#ifdef __ALTIVEC__
-#include <power_vsx4.h>
-using namespace vsx;
-#else
-#ifdef __SSE4_2__
-#include <sse4.h>
-using namespace sse;
-#else
-#include <generic4.h>
-using namespace generic;
-#endif //__SSE4_2__
-#endif //__ALTIVEC__
-
+#include <gsimd.h>
 
 #define N (1048576)
 //#define N (1000000)

@@ -6,10 +6,10 @@ else
 endif
 
 CXX=g++
-CXXFLAGS=-O2 -m64 -I${BASE_DIR}
+CXXFLAGS=-O2 -m64 -I${BASE_DIR}/include
 # -fdump-tree-optimized
 CC=gcc
-CCFLAGS=-O3 -m64 -I${BASE_DIR}
+CCFLAGS=-O3 -m64 -I${BASE_DIR}/include
 LIBS=-lm -lstdc++
 
 CCFLAGS+= -Wno-int-to-pointer-cast

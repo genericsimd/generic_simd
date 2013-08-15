@@ -870,6 +870,14 @@ FORCEINLINE VTYPE svec_msub(VTYPE a, VTYPE b, VTYPE c) { \
   VTYPE res; \
   for(int i = 0; i < LANES; ++i) { res[i] = a[i]*b[i]-c[i]; } \
   return res; \
+} \
+/**
+ * @brief vector multiply and add operation. return -( a * b - c ).
+ */ \
+FORCEINLINE VTYPE svec_nmsub(VTYPE a, VTYPE b, VTYPE c) { \
+  VTYPE res; \
+  for(int i = 0; i < LANES; ++i) { res[i] = -(a[i]*b[i]-c[i]); } \
+  return res; \
 }
 
 #define TERNERY_L4(VTYPE) \
@@ -891,6 +899,16 @@ FORCEINLINE VTYPE svec_msub(VTYPE a, VTYPE b, VTYPE c) { \
             svec_extract(a, 1) * svec_extract(b, 1) - svec_extract(c, 1),\
             svec_extract(a, 2) * svec_extract(b, 2) - svec_extract(c, 2),\
             svec_extract(a, 3) * svec_extract(b, 3) - svec_extract(c, 3));\
+  return ret;                            \
+} \
+/**
+ * @brief vector multiply and add operation. return - ( a * b - c).
+ */ \
+FORCEINLINE VTYPE svec_nmsub(VTYPE a, VTYPE b, VTYPE c) { \
+  VTYPE ret(- (svec_extract(a, 0) * svec_extract(b, 0) - svec_extract(c, 0)),\
+            - (svec_extract(a, 1) * svec_extract(b, 1) - svec_extract(c, 1)),\
+            - (svec_extract(a, 2) * svec_extract(b, 2) - svec_extract(c, 2)),\
+            - (svec_extract(a, 3) * svec_extract(b, 3) - svec_extract(c, 3)));\
   return ret;                            \
 }
 

@@ -4,9 +4,7 @@
  * */
 
 #include <iostream>
-#include <power_vsx4.h>
-
-using namespace vsx;
+#include <gsimd.h>
 
 int main (int argc, char* argv[])
 {

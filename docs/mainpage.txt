@@ -16,9 +16,7 @@
  
  @code{.cpp}
 #include <iostream>
-#include <power_vsx4.h> //SIMD Generic Library for power platform
-
-using namespace vsx; //Name space for vsx interfaces
+#include <gsimd.h>
 
 int main (int argc, char* argv[])
 {
@@ -29,10 +27,18 @@ int main (int argc, char* argv[])
 }
  @endcode
 
-Compile and run it.
+Compile and run it on Power7 Platform.
 
 @code{.sh}
 $ g++ -I../../include HelloSIMD.cpp -mvsx -flax-vector-conversions -o HelloSIMD -Wno-int-to-pointer-cast
+$ ./HelloSIMD
+Hello, svec4_f[2.2, 4.4, 6.6, 8.8]
+@endcode
+
+Compile and run it on Intel Platform.
+
+@code{.sh}
+$ g++ -I../../include HelloSIMD.cpp -msse4.2 -o HelloSIMD -Wno-int-to-pointer-cast
 $ ./HelloSIMD
 Hello, svec4_f[2.2, 4.4, 6.6, 8.8]
 @endcode
@@ -41,15 +47,9 @@ The current implementation needs gcc to compile.
 <ul>
 <li>../../include contains the header files</li>
 <li>-mvsx enable gcc support Power vsx SIMD</li>
+<li>-msse4.2 enable gcc support Intel SSE4.2 SIMD</li>
 <li>-Wno-int-to-pointer-cast -flax-vector-conversions not show warnings and enable vector casts</li>
 </ul>
-
-If you want to use another SIMD support, suppose the generic one (SIMD simulated by scalar code).
-@code{.cpp}
-#include <generic4.h>
-using namespace generic; //Name space for generic interfaces
-@endcode
-
 
 @section datatypes Data Types
 The current library has short vector types
@@ -170,6 +170,8 @@ VTYPE svec_madd(VTYPE a, VTYPE b, VTYPE c) returns a * b + c;
 
 VTYPE svec_msub(VTYPE a, VTYPE b, VTYPE c) returns a * b - c;
 
+VTYPE svec_nmsub(VTYPE a, VTYPE b, VTYPE c) returns -(a * b - c);
+
 @subsubsection selectop Select operation
 The prototype is svec_select(svec4_i1 mask, VTYPE a, VTYPE b), and return
 a new vector whose elements are selected from a or b based on the mask.
@@ -185,6 +187,46 @@ of type cast. Each element's cast semantics is the same as scalar cast.
 @subsection maskedop Operation with mask
 load, store, gatter, scatter, compare operations have a masked version.
 Please refer the detail document for detail.
+
+@section perf Performance Evaluation
+
+We have ported some examples from intrinsics implementation to Generic SIMD implementation, 
+and evaluated their performance.
+
+Applications include
+<ul>
+<li>RGB2Gray, float</li>
+<li>Mandelbrot, float</li>
+<li>SPSS-sweep, double</li>
+<li>Dgemm, double</li>
+<li>CVA-Mean, float</li>
+</ul>
+
+Some of them only have Power Platform intrinsics implementation, and some of them only have intel intrinsics implementation.
+We compared the generic SIMD's performance with the intrinsics implementation by measure their speed up over scalar code.
+
+We also evaluated the portability of our GSIMD library by running the generic SIMD version application on the 
+platform without intrinsics implementation.
+
+Below are the result.
+
+The following figures show the performance speedup versus the scalar code on different platforms.
+
+Higher is better.
+
+\image html power_apps.jpg App on Power Platform
+
+
+\image html intel_apps.jpg App on Intel Platform
+
+
+\image html power2intel_apps.jpg App with Power Intrinsics only
+
+
+\image html intel2power_apps.jpg App with Intel Intrinsics only
+
+
+
 
 @section references Other References
 <ul>
