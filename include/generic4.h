@@ -1,36 +1,4 @@
 /**
- * @file generic4.h
- * @date  July 14, 2013
- * @author Haichuan Wang (haichuan@us.ibm.com, hwang154@illinois.edu)
- * @brief SIMD LANES=4 interfaces implemented by scalar
- * The source file is organized as follows
- * I. all types definition, with class function incorporated
- * II. data operation interfaces
- *   1. load/store
- *   2. select
- *   3. broadcast/rotate/shuffle/smear/setzero
- *   4. gather/scatter
- *   5. load const, smear const, load and splat
- *   6. masked load/masked store
- * III. Mask type (i1) interfaces
- *   1. mask construction
- *   2. bit operations
- * IV. General data operation interfaces
- *   1. Unary
- *   2. Math unary
- *   3. Binary
- *   4. Ternary
- *   5. Compare
- *   6. Max/Min
- *   7. Reduce
- *   8. Cast
- *
- *  The current implementation requires gcc to compile. Reasons
- *  1) In order to implement the splat interface efficiently, the code uses
- *     gcc built-in function  __builtin_constant_p(exp).
- */
-
-/**
 Copyright 2012 the Generic SIMD Intrinsic Library project authors. All rights reserved.
 
 Copyright IBM Corp. 2013, 2013. All rights reserved.
@@ -96,6 +64,40 @@ Copyright (c) 2010-2012, Intel Corporation
    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+
+/**
+ * @file generic4.h
+ * @date  July 14, 2013
+ * @author Haichuan Wang (haichuan@us.ibm.com, hwang154@illinois.edu)
+ * @brief SIMD LANES=4 interfaces implemented by scalar
+ * The source file is organized as follows
+ * I. all types definition, with class function incorporated
+ * II. data operation interfaces
+ *   1. load/store
+ *   2. select
+ *   3. broadcast/rotate/shuffle/smear/setzero
+ *   4. gather/scatter
+ *   5. load const, smear const, load and splat
+ *   6. masked load/masked store
+ * III. Mask type (i1) interfaces
+ *   1. mask construction
+ *   2. bit operations
+ * IV. General data operation interfaces
+ *   1. Unary
+ *   2. Math unary
+ *   3. Binary
+ *   4. Ternary
+ *   5. Compare
+ *   6. Max/Min
+ *   7. Reduce
+ *   8. Cast
+ *
+ *  The current implementation requires gcc to compile. Reasons
+ *  1) In order to implement the splat interface efficiently, the code uses
+ *     gcc built-in function  __builtin_constant_p(exp).
+ */
+
+
 
 
 #ifndef GENERIC4_H_
