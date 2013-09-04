@@ -1,5 +1,0 @@
-.cproject
-.project
-docs/html/*
-tests/gtest-1.6.0/*
-.settings/*
