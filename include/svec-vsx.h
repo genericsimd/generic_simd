@@ -46,7 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 
 #include "gsimd_utility.h"
-#include "power9_intrinsics.h"
+#include "platform_intrinsics.h"
 
 std::ostream& operator<< (std::ostream &out, uint8_t &v) {
   out << uint16_t(v);

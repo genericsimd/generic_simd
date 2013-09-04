@@ -112,7 +112,7 @@ Copyright (c) 2010-2012, Intel Corporation
 #include <iostream>
 
 #include "gsimd_utility.h"
-#include "power9_intrinsics.h"
+#include "platform_intrinsics.h"
 
 namespace vsx {
 
