@@ -100,8 +100,8 @@ Copyright (c) 2010-2012, Intel Corporation
 
 
 
-#ifndef GENERIC4_H_
-#define GENERIC4_H_
+#ifndef GENERIC8_H_
+#define GENERIC8_H_
 
 #include <stdint.h>
 #include <math.h>
@@ -111,7 +111,6 @@ Copyright (c) 2010-2012, Intel Corporation
 #include "gsimd_utility.h"
 
 namespace generic {
-
 #define LANES 8
 
 //////////////////////////////////////////////////////////////
@@ -1434,16 +1433,16 @@ VEC_CMP_IMPL(svec8_f, svec8_i1);
 VEC_CMP_IMPL(svec8_d, svec8_i1);
 
 MVEC_CLASS_METHOD_IMPL(svec8_i1, uint32_t);
-VEC_CLASS_METHOD_IMPL(svec8_i8, int8_t, svec8_i32, svec8_i64, svec8_i1);
-VEC_CLASS_METHOD_IMPL(svec8_u8, uint8_t, svec8_i32, svec8_i64, svec8_i1);
-VEC_CLASS_METHOD_IMPL(svec8_i16, int16_t, svec8_i32, svec8_i64, svec8_i1);
-VEC_CLASS_METHOD_IMPL(svec8_u16, uint16_t, svec8_i32, svec8_i64, svec8_i1);
-VEC_CLASS_METHOD_IMPL(svec8_i32, int32_t, svec8_i32, svec8_i64, svec8_i1);
-VEC_CLASS_METHOD_IMPL(svec8_u32, uint32_t, svec8_i32, svec8_i64, svec8_i1);
-VEC_CLASS_METHOD_IMPL(svec8_i64, int64_t, svec8_i32, svec8_i64, svec8_i1);
-VEC_CLASS_METHOD_IMPL(svec8_u64, uint64_t, svec8_i32, svec8_i64, svec8_i1);
-VEC_CLASS_METHOD_IMPL(svec8_f, float, svec8_i32, svec8_i64, svec8_i1);
-VEC_CLASS_METHOD_IMPL(svec8_d, double, svec8_i32, svec8_i64, svec8_i1);
+VEC_CLASS_METHOD_IMPL(svec8_i8, int8_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
+VEC_CLASS_METHOD_IMPL(svec8_u8, uint8_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
+VEC_CLASS_METHOD_IMPL(svec8_i16, int16_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
+VEC_CLASS_METHOD_IMPL(svec8_u16, uint16_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
+VEC_CLASS_METHOD_IMPL(svec8_i32, int32_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
+VEC_CLASS_METHOD_IMPL(svec8_u32, uint32_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
+VEC_CLASS_METHOD_IMPL(svec8_i64, int64_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
+VEC_CLASS_METHOD_IMPL(svec8_u64, uint64_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
+VEC_CLASS_METHOD_IMPL(svec8_f, float, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
+VEC_CLASS_METHOD_IMPL(svec8_d, double, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
 
 VEC_INT_CLASS_METHOD_IMPL(svec8_i8, svec8_u8, int8_t);
 VEC_INT_CLASS_METHOD_IMPL(svec8_u8, svec8_u8, uint8_t);
@@ -1457,7 +1456,7 @@ VEC_INT_CLASS_METHOD_IMPL(svec8_u64, svec8_u64, uint64_t);
 VEC_FLOAT_CLASS_METHOD_IMPL(svec8_f);
 VEC_FLOAT_CLASS_METHOD_IMPL(svec8_d);
 
-
+#undef LANES
 } //end of namespace generic4
 #endif /* GENERIC8_H_ */
 

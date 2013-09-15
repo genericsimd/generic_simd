@@ -39,44 +39,25 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <gtest/gtest.h>
 
-//#define VSX
-#ifdef VSX
-#include <power_vsx4.h>
-using namespace vsx;
+#include <gsimd.h>
+#define LANES 4
+#include "test_utility.h"
 
-#define EXPECT_VEC_EQ(v1, v2) EXPECT_TRUE(vec_all_eq(v1, v2))
-
-#else
-#ifdef SSE
-#include <sse4.h>
-using namespace sse;
-#else
-#include <generic4.h>
-using namespace generic;
-#endif //SSE
-
-#endif //VSX
-
-#define EXPECT_SVEC_EQ(v1, v2) EXPECT_TRUE(((v1) == (v2)).all_true())
-#define EXPECT_SVEC_MASKED_EQ(v1, v2, mask) EXPECT_TRUE((svec_masked_equal((v1), (v2), (mask)) == mask).all_true())
-
-
-
-/**
- * @brief macros for check float equal
- */
-#define EXPECT_SVEC_FEQ(v1, v2) EXPECT_TRUE( \
-  abs((v1)[0] - (v2)[0]) < 0.005 && abs((v1)[1] - (v2)[1]) < 0.005 \
-  && abs((v1)[2] - (v2)[2]) < 0.005 && abs((v1)[3] - (v2)[3]) < 0.005)
-
-
-#define DUMP(v) std::cout << #v << ":" << (v) << std::endl
+template<>
+svec4_i1 random_vec<uint32_t, svec4_i1>(int maxValue) {
+  svec4_i1 vec;
+  for(int i = 0; i < LANES; i++) {
+    uint32_t value = (rand() & 1) == 1 ? -1 : 0;
+    vec[i] = value;
+  }
+  return vec;
+}
 
 /**
  * Test Constructors for all types
  */
 
-#ifdef VSX //these constructors uses power intrinsics
+#ifdef __ALTIVEC__ //these constructors uses power intrinsics
 
 TEST(svec4_i1, ConstructorByScalars)
 {
@@ -2040,54 +2021,6 @@ TEST(svec4_d, reduce)
 }
 
 
-template<typename STYPE, typename VTYPE>
-VTYPE random_vec(int maxValue) {
-  VTYPE vec;
-  for (int i=0; i<4; i++) {
-    STYPE value = (STYPE) rand();
-    if (maxValue != -1) value = (STYPE)((int)value % maxValue);
-    vec[i] = value;
-  }
-  return vec;
-}
-
-template<>
-svec4_i1 random_vec<uint32_t, svec4_i1>(int maxValue) {
-  svec4_i1 vec;
-  for(int i = 0; i < 4; i++) {
-    uint32_t value = (rand() & 1) == 1 ? -1 : 0;
-    vec[i] = value;
-  }
-  return vec;
-}
-
-template<typename STYPE, typename VTYPE>
-VTYPE random_vec() {
-  random_vec<STYPE, VTYPE>(-1);
-}
-
-template <class VTYPE, class VTYPE2>
-VTYPE ref_shr(VTYPE val, VTYPE2 s) {
-    return VTYPE(val[0] >> s[0], val[1] >> s[1], val[2] >> s[2], val[3] >> s[3]);
-}
-
-template <class VTYPE>
-VTYPE ref_shr(VTYPE val, int s) {
-    return VTYPE(val[0] >> s, val[1] >> s, val[2] >> s, val[3] >> s);
-}
-
-
-template <class VTYPE, class VTYPE2>
-VTYPE ref_shl(VTYPE val, VTYPE2 s) {
-    return VTYPE(val[0] << s[0], val[1] << s[1], val[2] << s[2], val[3] << s[3]);
-}
-
-template <class VTYPE>
-VTYPE ref_shl(VTYPE val, int s) {
-    return VTYPE(val[0] << s, val[1] << s, val[2] << s, val[3] << s);
-}
-
-
 TEST(svec4_i8, shift)
 {
   svec4_i8 v = random_vec<int8_t, svec4_i8>();
@@ -2179,14 +2112,6 @@ TEST(svec4_u64, shift)
   EXPECT_SVEC_EQ(svec_shl(v, s), (ref_shl<svec4_u64>(v, s)));
   EXPECT_SVEC_EQ(svec_shr(v, s), (ref_shr<svec4_u64>(v, s)));
 }
-
-
-
-template <class FROM, class TO, class STO>
-TO ref_cast(FROM val) {
-    return TO((STO)val[0],(STO)val[1],(STO)val[2],(STO)val[3]);
-}
-
 
 TEST(svec4_i1, cast)
 {

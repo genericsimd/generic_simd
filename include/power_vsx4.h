@@ -1280,79 +1280,109 @@ SHUFFLES_L4(svec4_d, double);
 
 
 
-//load const
+//load const and load and splats, need a template, other wise we cannot distinguish the LANES diff
 
-static FORCEINLINE svec4_i8 svec_load_const(const int8_t* p) {
+template <class RetVecType> static RetVecType svec_load_const(const int8_t* p);
+template<>
+FORCEINLINE svec4_i8 svec_load_const<svec4_i8>(const int8_t* p) {
     return svec4_i8(p[0], p[0], p[0], p[0]);
 }
 
-static FORCEINLINE svec4_u8 svec_load_const(const uint8_t* p) {
+template <class RetVecType> static RetVecType svec_load_const(const uint8_t* p);
+template<>
+FORCEINLINE svec4_u8 svec_load_const<svec4_u8>(const uint8_t* p) {
     return svec4_u8(p[0], p[0], p[0], p[0]);
 }
 
-static FORCEINLINE svec4_i16 svec_load_const(const int16_t* p) {
+template <class RetVecType> static RetVecType svec_load_const(const int16_t* p);
+template<>
+FORCEINLINE svec4_i16 svec_load_const<svec4_i16>(const int16_t* p) {
     return svec4_i16(p[0], p[0], p[0], p[0]);
 }
 
-static FORCEINLINE svec4_u16 svec_load_const(const uint16_t* p) {
+template <class RetVecType> static RetVecType svec_load_const(const uint16_t* p);
+template<>
+FORCEINLINE svec4_u16 svec_load_const<svec4_u16>(const uint16_t* p) {
     return svec4_u16(p[0], p[0], p[0], p[0]);
 }
 
-static FORCEINLINE svec4_i32 svec_load_const(const int32_t* p) {
+template <class RetVecType> static RetVecType svec_load_const(const int32_t* p);
+template<>
+FORCEINLINE svec4_i32 svec_load_const<svec4_i32>(const int32_t* p) {
     return svec4_i32(p[0], p[0], p[0], p[0]);
 }
 
-static FORCEINLINE svec4_u32 svec_load_const(const uint32_t* p) {
+template <class RetVecType> static RetVecType svec_load_const(const uint32_t* p);
+template<>
+FORCEINLINE svec4_u32 svec_load_const<svec4_u32>(const uint32_t* p) {
     return svec4_u32(p[0], p[0], p[0], p[0]);
 }
 
-static FORCEINLINE svec4_i64 svec_load_const(const int64_t* p) {
+template <class RetVecType> static RetVecType svec_load_const(const int64_t* p);
+template<>
+FORCEINLINE svec4_i64 svec_load_const<svec4_i64>(const int64_t* p) {
     __vector signed long long t= vec_smear_const_i64_p7((const long long *)p);
     return svec4_i64(t,t);
 }
 
-static FORCEINLINE svec4_u64 svec_load_const(const uint64_t* p) {
+template <class RetVecType> static RetVecType svec_load_const(const uint64_t* p);
+template<>
+FORCEINLINE svec4_u64 svec_load_const<svec4_u64>(const uint64_t* p) {
     __vector unsigned long long t= vec_smear_const_i64_p7((const long long *)p);
     return svec4_u64(t,t);
 }
 
-static FORCEINLINE svec4_f svec_load_const(const float* p) {
+template <class RetVecType> static RetVecType svec_load_const(const float* p);
+template<>
+FORCEINLINE svec4_f svec_load_const<svec4_f>(const float* p) {
   //return vec_smear_const_float_p7((const __vector float *)p);
   return vec_splat(*(__vector float*)p, 0);
 }
 
-static FORCEINLINE svec4_d svec_load_const(const double* p) {
+template <class RetVecType> static RetVecType svec_load_const(const double* p);
+template<>
+FORCEINLINE svec4_d svec_load_const<svec4_d>(const double* p) {
     __vector double t= vec_smear_const_double_p7(p);
     return svec4_d(t,t);
 }
 
 //load and splat
 
-static FORCEINLINE svec4_i8 svec_load_and_splat(int8_t* p) {
+template <class RetVecType> static RetVecType svec_load_and_splat(int8_t* p);
+template<>
+FORCEINLINE svec4_i8 svec_load_and_splat<svec4_i8>(int8_t* p) {
     INC_STATS_NAME(STATS_SMEAR_SLOW,1, "load_and_splat i8");
     int8_t v = *p;
     return svec4_i8(v,v,v,v);
 }
 
-static FORCEINLINE svec4_u8 svec_load_and_splat(uint8_t* p) {
+template <class RetVecType> static RetVecType svec_load_and_splat(uint8_t* p);
+template<>
+FORCEINLINE svec4_u8 svec_load_and_splat<svec4_u8>(uint8_t* p) {
     INC_STATS_NAME(STATS_SMEAR_SLOW,1,"load_and_splat u8");
     uint8_t v = *p;
     return svec4_u8(v,v,v,v);
 }
 
-static FORCEINLINE svec4_i16 svec_load_and_splat(int16_t* p) {
+template <class RetVecType> static RetVecType svec_load_and_splat(int16_t* p);
+template<>
+FORCEINLINE svec4_i16 svec_load_and_splat<svec4_i16>(int16_t* p) {
     INC_STATS_NAME(STATS_SMEAR_SLOW,1,"load_and_splat i16");
     int16_t v = *p;
     return svec4_i16(v,v,v,v);
 }
 
-static FORCEINLINE svec4_u16 svec_load_and_splat(uint16_t* p) {
+template <class RetVecType> static RetVecType svec_load_and_splat(uint16_t* p);
+template<>
+FORCEINLINE svec4_u16 svec_load_and_splat<svec4_u16>(uint16_t* p) {
     INC_STATS_NAME(STATS_SMEAR_SLOW,1,"load_and_splat u16");
     uint16_t v = *p;
     return svec4_u16(v,v,v,v);
 }
 
-static FORCEINLINE svec4_i32 svec_load_and_splat(int32_t* p) {
+template <class RetVecType> static RetVecType svec_load_and_splat(int32_t* p);
+template<>
+FORCEINLINE svec4_i32 svec_load_and_splat<svec4_i32>(int32_t* p) {
 #ifdef __POWER8
   return vec_smear_i32_p8(p);
 #else
@@ -1361,7 +1391,9 @@ static FORCEINLINE svec4_i32 svec_load_and_splat(int32_t* p) {
 #endif //__POWER8
 }
 
-static FORCEINLINE svec4_u32 svec_load_and_splat(uint32_t* p) {
+template <class RetVecType> static RetVecType svec_load_and_splat(uint32_t* p);
+template<>
+FORCEINLINE svec4_u32 svec_load_and_splat<svec4_u32>(uint32_t* p) {
 #ifdef __POWER8
   return vec_smear_i32_p8(p);
 #else
@@ -1370,17 +1402,23 @@ static FORCEINLINE svec4_u32 svec_load_and_splat(uint32_t* p) {
 #endif //__POWER8
 }
 
-static FORCEINLINE svec4_i64 svec_load_and_splat(int64_t* p) {
+template <class RetVecType> static RetVecType svec_load_and_splat(int64_t* p);
+template<>
+FORCEINLINE svec4_i64 svec_load_and_splat<svec4_i64>(int64_t* p) {
     __vector signed long long r = vec_smear_i64_p7((signed long long*)p);
     return svec4_i64(r,r);
 }
 
-static FORCEINLINE svec4_u64 svec_load_and_splat(uint64_t* p) {
+template <class RetVecType> static RetVecType svec_load_and_splat(uint64_t* p);
+template<>
+FORCEINLINE svec4_u64 svec_load_and_splat<svec4_u64>(uint64_t* p) {
     __vector unsigned long long r = vec_smear_i64_p7((unsigned long long*)p);
     return svec4_u64(r,r);
 }
 
-static FORCEINLINE svec4_f svec_load_and_splat(float* p) {
+template <class RetVecType> static RetVecType svec_load_and_splat(float* p);
+template<>
+FORCEINLINE svec4_f svec_load_and_splat<svec4_f>(float* p) {
 #ifdef __POWER8
   return vec_smear_float_p8(p);
 #else
@@ -1389,7 +1427,9 @@ static FORCEINLINE svec4_f svec_load_and_splat(float* p) {
 #endif //__POWER8
 }
 
-static FORCEINLINE svec4_d svec_load_and_splat(double* p) {
+template <class RetVecType> static RetVecType svec_load_and_splat(double* p);
+template<>
+FORCEINLINE svec4_d svec_load_and_splat<svec4_d>(double* p) {
     __vector double t= vec_smear_double_p7(p);
     return svec4_d(t,t);
 }
@@ -3727,16 +3767,16 @@ VEC_CMP_IMPL(svec4_f, svec4_i1);
 VEC_CMP_IMPL(svec4_d, svec4_i1);
 
 MVEC_CLASS_METHOD_IMPL(svec4_i1, uint32_t);
-VEC_CLASS_METHOD_IMPL(svec4_i8, int8_t, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_u8, uint8_t, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_i16, int16_t, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_u16, uint16_t, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_i32, int32_t, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_u32, uint32_t, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_i64, int64_t, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_u64, uint64_t, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_f, float, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_d, double, svec4_i32, svec4_i64, svec4_i1);
+VEC_CLASS_METHOD_IMPL(svec4_i8, int8_t, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_u8, uint8_t, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_i16, int16_t, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_u16, uint16_t, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_i32, int32_t, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_u32, uint32_t, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_i64, int64_t, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_u64, uint64_t, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_f, float, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_d, double, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
 
 VEC_INT_CLASS_METHOD_IMPL(svec4_i8, svec4_u8, int8_t);
 VEC_INT_CLASS_METHOD_IMPL(svec4_u8, svec4_u8, uint8_t);
@@ -3750,6 +3790,7 @@ VEC_INT_CLASS_METHOD_IMPL(svec4_u64, svec4_u64, uint64_t);
 VEC_FLOAT_CLASS_METHOD_IMPL(svec4_f);
 VEC_FLOAT_CLASS_METHOD_IMPL(svec4_d);
 
+#undef LANES
 } //end of namespace vsx4
 #endif /* POWER_VSX4_H_ */
 

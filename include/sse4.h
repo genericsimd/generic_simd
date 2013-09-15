@@ -1236,10 +1236,14 @@ SHUFFLES_L4(svec4_d, double);
 
 //load const
 #define LOAD_CONST_SSE(VTYPE, STYPE) \
-  static FORCEINLINE VTYPE svec_load_const(const STYPE* p) { \
+template <class RetVecType> static RetVecType svec_load_const(const STYPE* p); \
+template<> \
+  FORCEINLINE VTYPE svec_load_const<VTYPE>(const STYPE* p) { \
     return VTYPE(*p); \
 } \
-static FORCEINLINE VTYPE svec_load_and_splat(STYPE* p) { \
+template <class RetVecType> static RetVecType svec_load_and_splat(STYPE* p); \
+template<> \
+FORCEINLINE VTYPE svec_load_and_splat<VTYPE>(STYPE* p) { \
   return VTYPE(*p);\
 }
 
@@ -2761,16 +2765,16 @@ VEC_CMP_IMPL(svec4_f, svec4_i1);
 VEC_CMP_IMPL(svec4_d, svec4_i1);
 
 MVEC_CLASS_METHOD_IMPL(svec4_i1, uint32_t);
-VEC_CLASS_METHOD_IMPL(svec4_i8, int8_t, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_u8, uint8_t, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_i16, int16_t, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_u16, uint16_t, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_i32, int32_t, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_u32, uint32_t, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_i64, int64_t, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_u64, uint64_t, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_f, float, svec4_i32, svec4_i64, svec4_i1);
-VEC_CLASS_METHOD_IMPL(svec4_d, double, svec4_i32, svec4_i64, svec4_i1);
+VEC_CLASS_METHOD_IMPL(svec4_i8, int8_t, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_u8, uint8_t, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_i16, int16_t, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_u16, uint16_t, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_i32, int32_t, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_u32, uint32_t, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_i64, int64_t, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_u64, uint64_t, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_f, float, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
+VEC_CLASS_METHOD_IMPL(svec4_d, double, svec4_i1, svec4_ptr, svec4_i32, svec4_i64);
 
 VEC_INT_CLASS_METHOD_IMPL(svec4_i8, svec4_u8, int8_t);
 VEC_INT_CLASS_METHOD_IMPL(svec4_u8, svec4_u8, uint8_t);
@@ -2784,7 +2788,7 @@ VEC_INT_CLASS_METHOD_IMPL(svec4_u64, svec4_u64, uint64_t);
 VEC_FLOAT_CLASS_METHOD_IMPL(svec4_f);
 VEC_FLOAT_CLASS_METHOD_IMPL(svec4_d);
 
-
+#undef LANES
 } //end of namespace vsx4
 #endif /* POWER_VSX4_H_ */
 

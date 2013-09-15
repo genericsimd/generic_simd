@@ -15,13 +15,16 @@ libgtest.a:
 	ar -rv $@ gtest-all.o
 
 vsx4: test_lanes4.cpp libgtest.a ../include/power_vsx4.h
-	g++ -I${GTEST_DIR}/include -l pthread -mvsx -DVSX ${CXXFLAGS} $^ -o $@
+	g++ -I${GTEST_DIR}/include -l pthread -mvsx ${CXXFLAGS} $^ -o $@
 
 generic4: test_lanes4.cpp libgtest.a ../include/generic4.h
 	g++ -I${GTEST_DIR}/include -l pthread ${CXXFLAGS} $^ -o $@
+	
+generic8: test_lanes8.cpp libgtest.a ../include/generic8.h
+	g++ -I${GTEST_DIR}/include -l pthread ${CXXFLAGS} $^ -o $@
 
 sse4: test_lanes4.cpp libgtest.a ../include/sse4.h
-	g++ -I${GTEST_DIR}/include -l pthread -msse4.2 -DSSE ${CXXFLAGS} $^ -o $@
+	g++ -I${GTEST_DIR}/include -l pthread -msse4.2 ${CXXFLAGS} $^ -o $@
 
 test: vsx4 generic4 sse4
 	./vsx4
@@ -37,4 +40,4 @@ codegen: codegen.cpp
 #	g++ -mno-vrsave -mvsx ${CXXFLAGS} $< -O2 -c -g -Wa,-a,-ad > $@.cs
 
 clean:
-	rm -f *.o core *~ ${TARGETS} *.output *.a
+	rm -f *.o *.exe core *~ ${TARGETS} *.output *.a
