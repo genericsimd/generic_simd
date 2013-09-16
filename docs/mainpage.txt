@@ -3,18 +3,15 @@
  @mainpage  Generic SIMD Library
  
  @tableofcontents
+
+ The Generic SIMD Library aims at providing a portable intrinsics interface that support multiple SIMD ISA. 
+ The library is designed for C++ application.
+
+ @section example Hello World Example
  
- @section overview Overview
- Generic SIMD Library provides C++ based simple interfaces to use SIMD intrinsics.
+ Here is the helloWorld example of using the generic SIMD intrinsics interface.
  
- The current implementation have short vector with lanes=4 support.
- Here lanes=4 means all the short vector data types in this library contain 
- 4 scalar elements.
- A generic short vector library with lanes could be 2,4,8,16,32... is in developing.
- 
- Here is the hello vector example using power vsx SIMD.
- 
- @code{.cpp}
+@code{hello.cpp}
 #include <iostream>
 #include <gsimd.h>
 
@@ -22,220 +19,44 @@ int main (int argc, char* argv[])
 {
     svec4_f v1(1.1, 2.2, 3.3, 4.4);
     svec4_f v2 = v1 * 2;
-    std::cout << "Hello, " << v2 << std::endl;
+    std::cout << "Hello World: " << v2 << std::endl;
     return 0;
 }
- @endcode
-
-Compile and run it on Power7 Platform.
-
-@code{.sh}
-$ g++ -I../../include HelloSIMD.cpp -mvsx -flax-vector-conversions -o HelloSIMD -Wno-int-to-pointer-cast
-$ ./HelloSIMD
-Hello, svec4_f[2.2, 4.4, 6.6, 8.8]
 @endcode
 
-Compile and run it on Intel Platform.
+ The generic SIMD library is included from the header file
+ <gsimd.h>. Using proper platform-specific compiler flags, the code
+ can be compiled by standard G++ into binaries for different target
+ SIMD architectures.
 
-@code{.sh}
-$ g++ -I../../include HelloSIMD.cpp -msse4.2 -o HelloSIMD -Wno-int-to-pointer-cast
-$ ./HelloSIMD
-Hello, svec4_f[2.2, 4.4, 6.6, 8.8]
-@endcode
+ In this example, svec4_f is the data type provided by the library to
+ represent a SIMD vector of 4 floats. Operators such as "*", "<<", and
+ constructors are overloaded to represent operations on short SIMD
+ vectors.
 
-The current implementation needs gcc to compile.
+ @section features Key features
+
+ Current release supports four target platforms:
+ <ul>
+   <li> SSE4.2 </li>
+   <li> VSX/VMX for P7</li>
+   <li> VSX for P8</li>
+   <li> Scalar emulation of short SIMD vectors</li>
+ </ul>
+
+ It supports short 4-element vectors for all primitive element data
+ types. Short SIMD vectors of other power-of-2 lengths are under
+ development.
+
+ @section info More Information
+
 <ul>
-<li>../../include contains the header files</li>
-<li>-mvsx enable gcc support Power vsx SIMD</li>
-<li>-msse4.2 enable gcc support Intel SSE4.2 SIMD</li>
-<li>-Wno-int-to-pointer-cast -flax-vector-conversions not show warnings and enable vector casts</li>
-</ul>
-
-@section datatypes Data Types
-The current library has short vector types
-<ul>
-<li> bool (svec4_i1) </li>
-<li> char (svec4_i8, svec4_u8) </li>
-<li> short (svec4_i16, svec4_u16)</li>
-<li> integer (svec4_i32, svec4_u32)</li>
-<li> long long (svec4_i64, svec4_u64)</li>
-<li> float (svec4_f) and double (svec4_d)</li>
-</ul>
-The "i" here means signed types, and "u" means unsigned types. 
-
-In the following document we use VTYPE to express the short vector types, and
-STYPE to express scalar types.
-
-@section operation Operations
-
-@subsection construction Short vector construction
-<ul>
-<li> Default constructor returns a vector with undefined value. e.g. "svec4_i32 v;" 
-    You can modify it's elements by "[]" operator. </li>
-<li> Construct a short vector with four scalar values. e.g. "svec4_i32 v(1,2,3,4)" </li>
-<li> Construct a short vector with one scalar value. e.g. "svec4_i32 v(100)". 
-All the four values in the short vector is 100. </li>
-</ul>
-
-@subsection access Access single element in the short vector
-"[]" operator is used to get and set the elements.
-@code{.cpp}
-svec4_i32 v(1,2,3,4);
-int a = v[2]; //a is 3 now.
-v[3] = 10; //v is [1,2,3,10] now.
-@endcode
-
-Due to the current limitation, bool vector's setter must use "-1" as true in the right hand side.
-@code{.cpp}
-svec4_i1 m(0); //all elements are false
-m[0] = -1; //m's first element is true.
-@endcode
-
-@subsection commonop Common operations
-Here is a short list for common operations. 
-Please refer the detail documents for all operations.
-
-<h4> Load and Store </h4>
-Store a vector to location p through instance method store(VTYPE *).
-
-Load a vector from location p through class static method VTYPE::(VTYPE *).
-e.g. "svec4_i32::load(an_address)" will return a new svec4_i32 vector.
-
-Load a scalar value from an address and splat it into the whole vector could 
-be done through class static method VTYPE::load_and_splat(STYPE *)
-
-There is another method called VTYPE::load_const(STYPE*), which has similar semantics.
-
-@subsection compare Compare Operations
-Compare two vectors, and return a svec4_i1 vector.
-
-Operators: == != for all types
-
-Operators: >, >=, <, <= for all types except svec4_i1.
-
-<h4> Bit operations </h4>
-svec4_i1 has operator ~ to reverse the boolean value.
-
-Binary bit operators &, |, ^ are available for all integer vector types.
-
-Logical operators !, &&, || are available for svec4_i1 type.
-
-@subsection math Math operations
-Support all types except svec4_i1.
-
-Unary operator "-" is used to get the neg value for non-boolean vectors
-
-Binary operators +, -, *, / can support VTYPE op VTYPE, VTYPE op STYPE, STYPE op VTYPE.
-
-Binary operators &gt;&gt;, &lt;&lt;, % can support VTYPE op VTYPE, VTYPE op STYPE over
-all integer types. 
-&gt;&gt; and &lt;&lt; for shift, and % for remainder.
-Please note shift by a vector can only has unsigned integer vector in the right hand.
-
-@subsection methodop Instance methods operations
-broadcast(), rotate(), shuffle() support all types exclude svec4_i1().
-
-round(), floor(), ceil(), sqrt(), rcp(), rsqrt(), exp(), log(), 
-pow(VTYPE) support svec4_f, and svec4_d.
-
-All above will return a new vector.
-
-reduce_add(), reduce_max(), reduce_min() do a vector scope's reduction,
-and return a scalar value.
-
-any_true(), all_true(), none_true() do a svec4_i1 vector's reduction, and
-return a boolean scalar value.
-
-@subsection gather-scatter Gather and Scatter
-Please refer the detail document for how to use gather and scatter.
-E.g. svec4_i32 type
-<ul>
-<li>vsx::svec4_i32::gather()</li>
-<li>vsx::svec4_i32::scatter()</li>
-<li>vsx::svec4_i32::gather_base_offsets()</li>
-<li>vsx::svec4_i32::scatter_base_offsets()</li>
-<li>vsx::svec4_i32::gather_stride()</li>
-<li>vsx::svec4_i32::scatter_stride()</li>
-</ul>
-<b>Note</b> The current power processor has no gather/scatter instructions. The software
-based implementation is slow right now, especially the gather_base_offsets() and
-scatter_base_offsets().
-
-In case of regular stride style gather/scatter, it's better to use gather_stride()
-and scatter_stride().
-
-@subsection otherop Other Operations
-@subsubsection fmaop Multiply-Add and Multiply-Sub
-VTYPE svec_madd(VTYPE a, VTYPE b, VTYPE c) returns a * b + c;
-
-VTYPE svec_msub(VTYPE a, VTYPE b, VTYPE c) returns a * b - c;
-
-VTYPE svec_nmsub(VTYPE a, VTYPE b, VTYPE c) returns -(a * b - c);
-
-@subsubsection selectop Select operation
-The prototype is svec_select(svec4_i1 mask, VTYPE a, VTYPE b), and return
-a new vector whose elements are selected from a or b based on the mask.
-True from a and false from b.
-
-There is another select svec_select(bool cond, VTYPE a, VTYPE b), which
-is the same as "cond ? a : b".
-
-@subsubsection castop Type cast operation
-The prototype is svec_cast<TO_VTYPE>(FROM_VTYPE). It supports all combinations
-of type cast. Each element's cast semantics is the same as scalar cast.
-
-@subsection maskedop Operation with mask
-load, store, gatter, scatter, compare operations have a masked version.
-Please refer the detail document for detail.
-
-@section perf Performance Evaluation
-
-We have ported some examples from intrinsics implementation to Generic SIMD implementation, 
-and evaluated their performance.
-
-Applications include
-<ul>
-<li>RGB2Gray, float</li>
-<li>Mandelbrot, float</li>
-<li>SPSS-sweep, double</li>
-<li>Dgemm, double</li>
-<li>CVA-Mean, float</li>
-</ul>
-
-Some of them only have Power Platform intrinsics implementation, and some of them only have intel intrinsics implementation.
-We compared the generic SIMD's performance with the intrinsics implementation by measure their speed up over scalar code.
-
-We also evaluated the portability of our GSIMD library by running the generic SIMD version application on the 
-platform without intrinsics implementation.
-
-Below are the result.
-
-The following figures show the performance speedup versus the scalar code on different platforms.
-
-Higher is better.
-
-\image html power_apps.jpg App on Power Platform
-
-
-\image html intel_apps.jpg App on Intel Platform
-
-
-\image html power2intel_apps.jpg App with Power Intrinsics only
-
-
-\image html intel2power_apps.jpg App with Intel Intrinsics only
-
-
-
-
-@section references Other References
-<ul>
+<li>@ref getting_started</li>
+<li>@ref programming_guide</li>
 <li>@ref developer_guide</li>
+<li>@ref performance</li>
 <li>@ref issues</li>
 <li>@ref history</li>
 </ul>
-
-
-
 
 */

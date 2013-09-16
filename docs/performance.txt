@@ -1,0 +1,44 @@
+/**
+
+ @page performance Performance Data
+ 
+ @tableofcontents
+ 
+@section perf Performance Evaluation
+
+We have ported some examples from intrinsics implementation to Generic SIMD implementation, 
+and evaluated their performance.
+
+Applications include
+<ul>
+<li>RGB2Gray, float</li>
+<li>Mandelbrot, float</li>
+<li>SPSS-sweep, double</li>
+<li>Dgemm, double</li>
+<li>CVA-Mean, float</li>
+</ul>
+
+Some of them only have Power Platform intrinsics implementation, and some of them only have intel intrinsics implementation.
+We compared the generic SIMD's performance with the intrinsics implementation by measure their speed up over scalar code.
+
+We also evaluated the portability of our GSIMD library by running the generic SIMD version application on the 
+platform without intrinsics implementation.
+
+Below are the result.
+
+The following figures show the performance speedup versus the scalar code on different platforms.
+
+Higher is better.
+
+\image html power_apps.jpg App on Power Platform
+
+
+\image html intel_apps.jpg App on Intel Platform
+
+
+\image html power2intel_apps.jpg App with Power Intrinsics only
+
+
+\image html intel2power_apps.jpg App with Intel Intrinsics only
+
+*/
