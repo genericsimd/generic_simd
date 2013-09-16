@@ -1,5 +1,6 @@
 .cproject
 .project
 docs/html/*
+docs/gh-pages.github/*
 tests/gtest-1.6.0/*
 .settings/*
