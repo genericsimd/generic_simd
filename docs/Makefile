@@ -1,8 +1,9 @@
 # Make file to build the files
 
-GSIMD_DOC_ROOT=/gsa/yktgsa/projects/g/generic_simd/docs
+GSIMD_DOC_ROOT=gh-pages.html
 default: html
 
+.PHONY: html
 
 html: intrinsics.doxyfile ../include/power_vsx4.h mainpage.txt developer_guide.txt history.txt issues.txt
 	doxygen $<
