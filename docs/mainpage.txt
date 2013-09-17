@@ -9,8 +9,6 @@
 
  @section example An Example
  
- Here is the helloWorld example of using the generic SIMD intrinsics interface.
- 
 @code HelloSIMD.cpp
 #include <iostream>
 #include <gsimd.h>
@@ -24,41 +22,61 @@ int main (int argc, char* argv[])
 }
 @endcode
 
- The entire generic SIMD library is included from the header file
- <gsimd.h>.
-
- Using proper platform-specific compiler flags, the code can be
+ Let's use the example above to illustrate some of the basics features
+ of the library:
+ <ul>
+    <li>The entire generic SIMD library is included from the header file
+ <gsimd.h>.</li>
+    <li>Using proper platform-specific compiler flags, the code can be
  compiled by standard G++ into binaries for different target SIMD
- architectures.
-
- In this example, svec4_f is the SIMD vector abstraction provided by
- the library. It represents a vector of 4 floating-point values.
-
- Also note that operations on SIMD vectors use standard C++ operators
- such as "*" and "<<".
+ architectures.</li>
+    <li>In this example, svec4_f is the SIMD vector abstraction provided by
+ the library. It represents a vector of 4 floating-point values.</li>
+    <li>Most operations on SIMD vectors use standard C++ operators
+ such as "*" and "<<".</li>
+ </ul>
 
  @section features Key features
 
  The library provides:
  <ul>
-   <li><b>Fixed-lane SIMD vectors.</b>: 4-element vectors are supported. Vector of 2-, and 8-elements are under development.
-   Note that traditional SIMD intrinsics such as AltiVec or SSE
-   intrinsics are based on <i>fixed-width</i> instead of
-   <i>fixed-lane</i> vectors. Fixed-lane vectors are more natural to
-   program when dealing with parallel loops using different length
-   data types such as int and double.  
+
+   <li><b>Fixed-lane SIMD vectors.</b> Our SIMD vectors are defined
+   based on the number of elements per vector (<i>fixed-lane</i>)
+   instead of the byte-length of a vector (<i>fixed-width</i>). This
+   is the key diffence between our vector types and the ones defined
+   in platform-specific intrinsics.
+
+   We choose fixed-lane vector because it is more natural to SIMDized
+   parallel loops that involve data of different length such as int
+   and double.
+
+   We intend to support vectors with arbitrary power-of-two lanes, but
+   currently only 4-element vectors are supported. Vector of 2-, and
+   8-elements are under development.
+
   </li> 
-  <li><b>Portable SIMD programming.</b> Current release supports the following target platforms:
-     <ul>
+  
+  <li><b>Portable SIMD programming.</b> The programming interface of
+  the library is completely platform neutral. The library provides
+  mapping from the interface to target SIMD platforms. The current
+  release supports the following target platforms:
+      <ul>
       <li> SSE4.2 </li>
       <li> VSX for P7</li>
       <li> Scalar emulation for non-SIMD platforms</li>
     </ul>
   </li>
-  <li><b>Overloaded C++ operators on SIMD vectors.</b> SIMD vector operation semantics are defined based on 
-   common C++ operators instead of platform-specific ISA semantics. The former provides a slightly higher 
-   semantics than the latter and is more natural to program since most users understand C++ operators well. 
+
+  <li><b>Overloaded C++ semantics on SIMD vectors.</b> We define SIMD
+  vector operations based on semantics of C++ operators instead of
+  platform-specific ISA semantics. This is because the semantics of
+  C++ operators are platform independent. Secondly, C++ operators
+  provide a slightly higher semantics than platform-specific
+  intrinsics and are more natural to program since most users
+  understand C++ operators well.
   </li>
+
  </ul>
 
  @section info More Information
