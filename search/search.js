@@ -7,13 +7,13 @@
 
 var indexSectionsWithContent =
 {
-  0: "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011100111001101101111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-  1: "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-  2: "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000100100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-  3: "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100111000100100100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-  4: "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011000001001101001111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-  5: "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-  6: "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011000001001100000111000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  0: "000000000000000000000000000000000000000000000000000000000000000000111001110011011011111000000000",
+  1: "000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000",
+  2: "000000000000000000000000000000000000000000000000000000000000000000000001000000000001001000000000",
+  3: "000000000000000000000000000000000000000000000000000000000000000000001001110001001001000000000000",
+  4: "000000000000000000000000000000000000000000000000000000000000000000110000010011010011111000000000",
+  5: "000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000",
+  6: "000000000000000000000000000000000000000000000000000000000000000000110000010011000001110000000000"
 };
 
 var indexSectionNames =
@@ -267,13 +267,13 @@ function SearchBox(name, resultsPath, inFrame, label)
       if (child.className=='SelectItem')
       {
         var node = child.firstChild;
-        if (j==id)
-        {
-          node.innerHTML='&#8226;';
-        }
+	if (j==id)
+	{
+          node.innerHTML='&bull;';
+        } 
         else
         {
-          node.innerHTML='&#160;';
+          node.innerHTML='&nbsp;';
         }
         j++;
       }
@@ -353,7 +353,7 @@ function SearchBox(name, resultsPath, inFrame, label)
     var resultsPageWithSearch;
     var hasResultsPage;
 
-    if (indexSectionsWithContent[this.searchIndex].charAt(code) == '1')
+    if (indexSectionsWithContent[this.searchIndex].charAt(code-32) == '1')
     {
        resultsPage = this.resultsPath + '/' + indexSectionNames[this.searchIndex] + '_' + hexCode + '.html';
        resultsPageWithSearch = resultsPage+'?'+escape(searchValue);
@@ -366,7 +366,7 @@ function SearchBox(name, resultsPath, inFrame, label)
        hasResultsPage = false;
     }
 
-    window.frames.MSearchResults.location = resultsPageWithSearch;  
+    window.frames.MSearchResults.location.href = resultsPageWithSearch;  
     var domPopupSearchResultsWindow = this.DOMPopupSearchResultsWindow();
 
     if (domPopupSearchResultsWindow.style.display!='block')
@@ -385,8 +385,8 @@ function SearchBox(name, resultsPath, inFrame, label)
        else
        {
          var domPopupSearchResults = this.DOMPopupSearchResults();
-         var left = getXPos(domSearchBox) + 150; // domSearchBox.offsetWidth;
-         var top  = getYPos(domSearchBox) + 20;  // domSearchBox.offsetHeight + 1;
+         var left = getXPos(domSearchBox) + domSearchBox.offsetWidth;
+         var top  = getYPos(domSearchBox) + domSearchBox.offsetHeight + 1;
          domPopupSearchResultsWindow.style.display = 'block';
          left -= domPopupSearchResults.offsetWidth;
          domPopupSearchResultsWindow.style.top     = top  + 'px';
@@ -482,20 +482,20 @@ function SearchResults(name)
       if (element)
       {
         if (element.style.display == 'block')
-        {
-          element.style.display = 'none';
+        {  
+          element.style.display = 'none';  
         }
         else
-        {
-          element.style.display = 'block';
+        {  
+          element.style.display = 'block';  
         }
       }
     }
 
-    // Searches for the passed string.  If there is no parameter,
+    // Searches for the passed string.  If there is no parameter, 
     // it takes it from the URL query.
     //
-    // Always returns true, since other documents may try to call it
+    // Always returns true, since other documents may try to call it 
     // and that may or may not be possible.
     this.Search = function(search)
     {
@@ -530,20 +530,20 @@ function SearchResults(name)
             matches++;
           }
           else
-          {
-            row.style.display = 'none';
+          {  
+            row.style.display = 'none';  
           }
         }
         i++;
       }
       document.getElementById("Searching").style.display='none';
       if (matches == 0) // no results
-      {
-        document.getElementById("NoMatches").style.display='block';
+      {  
+        document.getElementById("NoMatches").style.display='block';  
       }
       else // at least one result
-      {
-        document.getElementById("NoMatches").style.display='none';
+      {  
+        document.getElementById("NoMatches").style.display='none';  
       }
       this.lastMatchCount = matches;
       return true;
@@ -635,9 +635,9 @@ function SearchResults(name)
             while (1) // search for last child
             {
               tmpElem = document.getElementById('Item'+newIndex+'_c'+n);
-              if (tmpElem)
+              if (tmpElem) 
               {
-                focusItem = tmpElem;
+                focusItem = tmpElem; 
               }
               else // found it!
               {
