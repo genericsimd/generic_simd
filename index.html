@@ -27,7 +27,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">Generic SIMD Library
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.4</span>
    </div>
    
   </td>
@@ -74,12 +74,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Generic SIMD Library </div>  </div>
 </div>
 <div class="contents">
-<div class="textblock"><h2><a class="anchor" id="overview"></a>
-Overview</h2>
-<p>Generic SIMD Library provides C++ based simple interfaces to use SIMD intrinsics.</p>
-<p>The current implementation have short vector with lanes=4 support. Here lanes=4 means all the short vector data types in this library contain 4 scalar elements. A generic short vector library with lanes could be 2,4,8,16,32... is in developing.</p>
-<p>Here is the hello vector example using power vsx SIMD.</p>
-<div class="fragment"><pre class="fragment"> {.cpp}
+<div class="textblock"><p>The Generic SIMD Library allowers users to write C++ SIMD codes that are portable across different SIMD ISAs.</p>
+<h2><a class="anchor" id="example"></a>
+Running existing examples</h2>
+<p>Here is the helloWorld example of using the generic SIMD intrinsics interface.</p>
+<div class="fragment"><pre class="fragment"> HelloSIMD.cpp
 <span class="preprocessor">#include &lt;iostream&gt;</span>
 <span class="preprocessor">#include &lt;gsimd.h&gt;</span>
 
@@ -87,180 +86,43 @@ Overview</h2>
 {
     svec4_f v1(1.1, 2.2, 3.3, 4.4);
     svec4_f v2 = v1 * 2;
-    std::cout &lt;&lt; <span class="stringliteral">&quot;Hello, &quot;</span> &lt;&lt; v2 &lt;&lt; std::endl;
+    std::cout &lt;&lt; <span class="stringliteral">&quot;Hello World: &quot;</span> &lt;&lt; v2 &lt;&lt; std::endl;
     <span class="keywordflow">return</span> 0;
 }
-</pre></div><p>Compile and run it on Power7 Platform.</p>
-<div class="fragment"><pre class="fragment"> {.sh}
-$ g++ -I../../include HelloSIMD.cpp -mvsx -flax-vector-conversions -o HelloSIMD -Wno-<span class="keywordtype">int</span>-to-pointer-cast
-$ ./HelloSIMD
-Hello, svec4_f[2.2, 4.4, 6.6, 8.8]
-</pre></div><p>Compile and run it on Intel Platform.</p>
-<div class="fragment"><pre class="fragment"> {.sh}
-$ g++ -I../../include HelloSIMD.cpp -msse4.2 -o HelloSIMD -Wno-<span class="keywordtype">int</span>-to-pointer-cast
-$ ./HelloSIMD
-Hello, svec4_f[2.2, 4.4, 6.6, 8.8]
-</pre></div><p>The current implementation needs gcc to compile. </p>
+</pre></div><p>The entire generic SIMD library is included from the header file &lt;gsimd.h&gt;.</p>
+<p>Using proper platform-specific compiler flags, the code can be compiled by standard G++ into binaries for different target SIMD architectures.</p>
+<p>In this example, svec4_f is the SIMD vector abstraction provided by the library. It represents a vector of 4 floating-point values.</p>
+<p>Also note that operations on SIMD vectors use standard C++ operators such as "*" and "&lt;&lt;".</p>
+<h2><a class="anchor" id="features"></a>
+Key features</h2>
+<p>The library provides: </p>
 <ul>
 <li>
-../../include contains the header files </li>
+<b>Fixed-lane SIMD vectors.</b>: 4-element vectors are supported. Vector of 2-, and 8-elements are under development. Note that traditional SIMD intrinsics such as AltiVec or SSE intrinsics are based on <em>fixed-width</em> instead of <em>fixed-lane</em> vectors. Fixed-lane vectors are more natural to program when dealing with parallel loops using different length data types such as int and double.  </li>
 <li>
--mvsx enable gcc support Power vsx SIMD </li>
+<b>Portable SIMD programming.</b> Current release supports the following target platforms: <ul>
 <li>
--msse4.2 enable gcc support Intel SSE4.2 SIMD </li>
+SSE4.2  </li>
 <li>
--Wno-int-to-pointer-cast -flax-vector-conversions not show warnings and enable vector casts </li>
+VSX for P7 </li>
+<li>
+Scalar emulation for non-SIMD platforms </li>
 </ul>
-<h2><a class="anchor" id="datatypes"></a>
-Data Types</h2>
-<p>The current library has short vector types </p>
-<ul>
+</li>
 <li>
-bool (svec4_i1)  </li>
-<li>
-char (svec4_i8, svec4_u8)  </li>
-<li>
-short (svec4_i16, svec4_u16) </li>
-<li>
-integer (svec4_i32, svec4_u32) </li>
-<li>
-long long (svec4_i64, svec4_u64) </li>
-<li>
-float (svec4_f) and double (svec4_d) </li>
+<b>Overloaded C++ operators on SIMD vectors.</b> SIMD vector operation semantics are defined based on common C++ operators instead of platform-specific ISA semantics. The former provides a slightly higher semantics than the latter and is more natural to program since most users understand C++ operators well.  </li>
 </ul>
-<p>The "i" here means signed types, and "u" means unsigned types.</p>
-<p>In the following document we use VTYPE to express the short vector types, and STYPE to express scalar types.</p>
-<h2><a class="anchor" id="operation"></a>
-Operations</h2>
-<h3><a class="anchor" id="construction"></a>
-Short vector construction</h3>
+<h2><a class="anchor" id="info"></a>
+More Information</h2>
 <ul>
 <li>
-Default constructor returns a vector with undefined value. e.g. "svec4_i32 v;" You can modify it's elements by "[]" operator.  </li>
+<a class="el" href="getting_started.html">Getting Started</a> </li>
 <li>
-Construct a short vector with four scalar values. e.g. "svec4_i32 v(1,2,3,4)"  </li>
-<li>
-Construct a short vector with one scalar value. e.g. "svec4_i32 v(100)". All the four values in the short vector is 100.  </li>
-</ul>
-<h3><a class="anchor" id="access"></a>
-Access single element in the short vector</h3>
-<p>"[]" operator is used to get and set the elements. </p>
-<div class="fragment"><pre class="fragment"> {.cpp}
-svec4_i32 v(1,2,3,4);
-<span class="keywordtype">int</span> a = v[2]; <span class="comment">//a is 3 now.</span>
-v[3] = 10; <span class="comment">//v is [1,2,3,10] now.</span>
-</pre></div><p>Due to the current limitation, bool vector's setter must use "-1" as true in the right hand side. </p>
-<div class="fragment"><pre class="fragment"> {.cpp}
-svec4_i1 m(0); <span class="comment">//all elements are false</span>
-m[0] = -1; <span class="comment">//m&#39;s first element is true.</span>
-</pre></div><h3><a class="anchor" id="commonop"></a>
-Common operations</h3>
-<p>Here is a short list for common operations. Please refer the detail documents for all operations.</p>
-<h4>Load and Store </h4>
-<p>Store a vector to location p through instance method store(VTYPE *).</p>
-<p>Load a vector from location p through class static method VTYPE::(VTYPE *). e.g. "svec4_i32::load(an_address)" will return a new svec4_i32 vector.</p>
-<p>Load a scalar value from an address and splat it into the whole vector could be done through class static method VTYPE::load_and_splat(STYPE *)</p>
-<p>There is another method called VTYPE::load_const(STYPE*), which has similar semantics.</p>
-<h3><a class="anchor" id="compare"></a>
-Compare Operations</h3>
-<p>Compare two vectors, and return a svec4_i1 vector.</p>
-<p>Operators: == != for all types</p>
-<p>Operators: &gt;, &gt;=, &lt;, &lt;= for all types except svec4_i1.</p>
-<h4>Bit operations </h4>
-<p>svec4_i1 has operator ~ to reverse the boolean value.</p>
-<p>Binary bit operators &amp;, |, ^ are available for all integer vector types.</p>
-<p>Logical operators !, &amp;&amp;, || are available for svec4_i1 type.</p>
-<h3><a class="anchor" id="math"></a>
-Math operations</h3>
-<p>Support all types except svec4_i1.</p>
-<p>Unary operator "-" is used to get the neg value for non-boolean vectors</p>
-<p>Binary operators +, -, *, / can support VTYPE op VTYPE, VTYPE op STYPE, STYPE op VTYPE.</p>
-<p>Binary operators &gt;&gt;, &lt;&lt;, % can support VTYPE op VTYPE, VTYPE op STYPE over all integer types. &gt;&gt; and &lt;&lt; for shift, and % for remainder. Please note shift by a vector can only has unsigned integer vector in the right hand.</p>
-<h3><a class="anchor" id="methodop"></a>
-Instance methods operations</h3>
-<p>broadcast(), rotate(), shuffle() support all types exclude svec4_i1().</p>
-<p>round(), floor(), ceil(), sqrt(), rcp(), rsqrt(), exp(), log(), pow(VTYPE) support svec4_f, and svec4_d.</p>
-<p>All above will return a new vector.</p>
-<p>reduce_add(), reduce_max(), reduce_min() do a vector scope's reduction, and return a scalar value.</p>
-<p>any_true(), all_true(), none_true() do a svec4_i1 vector's reduction, and return a boolean scalar value.</p>
-<h3><a class="anchor" id="gather-scatter"></a>
-Gather and Scatter</h3>
-<p>Please refer the detail document for how to use gather and scatter. E.g. svec4_i32 type </p>
-<ul>
-<li>
-vsx::svec4_i32::gather() </li>
-<li>
-vsx::svec4_i32::scatter() </li>
-<li>
-vsx::svec4_i32::gather_base_offsets() </li>
-<li>
-vsx::svec4_i32::scatter_base_offsets() </li>
-<li>
-vsx::svec4_i32::gather_stride() </li>
-<li>
-vsx::svec4_i32::scatter_stride() </li>
-</ul>
-<p><b>Note</b> The current power processor has no gather/scatter instructions. The software based implementation is slow right now, especially the gather_base_offsets() and scatter_base_offsets().</p>
-<p>In case of regular stride style gather/scatter, it's better to use gather_stride() and scatter_stride().</p>
-<h3><a class="anchor" id="otherop"></a>
-Other Operations</h3>
-<h4><a class="anchor" id="fmaop"></a>
-Multiply-Add and Multiply-Sub</h4>
-<p>VTYPE svec_madd(VTYPE a, VTYPE b, VTYPE c) returns a * b + c;</p>
-<p>VTYPE svec_msub(VTYPE a, VTYPE b, VTYPE c) returns a * b - c;</p>
-<p>VTYPE svec_nmsub(VTYPE a, VTYPE b, VTYPE c) returns -(a * b - c);</p>
-<h4><a class="anchor" id="selectop"></a>
-Select operation</h4>
-<p>The prototype is svec_select(svec4_i1 mask, VTYPE a, VTYPE b), and return a new vector whose elements are selected from a or b based on the mask. True from a and false from b.</p>
-<p>There is another select svec_select(bool cond, VTYPE a, VTYPE b), which is the same as "cond ? a : b".</p>
-<h4><a class="anchor" id="castop"></a>
-Type cast operation</h4>
-<p>The prototype is svec_cast&lt;TO_VTYPE&gt;(FROM_VTYPE). It supports all combinations of type cast. Each element's cast semantics is the same as scalar cast.</p>
-<h3><a class="anchor" id="maskedop"></a>
-Operation with mask</h3>
-<p>load, store, gatter, scatter, compare operations have a masked version. Please refer the detail document for detail.</p>
-<h2><a class="anchor" id="perf"></a>
-Performance Evaluation</h2>
-<p>We have ported some examples from intrinsics implementation to Generic SIMD implementation, and evaluated their performance.</p>
-<p>Applications include </p>
-<ul>
-<li>
-RGB2Gray, float </li>
-<li>
-Mandelbrot, float </li>
-<li>
-SPSS-sweep, double </li>
-<li>
-Dgemm, double </li>
-<li>
-CVA-Mean, float </li>
-</ul>
-<p>Some of them only have Power Platform intrinsics implementation, and some of them only have intel intrinsics implementation. We compared the generic SIMD's performance with the intrinsics implementation by measure their speed up over scalar code.</p>
-<p>We also evaluated the portability of our GSIMD library by running the generic SIMD version application on the platform without intrinsics implementation.</p>
-<p>Below are the result.</p>
-<p>The following figures show the performance speedup versus the scalar code on different platforms.</p>
-<p>Higher is better.</p>
-<div class="image">
-<img src="power_apps.jpg" alt="power_apps.jpg"/>
-<div class="caption">
-App on Power Platform</div></div>
-<div class="image">
-<img src="intel_apps.jpg" alt="intel_apps.jpg"/>
-<div class="caption">
-App on Intel Platform</div></div>
-<div class="image">
-<img src="power2intel_apps.jpg" alt="power2intel_apps.jpg"/>
-<div class="caption">
-App with Power Intrinsics only</div></div>
-<div class="image">
-<img src="intel2power_apps.jpg" alt="intel2power_apps.jpg"/>
-<div class="caption">
-App with Intel Intrinsics only</div></div>
-<h2><a class="anchor" id="references"></a>
-Other References</h2>
-<ul>
+<a class="el" href="programming_guide.html">Programming Guide</a> </li>
 <li>
 <a class="el" href="developer_guide.html">Developer Guide</a> </li>
+<li>
+<a class="el" href="performance.html">Performance Data</a> </li>
 <li>
 <a class="el" href="issues.html">Limitations and Issues</a> </li>
 <li>
@@ -284,7 +146,7 @@ Other References</h2>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Sep 16 2013 15:23:55 for Generic SIMD Library by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 17 2013 10:38:54 for Generic SIMD Library by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5
 </small></address>
