@@ -4,7 +4,7 @@
  
  @tableofcontents
  
-@section perf Performance Evaluation
+@section performance Performance Evaluation
 
 We have ported some examples from intrinsics implementation to Generic SIMD implementation, 
 and evaluated their performance.

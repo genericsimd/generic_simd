@@ -1,6 +1,6 @@
 /**
 
- @page  Programming Guide
+ @page programming_guide Programming Guide
  
  @tableofcontents
  
