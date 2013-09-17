@@ -28,7 +28,8 @@ Then you can run the test
 
 @code
 $ cd tests
-$ make test
+$ make {vsx4|sse4|generic4}         # build unit tests for target SIMD ISA
+$ ./vsx4 (or ./sse4, or ./generic4} # run unit tests and generate report
 @endcode
 The test app will test vsx4, generic4 and sse4 interfaces, and generate the report.
 
@@ -62,9 +63,9 @@ $ cd docs
 $ make         # generate documentation into docs/html
 $ make gitpub  # copy docs/html into docs/gh-pages.github
 $ cd gh-pages.github
-$ git status   # to check if there is any new file
-$ manually add any new file "git add ..."
 $ git commit -a # checkin new documentation to github
+$ git status   # to check if there is any new file (untracked)
+$ manually add any new file "git add ..." and "git commit"
 $ git push     # push to github
 @endcode
 Note: it may take 10 minutes before the new pages appear on http://pengwuibm.github.io/generic_simd

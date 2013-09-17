@@ -43,6 +43,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define LANES 4
 #include "test_utility.h"
 
+#define EXPECT_VEC_EQ(v1, v2) EXPECT_TRUE(vec_all_eq(v1, v2))
+
 template<>
 svec4_i1 random_vec<uint32_t, svec4_i1>(int maxValue) {
   svec4_i1 vec;

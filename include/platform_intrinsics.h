@@ -30,10 +30,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#include "power7_intrinsics.h"
+
 #ifdef __POWER8
 #include "power8_intrinsics.h"
-#endif
-
-#ifdef __POWER7
-#include "power7_intrinsics.h"
 #endif
