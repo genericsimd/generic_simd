@@ -77,7 +77,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><p>The Generic SIMD Library allowers users to write C++ SIMD codes that are portable across different SIMD ISAs.</p>
 <h2><a class="anchor" id="example"></a>
 Running existing examples</h2>
-<p>Here is the helloWorld example of using the generic SIMD intrinsics interface.</p>
 <div class="fragment"><pre class="fragment"> HelloSIMD.cpp
 <span class="preprocessor">#include &lt;iostream&gt;</span>
 <span class="preprocessor">#include &lt;gsimd.h&gt;</span>
@@ -89,18 +88,31 @@ Running existing examples</h2>
     std::cout &lt;&lt; <span class="stringliteral">&quot;Hello World: &quot;</span> &lt;&lt; v2 &lt;&lt; std::endl;
     <span class="keywordflow">return</span> 0;
 }
-</pre></div><p>The entire generic SIMD library is included from the header file &lt;gsimd.h&gt;.</p>
-<p>Using proper platform-specific compiler flags, the code can be compiled by standard G++ into binaries for different target SIMD architectures.</p>
-<p>In this example, svec4_f is the SIMD vector abstraction provided by the library. It represents a vector of 4 floating-point values.</p>
-<p>Also note that operations on SIMD vectors use standard C++ operators such as "*" and "&lt;&lt;".</p>
+</pre></div><p>Let's use the example above to illustrate some of the basics features of the library: </p>
+<ul>
+<li>
+The entire generic SIMD library is included from the header file &lt;gsimd.h&gt;. </li>
+<li>
+Using proper platform-specific compiler flags, the code can be compiled by standard G++ into binaries for different target SIMD architectures. </li>
+<li>
+In this example, svec4_f is the SIMD vector abstraction provided by the library. It represents a vector of 4 floating-point values. </li>
+<li>
+Most operations on SIMD vectors use standard C++ operators such as "*" and "&lt;&lt;". </li>
+</ul>
 <h2><a class="anchor" id="features"></a>
 Key features</h2>
 <p>The library provides: </p>
 <ul>
 <li>
-<b>Fixed-lane SIMD vectors.</b>: 4-element vectors are supported. Vector of 2-, and 8-elements are under development. Note that traditional SIMD intrinsics such as AltiVec or SSE intrinsics are based on <em>fixed-width</em> instead of <em>fixed-lane</em> vectors. Fixed-lane vectors are more natural to program when dealing with parallel loops using different length data types such as int and double.  </li>
+<p class="startli"><b>Fixed-lane SIMD vectors.</b> Our SIMD vectors are defined based on the number of elements per vector (<em>fixed-lane</em>) instead of the byte-length of a vector (<em>fixed-width</em>). This is the key diffence between our vector types and the ones defined in platform-specific intrinsics.</p>
+<p>We choose fixed-lane vector because it is more natural to SIMDized parallel loops that involve data of different length such as int and double.</p>
+<p>We intend to support vectors with arbitrary power-of-two lanes, but currently only 4-element vectors are supported. Vector of 2-, and 8-elements are under development.</p>
+<p></p>
+<p class="endli"></p>
+</li>
 <li>
-<b>Portable SIMD programming.</b> Current release supports the following target platforms: <ul>
+<p class="startli"><b>Portable SIMD programming.</b> The programming interface of the library is completely platform neutral. The library provides mapping from the interface to target SIMD platforms. The current release supports the following target platforms: </p>
+<ul>
 <li>
 SSE4.2  </li>
 <li>
@@ -108,9 +120,12 @@ VSX for P7 </li>
 <li>
 Scalar emulation for non-SIMD platforms </li>
 </ul>
+<p class="endli"></p>
 </li>
 <li>
-<b>Overloaded C++ operators on SIMD vectors.</b> SIMD vector operation semantics are defined based on common C++ operators instead of platform-specific ISA semantics. The former provides a slightly higher semantics than the latter and is more natural to program since most users understand C++ operators well.  </li>
+<p class="startli"><b>Overloaded C++ semantics on SIMD vectors.</b> We define SIMD vector operations based on semantics of C++ operators instead of platform-specific ISA semantics. This is because the semantics of C++ operators are platform independent. Secondly, C++ operators provide a slightly higher semantics than platform-specific intrinsics and are more natural to program since most users understand C++ operators well. </p>
+<p class="endli"></p>
+</li>
 </ul>
 <h2><a class="anchor" id="info"></a>
 More Information</h2>
@@ -120,7 +135,7 @@ More Information</h2>
 <li>
 <a class="el" href="programming_guide.html">Programming Guide</a> </li>
 <li>
-<a class="el" href="developer_guide.html">Developer Guide</a> </li>
+<a class="el" href="developer_guide.html">Developer's Guide</a> </li>
 <li>
 <a class="el" href="performance.html">Performance Data</a> </li>
 <li>
@@ -146,7 +161,7 @@ More Information</h2>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 17 2013 10:38:54 for Generic SIMD Library by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 17 2013 12:00:51 for Generic SIMD Library by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5
 </small></address>

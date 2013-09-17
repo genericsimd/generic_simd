@@ -75,14 +75,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 <div class="textblock"><h2><a class="anchor" id="getsource"></a>
-Get the source</h2>
+Getting the source</h2>
 <p>Clone the library from github </p>
-<div class="fragment"><pre class="fragment"> {}
-$ git clone https:<span class="comment">//github.com/pengwuibm/generic_simd.git gsimd</span>
-</pre></div><p>The package contains the following structures: </p>
+<div class="fragment"><pre class="fragment">$ git clone https:<span class="comment">//github.com/pengwuibm/generic_simd.git gsimd</span>
+</pre></div><p>The package contains the following directories: </p>
 <ul>
 <li>
-<b>docs</b> Generate html docs through doxygen </li>
+<b>docs</b> input to doxygen and makefile to generate documents </li>
 <li>
 <b>examples</b> Examples using the library  </li>
 <li>
@@ -92,22 +91,24 @@ $ git clone https:<span class="comment">//github.com/pengwuibm/generic_simd.git 
 </ul>
 <h2><a class="anchor" id="usage"></a>
 Using the library</h2>
-<p>The library is in the form of header files and resides under the include/ directory. To use the library, follow these steps: </p>
+<p>The library is implemented completely inside header files, all of which are under <code>include/</code>. To use the library, follow these steps:</p>
 <ol>
 <li>
 Include the library header &lt;gsimd.h&gt; into your source code </li>
 <li>
 Programming according to library API </li>
 <li>
-Compiler command: "g++ -I&lt;gsimd_root&gt;/include -m{vsx|sse4.2} -Wno-int-to-pointer-cast -flax-vector-conversions ..." <ul>
+<p class="startli">Compiler command: </p>
+<div class="fragment"><pre class="fragment">g++ -I&lt;gsimd_root&gt;/include -m{vsx|sse4.2} -Wno-<span class="keywordtype">int</span>-to-pointer-cast -flax-vector-conversions ...
+</pre></div><ul>
 <li>
--mvsx: standard g++ option to generate VSX instructions </li>
+<code>-mvsx</code>: standard g++ option to generate VSX instructions </li>
 <li>
--msse4.2: standard g++ option to generate SSE4.2 instructions </li>
+<code>-msse4.2</code>: standard g++ option to generate SSE4.2 instructions </li>
 <li>
-if no -mvsx or -msse4.2: generate scalar codes emulating generic SIMD intrinsics </li>
+if no <code>-mvsx</code> or <code>-msse4.2</code> is specified: generate scalar codes emulating generic SIMD intrinsics </li>
 <li>
--Wno-int-to-pointer-cast -flax-vector-conversions not show warnings and enable vector casts </li>
+<code>-Wno-int-to-pointer-cast -flax-vector-conversions</code>: ignore some warnings and enable vector casts </li>
 </ul>
 </li>
 </ol>
@@ -125,7 +126,7 @@ if no -mvsx or -msse4.2: generate scalar codes emulating generic SIMD intrinsics
 </pre></div><p>Example#1: how to build for VSX </p>
 <div class="fragment"><pre class="fragment">$ g++ -I../../include HelloSIMD.cpp -mvsx -flax-vector-conversions -o HelloSIMD -Wno-<span class="keywordtype">int</span>-to-pointer-cast
 $ ./HelloSIMD
-Hello, svec4_f[2.2, 4.4, 6.6, 8.8]
+Hello World: svec4_f[2.2, 4.4, 6.6, 8.8]
 </pre></div><p>Eample#2: how to build for SSE4.2 </p>
 <div class="fragment"><pre class="fragment">$ g++ -I../../include HelloSIMD.cpp -msse4.2 -o HelloSIMD -Wno-<span class="keywordtype">int</span>-to-pointer-cast
 $ ./HelloSIMD
@@ -135,11 +136,11 @@ Running existing examples</h2>
 <p>We provided a few examples under examples/, that includes: </p>
 <ul>
 <li>
-HelloSIMD: hello-world example </li>
+<code>HelloSIMD</code> hello-world example </li>
 <li>
-mandelbrot: mandelbrot algorithm </li>
+<code>mandelbrot</code> mandelbrot algorithm </li>
 <li>
-RGB2Gray: RGB to gray conversion </li>
+<code>RGB2Gray</code> RGB to gray conversion </li>
 </ul>
 <p>To try out these examples, simply </p>
 <div class="fragment"><pre class="fragment">$ cd examples/RGB2Gray
@@ -163,7 +164,7 @@ $ make run
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 17 2013 10:38:55 for Generic SIMD Library by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 17 2013 12:00:51 for Generic SIMD Library by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5
 </small></address>

@@ -76,7 +76,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <div class="textblock"><h2><a class="anchor" id="performance"></a>
 Performance Data</h2>
-<p>We have ported some examples from intrinsics implementation to Generic SIMD implementation, and evaluated their performance.</p>
+<p>The performance goal of the generic SIMD intrinsic library is to match up with the performance of the same code written in a platform-specific intrinsics. We have ported some examples from intrinsics implementation to Generic SIMD implementation, and evaluated their performance.</p>
 <p>Applications include </p>
 <ul>
 <li>
@@ -91,7 +91,7 @@ Dgemm, double </li>
 CVA-Mean, float </li>
 </ul>
 <p>Some of them only have Power Platform intrinsics implementation, and some of them only have intel intrinsics implementation. We compared the generic SIMD's performance with the intrinsics implementation by measure their speed up over scalar code.</p>
-<p>We also evaluated the portability of our GSIMD library by running the generic SIMD version application on the platform without intrinsics implementation.</p>
+<p>We also evaluated the portability of our Generic SIMD intrinsics library by running the generic SIMD version application on the platform without intrinsics implementation.</p>
 <p>Below are the result.</p>
 <p>The following figures show the performance speedup versus the scalar code on different platforms.</p>
 <p>Higher is better.</p>
@@ -129,7 +129,7 @@ App with Intel Intrinsics only</div></div>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 17 2013 10:38:55 for Generic SIMD Library by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 17 2013 12:00:51 for Generic SIMD Library by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5
 </small></address>
