@@ -1,0 +1,9 @@
+The tests are dependent on google test framework.  Due to the
+opensource license issue, we don't include it in our source tree.
+
+Please download googletest framework first from
+  https://code.google.com/p/googletest/
+and unzip it into "tests/gtest-1.6.0" directory. 
+Alternatively one can modify the "GTEST_DIR" value in 
+tests/Makefile.
+
