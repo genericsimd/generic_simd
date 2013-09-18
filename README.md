@@ -3,18 +3,19 @@
 The Generic SIMD Library allowers users to write C++ SIMD codes that are portable across different SIMD ISAs.
 
 ##Running examples
-
-    //HelloSIMD.cpp
-    #include <iostream>
-    #include <gsimd.h>
+```c++
+//HelloSIMD.cpp
+#include <iostream>
+#include <gsimd.h>
     
-    int main (int argc, char* argv[])
-    {
-        svec4_f v1(1.1, 2.2, 3.3, 4.4);
-        svec4_f v2 = v1 * 2;
-        std::cout << "Hello World: " << v2 << std::endl;
-        return 0;
-    }
+int main (int argc, char* argv[])
+{
+    svec4_f v1(1.1, 2.2, 3.3, 4.4);
+    svec4_f v2 = v1 * 2;
+    std::cout << "Hello World: " << v2 << std::endl;
+    return 0;
+}
+```
 
 Let's use the example above to illustrate some of the basics features of the library:
 - The entire generic SIMD library is included from the header file <gsimd.h>.
@@ -40,5 +41,8 @@ The library provides:
 
 ##More Information
 
-Please see [wiki pages](http://pengwuibm.github.io/generic_simd/index.html) for detail.
+- [Programming Guide](docs/programming_guide.md)
+- [Developer Guide](docs/developer_guide.md)
+- [History](docs/history.md)
+- [wiki pages](http://pengwuibm.github.io/generic_simd/index.html) for detail.
 
