@@ -81,7 +81,9 @@ Unary operator "-" is used to get the neg value for non-boolean vectors
 Binary operators +, -, *, / can support VTYPE op VTYPE, VTYPE op STYPE, STYPE op VTYPE.
 
 Binary operators >>, <<, % can support VTYPE op VTYPE, VTYPE op STYPE over all integer types. 
->> and << for shift, and % for remainder.
+
+\>> and << for shift, and % for remainder.
+
 Please note shift by a vector can only has unsigned integer vector in the right hand.
 
 ###Instance methods operations
