@@ -87,6 +87,13 @@ Copyright (c) 2010-2012, Intel Corporation
 #define IS64BIT
 #endif
 
+//simple trick to generate a compiler error if invalid template
+//arguments are used
+template <int Lanes, class T>
+struct invalid_template_arguments{
+  typedef void type;
+};
+
 #if defined(ENABLE_STATS) || defined(ENABLE_STATS_AND_TRACE)
 enum {
   STATS_MASKED_LOAD = 0,
@@ -553,7 +560,7 @@ FORCEINLINE TYPE svec_select(bool cond, TYPE a, TYPE b) {       \
  * @brief macro for shuffle/shuffle2 methods implementation
  */
 #define SHUFFLES_L4(VTYPE, STYPE)                 \
-  static FORCEINLINE VTYPE svec_shuffle(VTYPE v, svec4_i32 index) {   \
+  static FORCEINLINE VTYPE svec_shuffle(VTYPE v, _svec4_i32 index) {   \
     INC_STATS_NAME(STATS_OTHER_SLOW, 1, "shuffle");           \
     VTYPE ret (v[index[0] & 0x3],    \
                v[index[1] & 0x3],    \
@@ -561,7 +568,7 @@ FORCEINLINE TYPE svec_select(bool cond, TYPE a, TYPE b) {       \
                v[index[3] & 0x3] );  \
     return ret;                               \
   }                                   \
-  static FORCEINLINE VTYPE svec_shuffle2(VTYPE v0, VTYPE v1, svec4_i32 index) { \
+  static FORCEINLINE VTYPE svec_shuffle2(VTYPE v0, VTYPE v1, _svec4_i32 index) { \
     VTYPE ret;                              \
     NOT_IMPLEMENTED("shuffle 2");                   \
     return ret;                             \
@@ -814,10 +821,10 @@ FORCEINLINE void svec_scatter_base_offsets(STYPE* b, uint32_t scale, OTYPE offse
 
 #define MASKED_LOAD_STORE(VTYPE, STYPE, MTYPE)                       \
 static FORCEINLINE VTYPE svec_masked_load(VTYPE *p, MTYPE mask) { \
-    return svec_gather_base_offsets((STYPE*)p, sizeof(STYPE), svec4_i32(0,1,2,3), mask);  \
+    return svec_gather_base_offsets((STYPE*)p, sizeof(STYPE), _svec4_i32(0,1,2,3), mask);  \
 }                                                      \
 static FORCEINLINE void svec_masked_store(VTYPE *p, VTYPE v, MTYPE mask) { \
-    svec_scatter_base_offsets((STYPE*)p, sizeof(STYPE), svec4_i32(0,1,2,3), v, mask); \
+    svec_scatter_base_offsets((STYPE*)p, sizeof(STYPE), _svec4_i32(0,1,2,3), v, mask); \
 }
 
 #define MASKED_LOAD_STORE_L8(VTYPE, STYPE, MTYPE)                       \

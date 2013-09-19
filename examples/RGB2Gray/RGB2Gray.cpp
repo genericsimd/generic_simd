@@ -67,25 +67,27 @@ serial_rgb2gray(float* ra, float* ga, float* ba, float* gray) {
     }
 }
 
+typedef svec<4,float> vfloat;
+
 void svec4_rgb2gray(float* ra, float* ga, float* ba, float* gray ) {
 
     for(int i = 0; i < N; i+=4) {
-        svec4_f a = svec4_f::load((svec4_f*)(ra+i));
-        svec4_f b = svec4_f::load((svec4_f*)(ga+i));
-        svec4_f c = svec4_f::load((svec4_f*)(ba+i));
-        svec4_f out = 0.3f * a  + 0.59f * b  + 0.11f * c ;
-        out.store((svec4_f*)(gray+i));
+        vfloat a = vfloat::load((vfloat*)(ra+i));
+        vfloat b = vfloat::load((vfloat*)(ga+i));
+        vfloat c = vfloat::load((vfloat*)(ba+i));
+        vfloat out = 0.3f * a  + 0.59f * b  + 0.11f * c ;
+        out.store((vfloat*)(gray+i));
     }
 }
 
 void svec4_rgb2gray_ptr(float* ra, float* ga, float* ba, float* gray ) {
 
     for(int i = 0; i < N; i+=4) {
-        svec4_f a = *(svec4_f*)(ra+i);
-        svec4_f b = *(svec4_f*)(ga+i);
-        svec4_f c = *(svec4_f*)(ba+i);
-        svec4_f out = 0.3f * a  + 0.59f * b  + 0.11f * c ;
-        *(svec4_f*)(gray+i) = out;
+        vfloat a = *(vfloat*)(ra+i);
+        vfloat b = *(vfloat*)(ga+i);
+        vfloat c = *(vfloat*)(ba+i);
+        vfloat out = 0.3f * a  + 0.59f * b  + 0.11f * c ;
+        *(vfloat*)(gray+i) = out;
     }
 }
 
@@ -126,13 +128,13 @@ void sse_rgb2gray(float* ra, float* ga, float* ba, float* gray) {
 
 void svec4_rgb2gray_fma(float* ra, float* ga, float* ba, float* gray) {
     for(int i = 0; i < N; i+=4) {
-        svec4_f a = svec4_f::load((svec4_f*)(ra+i));
-        svec4_f b = svec4_f::load((svec4_f*)(ga+i));
-        svec4_f c = svec4_f::load((svec4_f*)(ba+i));
-        svec4_f out = 0.3 * a;
-        out = svec_madd(svec4_f(0.59), b, out);
-        out = svec_madd(svec4_f(0.11), c, out);
-        out.store((svec4_f*)(gray+i));
+        vfloat a = vfloat::load((vfloat*)(ra+i));
+        vfloat b = vfloat::load((vfloat*)(ga+i));
+        vfloat c = vfloat::load((vfloat*)(ba+i));
+        vfloat out = 0.3 * a;
+        out = svec_madd(vfloat(0.59), b, out);
+        out = svec_madd(vfloat(0.11), c, out);
+        out.store((vfloat*)(gray+i));
     }
 }
 

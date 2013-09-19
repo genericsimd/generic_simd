@@ -87,11 +87,11 @@ void mandelbrot_generic(float x0, float y0, float x1, float y1,
                        int width, int height, int maxIterations,
                        int output[])
 {
-  typedef svec4_f     vfloat;
-  typedef svec4_i32   vint;
-  typedef svec4_u32   vuint;
-  typedef svec4_i16   vshort;
-  typedef svec4_i1    vbool;
+  typedef svec<4,float>     vfloat;
+  typedef svec<4,int>   vint;
+  typedef svec<4,unsigned int>   vuint;
+  typedef svec<4,short>   vshort;
+  typedef svec<4,bool>    vbool;
 
   float dx = (x1 - x0) / width;
   float dy = (y1 - y0) / height;
@@ -123,7 +123,7 @@ void mandelbrot_generic(float x0, float y0, float x1, float y1,
       
       //int index = (j * width + i);
       //vint v_index = svec_add(svec_mulo((vshort)v_j,(vshort)v_w),v_i);
-      vint v_index = v_j * svec_cast<svec4_i32>(v_w) + v_i;
+      vint v_index = v_j * svec_cast<vint>(v_w) + v_i;
       
       //   //output[index] = mandel(x, y, maxIterations);
       
