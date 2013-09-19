@@ -1,7 +1,6 @@
 #Programming Guide
  
-<b>For detailed API specification, refer to the [doxygen documentation](http://pengwuibm.github.io/generic_simd/index.html) 
-tab 'Namespaces', 'Classes', and 'Files' at the top of the page</b>
+<b>For detailed interface specification, refer to [Generic SIMD intrinsics library API] (http://pengwuibm.github.io/generic_simd/index.html) </b>
 
 ##Data Types
 The library supports the following SIMD vector types. 

@@ -43,7 +43,7 @@ The library provides:
 - [Getting Started](docs/getting_started.md)
 - [Programming Guide](docs/programming_guide.md)
 - [Developer Guide](docs/developer_guide.md)
+- [FAQ & Trouble Shooting](docs/faq.md)
 - [Performance Data](docs/performance.md)
 - [History](docs/history.md)
-- [API docs](http://pengwuibm.github.io/generic_simd/index.html)
 
