@@ -30,7 +30,7 @@ In the rest of the document we use VTYPE to indicate a SIMD vector type, and STY
 All the four values in the SIMD vector is 100. 
 
 
-##Extract/insert single vector element
+###Extract/insert single vector element
 
 "[]" operator is used to get and set the elements.
 ```c++
