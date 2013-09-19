@@ -22,10 +22,11 @@ Below are the result.
 The following figures show the performance speedup versus the scalar code on different platforms.
 
 Higher is better.
-![App on Power Platform](img/power_apps.jpg) _App on Power Platform_
 
-![App on Intel Platform](img/intel_apps.jpg) _App on Intel Platform_
+__App on Power Platform__<br> ![App on Power Platform](img/power_apps.jpg)
 
-![App with Power Intrinsics only](img/power2intel_apps.jpg) _App with Power Intrinsics only_
+__App on Intel Platform__<br> ![App on Intel Platform](img/intel_apps.jpg) 
 
-![App with Intel Intrinsics only](img/intel2power_apps.jpg) _App with Intel Intrinsics only_
+__App with Power Intrinsics only__<br> ![App with Power Intrinsics only](img/power2intel_apps.jpg) 
+
+__App with Intel Intrinsics only__<br> ![App with Intel Intrinsics only](img/intel2power_apps.jpg) 
