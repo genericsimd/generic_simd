@@ -6,7 +6,7 @@ default: html
 
 .PHONY: html
 
-html: intrinsics.doxyfile ../include/power_vsx4.h mainpage.txt developer_guide.txt history.txt issues.txt
+html: intrinsics.doxyfile ../include/power_vsx4.h 
 	doxygen $<
 
 gitpub: html
