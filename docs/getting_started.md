@@ -30,7 +30,7 @@ g++ -I <gsimd_root>/include -m{vsx|sse4.2} -Wno-int-to-pointer-cast -flax-vector
 
 Consider the hello-world example:
 ```cpp
-  HelloSIMD.cpp
+//HelloSIMD.cpp
 #include <iostream>
 #include <gsimd.h>
 
