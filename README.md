@@ -10,17 +10,17 @@ The Generic SIMD Library allowers users to write C++ SIMD codes that are portabl
     
 int main (int argc, char* argv[])
 {
-    svec4_f v1(1.1, 2.2, 3.3, 4.4);
-    svec4_f v2 = v1 * 2;
-    std::cout << "Hello World: " << v2 << std::endl;
-    return 0;
+  svec<4,float> v1(1.1, 2.2, 3.3, 4.4);
+  svec<4,float> v2 = v1 * 2;
+  std::cout << "Hello World: " << v2 << std::endl;
+  return 0;
 }
 ```
 
 Let's use the example above to illustrate some of the basics features of the library:
 - The entire generic SIMD library is included from the header file <gsimd.h>.
 - Using proper platform-specific compiler flags, the code can be compiled by standard G++ into binaries for different target SIMD architectures.
-- In this example, svec4_f is the SIMD vector abstraction provided by the library. It represents a vector of 4 floating-point values.
+- In this example, svec<4,float> is the SIMD vector abstraction provided by the library. It represents a vector of 4 floating-point values.
 - Most operations on SIMD vectors use standard C++ operators such as "*" and "<<".
 
 ##Key features
