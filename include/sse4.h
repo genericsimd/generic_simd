@@ -1543,7 +1543,7 @@ MASKED_LOAD_STORE(_svec4_d, double, _svec4_i1);
 // 1. mask construction
 /**
  * @brief Check any element of the mask is non-zero
- * @param mask the svec_i1 type vector
+ * @param mask the svec<4,bool> type vector
  * @return true is at least one element in the mask is true
  */
 static FORCEINLINE bool svec_any_true(const _svec4_i1& mask) {
@@ -1552,7 +1552,7 @@ static FORCEINLINE bool svec_any_true(const _svec4_i1& mask) {
 
 /**
  * @brief Check all elements of the mask are non-zero
- * @param mask the svec_i1 type vector
+ * @param mask the svec<4,bool> type vector
  * @return true is all elements in the mask are true
  */
 static FORCEINLINE bool svec_all_true(const _svec4_i1& mask) {
@@ -1562,7 +1562,7 @@ static FORCEINLINE bool svec_all_true(const _svec4_i1& mask) {
 
 /**
  * @brief Check none elements of the mask are zero
- * @param mask the svec_i1 type vector
+ * @param mask the svec<4,bool> type vector
  * @return true is all elements in the mask are false
  */
 static FORCEINLINE bool svec_none_true(const _svec4_i1& mask) {
@@ -1604,7 +1604,7 @@ static FORCEINLINE _svec4_i1 svec_not(_svec4_i1 a) {
 /**
  * @brief Change a mask type (i1 vector) to a uint64_t integer
  * The method is only used for compatibility of ISPC
- * @param mask the svec_i1 type vector
+ * @param mask the svec<4,bool> type vector
  * @return a uint64_t integer to represent the mask
  */
 static FORCEINLINE uint64_t svec_movmsk(_svec4_i1 mask) {
