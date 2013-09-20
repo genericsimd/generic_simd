@@ -263,30 +263,30 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
   const FORCEINLINE STYPE operator[](int index) const;
 
 //Only for I1 output, use 0/1 as output
-#define COUT_FUNC_SVEC_BOOL(LANES) \
+#define COUT_FUNC_BOOL_DECL(LANES) \
   friend std::ostream& operator<< (std::ostream &out, const svec<LANES,bool> &v) { \
-    out << "svec<" << LANES << ",bool>" << "[" << (v[0]?1:0);			\
+    out << "svec<" << LANES << ",bool> " << "[" << (v[0]?1:0);			\
     for(int i = 1; i < LANES ; i++) { out << ", " << (v[i]?1:0);}	\
     out << "]";								\
     return out;								\
   }									\
 
 //i8 type need special one for output char as int number
-#define COUT_FUNC_I8(VTYPE, LANES) \
-friend std::ostream& operator<< (std::ostream &out, const VTYPE &v) { \
-  out << #VTYPE <<"[" << short(v[0]); \
-  for(int i = 1; i < LANES ; i++) { out << ", " << short(v[i]);} \
-  out << "]"; \
-  return out; \
-} \
+#define COUT_FUNC_CHAR_DECL(STYPE, LANES) \
+  friend std::ostream& operator<< (std::ostream &out, const svec<LANES,STYPE> &v) { \
+    out << "svec<" << LANES << "," << #STYPE <<"> [" << short(v[0]);	\
+    for(int i = 1; i < LANES ; i++) { out << ", " << short(v[i]);}	\
+    out << "]";								\
+    return out;								\
+  }									\
 
-#define COUT_FUNC(VTYPE, LANES) \
-friend std::ostream& operator<< (std::ostream &out, const VTYPE &v) { \
-  out << #VTYPE <<"[" << v[0]; \
-  for(int i = 1; i < LANES ; i++) { out << ", " << v[i];} \
-  out << "]"; \
-  return out; \
-} \
+#define COUT_FUNC_DECL(STYPE, LANES) \
+  friend std::ostream& operator<< (std::ostream &out, const svec<LANES,STYPE> &v) { \
+    out << "svec<" << LANES << "," << #STYPE <<"> [" << v[0];		\
+    for(int i = 1; i < LANES ; i++) { out << ", " << v[i];}		\
+    out << "]";								\
+    return out;								\
+  }									\
 
 
 /*!

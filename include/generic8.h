@@ -171,7 +171,7 @@ struct svec8_i1 {
     }
 
     SUBSCRIPT_FUNC_OPT_DECL(svec8_i1, uint32_t);
-    COUT_FUNC_SVEC_BOOL(LANES);
+    COUT_FUNC_BOOL_DECL(LANES);
     MVEC_CLASS_METHOD_DECL(svec8_i1, uint32_t);
 };
 
@@ -208,7 +208,7 @@ struct svec8_i8 {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(int8_t);
-    COUT_FUNC_I8(svec8_i8, LANES);
+    COUT_FUNC_CHAR_DECL(char, LANES);
 
     VEC_CLASS_METHOD_DECL(svec8_i8, int8_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
     VEC_INT_CLASS_METHOD_DECL(svec8_i8, svec8_u8, int8_t);
@@ -246,7 +246,7 @@ struct svec8_u8 {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(uint8_t);
-    COUT_FUNC_I8(svec8_u8, LANES);
+    COUT_FUNC_CHAR_DECL(unsigned char, LANES);
 
     VEC_CLASS_METHOD_DECL(svec8_u8, uint8_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
     VEC_INT_CLASS_METHOD_DECL(svec8_u8, svec8_u8, uint8_t);
@@ -284,7 +284,7 @@ struct svec8_i16 {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(int16_t);
-    COUT_FUNC(svec8_i16, LANES);
+    COUT_FUNC_DECL(short, LANES);
 
     VEC_CLASS_METHOD_DECL(svec8_i16, int16_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
     VEC_INT_CLASS_METHOD_DECL(svec8_i16, svec8_u16, int16_t);
@@ -323,7 +323,7 @@ struct svec8_u16 {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(uint16_t);
-    COUT_FUNC(svec8_u16, LANES);
+    COUT_FUNC_DECL(unsigned short, LANES);
 
     VEC_CLASS_METHOD_DECL(svec8_u16, uint16_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
     VEC_INT_CLASS_METHOD_DECL(svec8_u16, svec8_u16, uint16_t);
@@ -362,7 +362,7 @@ struct svec8_i32 {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(int32_t);
-    COUT_FUNC(svec8_i32, LANES);
+    COUT_FUNC_DECL(int, LANES);
 
     VEC_CLASS_METHOD_DECL(svec8_i32, int32_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
     VEC_INT_CLASS_METHOD_DECL(svec8_i32, svec8_u32, int32_t);
@@ -401,7 +401,7 @@ struct svec8_u32 {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(uint32_t);
-    COUT_FUNC(svec8_u32, LANES);
+    COUT_FUNC_DECL(unsigned int, LANES);
 
     VEC_CLASS_METHOD_DECL(svec8_u32, uint32_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
     VEC_INT_CLASS_METHOD_DECL(svec8_u32, svec8_u32, uint32_t);
@@ -439,7 +439,7 @@ struct svec8_i64 {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(int64_t);
-    COUT_FUNC(svec8_i64, LANES);
+    COUT_FUNC_DECL(long long, LANES);
 
     VEC_CLASS_METHOD_DECL(svec8_i64, int64_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
     VEC_INT_CLASS_METHOD_DECL(svec8_i64, svec8_u64, int64_t);
@@ -477,7 +477,7 @@ struct svec8_u64 {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(uint64_t);
-    COUT_FUNC(svec8_u64, LANES);
+    COUT_FUNC_DECL(unsigned long long, LANES);
 
     VEC_CLASS_METHOD_DECL(svec8_u64, uint64_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
     VEC_INT_CLASS_METHOD_DECL(svec8_u64, svec8_u64, uint64_t);
@@ -515,7 +515,7 @@ struct svec8_f {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(float);
-    COUT_FUNC(svec8_f, LANES);
+    COUT_FUNC_DECL(float, LANES);
 
     VEC_CLASS_METHOD_DECL(svec8_f, float, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
     VEC_FLOAT_CLASS_METHOD_DECL(svec8_f);
@@ -553,7 +553,7 @@ struct svec8_d {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(double);
-    COUT_FUNC(svec8_d, LANES);
+    COUT_FUNC_DECL(double, LANES);
 
     VEC_CLASS_METHOD_DECL(svec8_d, double, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
     VEC_FLOAT_CLASS_METHOD_DECL(svec8_d);

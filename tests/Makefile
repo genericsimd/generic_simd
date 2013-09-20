@@ -3,7 +3,7 @@ GXX = g++
 ECHO=echo
 
 GTEST_DIR=gtest-1.6.0
-SIMD_TARGETS=vsx4 generic4 generic8 sse4
+SIMD_TARGETS=vsx4 generic4 sse4
 
 CXXFLAGS=-I../include -Wno-int-to-pointer-cast -flax-vector-conversions -g
 #disable assert failure
