@@ -124,9 +124,6 @@ namespace vsx {
 //
 //////////////////////////////////////////////////////////////
 
-
-struct _svec4_ptr;
-
 template <int Lanes, class T>
 struct svec : public invalid_template_arguments<Lanes,T>::type {
   //here we need to add the static assert
@@ -154,6 +151,8 @@ template <>
   struct svec<4,float>;
 template <>
   struct svec<4,double>;
+template <>
+  struct svec<4,void*>;
 
 //required because macros are confused by the , in the template declaration
 typedef svec<4,bool> _svec4_i1;
@@ -167,6 +166,7 @@ typedef svec<4,long long> _svec4_i64;
 typedef svec<4,unsigned long long> _svec4_u64;
 typedef svec<4,float> _svec4_f;
 typedef svec<4,double> _svec4_d;
+typedef svec<4,void*> _svec4_ptr;
 
 /**
  * @brief Data representation and operations on a vector of 4 boolean values.
@@ -1496,21 +1496,23 @@ FORCEINLINE _svec4_d svec_load_and_splat<_svec4_d>(double* p) {
  * @see gather and scatter
  */
 #ifdef __PPC64__
-struct _svec4_ptr : public _svec4_u64{
+template <>
+struct svec<4,void*> : public _svec4_u64{
     /**
      * @brief Constructor.
      * @return a vector of 4 pointers: {p10, p1, p2, p3}.
      */
-    FORCEINLINE _svec4_ptr(void* p0, void* p1, void* p2, void* p3):
+    FORCEINLINE svec(void* p0, void* p1, void* p2, void* p3):
         _svec4_u64((uint64_t)(p0),(uint64_t)(p1),(uint64_t)(p2),(uint64_t)(p3)){}
 };
 #else // 32-bit
-struct _svec4_ptr: public _svec4_u32{
+template <>
+struct svec<4,void*> : public _svec4_u32{
     /**
      * @brief Constructor.
      * @return a vector of 4 pointers: {p0, p1, p2, p3}.
      */
-    FORCEINLINE _svec4_ptr(void* p0, void* p1, void* p2, void* p3):
+    FORCEINLINE svec(void* p0, void* p1, void* p2, void* p3):
         _svec4_u32((uint32_t)(p0),(uint32_t)(p1),(uint32_t)(p2),(uint32_t)(p3)){}
 };
 #endif // __PPC64__
