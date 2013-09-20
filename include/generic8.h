@@ -171,7 +171,7 @@ struct svec8_i1 {
     }
 
     SUBSCRIPT_FUNC_OPT_DECL(svec8_i1, uint32_t);
-    COUT_FUNC_I1(svec8_i1, LANES);
+    COUT_FUNC_SVEC_BOOL(LANES);
     MVEC_CLASS_METHOD_DECL(svec8_i1, uint32_t);
 };
 

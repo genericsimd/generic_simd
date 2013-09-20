@@ -204,7 +204,7 @@ struct svec<4,bool> {
     }
 
     SUBSCRIPT_FUNC_OPT_DECL(_svec4_i1, uint32_t);
-    COUT_FUNC_I1(_svec4_i1, LANES);
+    COUT_FUNC_SVEC_BOOL(LANES);
     MVEC_CLASS_METHOD_DECL(_svec4_i1, uint32_t);
 };
 

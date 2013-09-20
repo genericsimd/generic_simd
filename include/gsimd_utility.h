@@ -262,36 +262,14 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
   FORCEINLINE Helper operator[](int index) { return Helper(this, index);} \
   const FORCEINLINE STYPE operator[](int index) const;
 
-///**
-// * @brief macros to define vector type's [] operators
-// */
-//#define SUBSCRIPT_FUNC_IMPL(VTYPE, STYPE) \
-///*!
-//   @brief Operator [] to set a vector element. E.g., "a[1] = ..."
-//   @param[in] index the index of the vector element.
-// */ \
-//FORCEINLINE STYPE& VTYPE::operator[](int index) { \
-//  INC_STATS_NAME(STATS_INSERT, 1, "insert "#STYPE);   \
-//  return ((STYPE *)&v)[index];   \
-//} \
-///*!
-//   @brief Operator [] to get a vector element. E.g., "... = a[1]"
-//   @param[in] index the index of the vector element.
-//   @return the specified vector element
-// */ \
-//const FORCEINLINE STYPE VTYPE::operator[](int index) const { \
-//  return svec_extract(*this, index); \
-//}
-
-
 //Only for I1 output, use 0/1 as output
-#define COUT_FUNC_I1(VTYPE, LANES) \
-friend std::ostream& operator<< (std::ostream &out, const VTYPE &v) { \
-  out << #VTYPE <<"[" << (v[0]?1:0); \
-  for(int i = 1; i < LANES ; i++) { out << ", " << (v[i]?1:0);} \
-  out << "]"; \
-  return out; \
-} \
+#define COUT_FUNC_SVEC_BOOL(LANES) \
+  friend std::ostream& operator<< (std::ostream &out, const svec<LANES,bool> &v) { \
+    out << "svec<" << LANES << ",bool>" << "[" << (v[0]?1:0);			\
+    for(int i = 1; i < LANES ; i++) { out << ", " << (v[i]?1:0);}	\
+    out << "]";								\
+    return out;								\
+  }									\
 
 //i8 type need special one for output char as int number
 #define COUT_FUNC_I8(VTYPE, LANES) \
