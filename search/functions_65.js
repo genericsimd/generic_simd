@@ -1,0 +1,4 @@
+var searchData=
+[
+  ['exp',['exp',['../structvsx_1_1svec_3_014_00_01float_01_4.html#a666cfb4eb69534da889f15bdeba9cc36',1,'vsx::svec&lt; 4, float &gt;::exp()'],['../structvsx_1_1svec_3_014_00_01double_01_4.html#a84362bf73b467bf6cb8beddca2f8a2c1',1,'vsx::svec&lt; 4, double &gt;::exp()'],['../structgeneric_1_1svec_3_014_00_01float_01_4.html#aac37bbac7d99f5951f2bd28dd241725c',1,'generic::svec&lt; 4, float &gt;::exp()'],['../structgeneric_1_1svec_3_014_00_01double_01_4.html#a1f654dd687e45d4b86f7f81e959d5fed',1,'generic::svec&lt; 4, double &gt;::exp()'],['../structsse_1_1svec_3_014_00_01float_01_4.html#ad036c70a1e75b5c676155c7ebe371625',1,'sse::svec&lt; 4, float &gt;::exp()'],['../structsse_1_1svec_3_014_00_01double_01_4.html#a0a3d0f6a68f674fe7b697a9a0085a8e0',1,'sse::svec&lt; 4, double &gt;::exp()']]]
+];
