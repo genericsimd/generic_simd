@@ -7,6 +7,7 @@ default: html
 .PHONY: html
 
 html: intrinsics.doxyfile ../include/power_vsx4.h 
+	make clean
 	doxygen $<
 
 gitpub: html
