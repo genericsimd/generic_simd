@@ -10,17 +10,17 @@ The Generic SIMD Library allowers users to write C++ SIMD codes that are portabl
     
 int main (int argc, char* argv[])
 {
-    svec4_f v1(1.1, 2.2, 3.3, 4.4);
-    svec4_f v2 = v1 * 2;
-    std::cout << "Hello World: " << v2 << std::endl;
-    return 0;
+  svec<4,float> v1(1.1, 2.2, 3.3, 4.4);
+  svec<4,float> v2 = v1 * 2;
+  std::cout << "Hello World: " << v2 << std::endl;
+  return 0;
 }
 ```
 
 Let's use the example above to illustrate some of the basics features of the library:
 - The entire generic SIMD library is included from the header file <gsimd.h>.
 - Using proper platform-specific compiler flags, the code can be compiled by standard G++ into binaries for different target SIMD architectures.
-- In this example, svec4_f is the SIMD vector abstraction provided by the library. It represents a vector of 4 floating-point values.
+- In this example, svec<4,float> is the SIMD vector abstraction provided by the library. It represents a vector of 4 floating-point values.
 - Most operations on SIMD vectors use standard C++ operators such as "*" and "<<".
 
 ##Key features
@@ -40,6 +40,7 @@ The library provides:
 - <b>Overloaded C++ semantics on SIMD vectors.</b> We define SIMD vector operations based on semantics of C++ operators instead of platform-specific ISA semantics. This is because the semantics of C++ operators are platform independent. Secondly, C++ operators provide a slightly higher semantics than platform-specific intrinsics and are more natural to program since most users understand C++ operators well.
 
 ##More Information
+- [Generic SIMD Intrinsics Library API](http://pengwuibm.github.io/generic_simd/index.html)
 - [Getting Started](docs/getting_started.md)
 - [Programming Guide](docs/programming_guide.md)
 - [Developer Guide](docs/developer_guide.md)

@@ -3,28 +3,33 @@
 <b>For detailed interface specification, refer to [Generic SIMD intrinsics library API] (http://pengwuibm.github.io/generic_simd/index.html) </b>
 
 ##Data Types
-The library supports the following SIMD vector types. 
 
-- *svec4_i1*: vector of 4 boolean 
-- *svec4_i8*, *svec4_u8*: vector of 4 signed/unsigned char 
-- *svec4_i16*, *svec4_u16*: vector of 4 signed/unsigned short 
-- *svec4_i32*, *svec4_u32*: vector of 4 signed/unsigned integer 
-- *svec4_i64*, *svec4_u64*: vector 4 signed/unsigned long long 
-- *svec4_f*: vector of 4 float 
-- *svec4_d*: vector of 4 double 
+The library supports templaterized SIMD vector types, *svec<N,STYPE>*,
+where *N* specifies elements per vector and has to be power of two.
+*STYPE* specifies scalar type of vector element: *bool*, *char*, "unsigned
+char*, *short*, *unsigned short*, *int*, *unsigned int*, *long long*,
+*unsigned long long*, *float*, and *double*.
 
-where "i" indicates signed types and "u" unsigned types. 
+Currently the library supports only N = 4
 
-In the rest of the document we use VTYPE to indicate a SIMD vector type, and STYPE to indicate a scalar type.
+- *svec<4,bool>*: vector of 4 boolean 
+- *svec<4,char>, svec<4,unsigned char>: vector of 4 signed/unsigned char 
+- *svec<4,short>*, *svec<4,unsigned short>*: vector of 4 signed/unsigned short 
+- *svec<4,int>*, *svec<4,unsigned int>*: vector of 4 signed/unsigned integer 
+- *svec<4,long long>*, *svec<4,unsigned long long>*: vector 4 signed/unsigned long long 
+- *svec<4,float>*: vector of 4 float 
+- *svec<4,double>*: vector of 4 double 
+
+In the rest of the document we use VTYPE to indicate SIMD vector types.
 
 ##Operations
 
 ###Constructor
 
-- Default constructor returns a vector with undefined value. e.g. "svec4_i32 v;" 
+- Default constructor returns a vector with undefined value. e.g. "svec<4,int> v;" 
   You can modify it's elements by "[]" operator. 
-- Construct a SIMD vector with four scalar values. e.g. "svec4_i32 v(1,2,3,4)" 
-- Construct a SIMD vector with one scalar value. e.g. "svec4_i32 v(100)". 
+- Construct a SIMD vector with four scalar values. e.g. "svec<4,int> v(1,2,3,4)" 
+- Construct a SIMD vector with one scalar value. e.g. "svec<4,int> v(100)". 
 
 All the four values in the SIMD vector is 100. 
 
@@ -33,14 +38,14 @@ All the four values in the SIMD vector is 100.
 
 "[]" operator is used to get and set the elements.
 ```c++
-svec4_i32 v(1,2,3,4);
+svec<4,int> v(1,2,3,4);
 int a = v[2]; // extracts the 3rd element of the vector (i.e., element index starts from 0), a is 3 now
 v[3] = 10;    // assigns 10 to the 3rd element of the vector, v is [1,2,3,10] now
 ```
 
 Due to the current limitation, bool vector's setter must use "-1" as true in the right hand side.
 ```c++
-svec4_i1 m(0); // construct a vector of boolean with all elements initialized to false
+svec<4,bool> m(0); // construct a vector of boolean with all elements initialized to false
 m[0] = -1;     // after assignment, 1st element of m is true.
 ```
 
@@ -49,7 +54,7 @@ m[0] = -1;     // after assignment, 1st element of m is true.
 Store a vector to location p through instance method store(VTYPE *).
 
 Load a vector from location p through class static method VTYPE::(VTYPE *).
-e.g. "svec4_i32::load(an_address)" will return a new svec4_i32 vector.
+e.g. "svec<4,int>::load(an_address)" will return a new svec<4,int> vector.
 
 Load a scalar value from an address and splat it into the whole vector could be done through class static method VTYPE::load_and_splat(STYPE *)
 
@@ -57,23 +62,23 @@ There is another method called VTYPE::load_const(STYPE*), which has similar sema
 
 ###Compare Operations
 
-Compare two vectors, and return a svec4_i1 vector.
+Compare two vectors, and return a svec<4,bool> vector.
 
 Operators: == != for all types
 
-Operators: >, >=, <, <= for all types except svec4_i1.
+Operators: >, >=, <, <= for all types except svec<4,bool>.
 
 ###Bit operations
 
-svec4_i1 has operator ~ to reverse the boolean value.
+svec<4,bool> has operator ~ to reverse the boolean value.
 
 Binary bit operators &, |, ^ are available for all integer vector types.
 
-Logical operators !, &&, || are available for svec4_i1 type.
+Logical operators !, &&, || are available for svec<4,bool> type.
 
 ###Math operations
 
-Support all types except svec4_i1.
+Support all types except svec<4,bool>.
 
 Unary operator "-" is used to get the neg value for non-boolean vectors
 
@@ -87,27 +92,27 @@ Please note shift by a vector can only has unsigned integer vector in the right 
 
 ###Instance methods operations
 
-broadcast(), rotate(), shuffle() support all types exclude svec4_i1().
+broadcast(), rotate(), shuffle() support all types exclude svec<4,bool>().
 
-round(), floor(), ceil(), sqrt(), rcp(), rsqrt(), exp(), log(), pow(VTYPE) support svec4_f, and svec4_d.
+round(), floor(), ceil(), sqrt(), rcp(), rsqrt(), exp(), log(), pow(VTYPE) support svec<4,float>, and svec<4,double>.
 
 All above will return a new vector.
 
 reduce_add(), reduce_max(), reduce_min() do a vector scope's reduction, and return a scalar value.
 
-any_true(), all_true(), none_true() do a svec4_i1 vector's reduction, and return a boolean scalar value.
+any_true(), all_true(), none_true() do a svec<4,bool> vector's reduction, and return a boolean scalar value.
 
 ###Gather and Scatter
 
 Please refer the detail document for how to use gather and scatter.
-E.g. svec4_i32 type
+E.g. svec<4,int> type
 
-- vsx::svec4_i32::gather()
-- vsx::svec4_i32::scatter()
-- vsx::svec4_i32::gather_base_offsets()
-- vsx::svec4_i32::scatter_base_offsets()
-- vsx::svec4_i32::gather_stride()
-- vsx::svec4_i32::scatter_stride()
+- svec<4,int>::gather()
+- svec<4,int>::scatter()
+- svec<4,int>::gather_base_offsets()
+- svec<4,int>::scatter_base_offsets()
+- svec<4,int>::gather_stride()
+- svec<4,int>::scatter_stride()
 
 **Note** The current power processor has no gather/scatter instructions. The software based implementation is slow right now, especially the gather_base_offsets() and scatter_base_offsets().
 
@@ -123,7 +128,7 @@ VTYPE svec_nmsub(VTYPE a, VTYPE b, VTYPE c) returns -(a * b - c);
 
 ###Select operation
 
-The prototype is svec_select(svec4_i1 mask, VTYPE a, VTYPE b), and return a new vector whose elements are selected from _a_ or _b_ based on the mask. True from _a_ and false from _b_.
+The prototype is svec_select(svec<4,bool> mask, VTYPE a, VTYPE b), and return a new vector whose elements are selected from _a_ or _b_ based on the mask. True from _a_ and false from _b_.
 
 There is another select svec_select(bool cond, VTYPE a, VTYPE b), which is the same as "cond ? a : b".
 

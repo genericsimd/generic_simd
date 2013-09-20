@@ -42,7 +42,7 @@ int main (int argc, char* argv[])
 {
   svec<4,float> v1(1.1, 2.2, 3.3, 4.4);
   svec<4,float> v2 = v1 * 2;
-  std::cout << "Hello, " << v2 << std::endl;
+  std::cout << "Hello World: " << v2 << std::endl;
   return 0;
 }
 
