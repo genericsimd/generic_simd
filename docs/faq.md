@@ -1,7 +1,5 @@
 #FAQ and Trouble Shooting
 
-## Known limitations
-
 ## Frequently asked questions
 
 1. What target SIMD platforms does the library support?
@@ -9,7 +7,7 @@
 Currently we support two SIMD platforms, SSE4.2 and VSX. We also
 support a generic implementation of the library using scalar codes.
 
-1. Failed to build unit tests under tests/
+2. Failed to build unit tests under tests/
 
 ```
 -bash-4.1$ make
@@ -24,7 +22,7 @@ download googletest from [here](https://code.google.com/p/googletest/)
 and unzip it into "tests/gtest-1.6.0/". Or you can unzip it to
 where you want, and modify the "GTEST_DIR" value in tests/Makefile.
 
-1. Could I get slightly different results using svec_madd and
+3. Could I get slightly different results using svec_madd and
 svec_msub on different platforms?
 
 The vsx's vsx::svec_madd(), vsx::svec_msub() are mapped into madd and
