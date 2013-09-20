@@ -5,7 +5,6 @@ ECHO=echo
 GTEST_DIR=gtest-1.6.0
 SIMD_TARGETS=vsx4 generic4 generic8 sse4
 
-
 CXXFLAGS=-I../include -Wno-int-to-pointer-cast -flax-vector-conversions -g
 #disable assert failure
 CXXFLAGS+= -DNDEBUG
@@ -14,10 +13,16 @@ CXXFLAGS+= -DNDEBUG
 help:
 	@-$(ECHO) "Usage:  'make <targets>' to build/run unit-tests for a target SIMD platform"
 	@-$(ECHO) "   where <targets> are: ${SIMD_TARGETS}"
-	@-$(ECHO) "   e.g., use 'make vsx4'  to build/run vsx4 unit tests"
+	@-$(ECHO) "   e.g., use 'make clean; make vsx4'  to build/run vsx4 unit tests"
 
 # Need build the libgtest.a
-libgtest.a:
+check_googletest:
+	@if [ ! -d ${GTEST_DIR} ]; then \
+	   $(ECHO) "${GTEST_DIR} does not exist, please refer to README to install googletest."; \
+	   exit 2; \
+	fi 
+
+libgtest.a: check_googletest
 	${GXX} -I${GTEST_DIR}/include -I${GTEST_DIR} -c ${GTEST_DIR}/src/gtest-all.cc
 	ar -rv $@ gtest-all.o
 
