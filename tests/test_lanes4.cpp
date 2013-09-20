@@ -45,6 +45,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define EXPECT_VEC_EQ(v1, v2) EXPECT_TRUE(vec_all_eq(v1, v2))
 
+typedef _svec4_ptr svec4_ptr;
+typedef svec<4,bool> svec4_i1;
+typedef svec<4,char> svec4_i8;
+typedef svec<4,unsigned char> svec4_u8;
+typedef svec<4,short> svec4_i16;
+typedef svec<4,unsigned short> svec4_u16;
+typedef svec<4,int> svec4_i32;
+typedef svec<4,unsigned int> svec4_u32;
+typedef svec<4,long long> svec4_i64;
+typedef svec<4,unsigned long long> svec4_u64;
+typedef svec<4,float> svec4_f;
+typedef svec<4,double> svec4_d;
+
+
 template<>
 svec4_i1 random_vec<uint32_t, svec4_i1>(int maxValue) {
   svec4_i1 vec;
