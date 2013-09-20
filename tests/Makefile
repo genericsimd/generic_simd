@@ -1,5 +1,5 @@
-#GXX = g++
-GXX = /opt/at5.0/bin/g++
+GXX = g++
+#GXX = /opt/at5.0/bin/g++
 ECHO=echo
 
 GTEST_DIR=gtest-1.6.0

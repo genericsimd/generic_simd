@@ -244,7 +244,7 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
 /**
  * @brief macros to define a intrinsic based subscript opertor
  */
-#define SUBSCRIPT_FUNC_DECL(VTYPE, STYPE)    \
+#define SUBSCRIPT_FUNC_DECL(STYPE)    \
   FORCEINLINE STYPE& operator[](int index); \
   const FORCEINLINE STYPE operator[](int index) const;
 

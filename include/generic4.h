@@ -239,7 +239,7 @@ struct svec<4,char> {
      * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
-    SUBSCRIPT_FUNC_DECL(_svec4_i8, int8_t);
+    SUBSCRIPT_FUNC_DECL(int8_t);
     COUT_FUNC_I8(_svec4_i8, LANES);
 
     VEC_CLASS_METHOD_DECL(_svec4_i8, int8_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
@@ -277,7 +277,7 @@ struct svec<4,unsigned char> {
      * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
-    SUBSCRIPT_FUNC_DECL(_svec4_u8, uint8_t);
+    SUBSCRIPT_FUNC_DECL(uint8_t);
     COUT_FUNC_I8(_svec4_u8, LANES);
 
     VEC_CLASS_METHOD_DECL(_svec4_u8, uint8_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
@@ -314,7 +314,7 @@ struct svec<4,short> {
      * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
-    SUBSCRIPT_FUNC_DECL(_svec4_i16, int16_t);
+    SUBSCRIPT_FUNC_DECL(int16_t);
     COUT_FUNC(_svec4_i16, LANES);
 
     VEC_CLASS_METHOD_DECL(_svec4_i16, int16_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
@@ -352,7 +352,7 @@ struct svec<4,unsigned short> {
      * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
-    SUBSCRIPT_FUNC_DECL(_svec4_u16, uint16_t);
+    SUBSCRIPT_FUNC_DECL(uint16_t);
     COUT_FUNC(_svec4_u16, LANES);
 
     VEC_CLASS_METHOD_DECL(_svec4_u16, uint16_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
@@ -390,7 +390,7 @@ struct svec<4,int> {
      * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
-    SUBSCRIPT_FUNC_DECL(_svec4_i32, int32_t);
+    SUBSCRIPT_FUNC_DECL(int32_t);
     COUT_FUNC(_svec4_i32, LANES);
 
     VEC_CLASS_METHOD_DECL(_svec4_i32, int32_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
@@ -428,7 +428,7 @@ struct svec<4,unsigned int> {
      * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
-    SUBSCRIPT_FUNC_DECL(_svec4_u32, uint32_t);
+    SUBSCRIPT_FUNC_DECL(uint32_t);
     COUT_FUNC(_svec4_u32, LANES);
 
     VEC_CLASS_METHOD_DECL(_svec4_u32, uint32_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
@@ -465,7 +465,7 @@ struct svec<4,long long> {
      * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
-    SUBSCRIPT_FUNC_DECL(_svec4_i64, int64_t);
+    SUBSCRIPT_FUNC_DECL(int64_t);
     COUT_FUNC(_svec4_i64, LANES);
 
     VEC_CLASS_METHOD_DECL(_svec4_i64, int64_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
@@ -502,7 +502,7 @@ struct svec<4,unsigned long long> {
      * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
-    SUBSCRIPT_FUNC_DECL(_svec4_u64, uint64_t);
+    SUBSCRIPT_FUNC_DECL(uint64_t);
     COUT_FUNC(_svec4_u64, LANES);
 
     VEC_CLASS_METHOD_DECL(_svec4_u64, uint64_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
@@ -539,7 +539,7 @@ struct svec<4,float> {
      * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
-    SUBSCRIPT_FUNC_DECL(_svec4_f, float);
+    SUBSCRIPT_FUNC_DECL(float);
     COUT_FUNC(_svec4_f, LANES);
 
     VEC_CLASS_METHOD_DECL(_svec4_f, float, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
@@ -576,7 +576,7 @@ struct svec<4,double> {
      * @brief operator [] to set or get the vector element specified by index.
      * @param index specifies the index of the element in the vector.
      */
-    SUBSCRIPT_FUNC_DECL(_svec4_d, double);
+    SUBSCRIPT_FUNC_DECL(double);
     COUT_FUNC(_svec4_d, LANES);
 
     VEC_CLASS_METHOD_DECL(_svec4_d, double, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
