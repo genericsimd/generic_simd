@@ -263,7 +263,7 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
   const FORCEINLINE STYPE operator[](int index) const;
 
 //Only for I1 output, use 0/1 as output
-#define COUT_FUNC_BOOL_DECL(LANES) \
+#define COUT_FUNC_BOOL_DECL()						\
   friend std::ostream& operator<< (std::ostream &out, const svec<LANES,bool> &v) { \
     out << "svec<" << LANES << ",bool> " << "[" << (v[0]?1:0);			\
     for(int i = 1; i < LANES ; i++) { out << ", " << (v[i]?1:0);}	\
@@ -272,7 +272,7 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
   }									\
 
 //i8 type need special one for output char as int number
-#define COUT_FUNC_CHAR_DECL(STYPE, LANES) \
+#define COUT_FUNC_CHAR_DECL(STYPE)					\
   friend std::ostream& operator<< (std::ostream &out, const svec<LANES,STYPE> &v) { \
     out << "svec<" << LANES << "," << #STYPE <<"> [" << short(v[0]);	\
     for(int i = 1; i < LANES ; i++) { out << ", " << short(v[i]);}	\
@@ -280,7 +280,7 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
     return out;								\
   }									\
 
-#define COUT_FUNC_DECL(STYPE, LANES) \
+#define COUT_FUNC_DECL(STYPE)						\
   friend std::ostream& operator<< (std::ostream &out, const svec<LANES,STYPE> &v) { \
     out << "svec<" << LANES << "," << #STYPE <<"> [" << v[0];		\
     for(int i = 1; i < LANES ; i++) { out << ", " << v[i];}		\
@@ -293,10 +293,6 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
    @brief macros to define compare methods
    == and != are available for all the types.
  */
-#define VEC_CMP_EQ_DECL(VTYPE, MTYPE)     \
-  FORCEINLINE MTYPE operator==(VTYPE a); \
-  FORCEINLINE MTYPE operator!=(VTYPE a);
-
 #define VEC_CMP_DECL(VTYPE, MTYPE)     \
   FORCEINLINE MTYPE operator==(VTYPE a); \
   FORCEINLINE MTYPE operator!=(VTYPE a); \
@@ -329,22 +325,23 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
 
 
 /**
- * @brief macros for mask vector class's class method
+ * @brief macros for svec<N,bool> class's class method
  */
-#define MVEC_CLASS_METHOD_DECL(VTYPE, STYPE) \
-  VEC_CMP_EQ_DECL(VTYPE, VTYPE); \
-  static FORCEINLINE VTYPE load(VTYPE* p); \
-  FORCEINLINE void store(VTYPE* p); \
-  FORCEINLINE bool any_true(); \
-  FORCEINLINE bool all_true(); \
-  FORCEINLINE bool none_true(); \
-  FORCEINLINE VTYPE operator|(VTYPE); \
-  FORCEINLINE VTYPE operator&(VTYPE a); \
-  FORCEINLINE VTYPE operator^(VTYPE a); \
-  FORCEINLINE VTYPE operator~(); \
-  FORCEINLINE VTYPE operator!(); \
-  FORCEINLINE VTYPE operator&&(VTYPE a); \
-  FORCEINLINE VTYPE operator||(VTYPE a);
+#define SVEC_BOOL_CLASS_METHOD_DECL()					\
+  FORCEINLINE svec<LANES,bool> operator==(svec<LANES,bool> a);		\
+  FORCEINLINE svec<LANES,bool> operator!=(svec<LANES,bool> a);		\
+  static FORCEINLINE svec<LANES,bool> load(svec<LANES,bool>* p);	\
+  FORCEINLINE void store(svec<LANES,bool>* p);				\
+  FORCEINLINE bool any_true();						\
+  FORCEINLINE bool all_true();						\
+  FORCEINLINE bool none_true();						\
+  FORCEINLINE svec<LANES,bool> operator|(svec<LANES,bool>);		\
+  FORCEINLINE svec<LANES,bool> operator&(svec<LANES,bool> a);		\
+  FORCEINLINE svec<LANES,bool> operator^(svec<LANES,bool> a);		\
+  FORCEINLINE svec<LANES,bool> operator~();				\
+  FORCEINLINE svec<LANES,bool> operator!();				\
+  FORCEINLINE svec<LANES,bool> operator&&(svec<LANES,bool> a);		\
+  FORCEINLINE svec<LANES,bool> operator||(svec<LANES,bool> a);
 
 
 /**
