@@ -13,7 +13,7 @@ When adding a new target platform, need to add <platform>.h to include/ and may 
 
 ##Run unit tests
 
-Unit tests are in tests directory. The current unit test covers power_vsx4.h, generic4.h and sse4.h
+Unit tests are in tests directory. The current unit test covers power_vsx4.h, generic4.h, generic8,h and sse4.h
 
 Please download googletest framework first from https://code.google.com/p/googletest/, and unzip it into "tests/gtest-1.6.0" dirctory.
 Or you can unzip it to where you want, and modify the "GTEST_DIR" value in tests/Makefile.
@@ -21,8 +21,8 @@ Or you can unzip it to where you want, and modify the "GTEST_DIR" value in tests
 Then you can run the test
 ```bash
 $ cd tests
-$ make {vsx4|sse4|generic4}         # build unit tests for target SIMD ISA
-$ ./vsx4 (or ./sse4, or ./generic4} # run unit tests and generate report
+$ make clean
+$ make {vsx4|sse4|generic4|generic8}     # build/run unit tests for target SIMD ISA
 ```
 The test app will test vsx4, generic4 and sse4 interfaces, and generate the report.
 
