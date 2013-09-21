@@ -132,7 +132,7 @@ struct svec : public invalid_template_arguments<Lanes,T>::type {
 template <>
 struct svec<4,bool>;
 template <>
-  struct svec<4,char>;
+  struct svec<4,signed char>;
 template <>
   struct svec<4,unsigned char>;
 template <>
@@ -156,7 +156,7 @@ template <>
 
 //required because macros are confused by the , in the template declaration
 typedef svec<4,bool> _svec4_i1;
-typedef svec<4,char> _svec4_i8;
+typedef svec<4,signed char> _svec4_i8;
 typedef svec<4,unsigned char> _svec4_u8;
 typedef svec<4,short> _svec4_i16;
 typedef svec<4,unsigned short> _svec4_u16;
@@ -229,7 +229,7 @@ struct svec<4,bool> {
  * @brief data representation and operations on a vector of 4 signed chars.
  */
 template <>
-struct svec<4,char> {
+struct svec<4,signed char> {
     __vector signed char v;
 
     /**
@@ -271,9 +271,9 @@ struct svec<4,char> {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(int8_t);
-    COUT_FUNC_CHAR_DECL(char, LANES);
+    COUT_FUNC_CHAR_DECL(signed char);
 
-    VEC_CLASS_METHOD_DECL(_svec4_i8, int8_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
+    VEC_CLASS_METHOD_DECL(int8_t);
     VEC_INT_CLASS_METHOD_DECL(_svec4_i8, _svec4_u8, int8_t);
 
 };
@@ -324,9 +324,9 @@ struct svec<4,unsigned char> {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(uint8_t);
-    COUT_FUNC_CHAR_DECL(unsigned char, LANES);
+    COUT_FUNC_CHAR_DECL(unsigned char);
 
-    VEC_CLASS_METHOD_DECL(_svec4_u8, uint8_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
+    VEC_CLASS_METHOD_DECL(uint8_t);
     VEC_INT_CLASS_METHOD_DECL(_svec4_u8, _svec4_u8, uint8_t);
 };
 
@@ -376,7 +376,7 @@ template <>
     SUBSCRIPT_FUNC_DECL(int16_t);
     COUT_FUNC_DECL(short);
 
-    VEC_CLASS_METHOD_DECL(_svec4_i16, int16_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
+    VEC_CLASS_METHOD_DECL(int16_t);
     VEC_INT_CLASS_METHOD_DECL(_svec4_i16, _svec4_u16, int16_t);
 
 };
@@ -427,7 +427,7 @@ struct svec<4,unsigned short> {
     SUBSCRIPT_FUNC_DECL(uint16_t);
     COUT_FUNC_DECL(unsigned short);
 
-    VEC_CLASS_METHOD_DECL(_svec4_u16, uint16_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
+    VEC_CLASS_METHOD_DECL(uint16_t);
     VEC_INT_CLASS_METHOD_DECL(_svec4_u16, _svec4_u16, uint16_t);
 
 };
@@ -488,7 +488,7 @@ struct svec<4,int> {
     SUBSCRIPT_FUNC_DECL(int32_t);
     COUT_FUNC_DECL(int);
 
-    VEC_CLASS_METHOD_DECL(_svec4_i32, int32_t, _svec4_i1, _svec4_ptr, svec, _svec4_i64);
+    VEC_CLASS_METHOD_DECL(int32_t);
     VEC_INT_CLASS_METHOD_DECL(_svec4_i32, _svec4_u32, int32_t);
 };
 
@@ -548,7 +548,7 @@ struct svec<4,unsigned int> {
     SUBSCRIPT_FUNC_DECL(uint32_t);
     COUT_FUNC_DECL(unsigned int);
 
-    VEC_CLASS_METHOD_DECL(_svec4_u32, uint32_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
+    VEC_CLASS_METHOD_DECL(uint32_t);
     VEC_INT_CLASS_METHOD_DECL(_svec4_u32, _svec4_u32, uint32_t);
 };
 
@@ -621,7 +621,7 @@ struct svec<4,long long> {
     SUBSCRIPT_FUNC_DECL(int64_t);
     COUT_FUNC_DECL(long long);
 
-    VEC_CLASS_METHOD_DECL(_svec4_i64, int64_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
+    VEC_CLASS_METHOD_DECL(int64_t);
     VEC_INT_CLASS_METHOD_DECL(_svec4_i64, _svec4_u64, int64_t);
 };
 
@@ -694,7 +694,7 @@ struct svec<4,unsigned long long> {
     SUBSCRIPT_FUNC_DECL(uint64_t);
     COUT_FUNC_DECL(unsigned long long);
 
-    VEC_CLASS_METHOD_DECL(_svec4_u64, uint64_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
+    VEC_CLASS_METHOD_DECL(uint64_t);
     VEC_INT_CLASS_METHOD_DECL(_svec4_u64, _svec4_u64, uint64_t);
 };
 
@@ -770,7 +770,7 @@ struct svec<4,float> {
     SUBSCRIPT_FUNC_DECL(float);
     COUT_FUNC_DECL(float);
 
-    VEC_CLASS_METHOD_DECL(_svec4_f, float, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
+    VEC_CLASS_METHOD_DECL(float);
     VEC_FLOAT_CLASS_METHOD_DECL(_svec4_f);
 };
 
@@ -829,7 +829,7 @@ struct svec<4,double> {
     SUBSCRIPT_FUNC_DECL(double);
     COUT_FUNC_DECL(double);
 
-    VEC_CLASS_METHOD_DECL(_svec4_d, double, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
+    VEC_CLASS_METHOD_DECL(double);
     VEC_FLOAT_CLASS_METHOD_DECL(_svec4_d);
 };
 

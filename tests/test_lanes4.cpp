@@ -47,7 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 typedef _svec4_ptr svec4_ptr;
 typedef svec<4,bool> svec4_i1;
-typedef svec<4,char> svec4_i8;
+typedef svec<4,signed char> svec4_i8;
 typedef svec<4,unsigned char> svec4_u8;
 typedef svec<4,short> svec4_i16;
 typedef svec<4,unsigned short> svec4_u16;

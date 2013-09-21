@@ -293,19 +293,19 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
    @brief macros to define compare methods
    == and != are available for all the types.
  */
-#define VEC_CMP_DECL(VTYPE, MTYPE)     \
-  FORCEINLINE MTYPE operator==(VTYPE a); \
-  FORCEINLINE MTYPE operator!=(VTYPE a); \
-  FORCEINLINE MTYPE operator<(VTYPE a); \
-  FORCEINLINE MTYPE operator<=(VTYPE a); \
-  FORCEINLINE MTYPE operator>(VTYPE a); \
-  FORCEINLINE MTYPE operator>=(VTYPE a); \
+#define VEC_CMP_DECL(STYPE)     \
+  FORCEINLINE svec<LANES,bool> operator==(svec<LANES,STYPE> a); \
+  FORCEINLINE svec<LANES,bool> operator!=(svec<LANES,STYPE> a); \
+  FORCEINLINE svec<LANES,bool> operator<(svec<LANES,STYPE> a); \
+  FORCEINLINE svec<LANES,bool> operator<=(svec<LANES,STYPE> a); \
+  FORCEINLINE svec<LANES,bool> operator>(svec<LANES,STYPE> a); \
+  FORCEINLINE svec<LANES,bool> operator>=(svec<LANES,STYPE> a); \
 
 /**
  * @brief macros for unary. note "-" means neg or complement
  */
-#define VEC_UNARY_DECL(VTYPE, STYPE) \
-  FORCEINLINE VTYPE operator-(); \
+#define VEC_UNARY_DECL(STYPE) \
+  FORCEINLINE svec<LANES,STYPE> operator-(); \
   FORCEINLINE STYPE reduce_add(); \
   FORCEINLINE STYPE reduce_max(); \
   FORCEINLINE STYPE reduce_min();
@@ -313,15 +313,15 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
 /**
  * @brief macros for binary operations.
  */
-#define VEC_BIN_DECL(VTYPE, STYPE)    \
-  FORCEINLINE VTYPE operator+(VTYPE a); \
-  FORCEINLINE VTYPE operator+(STYPE s); \
-  FORCEINLINE VTYPE operator-(VTYPE a); \
-  FORCEINLINE VTYPE operator-(STYPE s); \
-  FORCEINLINE VTYPE operator*(VTYPE a); \
-  FORCEINLINE VTYPE operator*(STYPE s); \
-  FORCEINLINE VTYPE operator/(VTYPE a); \
-  FORCEINLINE VTYPE operator/(STYPE s);
+#define VEC_BIN_DECL(STYPE)    \
+  FORCEINLINE svec<LANES,STYPE> operator+(svec<LANES,STYPE> a); \
+  FORCEINLINE svec<LANES,STYPE> operator+(STYPE s); \
+  FORCEINLINE svec<LANES,STYPE> operator-(svec<LANES,STYPE> a); \
+  FORCEINLINE svec<LANES,STYPE> operator-(STYPE s); \
+  FORCEINLINE svec<LANES,STYPE> operator*(svec<LANES,STYPE> a); \
+  FORCEINLINE svec<LANES,STYPE> operator*(STYPE s); \
+  FORCEINLINE svec<LANES,STYPE> operator/(svec<LANES,STYPE> a); \
+  FORCEINLINE svec<LANES,STYPE> operator/(STYPE s);
 
 
 /**
@@ -347,30 +347,30 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
 /**
  * @brief macros for non-mask i8 - double types's method
  */
-#define VEC_CLASS_METHOD_DECL(VTYPE, STYPE, MTYPE, PVTYPE, VTYPEI32, VTYPEI64) \
-  VEC_CMP_DECL(VTYPE, MTYPE);\
-  VEC_UNARY_DECL(VTYPE, STYPE);\
-  VEC_BIN_DECL(VTYPE, STYPE);\
-  static FORCEINLINE VTYPE load(VTYPE* p); \
-  FORCEINLINE void store(VTYPE* p); \
-  static FORCEINLINE VTYPE masked_load(VTYPE* p, MTYPE mask); \
-  FORCEINLINE void masked_store(VTYPE* p, MTYPE mask); \
-  static FORCEINLINE VTYPE load_const(const STYPE* p); \
-  static FORCEINLINE VTYPE load_and_splat(STYPE* p); \
-  static FORCEINLINE VTYPE gather(PVTYPE ptrs, MTYPE mask);\
-  FORCEINLINE void scatter(PVTYPE ptrs, MTYPE mask); \
-  static FORCEINLINE VTYPE gather_base_offsets(STYPE* b, uint32_t scale, VTYPEI32 offsets, MTYPE mask);\
-  static FORCEINLINE VTYPE gather_base_offsets(STYPE* b, uint32_t scale, VTYPEI64 offsets, MTYPE mask);\
-  FORCEINLINE void scatter_base_offsets(STYPE* b, uint32_t scale, VTYPEI32 offsets, MTYPE mask); \
-  FORCEINLINE void scatter_base_offsets(STYPE* b, uint32_t scale, VTYPEI64 offsets, MTYPE mask); \
-  static FORCEINLINE VTYPE gather_stride(STYPE* b, int32_t off, int32_t stride);\
-  static FORCEINLINE VTYPE gather_stride(STYPE* b, int64_t off, int64_t stride);\
+#define VEC_CLASS_METHOD_DECL(STYPE) \
+  VEC_CMP_DECL(STYPE);\
+  VEC_UNARY_DECL(STYPE);\
+  VEC_BIN_DECL(STYPE);\
+  static FORCEINLINE svec<LANES,STYPE> load(svec<LANES,STYPE>* p); \
+  FORCEINLINE void store(svec<LANES,STYPE>* p); \
+  static FORCEINLINE svec<LANES,STYPE> masked_load(svec<LANES,STYPE>* p, svec<LANES,bool> mask); \
+  FORCEINLINE void masked_store(svec<LANES,STYPE>* p, svec<LANES,bool> mask); \
+  static FORCEINLINE svec<LANES,STYPE> load_const(const STYPE* p); \
+  static FORCEINLINE svec<LANES,STYPE> load_and_splat(STYPE* p); \
+  static FORCEINLINE svec<LANES,STYPE> gather(svec<4,void*> ptrs, svec<LANES,bool> mask);\
+  FORCEINLINE void scatter(svec<4,void*> ptrs, svec<LANES,bool> mask); \
+  static FORCEINLINE svec<LANES,STYPE> gather_base_offsets(STYPE* b, uint32_t scale, svec<LANES, int> offsets, svec<LANES,bool> mask);\
+  static FORCEINLINE svec<LANES,STYPE> gather_base_offsets(STYPE* b, uint32_t scale, svec<LANES, long long> offsets, svec<LANES,bool> mask);\
+  FORCEINLINE void scatter_base_offsets(STYPE* b, uint32_t scale, svec<LANES, int> offsets, svec<LANES,bool> mask); \
+  FORCEINLINE void scatter_base_offsets(STYPE* b, uint32_t scale, svec<LANES, long long> offsets, svec<LANES,bool> mask); \
+  static FORCEINLINE svec<LANES,STYPE> gather_stride(STYPE* b, int32_t off, int32_t stride);\
+  static FORCEINLINE svec<LANES,STYPE> gather_stride(STYPE* b, int64_t off, int64_t stride);\
   FORCEINLINE void scatter_stride(STYPE* b, int32_t off, int32_t stride); \
   FORCEINLINE void scatter_stride(STYPE* b, int64_t off, int64_t stride); \
-  FORCEINLINE VTYPE broadcast(int32_t index); \
-  FORCEINLINE VTYPE rotate(int32_t index); \
-  FORCEINLINE VTYPE shuffle(VTYPEI32 index); \
-  FORCEINLINE VTYPE abs();
+  FORCEINLINE svec<LANES,STYPE> broadcast(int32_t index); \
+  FORCEINLINE svec<LANES,STYPE> rotate(int32_t index); \
+  FORCEINLINE svec<LANES,STYPE> shuffle(svec<LANES, int> index); \
+  FORCEINLINE svec<LANES,STYPE> abs();
 
 /**
  * @brief macros method definition for integer vector only
