@@ -220,7 +220,7 @@ struct svec<4,bool> {
       v = (a != 0) ? _mm_castsi128_ps(_mm_set1_epi32(-1)) : _mm_setzero_ps();
     }
 
-    SUBSCRIPT_FUNC_OPT_DECL(_svec4_i1, uint32_t);
+    SUBSCRIPT_FUNC_BOOL_DECL(uint32_t);
     COUT_FUNC_BOOL_DECL();
     SVEC_BOOL_CLASS_METHOD_DECL();
 };
@@ -271,7 +271,7 @@ struct svec<4,signed char> {
     COUT_FUNC_CHAR_DECL(signed char);
 
     VEC_CLASS_METHOD_DECL(int8_t);
-    VEC_INT_CLASS_METHOD_DECL(_svec4_i8, _svec4_u8, int8_t);
+    VEC_INT_CLASS_METHOD_DECL(int8_t, uint8_t);
 };
 
 /**
@@ -319,7 +319,7 @@ struct svec<4,unsigned char> {
     COUT_FUNC_CHAR_DECL(unsigned char);
 
     VEC_CLASS_METHOD_DECL(uint8_t);
-    VEC_INT_CLASS_METHOD_DECL(_svec4_u8, _svec4_u8, uint8_t);
+    VEC_INT_CLASS_METHOD_DECL(uint8_t, uint8_t);
 };
 
 /**
@@ -366,7 +366,7 @@ struct svec<4,short> {
     COUT_FUNC_DECL(short);
 
     VEC_CLASS_METHOD_DECL(int16_t);
-    VEC_INT_CLASS_METHOD_DECL(_svec4_i16, _svec4_u16, int16_t);
+    VEC_INT_CLASS_METHOD_DECL(int16_t, uint16_t);
 
 };
 
@@ -414,7 +414,7 @@ struct svec<4,unsigned short> {
     COUT_FUNC_DECL(unsigned short);
 
     VEC_CLASS_METHOD_DECL(uint16_t);
-    VEC_INT_CLASS_METHOD_DECL(_svec4_u16, _svec4_u16, uint16_t);
+    VEC_INT_CLASS_METHOD_DECL(uint16_t, uint16_t);
 
 };
 
@@ -467,7 +467,7 @@ struct svec<4,int> {
     COUT_FUNC_DECL(int);
 
     VEC_CLASS_METHOD_DECL(int32_t);
-    VEC_INT_CLASS_METHOD_DECL(_svec4_i32, _svec4_u32, int32_t);
+    VEC_INT_CLASS_METHOD_DECL(int32_t, uint32_t);
 
 };
 
@@ -520,7 +520,7 @@ struct svec<4,unsigned int> {
     COUT_FUNC_DECL(unsigned int);
 
     VEC_CLASS_METHOD_DECL(uint32_t);
-    VEC_INT_CLASS_METHOD_DECL(_svec4_u32, _svec4_u32, uint32_t);
+    VEC_INT_CLASS_METHOD_DECL(uint32_t, uint32_t);
 };
 
 /**
@@ -574,7 +574,7 @@ struct svec<4,long long> {
     COUT_FUNC_DECL(long long);
 
     VEC_CLASS_METHOD_DECL(int64_t);
-    VEC_INT_CLASS_METHOD_DECL(_svec4_i64, _svec4_u64, int64_t);
+    VEC_INT_CLASS_METHOD_DECL(int64_t, uint64_t);
 };
 
 /**
@@ -628,7 +628,7 @@ struct svec<4,unsigned long long> {
     COUT_FUNC_DECL(unsigned long long);
 
     VEC_CLASS_METHOD_DECL(uint64_t);
-    VEC_INT_CLASS_METHOD_DECL(_svec4_u64, _svec4_u64, uint64_t);
+    VEC_INT_CLASS_METHOD_DECL(uint64_t, uint64_t);
 };
 
 /**
@@ -675,7 +675,7 @@ struct svec<4,float> {
     COUT_FUNC_DECL(float);
 
     VEC_CLASS_METHOD_DECL(float);
-    VEC_FLOAT_CLASS_METHOD_DECL(_svec4_f);
+    VEC_FLOAT_CLASS_METHOD_DECL(float);
 };
 
 /**
@@ -725,7 +725,7 @@ struct svec<4,double> {
     COUT_FUNC_DECL(double);
 
     VEC_CLASS_METHOD_DECL(double);
-    VEC_FLOAT_CLASS_METHOD_DECL(_svec4_d);
+    VEC_FLOAT_CLASS_METHOD_DECL(double);
 };
 
 

@@ -170,9 +170,9 @@ struct svec8_i1 {
       v = a ? 255 : 0;
     }
 
-    SUBSCRIPT_FUNC_OPT_DECL(svec8_i1, uint32_t);
+    SUBSCRIPT_FUNC_BOOL_DECL(uint32_t);
     COUT_FUNC_BOOL_DECL();
-    MVEC_CLASS_METHOD_DECL(svec8_i1, uint32_t);
+    SVEC_BOOL_CLASS_METHOD_DECL();
 };
 
 
@@ -210,8 +210,8 @@ struct svec8_i8 {
     SUBSCRIPT_FUNC_DECL(int8_t);
     COUT_FUNC_CHAR_DECL(char);
 
-    VEC_CLASS_METHOD_DECL(svec8_i8, int8_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-    VEC_INT_CLASS_METHOD_DECL(svec8_i8, svec8_u8, int8_t);
+    VEC_CLASS_METHOD_DECL(int8_t);
+    VEC_INT_CLASS_METHOD_DECL(int8_t, uint8_t);
 };
 
 /**
@@ -248,8 +248,8 @@ struct svec8_u8 {
     SUBSCRIPT_FUNC_DECL(uint8_t);
     COUT_FUNC_CHAR_DECL(unsigned char);
 
-    VEC_CLASS_METHOD_DECL(svec8_u8, uint8_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-    VEC_INT_CLASS_METHOD_DECL(svec8_u8, svec8_u8, uint8_t);
+    VEC_CLASS_METHOD_DECL(uint8_t);
+    VEC_INT_CLASS_METHOD_DECL(uint8_t, uint8_t);
 };
 
 /**
@@ -286,8 +286,8 @@ struct svec8_i16 {
     SUBSCRIPT_FUNC_DECL(int16_t);
     COUT_FUNC_DECL(short);
 
-    VEC_CLASS_METHOD_DECL(svec8_i16, int16_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-    VEC_INT_CLASS_METHOD_DECL(svec8_i16, svec8_u16, int16_t);
+    VEC_CLASS_METHOD_DECL(int16_t);
+    VEC_INT_CLASS_METHOD_DECL(int16_t, uint16_t);
 
 };
 
@@ -325,8 +325,8 @@ struct svec8_u16 {
     SUBSCRIPT_FUNC_DECL(uint16_t);
     COUT_FUNC_DECL(unsigned short);
 
-    VEC_CLASS_METHOD_DECL(svec8_u16, uint16_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-    VEC_INT_CLASS_METHOD_DECL(svec8_u16, svec8_u16, uint16_t);
+    VEC_CLASS_METHOD_DECL(uint16_t);
+    VEC_INT_CLASS_METHOD_DECL(uint16_t, uint16_t);
 
 };
 
@@ -364,8 +364,8 @@ struct svec8_i32 {
     SUBSCRIPT_FUNC_DECL(int32_t);
     COUT_FUNC_DECL(int);
 
-    VEC_CLASS_METHOD_DECL(svec8_i32, int32_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-    VEC_INT_CLASS_METHOD_DECL(svec8_i32, svec8_u32, int32_t);
+    VEC_CLASS_METHOD_DECL(int32_t);
+    VEC_INT_CLASS_METHOD_DECL(int32_t, uint32_t);
 
 };
 
@@ -403,8 +403,8 @@ struct svec8_u32 {
     SUBSCRIPT_FUNC_DECL(uint32_t);
     COUT_FUNC_DECL(unsigned int);
 
-    VEC_CLASS_METHOD_DECL(svec8_u32, uint32_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-    VEC_INT_CLASS_METHOD_DECL(svec8_u32, svec8_u32, uint32_t);
+    VEC_CLASS_METHOD_DECL(uint32_t);
+    VEC_INT_CLASS_METHOD_DECL(uint32_t, uint32_t);
 };
 
 /**
@@ -441,8 +441,8 @@ struct svec8_i64 {
     SUBSCRIPT_FUNC_DECL(int64_t);
     COUT_FUNC_DECL(long long);
 
-    VEC_CLASS_METHOD_DECL(svec8_i64, int64_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-    VEC_INT_CLASS_METHOD_DECL(svec8_i64, svec8_u64, int64_t);
+    VEC_CLASS_METHOD_DECL(int64_t);
+    VEC_INT_CLASS_METHOD_DECL(int64_t, uint64_t);
 };
 
 /**
@@ -479,8 +479,8 @@ struct svec8_u64 {
     SUBSCRIPT_FUNC_DECL(uint64_t);
     COUT_FUNC_DECL(unsigned long long);
 
-    VEC_CLASS_METHOD_DECL(svec8_u64, uint64_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-    VEC_INT_CLASS_METHOD_DECL(svec8_u64, svec8_u64, uint64_t);
+    VEC_CLASS_METHOD_DECL(uint64_t);
+    VEC_INT_CLASS_METHOD_DECL(uint64_t, uint64_t);
 };
 
 /**
@@ -517,8 +517,8 @@ struct svec8_f {
     SUBSCRIPT_FUNC_DECL(float);
     COUT_FUNC_DECL(float);
 
-    VEC_CLASS_METHOD_DECL(svec8_f, float, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-    VEC_FLOAT_CLASS_METHOD_DECL(svec8_f);
+    VEC_CLASS_METHOD_DECL(float);
+    VEC_FLOAT_CLASS_METHOD_DECL(float);
 };
 
 /**
@@ -555,8 +555,8 @@ struct svec8_d {
     SUBSCRIPT_FUNC_DECL(double);
     COUT_FUNC_DECL(double);
 
-    VEC_CLASS_METHOD_DECL(svec8_d, double, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-    VEC_FLOAT_CLASS_METHOD_DECL(svec8_d);
+    VEC_CLASS_METHOD_DECL(double);
+    VEC_FLOAT_CLASS_METHOD_DECL(double);
 };
 
 

@@ -248,13 +248,13 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
   FORCEINLINE STYPE& operator[](int index); \
   const FORCEINLINE STYPE operator[](int index) const;
 
-#define SUBSCRIPT_FUNC_OPT_DECL(VTYPE, STYPE)    \
+#define SUBSCRIPT_FUNC_BOOL_DECL(STYPE)    \
 /**
  * @brief A special helper class to support customized subscript[] operations
  */\
   struct Helper { \
-    int m_index;   VTYPE *m_self; \
-    FORCEINLINE Helper(VTYPE *p_vec, int index): m_self(p_vec), m_index(index) {} \
+    int m_index;   svec<LANES,bool> *m_self; \
+    FORCEINLINE Helper(svec<LANES,bool> *p_vec, int index): m_self(p_vec), m_index(index) {} \
     FORCEINLINE void operator=(STYPE value); \
     FORCEINLINE void operator=(Helper helper); \
     FORCEINLINE operator STYPE() const;  \
@@ -376,30 +376,30 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
  * @brief macros method definition for integer vector only
  * Note: shift's operator can only be unsigned vector
  */
-#define VEC_INT_CLASS_METHOD_DECL(VTYPE, VTYPE_B, STYPE) \
-  FORCEINLINE VTYPE operator|(VTYPE a); \
-  FORCEINLINE VTYPE operator&(VTYPE a); \
-  FORCEINLINE VTYPE operator^(VTYPE a); \
-  FORCEINLINE VTYPE operator<<(VTYPE_B a); \
-  FORCEINLINE VTYPE operator<<(int32_t s); \
-  FORCEINLINE VTYPE operator>>(VTYPE_B a); \
-  FORCEINLINE VTYPE operator>>(int32_t s); \
-  FORCEINLINE VTYPE operator%(VTYPE a); \
-  FORCEINLINE VTYPE operator%(STYPE s);
+#define VEC_INT_CLASS_METHOD_DECL(STYPE, USTYPE) \
+  FORCEINLINE svec<LANES, STYPE> operator|(svec<LANES, STYPE> a); \
+  FORCEINLINE svec<LANES, STYPE> operator&(svec<LANES, STYPE> a); \
+  FORCEINLINE svec<LANES, STYPE> operator^(svec<LANES, STYPE> a); \
+  FORCEINLINE svec<LANES, STYPE> operator<<(svec<LANES, USTYPE> a); \
+  FORCEINLINE svec<LANES, STYPE> operator<<(int32_t s); \
+  FORCEINLINE svec<LANES, STYPE> operator>>(svec<LANES, USTYPE> a); \
+  FORCEINLINE svec<LANES, STYPE> operator>>(int32_t s); \
+  FORCEINLINE svec<LANES, STYPE> operator%(svec<LANES, STYPE> a); \
+  FORCEINLINE svec<LANES, STYPE> operator%(STYPE s);
 
 /**
  * brief macros for float/double math unary operations
  */
-#define VEC_FLOAT_CLASS_METHOD_DECL(VTYPE) \
-  FORCEINLINE VTYPE round(); \
-  FORCEINLINE VTYPE floor(); \
-  FORCEINLINE VTYPE ceil(); \
-  FORCEINLINE VTYPE sqrt(); \
-  FORCEINLINE VTYPE rcp(); \
-  FORCEINLINE VTYPE rsqrt(); \
-  FORCEINLINE VTYPE exp(); \
-  FORCEINLINE VTYPE log(); \
-  FORCEINLINE VTYPE pow(VTYPE a);
+#define VEC_FLOAT_CLASS_METHOD_DECL(STYPE) \
+  FORCEINLINE svec<LANES,STYPE> round(); \
+  FORCEINLINE svec<LANES,STYPE> floor(); \
+  FORCEINLINE svec<LANES,STYPE> ceil(); \
+  FORCEINLINE svec<LANES,STYPE> sqrt(); \
+  FORCEINLINE svec<LANES,STYPE> rcp(); \
+  FORCEINLINE svec<LANES,STYPE> rsqrt(); \
+  FORCEINLINE svec<LANES,STYPE> exp(); \
+  FORCEINLINE svec<LANES,STYPE> log(); \
+  FORCEINLINE svec<LANES,STYPE> pow(svec<LANES,STYPE> a);
 
 // 0. Extract/Insert
 /**
