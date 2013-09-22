@@ -406,27 +406,27 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
  * @brief macros for svec's insert extract method implementation
  * The implementation is based on vector type's subscript operator
  */
-#define INSERT_EXTRACT(VTYPE, STYPE)                               \
-  static FORCEINLINE STYPE svec_extract(VTYPE v, int index) {    \
+#define INSERT_EXTRACT(STYPE)                               \
+  static FORCEINLINE STYPE svec_extract(svec<LANES,STYPE> v, int index) {    \
     return v.v[index];                      \
   }                                          \
-  static FORCEINLINE void svec_insert(VTYPE *v, int index, STYPE val) { \
+  static FORCEINLINE void svec_insert(svec<LANES,STYPE> *v, int index, STYPE val) { \
     v->v[index] = val;                      \
   }
 
 // 1. Load / Store
 
-#define LOAD_STORE(VTYPE, STYPE)                       \
+#define LOAD_STORE(STYPE)                       \
 /*!
    @brief construct a new vector from values loaded from a pointer
    @param[in] p load address
    \note p does not have to be aligned
    @return a new vector loaded from p
 */                            \
-static FORCEINLINE VTYPE svec_load(const VTYPE *p) {      \
+static FORCEINLINE svec<LANES,STYPE> svec_load(const svec<LANES,STYPE> *p) {      \
     STYPE *ptr = (STYPE *)p;                           \
-    VTYPE ret;                                         \
-    INC_STATS_NAME(STATS_LOAD_SLOW, 1, #VTYPE);             \
+    svec<LANES,STYPE> ret;                                         \
+    INC_STATS_NAME(STATS_LOAD_SLOW, 1, "load:svec_"#STYPE);             \
     for (int i = 0; i < LANES; ++i) {ret[i] = ptr[i];}  \
     return ret;                                        \
 }                                                      \
@@ -436,19 +436,19 @@ static FORCEINLINE VTYPE svec_load(const VTYPE *p) {      \
    \note p does not have to be aligned
    @param[in] v vector to be stored
 */                            \
-static FORCEINLINE void svec_store(VTYPE *p, VTYPE v) {   \
+static FORCEINLINE void svec_store(svec<LANES,STYPE> *p, svec<LANES,STYPE> v) {   \
   STYPE *ptr = (STYPE *)p;                 \
-  INC_STATS_NAME(STATS_STORE_SLOW, 1, #VTYPE);              \
+  INC_STATS_NAME(STATS_STORE_SLOW, 1, "store:svec_"#STYPE);              \
   for (int i = 0; i < LANES; ++i) {  ptr[i] = v[i]; } \
 }
 
 /**
  * @brief macros for svec's select by mask vector method generic implementation
  */
-#define SELECT(VTYPE, MTYPE)                               \
-static FORCEINLINE VTYPE svec_select(MTYPE mask, VTYPE a, VTYPE b) {  \
-    VTYPE ret;                                                \
-    INC_STATS_NAME(STATS_OTHER_SLOW, 1, "select:"#VTYPE);      \
+#define SELECT(STYPE)                               \
+static FORCEINLINE svec<LANES,STYPE> svec_select(svec<LANES,bool> mask, svec<LANES,STYPE> a, svec<LANES,STYPE> b) {  \
+    svec<LANES,STYPE> ret;                                                \
+    INC_STATS_NAME(STATS_OTHER_SLOW, 1, "select:svec_"#STYPE);      \
     for (int i = 0; i < LANES; ++i) {ret[i] = mask[i] ? a[i] : b[i];}  \
     return ret;                                                     \
 }
@@ -456,11 +456,11 @@ static FORCEINLINE VTYPE svec_select(MTYPE mask, VTYPE a, VTYPE b) {  \
 /**
  * @brief macros for svec's select by bool scalar method implementation
  */
-#define SELECT_BOOLCOND(TYPE)                       \
+#define SELECT_BOOLCOND(STYPE)                       \
 /**
  * @brief Select two TYPE vectors by a bool scalar. The same as cond ? a: b
  */\
-FORCEINLINE TYPE svec_select(bool cond, TYPE a, TYPE b) {       \
+FORCEINLINE svec<LANES,STYPE> svec_select(bool cond, svec<LANES,STYPE> a, svec<LANES,STYPE> b) {       \
     return cond ? a : b;                                            \
 }
 
@@ -469,11 +469,11 @@ FORCEINLINE TYPE svec_select(bool cond, TYPE a, TYPE b) {       \
  * @brief macro for broadcast method implementation
  * All broadcast are slow implementation
  */
-#define BROADCAST(VTYPE, STYPE)                   \
-  static FORCEINLINE VTYPE svec_broadcast(VTYPE v, int index) { \
+#define BROADCAST(STYPE)                   \
+  static FORCEINLINE svec<LANES,STYPE> svec_broadcast(svec<LANES,STYPE> v, int index) { \
     INC_STATS_NAME(STATS_OTHER_SLOW, 1, "broadcast");           \
     STYPE bval = v[index];                \
-    VTYPE ret; \
+    svec<LANES,STYPE> ret; \
     for (int i = 0; i < LANES; ++i) { ret[i] = bval;}  \
     return ret;                             \
   }
@@ -482,21 +482,21 @@ FORCEINLINE TYPE svec_select(bool cond, TYPE a, TYPE b) {       \
  * @brief macro for broadcast method implementation for lanes4
  * All broadcast are slow implementation
  */
-#define BROADCAST_L4(VTYPE, STYPE)                   \
-  static FORCEINLINE VTYPE svec_broadcast(VTYPE v, int index) { \
+#define BROADCAST_L4(STYPE)                   \
+  static FORCEINLINE svec<LANES,STYPE> svec_broadcast(svec<LANES,STYPE> v, int index) { \
     INC_STATS_NAME(STATS_OTHER_SLOW, 1, "broadcast");           \
     STYPE bval = v[index];                \
-    VTYPE ret(bval,bval,bval,bval);                 \
+    svec<LANES,STYPE> ret(bval,bval,bval,bval);                 \
     return ret;                             \
   }
 
 /**
  * @brief macro for rotate method implementation
  */
-#define ROTATE(VTYPE, STYPE)                  \
-  static FORCEINLINE VTYPE svec_rotate(VTYPE v, int index) {    \
+#define ROTATE(STYPE)                  \
+  static FORCEINLINE svec<LANES,STYPE> svec_rotate(svec<LANES,STYPE> v, int index) {    \
     INC_STATS_NAME(STATS_OTHER_SLOW, 1, "rotate");          \
-    VTYPE ret; \
+    svec<LANES,STYPE> ret; \
     for (int i = 0; i < LANES; ++i) { ret[i] = v[(i+index) & (LANES-1)];} \
     return ret;                             \
   }
@@ -504,10 +504,10 @@ FORCEINLINE TYPE svec_select(bool cond, TYPE a, TYPE b) {       \
 /**
  * @brief macro for rotate method implementation
  */
-#define ROTATE_L4(VTYPE, STYPE)                  \
-  static FORCEINLINE VTYPE svec_rotate(VTYPE v, int index) {    \
+#define ROTATE_L4(STYPE)                  \
+  static FORCEINLINE svec<LANES,STYPE> svec_rotate(svec<LANES,STYPE> v, int index) {    \
     INC_STATS_NAME(STATS_OTHER_SLOW, 1, "rotate");          \
-    VTYPE ret (v[(0+index) & 0x3],            \
+    svec<LANES,STYPE> ret (v[(0+index) & 0x3],            \
                v[(1+index) & 0x3],            \
                v[(2+index) & 0x3],            \
                v[(3+index) & 0x3]);           \
@@ -518,15 +518,15 @@ FORCEINLINE TYPE svec_select(bool cond, TYPE a, TYPE b) {       \
 /**
  * @brief macro for shuffle/shuffle2 methods implementation
  */
-#define SHUFFLES(VTYPE, STYPE, VTYPEI32)                 \
-  static FORCEINLINE VTYPE svec_shuffle(VTYPE v, VTYPEI32 index) {   \
+#define SHUFFLES(STYPE)                 \
+  static FORCEINLINE svec<LANES,STYPE> svec_shuffle(svec<LANES,STYPE> v, svec<LANES,int> index) {   \
     INC_STATS_NAME(STATS_OTHER_SLOW, 1, "shuffle");           \
-    VTYPE ret; \
+    svec<LANES,STYPE> ret; \
     for (int i = 0; i < LANES; ++i) { ret[i] = v[index[i] & (LANES-1)]; }\
     return ret;                               \
   }                                   \
-  static FORCEINLINE VTYPE svec_shuffle2(VTYPE v0, VTYPE v1, VTYPEI32 index) { \
-    VTYPE ret;                              \
+  static FORCEINLINE svec<LANES,STYPE> svec_shuffle2(svec<LANES,STYPE> v0, svec<LANES,STYPE> v1, svec<LANES,int> index) { \
+    svec<LANES,STYPE> ret;                              \
     NOT_IMPLEMENTED("shuffle 2");                   \
     return ret;                             \
 }
@@ -534,17 +534,17 @@ FORCEINLINE TYPE svec_select(bool cond, TYPE a, TYPE b) {       \
 /**
  * @brief macro for shuffle/shuffle2 methods implementation
  */
-#define SHUFFLES_L4(VTYPE, STYPE)                 \
-  static FORCEINLINE VTYPE svec_shuffle(VTYPE v, _svec4_i32 index) {   \
+#define SHUFFLES_L4(STYPE)                 \
+  static FORCEINLINE svec<LANES,STYPE> svec_shuffle(svec<LANES,STYPE> v, svec<LANES,int> index) {   \
     INC_STATS_NAME(STATS_OTHER_SLOW, 1, "shuffle");           \
-    VTYPE ret (v[index[0] & 0x3],    \
+    svec<LANES,STYPE> ret (v[index[0] & 0x3],    \
                v[index[1] & 0x3],    \
                v[index[2] & 0x3],    \
                v[index[3] & 0x3] );  \
     return ret;                               \
   }                                   \
-  static FORCEINLINE VTYPE svec_shuffle2(VTYPE v0, VTYPE v1, _svec4_i32 index) { \
-    VTYPE ret;                              \
+  static FORCEINLINE svec<LANES,STYPE> svec_shuffle2(svec<LANES,STYPE> v0, svec<LANES,STYPE> v1, svec<LANES,int> index) { \
+    svec<LANES,STYPE> ret;                              \
     NOT_IMPLEMENTED("shuffle 2");                   \
     return ret;                             \
 }

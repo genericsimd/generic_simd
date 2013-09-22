@@ -580,92 +580,92 @@ static FORCEINLINE void svec_insert(svec8_i1 *v, int index, uint32_t val) {
     v->v |= (1 << index);
   }
 }
-INSERT_EXTRACT(svec8_i8, int8_t);
-INSERT_EXTRACT(svec8_u8, uint8_t);
-INSERT_EXTRACT(svec8_i16, int16_t);
-INSERT_EXTRACT(svec8_u16, uint16_t);
-INSERT_EXTRACT(svec8_i32, int32_t);
-INSERT_EXTRACT(svec8_u32, uint32_t);
-INSERT_EXTRACT(svec8_i64, int64_t);
-INSERT_EXTRACT(svec8_u64, uint64_t);
-INSERT_EXTRACT(svec8_f, float);
-INSERT_EXTRACT(svec8_d, double);
+INSERT_EXTRACT(int8_t);
+INSERT_EXTRACT(uint8_t);
+INSERT_EXTRACT(int16_t);
+INSERT_EXTRACT(uint16_t);
+INSERT_EXTRACT(int32_t);
+INSERT_EXTRACT(uint32_t);
+INSERT_EXTRACT(int64_t);
+INSERT_EXTRACT(uint64_t);
+INSERT_EXTRACT(float);
+INSERT_EXTRACT(double);
 
 // 1. Load / Store
-LOAD_STORE(svec8_i1, uint32_t);
-LOAD_STORE(svec8_i8, int8_t);
-LOAD_STORE(svec8_u8, uint8_t);
-LOAD_STORE(svec8_i16, int16_t);
-LOAD_STORE(svec8_u16, uint16_t);
-LOAD_STORE(svec8_i32, int32_t);
-LOAD_STORE(svec8_u32, uint32_t);
-LOAD_STORE(svec8_i64, int64_t);
-LOAD_STORE(svec8_u64, uint64_t);
-LOAD_STORE(svec8_f, float);
-LOAD_STORE(svec8_d, double);
+LOAD_STORE(bool);
+LOAD_STORE(int8_t);
+LOAD_STORE(uint8_t);
+LOAD_STORE(int16_t);
+LOAD_STORE(uint16_t);
+LOAD_STORE(int32_t);
+LOAD_STORE(uint32_t);
+LOAD_STORE(int64_t);
+LOAD_STORE(uint64_t);
+LOAD_STORE(float);
+LOAD_STORE(double);
 
 // 3. Select
-static FORCEINLINE svec8_i1 svec_select(svec8_i1 mask, svec8_i1 a, svec8_i1 b) {
-  svec8_i1 ret;
+static FORCEINLINE svec<8,bool> svec_select(svec<8,bool> mask, svec<8,bool> a, svec<8,bool> b) {
+  svec<4,bool> ret;
   ret.v = (a.v & mask.v) | (b.v & ~mask.v);
   return ret;
 }
-SELECT(svec8_i8, svec8_i1);
-SELECT(svec8_u8, svec8_i1);
-SELECT(svec8_i16, svec8_i1);
-SELECT(svec8_u16, svec8_i1);
-SELECT(svec8_i32, svec8_i1);
-SELECT(svec8_u32, svec8_i1);
-SELECT(svec8_i64, svec8_i1);
-SELECT(svec8_u64, svec8_i1);
-SELECT(svec8_f, svec8_i1);
-SELECT(svec8_d, svec8_i1);
+SELECT(int8_t);
+SELECT(uint8_t);
+SELECT(int16_t);
+SELECT(uint16_t);
+SELECT(int32_t);
+SELECT(uint32_t);
+SELECT(int64_t);
+SELECT(uint64_t);
+SELECT(float);
+SELECT(double);
 
-SELECT_BOOLCOND(svec8_i1);
-SELECT_BOOLCOND(svec8_i8);
-SELECT_BOOLCOND(svec8_u8);
-SELECT_BOOLCOND(svec8_i16);
-SELECT_BOOLCOND(svec8_u16);
-SELECT_BOOLCOND(svec8_i32);
-SELECT_BOOLCOND(svec8_u32);
-SELECT_BOOLCOND(svec8_i64);
-SELECT_BOOLCOND(svec8_u64);
-SELECT_BOOLCOND(svec8_f);
-SELECT_BOOLCOND(svec8_d);
+SELECT_BOOLCOND(bool);
+SELECT_BOOLCOND(int8_t);
+SELECT_BOOLCOND(uint8_t);
+SELECT_BOOLCOND(int16_t);
+SELECT_BOOLCOND(uint16_t);
+SELECT_BOOLCOND(int32_t);
+SELECT_BOOLCOND(uint32_t);
+SELECT_BOOLCOND(int64_t);
+SELECT_BOOLCOND(uint64_t);
+SELECT_BOOLCOND(float);
+SELECT_BOOLCOND(double);
 
 // 4. broadcast/rotate/shuffle/smear/setzero
-BROADCAST(svec8_i8, int8_t);
-BROADCAST(svec8_u8, uint8_t);
-BROADCAST(svec8_i16, int16_t);
-BROADCAST(svec8_u16, uint16_t);
-BROADCAST(svec8_i32, int32_t);
-BROADCAST(svec8_u32, uint32_t);
-BROADCAST(svec8_i64, int64_t);
-BROADCAST(svec8_u64, uint64_t);
-BROADCAST(svec8_f, float);
-BROADCAST(svec8_d, double);
+BROADCAST(int8_t);
+BROADCAST(uint8_t);
+BROADCAST(int16_t);
+BROADCAST(uint16_t);
+BROADCAST(int32_t);
+BROADCAST(uint32_t);
+BROADCAST(int64_t);
+BROADCAST(uint64_t);
+BROADCAST(float);
+BROADCAST(double);
 
-ROTATE(svec8_i8, int8_t);
-ROTATE(svec8_u8, uint8_t);
-ROTATE(svec8_i16, int16_t);
-ROTATE(svec8_u16, uint16_t);
-ROTATE(svec8_i32, int32_t);
-ROTATE(svec8_u32, uint32_t);
-ROTATE(svec8_i64, int64_t);
-ROTATE(svec8_u64, uint64_t);
-ROTATE(svec8_f, float);
-ROTATE(svec8_d, double);
+ROTATE(int8_t);
+ROTATE(uint8_t);
+ROTATE(int16_t);
+ROTATE(uint16_t);
+ROTATE(int32_t);
+ROTATE(uint32_t);
+ROTATE(int64_t);
+ROTATE(uint64_t);
+ROTATE(float);
+ROTATE(double);
 
-SHUFFLES(svec8_i8, int8_t, svec8_i32);
-SHUFFLES(svec8_u8, uint8_t, svec8_i32);
-SHUFFLES(svec8_i16, int16_t, svec8_i32);
-SHUFFLES(svec8_u16, uint16_t, svec8_i32);
-SHUFFLES(svec8_i32, int32_t, svec8_i32);
-SHUFFLES(svec8_u32, uint32_t, svec8_i32);
-SHUFFLES(svec8_i64, int64_t, svec8_i32);
-SHUFFLES(svec8_u64, uint64_t, svec8_i32);
-SHUFFLES(svec8_f, float, svec8_i32);
-SHUFFLES(svec8_d, double, svec8_i32);
+SHUFFLES(int8_t);
+SHUFFLES(uint8_t);
+SHUFFLES(int16_t);
+SHUFFLES(uint16_t);
+SHUFFLES(int32_t);
+SHUFFLES(uint32_t);
+SHUFFLES(int64_t);
+SHUFFLES(uint64_t);
+SHUFFLES(float);
+SHUFFLES(double);
 
 //load const
 LOAD_CONST(svec8_i8, int8_t);

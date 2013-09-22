@@ -1203,17 +1203,17 @@ FORCEINLINE _svec4_d svec_select(_svec4_i1 mask, _svec4_d a, _svec4_d b) {
   return _svec4_d(r0, r1);
 }
 
-SELECT_BOOLCOND(_svec4_i1);
-SELECT_BOOLCOND(_svec4_i8);
-SELECT_BOOLCOND(_svec4_u8);
-SELECT_BOOLCOND(_svec4_i16);
-SELECT_BOOLCOND(_svec4_u16);
-SELECT_BOOLCOND(_svec4_i32);
-SELECT_BOOLCOND(_svec4_u32);
-SELECT_BOOLCOND(_svec4_i64);
-SELECT_BOOLCOND(_svec4_u64);
-SELECT_BOOLCOND(_svec4_f);
-SELECT_BOOLCOND(_svec4_d);
+SELECT_BOOLCOND(bool);
+SELECT_BOOLCOND(int8_t);
+SELECT_BOOLCOND(uint8_t);
+SELECT_BOOLCOND(int16_t);
+SELECT_BOOLCOND(uint16_t);
+SELECT_BOOLCOND(int32_t);
+SELECT_BOOLCOND(uint32_t);
+SELECT_BOOLCOND(int64_t);
+SELECT_BOOLCOND(uint64_t);
+SELECT_BOOLCOND(float);
+SELECT_BOOLCOND(double);
 
 // 4. broadcast/rotate/shuffle/smear/setzero
 static FORCEINLINE _svec4_i8 svec_broadcast(_svec4_i8 v, int index) {
@@ -1253,27 +1253,28 @@ static FORCEINLINE _svec4_d svec_broadcast(_svec4_d v, int index) {
 }
 
 
-ROTATE_L4(_svec4_i8, int8_t);
-ROTATE_L4(_svec4_u8, uint8_t);
-ROTATE_L4(_svec4_i16, int16_t);
-ROTATE_L4(_svec4_u16, uint16_t);
-ROTATE_L4(_svec4_i32, int32_t);
-ROTATE_L4(_svec4_u32, uint32_t);
-ROTATE_L4(_svec4_i64, int64_t);
-ROTATE_L4(_svec4_u64, uint64_t);
-ROTATE_L4(_svec4_f, float);
-ROTATE_L4(_svec4_d, double);
+ROTATE_L4(int8_t);
+ROTATE_L4(uint8_t);
+ROTATE_L4(int16_t);
+ROTATE_L4(uint16_t);
+ROTATE_L4(int32_t);
+ROTATE_L4(uint32_t);
+ROTATE_L4(int64_t);
+ROTATE_L4(uint64_t);
+ROTATE_L4(float);
+ROTATE_L4(double);
 
-SHUFFLES_L4(_svec4_i8, int8_t);
-SHUFFLES_L4(_svec4_u8, uint8_t);
-SHUFFLES_L4(_svec4_i16, int16_t);
-SHUFFLES_L4(_svec4_u16, uint16_t);
-SHUFFLES_L4(_svec4_i32, int32_t);
-SHUFFLES_L4(_svec4_u32, uint32_t);
-SHUFFLES_L4(_svec4_i64, int64_t);
-SHUFFLES_L4(_svec4_u64, uint64_t);
-SHUFFLES_L4(_svec4_f, float);
-SHUFFLES_L4(_svec4_d, double);
+SHUFFLES_L4(int8_t);
+SHUFFLES_L4(uint8_t);
+SHUFFLES_L4(int16_t);
+SHUFFLES_L4(uint16_t);
+SHUFFLES_L4(int32_t);
+SHUFFLES_L4(uint32_t);
+SHUFFLES_L4(int64_t);
+SHUFFLES_L4(uint64_t);
+SHUFFLES_L4(float);
+SHUFFLES_L4(double);
+
 
 //load const
 #define LOAD_CONST_SSE(VTYPE, STYPE) \

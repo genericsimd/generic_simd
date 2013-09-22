@@ -594,102 +594,102 @@ struct svec<4,double> {
 //// 1. Extract / Insert
 //
 //i1 use different approach
-static FORCEINLINE uint32_t svec_extract(_svec4_i1 v, int index) {
+static FORCEINLINE uint32_t svec_extract(svec<4,bool> v, int index) {
   return (v.v & (1 << index)) ? -1 : 0;
 }
-static FORCEINLINE void svec_insert(_svec4_i1 *v, int index, uint32_t val) {
+static FORCEINLINE void svec_insert(svec<4,bool> *v, int index, uint32_t val) {
   if(!val) {
     v->v &= ~(1 << index);
   } else {
     v->v |= (1 << index);
   }
 }
-INSERT_EXTRACT(_svec4_i8, int8_t);
-INSERT_EXTRACT(_svec4_u8, uint8_t);
-INSERT_EXTRACT(_svec4_i16, int16_t);
-INSERT_EXTRACT(_svec4_u16, uint16_t);
-INSERT_EXTRACT(_svec4_i32, int32_t);
-INSERT_EXTRACT(_svec4_u32, uint32_t);
-INSERT_EXTRACT(_svec4_i64, int64_t);
-INSERT_EXTRACT(_svec4_u64, uint64_t);
-INSERT_EXTRACT(_svec4_f, float);
-INSERT_EXTRACT(_svec4_d, double);
+INSERT_EXTRACT(int8_t);
+INSERT_EXTRACT(uint8_t);
+INSERT_EXTRACT(int16_t);
+INSERT_EXTRACT(uint16_t);
+INSERT_EXTRACT(int32_t);
+INSERT_EXTRACT(uint32_t);
+INSERT_EXTRACT(int64_t);
+INSERT_EXTRACT(uint64_t);
+INSERT_EXTRACT(float);
+INSERT_EXTRACT(double);
 
 // 1. Load / Store
-LOAD_STORE(_svec4_i1, uint32_t);
-LOAD_STORE(_svec4_i8, int8_t);
-LOAD_STORE(_svec4_u8, uint8_t);
-LOAD_STORE(_svec4_i16, int16_t);
-LOAD_STORE(_svec4_u16, uint16_t);
-LOAD_STORE(_svec4_i32, int32_t);
-LOAD_STORE(_svec4_u32, uint32_t);
-LOAD_STORE(_svec4_i64, int64_t);
-LOAD_STORE(_svec4_u64, uint64_t);
-LOAD_STORE(_svec4_f, float);
-LOAD_STORE(_svec4_d, double);
+LOAD_STORE(bool);
+LOAD_STORE(int8_t);
+LOAD_STORE(uint8_t);
+LOAD_STORE(int16_t);
+LOAD_STORE(uint16_t);
+LOAD_STORE(int32_t);
+LOAD_STORE(uint32_t);
+LOAD_STORE(int64_t);
+LOAD_STORE(uint64_t);
+LOAD_STORE(float);
+LOAD_STORE(double);
 
 // 3. Select
-static FORCEINLINE _svec4_i1 svec_select(_svec4_i1 mask, _svec4_i1 a, _svec4_i1 b) {
-  _svec4_i1 ret;
+static FORCEINLINE svec<4,bool> svec_select(svec<4,bool> mask, svec<4,bool> a, svec<4,bool> b) {
+  svec<4,bool> ret;
   ret.v = (a.v & mask.v) | (b.v & ~mask.v);
   return ret;
 }
-SELECT(_svec4_i8, _svec4_i1);
-SELECT(_svec4_u8, _svec4_i1);
-SELECT(_svec4_i16, _svec4_i1);
-SELECT(_svec4_u16, _svec4_i1);
-SELECT(_svec4_i32, _svec4_i1);
-SELECT(_svec4_u32, _svec4_i1);
-SELECT(_svec4_i64, _svec4_i1);
-SELECT(_svec4_u64, _svec4_i1);
-SELECT(_svec4_f, _svec4_i1);
-SELECT(_svec4_d, _svec4_i1);
+SELECT(int8_t);
+SELECT(uint8_t);
+SELECT(int16_t);
+SELECT(uint16_t);
+SELECT(int32_t);
+SELECT(uint32_t);
+SELECT(int64_t);
+SELECT(uint64_t);
+SELECT(float);
+SELECT(double);
 
-SELECT_BOOLCOND(_svec4_i1);
-SELECT_BOOLCOND(_svec4_i8);
-SELECT_BOOLCOND(_svec4_u8);
-SELECT_BOOLCOND(_svec4_i16);
-SELECT_BOOLCOND(_svec4_u16);
-SELECT_BOOLCOND(_svec4_i32);
-SELECT_BOOLCOND(_svec4_u32);
-SELECT_BOOLCOND(_svec4_i64);
-SELECT_BOOLCOND(_svec4_u64);
-SELECT_BOOLCOND(_svec4_f);
-SELECT_BOOLCOND(_svec4_d);
+SELECT_BOOLCOND(bool);
+SELECT_BOOLCOND(int8_t);
+SELECT_BOOLCOND(uint8_t);
+SELECT_BOOLCOND(int16_t);
+SELECT_BOOLCOND(uint16_t);
+SELECT_BOOLCOND(int32_t);
+SELECT_BOOLCOND(uint32_t);
+SELECT_BOOLCOND(int64_t);
+SELECT_BOOLCOND(uint64_t);
+SELECT_BOOLCOND(float);
+SELECT_BOOLCOND(double);
 
 // 4. broadcast/rotate/shuffle/smear/setzero
-BROADCAST(_svec4_i8, int8_t);
-BROADCAST(_svec4_u8, uint8_t);
-BROADCAST(_svec4_i16, int16_t);
-BROADCAST(_svec4_u16, uint16_t);
-BROADCAST(_svec4_i32, int32_t);
-BROADCAST(_svec4_u32, uint32_t);
-BROADCAST(_svec4_i64, int64_t);
-BROADCAST(_svec4_u64, uint64_t);
-BROADCAST(_svec4_f, float);
-BROADCAST(_svec4_d, double);
+BROADCAST(int8_t);
+BROADCAST(uint8_t);
+BROADCAST(int16_t);
+BROADCAST(uint16_t);
+BROADCAST(int32_t);
+BROADCAST(uint32_t);
+BROADCAST(int64_t);
+BROADCAST(uint64_t);
+BROADCAST(float);
+BROADCAST(double);
 
-ROTATE(_svec4_i8, int8_t);
-ROTATE(_svec4_u8, uint8_t);
-ROTATE(_svec4_i16, int16_t);
-ROTATE(_svec4_u16, uint16_t);
-ROTATE(_svec4_i32, int32_t);
-ROTATE(_svec4_u32, uint32_t);
-ROTATE(_svec4_i64, int64_t);
-ROTATE(_svec4_u64, uint64_t);
-ROTATE(_svec4_f, float);
-ROTATE(_svec4_d, double);
+ROTATE(int8_t);
+ROTATE(uint8_t);
+ROTATE(int16_t);
+ROTATE(uint16_t);
+ROTATE(int32_t);
+ROTATE(uint32_t);
+ROTATE(int64_t);
+ROTATE(uint64_t);
+ROTATE(float);
+ROTATE(double);
 
-SHUFFLES(_svec4_i8, int8_t, _svec4_i32);
-SHUFFLES(_svec4_u8, uint8_t, _svec4_i32);
-SHUFFLES(_svec4_i16, int16_t, _svec4_i32);
-SHUFFLES(_svec4_u16, uint16_t, _svec4_i32);
-SHUFFLES(_svec4_i32, int32_t, _svec4_i32);
-SHUFFLES(_svec4_u32, uint32_t, _svec4_i32);
-SHUFFLES(_svec4_i64, int64_t, _svec4_i32);
-SHUFFLES(_svec4_u64, uint64_t, _svec4_i32);
-SHUFFLES(_svec4_f, float, _svec4_i32);
-SHUFFLES(_svec4_d, double, _svec4_i32);
+SHUFFLES(int8_t);
+SHUFFLES(uint8_t);
+SHUFFLES(int16_t);
+SHUFFLES(uint16_t);
+SHUFFLES(int32_t);
+SHUFFLES(uint32_t);
+SHUFFLES(int64_t);
+SHUFFLES(uint64_t);
+SHUFFLES(float);
+SHUFFLES(double);
 
 //load const
 LOAD_CONST(_svec4_i8, int8_t);
