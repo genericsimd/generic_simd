@@ -13,12 +13,13 @@ char*, *short*, *unsigned short*, *int*, *unsigned int*, *long long*,
 Currently the library supports only N = 4
 
 - *svec<4,bool>*: vector of 4 boolean 
-- *svec<4,char>, svec<4,unsigned char>: vector of 4 signed/unsigned char 
-- *svec<4,short>*, *svec<4,unsigned short>*: vector of 4 signed/unsigned short 
-- *svec<4,int>*, *svec<4,unsigned int>*: vector of 4 signed/unsigned integer 
-- *svec<4,long long>*, *svec<4,unsigned long long>*: vector 4 signed/unsigned long long 
+- *svec<4,int8_t>, svec<4,uint8_t>: vector of 4 signed/unsigned 8-bit int 
+- *svec<4,int16_t>*, *svec<4,uint16_t>*: vector of 4 signed/unsigned 16-bit int 
+- *svec<4,int32_t>*, *svec<4,int32_t>*: vector of 4 signed/unsigned 32-bit int 
+- *svec<4,int64_t>*, *svec<4,uint64_t>*: vector 4 signed/unsigned 32-bit int 
 - *svec<4,float>*: vector of 4 float 
 - *svec<4,double>*: vector of 4 double 
+- *svec<4,void*>*: vector of 4 pointers
 
 In the rest of the document we use VTYPE to indicate SIMD vector types.
 
@@ -26,10 +27,10 @@ In the rest of the document we use VTYPE to indicate SIMD vector types.
 
 ###Constructor
 
-- Default constructor returns a vector with undefined value. e.g. "svec<4,int> v;" 
+- Default constructor returns a vector with undefined value. e.g. "svec<4,int32_t> v;" 
   You can modify it's elements by "[]" operator. 
-- Construct a SIMD vector with four scalar values. e.g. "svec<4,int> v(1,2,3,4)" 
-- Construct a SIMD vector with one scalar value. e.g. "svec<4,int> v(100)". 
+- Construct a SIMD vector with four scalar values. e.g. "svec<4,int32_t> v(1,2,3,4)" 
+- Construct a SIMD vector with one scalar value. e.g. "svec<4,int32_t> v(100)". 
 
 All the four values in the SIMD vector is 100. 
 
@@ -38,7 +39,7 @@ All the four values in the SIMD vector is 100.
 
 "[]" operator is used to get and set the elements.
 ```c++
-svec<4,int> v(1,2,3,4);
+svec<4,int32_t> v(1,2,3,4);
 int a = v[2]; // extracts the 3rd element of the vector (i.e., element index starts from 0), a is 3 now
 v[3] = 10;    // assigns 10 to the 3rd element of the vector, v is [1,2,3,10] now
 ```
@@ -54,7 +55,7 @@ m[0] = -1;     // after assignment, 1st element of m is true.
 Store a vector to location p through instance method store(VTYPE *).
 
 Load a vector from location p through class static method VTYPE::(VTYPE *).
-e.g. "svec<4,int>::load(an_address)" will return a new svec<4,int> vector.
+e.g. "svec<4,int32_t>::load(an_address)" will return a new svec<4,int32_t> vector.
 
 Load a scalar value from an address and splat it into the whole vector could be done through class static method VTYPE::load_and_splat(STYPE *)
 
@@ -105,14 +106,14 @@ any_true(), all_true(), none_true() do a svec<4,bool> vector's reduction, and re
 ###Gather and Scatter
 
 Please refer the detail document for how to use gather and scatter.
-E.g. svec<4,int> type
+E.g. svec<4,int32_t> type
 
-- svec<4,int>::gather()
-- svec<4,int>::scatter()
-- svec<4,int>::gather_base_offsets()
-- svec<4,int>::scatter_base_offsets()
-- svec<4,int>::gather_stride()
-- svec<4,int>::scatter_stride()
+- svec<4,int32_t>::gather()
+- svec<4,int32_t>::scatter()
+- svec<4,int32_T>::gather_base_offsets()
+- svec<4,int32_t>::scatter_base_offsets()
+- svec<4,int32_t>::gather_stride()
+- svec<4,int32_t>::scatter_stride()
 
 **Note** The current power processor has no gather/scatter instructions. The software based implementation is slow right now, especially the gather_base_offsets() and scatter_base_offsets().
 

@@ -1,4 +1,4 @@
-#FAQ and Trouble Shooting
+#Frequently Asked Questions
 
 ## Frequently asked questions
 
