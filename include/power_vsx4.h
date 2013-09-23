@@ -1724,14 +1724,14 @@ lGatherBaseOffsets64_64P8(unsigned char *p, uint32_t scale,
 #endif //endif __POWER8
 
 
-GATHER_BASE_OFFSETS_L4(_svec4_i8, int8_t, _svec4_i32, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_i8, int8_t, _svec4_i64, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_u8, uint8_t, _svec4_i32, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_u8, uint8_t, _svec4_i64, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_i16, int16_t, _svec4_i32, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_i16, int16_t, _svec4_i64, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_u16, uint16_t, _svec4_i32, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_u16, uint16_t, _svec4_i64, _svec4_i1);
+GATHER_BASE_OFFSETS_L4(int8_t, int32_t);
+GATHER_BASE_OFFSETS_L4(int8_t, int64_t);
+GATHER_BASE_OFFSETS_L4(uint8_t, int32_t);
+GATHER_BASE_OFFSETS_L4(uint8_t, int64_t);
+GATHER_BASE_OFFSETS_L4(int16_t, int32_t);
+GATHER_BASE_OFFSETS_L4(int16_t, int64_t);
+GATHER_BASE_OFFSETS_L4(uint16_t, int32_t);
+GATHER_BASE_OFFSETS_L4(uint16_t, int64_t);
 
 //GATHER_BASE_OFFSETS_L4(_svec4_i32, int32_t, _svec4_i32, _svec4_i1);
 static FORCEINLINE svec<4,int>
@@ -1792,7 +1792,7 @@ svec_gather_base_offsets(int64_t *b, uint32_t scale, svec<4,int> offsets,svec<4,
   #endif
 }
 
-GATHER_BASE_OFFSETS_L4(_svec4_i64, int64_t, _svec4_i64, _svec4_i1);
+GATHER_BASE_OFFSETS_L4(int64_t, int64_t);
 
 //GATHER_BASE_OFFSETS_L4(_svec4_u64, uint64_t, _svec4_i32, _svec4_i1);
 static FORCEINLINE _svec4_u64
@@ -1807,7 +1807,7 @@ svec_gather_base_offsets(uint64_t *b, uint32_t scale, svec<4,int> offsets,svec<4
   #endif
 }
 
-GATHER_BASE_OFFSETS_L4(_svec4_u64, uint64_t, _svec4_i64, _svec4_i1);
+GATHER_BASE_OFFSETS_L4(uint64_t, int64_t);
 
 //GATHER_BASE_OFFSETS_L4(_svec4_f, float, _svec4_i32, _svec4_i1);
 static FORCEINLINE _svec4_f

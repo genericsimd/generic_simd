@@ -1402,28 +1402,28 @@ GATHER_GENERAL_L4(_svec4_d, double, _svec4_u64, _svec4_i1);
 
 
 
-GATHER_BASE_OFFSETS_L4(_svec4_i8, int8_t, _svec4_i32, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_u8, uint8_t, _svec4_i32, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_i16, int16_t, _svec4_i32, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_u16, uint16_t, _svec4_i32, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_i32, int32_t, _svec4_i32, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_u32, uint32_t, _svec4_i32, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_i64, int64_t, _svec4_i32, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_u64, uint64_t, _svec4_i32, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_f, float, _svec4_i32, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_d, double, _svec4_i32, _svec4_i1);
+GATHER_BASE_OFFSETS_L4(int8_t, int32_t);
+GATHER_BASE_OFFSETS_L4(uint8_t, int32_t);
+GATHER_BASE_OFFSETS_L4(int16_t, int32_t);
+GATHER_BASE_OFFSETS_L4(uint16_t, int32_t);
+GATHER_BASE_OFFSETS_L4(int32_t, int32_t);
+GATHER_BASE_OFFSETS_L4(uint32_t, int32_t);
+GATHER_BASE_OFFSETS_L4(int64_t, int32_t);
+GATHER_BASE_OFFSETS_L4(uint64_t, int32_t);
+GATHER_BASE_OFFSETS_L4(float, int32_t);
+GATHER_BASE_OFFSETS_L4(double, int32_t);
 
 
-GATHER_BASE_OFFSETS_L4(_svec4_i8, int8_t, _svec4_i64, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_u8, uint8_t, _svec4_i64, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_i16, int16_t, _svec4_i64, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_u16, uint16_t, _svec4_i64, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_i32, int32_t, _svec4_i64, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_u32, uint32_t, _svec4_i64, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_i64, int64_t, _svec4_i64, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_u64, uint64_t, _svec4_i64, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_f, float, _svec4_i64, _svec4_i1);
-GATHER_BASE_OFFSETS_L4(_svec4_d, double, _svec4_i64, _svec4_i1);
+GATHER_BASE_OFFSETS_L4(int8_t, int64_t);
+GATHER_BASE_OFFSETS_L4(uint8_t, int64_t);
+GATHER_BASE_OFFSETS_L4(int16_t, int64_t);
+GATHER_BASE_OFFSETS_L4(uint16_t, int64_t);
+GATHER_BASE_OFFSETS_L4(int32_t, int64_t);
+GATHER_BASE_OFFSETS_L4(uint32_t, int64_t);
+GATHER_BASE_OFFSETS_L4(int64_t, int64_t);
+GATHER_BASE_OFFSETS_L4(uint64_t, int64_t);
+GATHER_BASE_OFFSETS_L4(float, int64_t);
+GATHER_BASE_OFFSETS_L4(double, int64_t);
 
 GATHER_STRIDE_L4(_svec4_i8, int8_t, int32_t, _svec4_i1);
 GATHER_STRIDE_L4(_svec4_i8, int8_t, int64_t, _svec4_i1);

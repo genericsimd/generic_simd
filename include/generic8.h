@@ -605,8 +605,8 @@ LOAD_STORE(float);
 LOAD_STORE(double);
 
 // 3. Select
-static FORCEINLINE svec<8,bool> svec_select(svec<8,bool> mask, svec<8,bool> a, svec<8,bool> b) {
-  svec<4,bool> ret;
+static FORCEINLINE svec<LANES,bool> svec_select(svec<LANES,bool> mask, svec<LANES,bool> a, svec<LANES,bool> b) {
+  svec<LANES,bool> ret;
   ret.v = (a.v & mask.v) | (b.v & ~mask.v);
   return ret;
 }
@@ -668,16 +668,17 @@ SHUFFLES(float);
 SHUFFLES(double);
 
 //load const
-LOAD_CONST(svec8_i8, int8_t);
-LOAD_CONST(svec8_u8, uint8_t);
-LOAD_CONST(svec8_i16, int16_t);
-LOAD_CONST(svec8_u16, uint16_t);
-LOAD_CONST(svec8_i32, int32_t);
-LOAD_CONST(svec8_u32, uint32_t);
-LOAD_CONST(svec8_i64, int64_t);
-LOAD_CONST(svec8_u64, uint64_t);
-LOAD_CONST(svec8_f, float);
-LOAD_CONST(svec8_d, double);
+LOAD_CONST(int8_t);
+LOAD_CONST(uint8_t);
+LOAD_CONST(int16_t);
+LOAD_CONST(uint16_t);
+LOAD_CONST(int32_t);
+LOAD_CONST(uint32_t);
+LOAD_CONST(int64_t);
+LOAD_CONST(uint64_t);
+LOAD_CONST(float);
+LOAD_CONST(double);
+
 
 
 // 5. Gather / Scatter
@@ -694,71 +695,71 @@ LOAD_CONST(svec8_d, double);
  * @see gather and scatter
  */
 #if defined(__x86_64__) || defined(__PPC64__)
-struct svec8_ptr : public svec8_u64{
+struct svec8_ptr : public svec<8,unsigned long long>{
     /**
      * @brief Constructor.
      * @return a vector of 4 pointers: {p10, p1, p2, p3}.
      */
     FORCEINLINE svec8_ptr(void* p0, void* p1, void* p2, void* p3, void* p4, void* p5, void* p6, void* p7):
-        svec8_u64((uint64_t)(p0),(uint64_t)(p1),(uint64_t)(p2),(uint64_t)(p3),(uint64_t)(p4),(uint64_t)(p5),(uint64_t)(p6),(uint64_t)(p7)){}
+        svec<8,unsigned long long>((uint64_t)(p0),(uint64_t)(p1),(uint64_t)(p2),(uint64_t)(p3),(uint64_t)(p4),(uint64_t)(p5),(uint64_t)(p6),(uint64_t)(p7)){}
 };
 #else // 32-bit
-struct svec8_ptr: public svec8_u32{
+struct svec8_ptr: public svec<8,unsigned int>{
     /**
      * @brief Constructor.
      * @return a vector of 4 pointers: {p0, p1, p2, p3}.
      */
     FORCEINLINE svec8_ptr(void* p0, void* p1, void* p2, void* p3, void* p4, void* p5, void* p6, void* p7):
-        svec8_u32((uint32_t)(p0),(uint32_t)(p1),(uint32_t)(p2),(uint32_t)(p3),(uint32_t)(p4),(uint32_t)(p5),(uint32_t)(p6),(uint32_t)(p7)){}
+        svec<8,unsigned int>((uint32_t)(p0),(uint32_t)(p1),(uint32_t)(p2),(uint32_t)(p3),(uint32_t)(p4),(uint32_t)(p5),(uint32_t)(p6),(uint32_t)(p7)){}
 };
 #endif // __PPC64__
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS //not want generate svec_gather*/svec_scatter methods
 
-template <class RetVecType> static RetVecType svec_gather(svec8_u32 ptrs, svec8_i1 mask);
-template <class RetVecType> static RetVecType svec_gather(svec8_u64 ptrs, svec8_i1 mask);
+template <class RetVecType> static RetVecType svec_gather(svec<LANES, uint32_t> ptrs, svec<LANES,bool> mask);
+template <class RetVecType> static RetVecType svec_gather(svec<LANES, uint64_t> ptrs, svec<LANES,bool> mask);
 
-GATHER_GENERAL(svec8_i8, int8_t, svec8_u32, svec8_i1);
-GATHER_GENERAL(svec8_i8, int8_t, svec8_u64, svec8_i1);
-GATHER_GENERAL(svec8_u8, uint8_t, svec8_u32, svec8_i1);
-GATHER_GENERAL(svec8_u8, uint8_t, svec8_u64, svec8_i1);
-GATHER_GENERAL(svec8_i16, int16_t, svec8_u32, svec8_i1);
-GATHER_GENERAL(svec8_i16, int16_t, svec8_u64, svec8_i1);
-GATHER_GENERAL(svec8_u16, uint16_t, svec8_u32, svec8_i1);
-GATHER_GENERAL(svec8_u16, uint16_t, svec8_u64, svec8_i1);
-GATHER_GENERAL(svec8_i32, int32_t, svec8_u32, svec8_i1);
-GATHER_GENERAL(svec8_i32, int32_t, svec8_u64, svec8_i1);
-GATHER_GENERAL(svec8_u32, uint32_t, svec8_u32, svec8_i1);
-GATHER_GENERAL(svec8_u32, uint32_t, svec8_u64, svec8_i1);
-GATHER_GENERAL(svec8_i64, int64_t, svec8_u32, svec8_i1);
-GATHER_GENERAL(svec8_i64, int64_t, svec8_u64, svec8_i1);
-GATHER_GENERAL(svec8_u64, uint64_t, svec8_u32, svec8_i1);
-GATHER_GENERAL(svec8_u64, uint64_t, svec8_u64, svec8_i1);
-GATHER_GENERAL(svec8_f, float, svec8_u32, svec8_i1);
-GATHER_GENERAL(svec8_f, float, svec8_u64, svec8_i1);
-GATHER_GENERAL(svec8_d, double, svec8_u32, svec8_i1);
-GATHER_GENERAL(svec8_d, double, svec8_u64, svec8_i1);
+GATHER_GENERAL(int8_t, uint32_t);
+GATHER_GENERAL(int8_t, uint64_t);
+GATHER_GENERAL(uint8_t, uint32_t);
+GATHER_GENERAL(uint8_t, uint64_t);
+GATHER_GENERAL(int16_t, uint32_t);
+GATHER_GENERAL(int16_t, uint64_t);
+GATHER_GENERAL(uint16_t, uint32_t);
+GATHER_GENERAL(uint16_t, uint64_t);
+GATHER_GENERAL(int32_t, uint32_t);
+GATHER_GENERAL(int32_t, uint64_t);
+GATHER_GENERAL(uint32_t, uint32_t);
+GATHER_GENERAL(uint32_t, uint64_t);
+GATHER_GENERAL(int64_t, uint32_t);
+GATHER_GENERAL(int64_t, uint64_t);
+GATHER_GENERAL(uint64_t, uint32_t);
+GATHER_GENERAL(uint64_t, uint64_t);
+GATHER_GENERAL(float, uint32_t);
+GATHER_GENERAL(float, uint64_t);
+GATHER_GENERAL(double, uint32_t);
+GATHER_GENERAL(double, uint64_t);
 
-GATHER_BASE_OFFSETS(svec8_i8, int8_t, svec8_i32, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_i8, int8_t, svec8_i64, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_u8, uint8_t, svec8_i32, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_u8, uint8_t, svec8_i64, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_i16, int16_t, svec8_i32, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_i16, int16_t, svec8_i64, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_u16, uint16_t, svec8_i32, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_u16, uint16_t, svec8_i64, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_i32, int32_t, svec8_i32, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_i32, int32_t, svec8_i64, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_u32, uint32_t, svec8_i32, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_u32, uint32_t, svec8_i64, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_i64, int64_t, svec8_i32, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_i64, int64_t, svec8_i64, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_u64, uint64_t, svec8_i32, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_u64, uint64_t, svec8_i64, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_f, float, svec8_i32, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_f, float, svec8_i64, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_d, double, svec8_i32, svec8_i1);
-GATHER_BASE_OFFSETS(svec8_d, double, svec8_i64, svec8_i1);
+GATHER_BASE_OFFSETS(int8_t, int32_t);
+GATHER_BASE_OFFSETS(int8_t, int64_t);
+GATHER_BASE_OFFSETS(uint8_t, int32_t);
+GATHER_BASE_OFFSETS(uint8_t, int64_t);
+GATHER_BASE_OFFSETS(int16_t, int32_t);
+GATHER_BASE_OFFSETS(int16_t, int64_t);
+GATHER_BASE_OFFSETS(uint16_t, int32_t);
+GATHER_BASE_OFFSETS(uint16_t, int64_t);
+GATHER_BASE_OFFSETS(int32_t, int32_t);
+GATHER_BASE_OFFSETS(int32_t, int64_t);
+GATHER_BASE_OFFSETS(uint32_t, int32_t);
+GATHER_BASE_OFFSETS(uint32_t, int64_t);
+GATHER_BASE_OFFSETS(int64_t, int32_t);
+GATHER_BASE_OFFSETS(int64_t, int64_t);
+GATHER_BASE_OFFSETS(uint64_t, int32_t);
+GATHER_BASE_OFFSETS(uint64_t, int64_t);
+GATHER_BASE_OFFSETS(float, int32_t);
+GATHER_BASE_OFFSETS(float, int64_t);
+GATHER_BASE_OFFSETS(double, int32_t);
+GATHER_BASE_OFFSETS(double, int64_t);
 
 GATHER_STRIDE(svec8_i8, int8_t, int32_t, svec8_i1);
 GATHER_STRIDE(svec8_i8, int8_t, int64_t, svec8_i1);

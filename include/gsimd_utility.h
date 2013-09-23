@@ -559,19 +559,19 @@ FORCEINLINE svec<LANES,STYPE> svec_select(bool cond, svec<LANES,STYPE> a, svec<L
   }
 
 //LOAD_CONST
-#define LOAD_CONST(VTYPE, STYPE) \
+#define LOAD_CONST(STYPE) \
 template <class RetVecType> static RetVecType svec_load_const(const STYPE* p); \
 template<> \
-FORCEINLINE VTYPE svec_load_const<VTYPE>(const STYPE* p) { \
-    VTYPE ret; \
+FORCEINLINE svec<LANES,STYPE> svec_load_const<svec<LANES,STYPE> >(const STYPE* p) { \
+  svec<LANES,STYPE> ret; \
     INC_STATS_NAME(STATS_LOAD_SLOW, 1, "load const");           \
     for (int i = 0; i < LANES; ++i) { ret[i] = *p; }\
     return ret; \
 } \
 template <class RetVecType> static RetVecType svec_load_and_splat(STYPE* p); \
 template<> \
-FORCEINLINE VTYPE svec_load_and_splat<VTYPE>(STYPE* p) { \
-  VTYPE ret; \
+FORCEINLINE svec<LANES,STYPE> svec_load_and_splat<svec<LANES,STYPE> >(STYPE* p) { \
+  svec<LANES,STYPE> ret; \
   INC_STATS_NAME(STATS_LOAD_SLOW, 1, "load const");           \
   for (int i = 0; i < LANES; ++i) { ret[i] = *p; }\
   return ret; \
@@ -599,12 +599,12 @@ lGatherGeneral(PTRS ptrs, MSK mask) {
  * @param mask
  * @return
  */
-#define GATHER_GENERAL(VTYPE, STYPE, PTRTYPE, MTYPE) \
+#define GATHER_GENERAL(STYPE, PSTYPE) \
 template<> \
-FORCEINLINE VTYPE svec_gather<VTYPE>(PTRTYPE ptrs, MTYPE mask) {   \
-  VTYPE ret;\
+FORCEINLINE svec<LANES,STYPE> svec_gather<svec<LANES,STYPE> >(svec<LANES,PSTYPE> ptrs, svec<LANES,bool> mask) {   \
+  svec<LANES,STYPE> ret;\
   for(int i = 0; i < LANES; ++i) {if(mask[i]){ret[i] = *(STYPE*)(ptrs[i]); } }\
-  INC_STATS_NAME(STATS_GATHER_SLOW, 1, "Gather general"); \
+  INC_STATS_NAME(STATS_GATHER_SLOW, 1, "Gather genera"); \
   return ret; \
 }
 
@@ -644,9 +644,9 @@ lGatherBaseOffsets(unsigned char *p, uint32_t scale,
   return RetVec(r[0], r[1], r[2], r[3]);
 }
 
-#define GATHER_BASE_OFFSETS(VTYPE, STYPE, OTYPE, MTYPE)         \
-FORCEINLINE VTYPE svec_gather_base_offsets(STYPE* b, uint32_t scale, OTYPE offsets, MTYPE mask) {   \
-  VTYPE ret;\
+#define GATHER_BASE_OFFSETS(STYPE, OSTYPE)         \
+FORCEINLINE svec<LANES,STYPE> svec_gather_base_offsets(STYPE* b, uint32_t scale, svec<LANES,OSTYPE> offsets, svec<LANES,bool> mask) {   \
+  svec<LANES,STYPE> ret;\
   for(int i = 0; i < LANES; ++i) {if(mask[i]){ret[i] = *(STYPE*)((uint8_t*)b + scale * offsets[i]);} }\
   INC_STATS_NAME(STATS_GATHER_SLOW,1, "Gather offset with select"); \
   return ret; \
@@ -655,9 +655,9 @@ FORCEINLINE VTYPE svec_gather_base_offsets(STYPE* b, uint32_t scale, OTYPE offse
 /**
  * @ macros for generic impl of gather base offsets
  */
-#define GATHER_BASE_OFFSETS_L4(VTYPE, STYPE, OTYPE, MTYPE)         \
-FORCEINLINE VTYPE svec_gather_base_offsets(STYPE* b, uint32_t scale, OTYPE offsets, MTYPE mask) {   \
-  return lGatherBaseOffsets<VTYPE, STYPE, OTYPE, MTYPE>((uint8_t*)b, scale, offsets, mask);                                \
+#define GATHER_BASE_OFFSETS_L4(STYPE, OSTYPE)         \
+FORCEINLINE svec<LANES,STYPE> svec_gather_base_offsets(STYPE* b, uint32_t scale, svec<LANES,OSTYPE> offsets, svec<LANES,bool> mask) {   \
+  return lGatherBaseOffsets<svec<LANES,STYPE>, STYPE, svec<LANES,OSTYPE>, svec<LANES,bool> >((uint8_t*)b, scale, offsets, mask);                                \
 }
 
 /**
