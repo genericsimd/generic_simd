@@ -359,17 +359,17 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
   static FORCEINLINE svec<LANES,STYPE> load_and_splat(STYPE* p); \
   static FORCEINLINE svec<LANES,STYPE> gather(svec<4,void*> ptrs, svec<LANES,bool> mask);\
   FORCEINLINE void scatter(svec<4,void*> ptrs, svec<LANES,bool> mask); \
-  static FORCEINLINE svec<LANES,STYPE> gather_base_offsets(STYPE* b, uint32_t scale, svec<LANES, int> offsets, svec<LANES,bool> mask);\
-  static FORCEINLINE svec<LANES,STYPE> gather_base_offsets(STYPE* b, uint32_t scale, svec<LANES, long long> offsets, svec<LANES,bool> mask);\
-  FORCEINLINE void scatter_base_offsets(STYPE* b, uint32_t scale, svec<LANES, int> offsets, svec<LANES,bool> mask); \
-  FORCEINLINE void scatter_base_offsets(STYPE* b, uint32_t scale, svec<LANES, long long> offsets, svec<LANES,bool> mask); \
+  static FORCEINLINE svec<LANES,STYPE> gather_base_offsets(STYPE* b, uint32_t scale, svec<LANES,int32_t> offsets, svec<LANES,bool> mask);\
+  static FORCEINLINE svec<LANES,STYPE> gather_base_offsets(STYPE* b, uint32_t scale, svec<LANES,int64_t> offsets, svec<LANES,bool> mask);\
+  FORCEINLINE void scatter_base_offsets(STYPE* b, uint32_t scale, svec<LANES,int32_t> offsets, svec<LANES,bool> mask); \
+  FORCEINLINE void scatter_base_offsets(STYPE* b, uint32_t scale, svec<LANES,int64_t> offsets, svec<LANES,bool> mask); \
   static FORCEINLINE svec<LANES,STYPE> gather_stride(STYPE* b, int32_t off, int32_t stride);\
   static FORCEINLINE svec<LANES,STYPE> gather_stride(STYPE* b, int64_t off, int64_t stride);\
   FORCEINLINE void scatter_stride(STYPE* b, int32_t off, int32_t stride); \
   FORCEINLINE void scatter_stride(STYPE* b, int64_t off, int64_t stride); \
   FORCEINLINE svec<LANES,STYPE> broadcast(int32_t index); \
   FORCEINLINE svec<LANES,STYPE> rotate(int32_t index); \
-  FORCEINLINE svec<LANES,STYPE> shuffle(svec<LANES, int> index); \
+  FORCEINLINE svec<LANES,STYPE> shuffle(svec<LANES, int32_t> index); \
   FORCEINLINE svec<LANES,STYPE> abs();
 
 /**
@@ -519,13 +519,13 @@ FORCEINLINE svec<LANES,STYPE> svec_select(bool cond, svec<LANES,STYPE> a, svec<L
  * @brief macro for shuffle/shuffle2 methods implementation
  */
 #define SHUFFLES(STYPE)                 \
-  static FORCEINLINE svec<LANES,STYPE> svec_shuffle(svec<LANES,STYPE> v, svec<LANES,int> index) {   \
+  static FORCEINLINE svec<LANES,STYPE> svec_shuffle(svec<LANES,STYPE> v, svec<LANES,int32_t> index) {   \
     INC_STATS_NAME(STATS_OTHER_SLOW, 1, "shuffle");           \
     svec<LANES,STYPE> ret; \
     for (int i = 0; i < LANES; ++i) { ret[i] = v[index[i] & (LANES-1)]; }\
     return ret;                               \
   }                                   \
-  static FORCEINLINE svec<LANES,STYPE> svec_shuffle2(svec<LANES,STYPE> v0, svec<LANES,STYPE> v1, svec<LANES,int> index) { \
+  static FORCEINLINE svec<LANES,STYPE> svec_shuffle2(svec<LANES,STYPE> v0, svec<LANES,STYPE> v1, svec<LANES,int32_t> index) { \
     svec<LANES,STYPE> ret;                              \
     NOT_IMPLEMENTED("shuffle 2");                   \
     return ret;                             \
@@ -535,7 +535,7 @@ FORCEINLINE svec<LANES,STYPE> svec_select(bool cond, svec<LANES,STYPE> a, svec<L
  * @brief macro for shuffle/shuffle2 methods implementation
  */
 #define SHUFFLES_L4(STYPE)                 \
-  static FORCEINLINE svec<LANES,STYPE> svec_shuffle(svec<LANES,STYPE> v, svec<LANES,int> index) {   \
+  static FORCEINLINE svec<LANES,STYPE> svec_shuffle(svec<LANES,STYPE> v, svec<LANES,int32_t> index) {   \
     INC_STATS_NAME(STATS_OTHER_SLOW, 1, "shuffle");           \
     svec<LANES,STYPE> ret (v[index[0] & 0x3],    \
                v[index[1] & 0x3],    \
@@ -543,7 +543,7 @@ FORCEINLINE svec<LANES,STYPE> svec_select(bool cond, svec<LANES,STYPE> a, svec<L
                v[index[3] & 0x3] );  \
     return ret;                               \
   }                                   \
-  static FORCEINLINE svec<LANES,STYPE> svec_shuffle2(svec<LANES,STYPE> v0, svec<LANES,STYPE> v1, svec<LANES,int> index) { \
+  static FORCEINLINE svec<LANES,STYPE> svec_shuffle2(svec<LANES,STYPE> v0, svec<LANES,STYPE> v1, svec<LANES,int32_t> index) { \
     svec<LANES,STYPE> ret;                              \
     NOT_IMPLEMENTED("shuffle 2");                   \
     return ret;                             \

@@ -129,24 +129,25 @@ struct svec : public invalid_template_arguments<Lanes,T>::type {
   //here we need to add the static assert
 };
 
+      // TODO (penguin): move common definition to gsimd_utility.h
 template <>
 struct svec<4,bool>;
 template <>
-  struct svec<4,signed char>;
+  struct svec<4,int8_t>;
 template <>
-  struct svec<4,unsigned char>;
+  struct svec<4,uint8_t>;
 template <>
-  struct svec<4,short>;
+  struct svec<4,int16_t>;
 template <>
-  struct svec<4,unsigned short>;
+  struct svec<4,uint16_t>;
 template <>
-  struct svec<4,int>;
+  struct svec<4,int32_t>;
 template <>
-  struct svec<4,unsigned int>;
+  struct svec<4,uint32_t>;
 template <>
-  struct svec<4,long long>;
+  struct svec<4,int64_t>;
 template <>
-  struct svec<4,unsigned long long>;
+  struct svec<4,uint64_t>;
 template <>
   struct svec<4,float>;
 template <>
@@ -156,14 +157,14 @@ template <>
 
 //required because macros are confused by the , in the template declaration
 typedef svec<4,bool> _svec4_i1;
-typedef svec<4,signed char> _svec4_i8;
-typedef svec<4,unsigned char> _svec4_u8;
-typedef svec<4,short> _svec4_i16;
-typedef svec<4,unsigned short> _svec4_u16;
-typedef svec<4,int> _svec4_i32;
-typedef svec<4,unsigned int> _svec4_u32;
-typedef svec<4,long long> _svec4_i64;
-typedef svec<4,unsigned long long> _svec4_u64;
+typedef svec<4,int8_t> _svec4_i8;
+typedef svec<4,uint8_t> _svec4_u8;
+typedef svec<4,int16_t> _svec4_i16;
+typedef svec<4,uint16_t> _svec4_u16;
+typedef svec<4,int32_t> _svec4_i32;
+typedef svec<4,uint32_t> _svec4_u32;
+typedef svec<4,int64_t> _svec4_i64;
+typedef svec<4,uint64_t> _svec4_u64;
 typedef svec<4,float> _svec4_f;
 typedef svec<4,double> _svec4_d;
 typedef svec<4,void*> _svec4_ptr;
@@ -374,7 +375,7 @@ template <>
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(int16_t);
-    COUT_FUNC_DECL(short);
+    COUT_FUNC_DECL(int16_t);
 
     VEC_CLASS_METHOD_DECL(int16_t);
     VEC_INT_CLASS_METHOD_DECL(int16_t, uint16_t);
@@ -425,7 +426,7 @@ struct svec<4,unsigned short> {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(uint16_t);
-    COUT_FUNC_DECL(unsigned short);
+    COUT_FUNC_DECL(uint16_t);
 
     VEC_CLASS_METHOD_DECL(uint16_t);
     VEC_INT_CLASS_METHOD_DECL(uint16_t, uint16_t);
@@ -436,7 +437,7 @@ struct svec<4,unsigned short> {
  * @brief data representation and operations on a vector of 4 signed int.
  */
 template <>
-struct svec<4,int> {
+struct svec<4,int32_t> {
     __vector signed int v;
     /**
      * @brief Default constructor
@@ -486,7 +487,7 @@ struct svec<4,int> {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(int32_t);
-    COUT_FUNC_DECL(int);
+    COUT_FUNC_DECL(int32_t);
 
     VEC_CLASS_METHOD_DECL(int32_t);
     VEC_INT_CLASS_METHOD_DECL(int32_t, uint32_t);
@@ -496,7 +497,7 @@ struct svec<4,int> {
  * @brief data representation and operations on a vector of 4 unsigned int.
  */
 template <>
-struct svec<4,unsigned int> {
+struct svec<4,uint32_t> {
     __vector unsigned int v;
     /**
      * @brief Default constructor
@@ -546,7 +547,7 @@ struct svec<4,unsigned int> {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(uint32_t);
-    COUT_FUNC_DECL(unsigned int);
+    COUT_FUNC_DECL(uint32_t);
 
     VEC_CLASS_METHOD_DECL(uint32_t);
     VEC_INT_CLASS_METHOD_DECL(uint32_t, uint32_t);
@@ -556,7 +557,7 @@ struct svec<4,unsigned int> {
  * @brief data representation and operations on a vector of 4 signed long long.
  */
 template <>
-struct svec<4,long long> { 
+struct svec<4,int64_t> { 
     __vector signed long long v[2];
     /**
      * @brief Default constructor,
@@ -619,7 +620,7 @@ struct svec<4,long long> {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(int64_t);
-    COUT_FUNC_DECL(long long);
+    COUT_FUNC_DECL(int64_t);
 
     VEC_CLASS_METHOD_DECL(int64_t);
     VEC_INT_CLASS_METHOD_DECL(int64_t, uint64_t);
@@ -629,7 +630,7 @@ struct svec<4,long long> {
  * @brief data representation and operations on a vector of 4 unsigned long long.
  */
 template <>
-struct svec<4,unsigned long long> {
+struct svec<4,uint64_t> {
     __vector unsigned long long v[2];
     /**
      * @brief Default constructor
@@ -692,7 +693,7 @@ struct svec<4,unsigned long long> {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(uint64_t);
-    COUT_FUNC_DECL(unsigned long long);
+    COUT_FUNC_DECL(uint64_t);
 
     VEC_CLASS_METHOD_DECL(uint64_t);
     VEC_INT_CLASS_METHOD_DECL(uint64_t, uint64_t);
@@ -1497,7 +1498,7 @@ FORCEINLINE _svec4_d svec_load_and_splat<_svec4_d>(double* p) {
  */
 #ifdef __PPC64__
 template <>
-struct svec<4,void*> : public _svec4_u64{
+  struct svec<4,void*> : public svec<4,uint64_t>{
     /**
      * @brief Constructor.
      * @return a vector of 4 pointers: {p10, p1, p2, p3}.
@@ -1507,7 +1508,7 @@ struct svec<4,void*> : public _svec4_u64{
 };
 #else // 32-bit
 template <>
-struct svec<4,void*> : public _svec4_u32{
+  struct svec<4,void*> : public svec<4,int64_t>{
     /**
      * @brief Constructor.
      * @return a vector of 4 pointers: {p0, p1, p2, p3}.
