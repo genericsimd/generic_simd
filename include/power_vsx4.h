@@ -335,7 +335,7 @@ struct svec<4,unsigned char> {
  * @brief data representation and operations on a vector of 4 signed short.
  */
 template <>
-  struct svec<4,short> {
+  struct svec<4,int16_t> {
     __vector signed short v;
     /**
      * @brief Default constructor
@@ -969,7 +969,7 @@ static FORCEINLINE void svec_store(_svec4_u8 *p, _svec4_u8 v) {
 }
 
 /**
- * @brief load and store for svec<4,short>/svec<4,unsigned short>.
+ * @brief load and store for svec<4,int16_t>/svec<4,uint16_t>.
  * Generic implementation. Should be slow
  */
 LOAD_STORE(int16_t);
@@ -982,7 +982,7 @@ LOAD_STORE(uint16_t);
  * \note p does not have to be aligned
  * @return a new vector loaded from p
  */
-static FORCEINLINE svec<4,int> svec_load(const svec<4,int> *p) {
+static FORCEINLINE svec<4,int32_t> svec_load(const svec<4,int32_t> *p) {
   return *((__vector signed int *)p);
 }
 
@@ -992,7 +992,7 @@ static FORCEINLINE svec<4,int> svec_load(const svec<4,int> *p) {
  * \note p does not have to be aligned
  * @param[in] v vector to be stored
  */
-static FORCEINLINE void svec_store(svec<4,int> *p, svec<4,int> v) {
+static FORCEINLINE void svec_store(svec<4,int32_t> *p, svec<4,int32_t> v) {
   *((__vector signed int*)p) = v.v;
 }
 
@@ -1148,16 +1148,16 @@ FORCEINLINE _svec4_u8 svec_select(svec<4,bool> mask, _svec4_u8 a, _svec4_u8 b) {
 }
 
 /**
- * @brief select of _svec<4,short> vectors by a mask vector
+ * @brief select of _svec<4,int16_t> vectors by a mask vector
  * see svec_select(svec<4,bool> mask, svec<4,bool> a, svec<4,bool> b)
  */
-FORCEINLINE svec<4,short> svec_select(svec<4,bool> mask, svec<4,short> a, svec<4,short> b) {
+FORCEINLINE svec<4,int16_t> svec_select(svec<4,bool> mask, svec<4,int16_t> a, svec<4,int16_t> b) {
     INC_STATS_NAME(STATS_OTHER_SLOW, 1, "select i16");
     int16_t v0 = mask[0] ? a[0] : b[0];
     int16_t v1 = mask[1] ? a[1] : b[1];
     int16_t v2 = mask[2] ? a[2] : b[2];
     int16_t v3 = mask[3] ? a[3] : b[3];
-    return svec<4,short>(v0, v1, v2, v3);
+    return svec<4,int16_t>(v0, v1, v2, v3);
 }
 
 /**
@@ -1174,10 +1174,10 @@ FORCEINLINE svec<4,unsigned short> svec_select(svec<4,bool> mask, svec<4,unsigne
 }
 
 /**
- * @brief select of svec<4,int> vectors by a mask vector
+ * @brief select of svec<4,int32_t> vectors by a mask vector
  * see svec_select(svec<4,bool> mask, svec<4,bool> a, svec<4,bool> b)
  */
-FORCEINLINE svec<4,int> svec_select(svec<4,bool> mask, svec<4,int> a, svec<4,int> b) {
+FORCEINLINE svec<4,int32_t> svec_select(svec<4,bool> mask, svec<4,int32_t> a, svec<4,int32_t> b) {
     return vec_sel(b.v, a.v, mask.v);
 }
 
@@ -1344,8 +1344,8 @@ FORCEINLINE _svec4_u8 svec_load_const<_svec4_u8>(const uint8_t* p) {
 
 template <class RetVecType> static RetVecType svec_load_const(const int16_t* p);
 template<>
-FORCEINLINE svec<4,short> svec_load_const<_svec4_i16>(const int16_t* p) {
-    return svec<4,short>(p[0], p[0], p[0], p[0]);
+FORCEINLINE svec<4,int16_t> svec_load_const<svec<4,int16_t> >(const int16_t* p) {
+    return svec<4,int16_t>(p[0], p[0], p[0], p[0]);
 }
 
 template <class RetVecType> static RetVecType svec_load_const(const uint16_t* p);
@@ -1356,8 +1356,8 @@ FORCEINLINE svec<4,unsigned short> svec_load_const<svec<4,unsigned short> >(cons
 
 template <class RetVecType> static RetVecType svec_load_const(const int32_t* p);
 template<>
-FORCEINLINE svec<4,int> svec_load_const<svec<4,int> >(const int32_t* p) {
-    return svec<4,int>(p[0], p[0], p[0], p[0]);
+FORCEINLINE svec<4,int32_t> svec_load_const<svec<4,int32_t> >(const int32_t* p) {
+    return svec<4,int32_t>(p[0], p[0], p[0], p[0]);
 }
 
 template <class RetVecType> static RetVecType svec_load_const(const uint32_t* p);
@@ -1414,10 +1414,10 @@ FORCEINLINE _svec4_u8 svec_load_and_splat<_svec4_u8>(uint8_t* p) {
 
 template <class RetVecType> static RetVecType svec_load_and_splat(int16_t* p);
 template<>
-FORCEINLINE svec<4,short> svec_load_and_splat<_svec4_i16>(int16_t* p) {
+FORCEINLINE svec<4,int16_t> svec_load_and_splat<svec<4,int16_t> >(int16_t* p) {
     INC_STATS_NAME(STATS_SMEAR_SLOW,1,"load_and_splat i16");
     int16_t v = *p;
-    return svec<4,short>(v,v,v,v);
+    return svec<4,int16_t>(v,v,v,v);
 }
 
 template <class RetVecType> static RetVecType svec_load_and_splat(uint16_t* p);
@@ -1425,17 +1425,17 @@ template<>
 FORCEINLINE svec<4,unsigned short> svec_load_and_splat<svec<4,unsigned short> >(uint16_t* p) {
     INC_STATS_NAME(STATS_SMEAR_SLOW,1,"load_and_splat u16");
     uint16_t v = *p;
-    return _svec4_u16(v,v,v,v);
+    return svec<4,uint16_t>(v,v,v,v);
 }
 
 template <class RetVecType> static RetVecType svec_load_and_splat(int32_t* p);
 template<>
-FORCEINLINE svec<4,int> svec_load_and_splat<svec<4,int> >(int32_t* p) {
+FORCEINLINE svec<4,int32_t> svec_load_and_splat<svec<4,int32_t> >(int32_t* p) {
 #ifdef __POWER8
   return vec_smear_i32_p8(p);
 #else
   __vector signed int register x = vec_vsx_ld(0, p);
-   return svec<4,int>(vec_splat_p7(x,0));
+   return svec<4,int32_t>(vec_splat_p7(x,0));
 #endif //__POWER8
 }
 
@@ -1538,8 +1538,8 @@ GATHER_GENERAL_L4(_svec4_i32, int32_t, _svec4_u32, _svec4_i1);
 
 //GATHER_GENERAL_L4(_svec4_i32, int32_t, _svec4_u64, _svec4_i1);
 template<>
-FORCEINLINE svec<4,int> svec_gather<svec<4,int> >(_svec4_u64 ptrs, svec<4,bool> mask) {
-  typedef svec<4,int> RetVec;
+FORCEINLINE svec<4,int32_t> svec_gather<svec<4,int32_t> >(_svec4_u64 ptrs, svec<4,bool> mask) {
+  typedef svec<4,int32_t> RetVec;
   return lGatherGeneral<RetVec,int32_t,_svec4_u64,_svec4_i1>(ptrs,mask);
 }
 
@@ -1735,35 +1735,35 @@ GATHER_BASE_OFFSETS_L4(uint16_t, int32_t);
 GATHER_BASE_OFFSETS_L4(uint16_t, int64_t);
 
 //GATHER_BASE_OFFSETS_L4(_svec4_i32, int32_t, _svec4_i32, _svec4_i1);
-static FORCEINLINE svec<4,int>
-svec_gather_base_offsets(int32_t *b, uint32_t scale, svec<4,int> offsets, svec<4,bool> mask){
+static FORCEINLINE svec<4,int32_t>
+svec_gather_base_offsets(int32_t *b, uint32_t scale, svec<4,int32_t> offsets, svec<4,bool> mask){
   #ifdef __POWER8
-  return lGatherBaseOffsets32_32P8<svec<4,int>,int32_t,svec<4,int>,_svec4_i1>((uint8_t*)b,scale,offsets,mask);
+  return lGatherBaseOffsets32_32P8<svec<4,int32_t>,int32_t,svec<4,int32_t>,_svec4_i1>((uint8_t*)b,scale,offsets,mask);
   #else
-  return lGatherBaseOffsets<svec<4,int>, int32_t, svec<4,int>,_svec4_i1>((uint8_t*)b,scale,offsets,mask);
+  return lGatherBaseOffsets<svec<4,int32_t>, int32_t, svec<4,int32_t>,_svec4_i1>((uint8_t*)b,scale,offsets,mask);
   #endif
 }
 
 //GATHER_BASE_OFFSETS_L4(_svec4_i32, int32_t, _svec4_i64, _svec4_i1);
-static FORCEINLINE svec<4,int>
+static FORCEINLINE svec<4,int32_t>
 svec_gather_base_offsets(int32_t* b, uint32_t scale, _svec4_i64 offsets, svec<4,bool> mask){
     uint8_t *p = (uint8_t*)b;
-    typedef svec<4,int> RetVec;
+    typedef svec<4,int32_t> RetVec;
   #ifdef __POWER8
-  RetVec r1=lGatherBaseOffsets64_32P8<svec<4,int>,int32_t,_svec4_i64,_svec4_i1>(p,scale,offsets,mask);
+  RetVec r1=lGatherBaseOffsets64_32P8<svec<4,int32_t>,int32_t,_svec4_i64,_svec4_i1>(p,scale,offsets,mask);
   return r1;
   #else
-  return lGatherBaseOffsets<svec<4,int>, int32_t,_svec4_i64,_svec4_i1>(p,scale,offsets,mask);
+  return lGatherBaseOffsets<svec<4,int32_t>, int32_t,_svec4_i64,_svec4_i1>(p,scale,offsets,mask);
   #endif
 }
 
 //GATHER_BASE_OFFSETS_L4(_svec4_u32, uint32_t, _svec4_i32, _svec4_i1);
 static FORCEINLINE _svec4_u32
-svec_gather_base_offsets(uint32_t *b, uint32_t scale, svec<4,int> offsets, svec<4,bool> mask){
+svec_gather_base_offsets(uint32_t *b, uint32_t scale, svec<4,int32_t> offsets, svec<4,bool> mask){
   #ifdef __POWER8
-  return lGatherBaseOffsets32_32P8<_svec4_u32,uint32_t,svec<4,int>,_svec4_i1>((uint8_t*)b,scale,offsets,mask);
+  return lGatherBaseOffsets32_32P8<_svec4_u32,uint32_t,svec<4,int32_t>,_svec4_i1>((uint8_t*)b,scale,offsets,mask);
   #else
-  return lGatherBaseOffsets<_svec4_u32, uint32_t, svec<4,int>,_svec4_i1>((uint8_t*)b,scale,offsets,mask);
+  return lGatherBaseOffsets<_svec4_u32, uint32_t, svec<4,int32_t>,_svec4_i1>((uint8_t*)b,scale,offsets,mask);
   #endif
 }
 
@@ -1780,16 +1780,16 @@ svec_gather_base_offsets(uint32_t* b, uint32_t scale, _svec4_i64 offsets, svec<4
   #endif
 }
 
-//GATHER_BASE_OFFSETS_L4(_svec4_i64, int64_t, svec<4,int>, _svec4_i1);
+//GATHER_BASE_OFFSETS_L4(_svec4_i64, int64_t, svec<4,int32_t>, _svec4_i1);
 static FORCEINLINE _svec4_i64
-svec_gather_base_offsets(int64_t *b, uint32_t scale, svec<4,int> offsets,svec<4,bool> mask){
+svec_gather_base_offsets(int64_t *b, uint32_t scale, svec<4,int32_t> offsets,svec<4,bool> mask){
   uint8_t *p = (uint8_t *)b;
   typedef _svec4_i64 RetVec;
   #ifdef __POWER8
-    _svec4_i64 r2 = lGatherBaseOffsets32_64P8<RetVec,int64_t,svec<4,int>,_svec4_i1>(p,scale,offsets,mask);
+    _svec4_i64 r2 = lGatherBaseOffsets32_64P8<RetVec,int64_t,svec<4,int32_t>,_svec4_i1>(p,scale,offsets,mask);
     return r2;
   #else
-    return lGatherBaseOffsets<RetVec,int64_t, svec<4,int>,_svec4_i1>((uint8_t*)p,scale,offsets,mask);
+    return lGatherBaseOffsets<RetVec,int64_t, svec<4,int32_t>,_svec4_i1>((uint8_t*)p,scale,offsets,mask);
   #endif
 }
 
@@ -1797,14 +1797,14 @@ GATHER_BASE_OFFSETS_L4(int64_t, int64_t);
 
 //GATHER_BASE_OFFSETS_L4(_svec4_u64, uint64_t, _svec4_i32, _svec4_i1);
 static FORCEINLINE _svec4_u64
-svec_gather_base_offsets(uint64_t *b, uint32_t scale, svec<4,int> offsets,svec<4,bool> mask){
+svec_gather_base_offsets(uint64_t *b, uint32_t scale, svec<4,int32_t> offsets,svec<4,bool> mask){
   uint8_t *p = (uint8_t *)b;
   typedef _svec4_u64 RetVec;
   #ifdef __POWER8
-    _svec4_u64 r2 = lGatherBaseOffsets32_64P8<RetVec,uint64_t,svec<4,int>,_svec4_i1>(p,scale,offsets,mask);
+    _svec4_u64 r2 = lGatherBaseOffsets32_64P8<RetVec,uint64_t,svec<4,int32_t>,_svec4_i1>(p,scale,offsets,mask);
     return r2;
   #else
-    return lGatherBaseOffsets<_svec4_u64,uint64_t, svec<4,int>,_svec4_i1>((uint8_t*)p,scale,offsets,mask);
+    return lGatherBaseOffsets<_svec4_u64,uint64_t, svec<4,int32_t>,_svec4_i1>((uint8_t*)p,scale,offsets,mask);
   #endif
 }
 
@@ -1812,12 +1812,12 @@ GATHER_BASE_OFFSETS_L4(uint64_t, int64_t);
 
 //GATHER_BASE_OFFSETS_L4(_svec4_f, float, _svec4_i32, _svec4_i1);
 static FORCEINLINE _svec4_f
-svec_gather_base_offsets(float *b, uint32_t scale, svec<4,int> offsets, svec<4,bool> mask){
+svec_gather_base_offsets(float *b, uint32_t scale, svec<4,int32_t> offsets, svec<4,bool> mask){
     uint8_t *p = (uint8_t*)b;
   #ifdef __POWER8
-  return  lGatherBaseOffsets32_32P8<_svec4_f,float,svec<4,int>,_svec4_i1>(p,scale,offsets,mask);
+  return  lGatherBaseOffsets32_32P8<_svec4_f,float,svec<4,int32_t>,_svec4_i1>(p,scale,offsets,mask);
   #else
-  return  lGatherBaseOffsets<_svec4_f,float, svec<4,int>,_svec4_i1>((uint8_t*)p,scale,offsets,mask);
+  return  lGatherBaseOffsets<_svec4_f,float, svec<4,int32_t>,_svec4_i1>((uint8_t*)p,scale,offsets,mask);
   #endif
 }
 
@@ -1837,14 +1837,14 @@ svec_gather_base_offsets(float* b, uint32_t scale, _svec4_i64 offsets, svec<4,bo
 
 //GATHER_BASE_OFFSETS_L4(_svec4_d, double, _svec4_i32, _svec4_i1);
 static FORCEINLINE _svec4_d
-svec_gather_base_offsets(double* b, uint32_t scale, svec<4,int> offsets, svec<4,bool> mask){
+svec_gather_base_offsets(double* b, uint32_t scale, svec<4,int32_t> offsets, svec<4,bool> mask){
   typedef _svec4_d RetVec;
   uint8_t* p = (uint8_t*)b;
   #ifdef __POWER8
-    _svec4_d r2 = lGatherBaseOffsets32_64P8<RetVec,double,svec<4,int>,_svec4_i1>(p,scale,offsets,mask);
+    _svec4_d r2 = lGatherBaseOffsets32_64P8<RetVec,double,svec<4,int32_t>,_svec4_i1>(p,scale,offsets,mask);
     return r2;
   #else
-    return lGatherBaseOffsets<_svec4_d,double,svec<4,int>,_svec4_i1>(p,scale,offsets,mask);
+    return lGatherBaseOffsets<_svec4_d,double,svec<4,int32_t>,_svec4_i1>(p,scale,offsets,mask);
   #endif
 }
 
@@ -1956,11 +1956,11 @@ SCATTER_GENERAL_L4(_svec4_u16, uint16_t, _svec4_u64, _svec4_i1);
 SCATTER_GENERAL_L4(_svec4_i32, int32_t, _svec4_u32, _svec4_i1);
 
 //SCATTER_GENERAL_L4(_svec4_i32, int32_t, _svec4_u64, _svec4_i1);
-static FORCEINLINE void svec_scatter(_svec4_u64 ptrs, svec<4,int> val, svec<4,bool> mask) {
+static FORCEINLINE void svec_scatter(_svec4_u64 ptrs, svec<4,int32_t> val, svec<4,bool> mask) {
  #ifdef __POWER8
-  lScatter64_32<int32_t, _svec4_u64, svec<4,int> >(ptrs,val,mask);
+  lScatter64_32<int32_t, _svec4_u64, svec<4,int32_t> >(ptrs,val,mask);
  #else
-  lScatterGeneral<int32_t, _svec4_u64, svec<4,int>, _svec4_i1>(ptrs,val,mask);
+  lScatterGeneral<int32_t, _svec4_u64, svec<4,int32_t>, _svec4_i1>(ptrs,val,mask);
  #endif
 }
 
@@ -2118,13 +2118,13 @@ SCATTER_BASE_OFFSETS_L4(_svec4_u16, uint16_t, _svec4_i64, _svec4_i1);
 
 //SCATTER_BASE_OFFSETS_L4(_svec4_i32, int32_t, _svec4_i32, _svec4_i1);
 static FORCEINLINE void
-svec_scatter_base_offsets(int32_t* p, uint32_t scale, svec<4,int> offsets,
-                          svec<4,int> val, svec<4,bool> mask){
+svec_scatter_base_offsets(int32_t* p, uint32_t scale, svec<4,int32_t> offsets,
+                          svec<4,int32_t> val, svec<4,bool> mask){
     uint8_t* b = (uint8_t*) p;
  #ifdef __POWER8
-    lScatterBaseOffsets32_32<int32_t, svec<4,int>, svec<4,int> >(b,scale,offsets,val,mask);
+    lScatterBaseOffsets32_32<int32_t, svec<4,int32_t>, svec<4,int32_t> >(b,scale,offsets,val,mask);
  #else
-    lScatterBaseOffsets<int32_t, svec<4,int>, svec<4,int> >(b,scale,offsets,val,mask);
+    lScatterBaseOffsets<int32_t, svec<4,int32_t>, svec<4,int32_t> >(b,scale,offsets,val,mask);
  #endif
 }
 
@@ -2132,24 +2132,24 @@ svec_scatter_base_offsets(int32_t* p, uint32_t scale, svec<4,int> offsets,
 //SCATTER_BASE_OFFSETS_L4(_svec4_i32, int32_t, _svec4_i64, _svec4_i1);
 static FORCEINLINE void
 svec_scatter_base_offsets(int32_t* p, uint32_t scale, _svec4_i64 offsets,
-                          svec<4,int> val, svec<4,bool> mask){
+                          svec<4,int32_t> val, svec<4,bool> mask){
     uint8_t* b = (uint8_t*) p;
   #ifdef __POWER8
-   lScatterBaseOffsets64_32<int32_t, _svec4_i64, svec<4,int> >(b,scale,offsets,val,mask);
+   lScatterBaseOffsets64_32<int32_t, _svec4_i64, svec<4,int32_t> >(b,scale,offsets,val,mask);
   #else
-   lScatterBaseOffsets<int32_t,_svec4_i64, svec<4,int> >(b,scale,offsets,val,mask);
+   lScatterBaseOffsets<int32_t,_svec4_i64, svec<4,int32_t> >(b,scale,offsets,val,mask);
   #endif
 }
 
 //SCATTER_BASE_OFFSETS_L4(_svec4_u32, uint32_t, _svec4_i32, _svec4_i1);
 static FORCEINLINE void
-svec_scatter_base_offsets(uint32_t* p, uint32_t scale, svec<4,int> offsets,
+svec_scatter_base_offsets(uint32_t* p, uint32_t scale, svec<4,int32_t> offsets,
                           _svec4_u32 val, svec<4,bool> mask){
     uint8_t* b = (uint8_t*) p;
  #ifdef __POWER8
-    lScatterBaseOffsets32_32<uint32_t, svec<4,int>, _svec4_u32>(b,scale,offsets,val,mask);
+    lScatterBaseOffsets32_32<uint32_t, svec<4,int32_t>, _svec4_u32>(b,scale,offsets,val,mask);
  #else
-    lScatterBaseOffsets<uint32_t, svec<4,int>, _svec4_u32>(b,scale,offsets,val,mask);
+    lScatterBaseOffsets<uint32_t, svec<4,int32_t>, _svec4_u32>(b,scale,offsets,val,mask);
  #endif
 }
 
@@ -2172,13 +2172,13 @@ SCATTER_BASE_OFFSETS_L4(_svec4_u64, uint64_t, _svec4_i64, _svec4_i1);
 
 //SCATTER_BASE_OFFSETS_L4(_svec4_f, float, _svec4_i32, _svec4_i1);
 static FORCEINLINE void
-svec_scatter_base_offsets(float* p, uint32_t scale, svec<4,int> offsets,
+svec_scatter_base_offsets(float* p, uint32_t scale, svec<4,int32_t> offsets,
                                   _svec4_f val,svec<4,bool> mask){
     uint8_t* b = (uint8_t*)p;
  #ifdef __POWER8
-    lScatterBaseOffsets32_32<float, svec<4,int>, _svec4_f>(b,scale,offsets,val,mask);
+    lScatterBaseOffsets32_32<float, svec<4,int32_t>, _svec4_f>(b,scale,offsets,val,mask);
  #else
-    lScatterBaseOffsets<float, svec<4,int>, _svec4_f>(b,scale,offsets,val,mask);
+    lScatterBaseOffsets<float, svec<4,int32_t>, _svec4_f>(b,scale,offsets,val,mask);
  #endif
 }
 
@@ -2456,15 +2456,15 @@ static FORCEINLINE _svec4_u8 svec_add(_svec4_u8 a, _svec4_u8 b) {
   return vec_add(a.v,b.v);
 }
 
-static FORCEINLINE svec<4,short> svec_add (svec<4,short> a, svec<4,short> b) {
+static FORCEINLINE svec<4,int16_t> svec_add (svec<4,int16_t> a, svec<4,int16_t> b) {
   return vec_add(a.v,b.v);
 }
 
-static FORCEINLINE svec<4,unsigned short> svec_add(svec<4,unsigned short> a, svec<4,unsigned short> b) {
+static FORCEINLINE svec<4,uint16_t> svec_add(svec<4,uint16_t> a, svec<4,uint16_t> b) {
   return vec_add(a.v,b.v);
 }
 
-static FORCEINLINE svec<4,int> svec_add (svec<4,int> a, svec<4,int> b) {
+static FORCEINLINE svec<4,int32_t> svec_add (svec<4,int32_t> a, svec<4,int32_t> b) {
   return vec_add(a.v,b.v);
 }
 
@@ -2505,15 +2505,15 @@ static FORCEINLINE _svec4_u8 svec_sub(_svec4_u8 a, _svec4_u8 b) {
   return vec_sub(a.v,b.v);
 }
 
-static FORCEINLINE svec<4,short> svec_sub (svec<4,short> a, svec<4,short> b) {
+static FORCEINLINE svec<4,int16_t> svec_sub (svec<4,int16_t> a, svec<4,int16_t> b) {
   return vec_sub(a.v,b.v);
 }
 
-static FORCEINLINE svec<4,unsigned short> svec_sub(svec<4,unsigned short> a, svec<4,unsigned short> b) {
+static FORCEINLINE svec<4,uint16_t> svec_sub(svec<4,uint16_t> a, svec<4,uint16_t> b) {
   return vec_sub(a.v,b.v);
 }
 
-static FORCEINLINE svec<4,int> svec_sub (svec<4,int> a, svec<4,int> b) {
+static FORCEINLINE svec<4,int32_t> svec_sub (svec<4,int32_t> a, svec<4,int32_t> b) {
   return vec_sub(a.v,b.v);
 }
 
@@ -2556,15 +2556,15 @@ static FORCEINLINE _svec4_u8 svec_mul(_svec4_u8 a, _svec4_u8 b) {
   return a.v * b.v;
 }
 
-static FORCEINLINE svec<4,short> svec_mul (svec<4,short> a, svec<4,short> b) {
+static FORCEINLINE svec<4,int16_t> svec_mul (svec<4,int16_t> a, svec<4,int16_t> b) {
   return a.v * b.v;
 }
 
-static FORCEINLINE svec<4,unsigned short> svec_mul(svec<4,unsigned short> a, svec<4,unsigned short> b) {
+static FORCEINLINE svec<4,uint16_t> svec_mul(svec<4,uint16_t> a, svec<4,uint16_t> b) {
   return a.v * b.v;
 }
 
-static FORCEINLINE svec<4,int> svec_mul (svec<4,int> a, svec<4,int> b) {
+static FORCEINLINE svec<4,int32_t> svec_mul (svec<4,int32_t> a, svec<4,int32_t> b) {
 #ifdef __POWER8
   return ((__vector signed int)vec_mul_p8((vector unsigned int)a.v,(vector unsigned int)b.v));
 #else
@@ -2973,7 +2973,7 @@ CMP_OP_L4(_svec4_u8, _svec4_i1, greater_equal, >=);
 CMP_ALL_MASKED_OP(_svec4_u8, _svec4_i1);
 
 /**
- * @brief svec<4,short>/svec<4,unsigned short> have no fast impl of cmp ops
+ * @brief svec<4,int16_t>/svec<4,uint16_t> have no fast impl of cmp ops
  */
 CMP_ALL_NOMASK_OP_L4(_svec4_i16, _svec4_i1);
 CMP_ALL_MASKED_OP(_svec4_i16, _svec4_i1);
@@ -2982,30 +2982,30 @@ CMP_ALL_NOMASK_OP_L4(_svec4_u16, _svec4_i1);
 CMP_ALL_MASKED_OP(_svec4_u16, _svec4_i1);
 
 /**
- * @brief svec<4,int>/_svec4_u32 have fast impl of cmp ops
+ * @brief svec<4,int32_t>/_svec4_u32 have fast impl of cmp ops
  */
 
-static FORCEINLINE svec<4,bool> svec_equal(svec<4,int> a, svec<4,int> b) {
+static FORCEINLINE svec<4,bool> svec_equal(svec<4,int32_t> a, svec<4,int32_t> b) {
   return (__vector unsigned int)vec_cmpeq(a.v,b.v);
 }
 
-static FORCEINLINE svec<4,bool> svec_not_equal(svec<4,int> a, svec<4,int> b) {
+static FORCEINLINE svec<4,bool> svec_not_equal(svec<4,int32_t> a, svec<4,int32_t> b) {
   return ~(__vector unsigned int)vec_cmpeq(a.v,b.v);
 }
 
-static FORCEINLINE svec<4,bool> svec_less_than(svec<4,int> a, svec<4,int> b) {
+static FORCEINLINE svec<4,bool> svec_less_than(svec<4,int32_t> a, svec<4,int32_t> b) {
   return (__vector unsigned int)vec_cmplt(a.v,b.v);
 }
 
-static FORCEINLINE svec<4,bool> svec_less_equal(svec<4,int> a, svec<4,int> b) {
+static FORCEINLINE svec<4,bool> svec_less_equal(svec<4,int32_t> a, svec<4,int32_t> b) {
   return svec_less_than(a, b) | svec_equal(a, b);
 }
 
-static FORCEINLINE svec<4,bool> svec_greater_than(svec<4,int> a, svec<4,int> b) {
+static FORCEINLINE svec<4,bool> svec_greater_than(svec<4,int32_t> a, svec<4,int32_t> b) {
   return (__vector unsigned int)vec_cmpgt(a.v,b.v);
 }
 
-static FORCEINLINE svec<4,bool> svec_greater_equal(svec<4,int> a, svec<4,int> b) {
+static FORCEINLINE svec<4,bool> svec_greater_equal(svec<4,int32_t> a, svec<4,int32_t> b) {
   return svec_greater_than(a, b) | svec_equal(a, b);
 }
 
@@ -3226,26 +3226,26 @@ CAST_OPT(_svec4_i8, _svec4_u8, uint8_t);
 //CAST_L4(_svec4_i8, _svec4_i16, int16_t); //better way, use vec_unpackh
 template <class T> static T svec_cast(_svec4_i8 val);
 /**
- * @brief cast val from _svec4_i8 type to svec<4,short> type.
+ * @brief cast val from _svec4_i8 type to svec<4,int16_t> type.
  */
-template <> FORCEINLINE svec<4,short> svec_cast<_svec4_i16>(_svec4_i8 val) {
+template <> FORCEINLINE svec<4,int16_t> svec_cast<svec<4,int16_t> >(_svec4_i8 val) {
     return vec_unpackh(val.v);
 }
 //CAST_L4(_svec4_i8, _svec4_u16, uint16_t); //better way, sext + zero mask and
 template <class T> static T svec_cast(_svec4_i8 val);
 /**
- * @brief cast val from _svec4_i8 type to _svec4_u16 type.
+ * @brief cast val from _svec4_i8 type to svec<4,uint16_t> type.
  */
-template <> FORCEINLINE svec<4,unsigned short> svec_cast<_svec4_u16>(_svec4_i8 val) {
+template <> FORCEINLINE svec<4,unsigned short> svec_cast<svec<4,uint16_t> >(_svec4_i8 val) {
     __vector uint16_t v = vec_unpackh(val.v);
     return (v);
 }
 //CAST_L4(_svec4_i8, _svec4_i32, int32_t); //better way, use twice vec_unpack
 template <class T> static T svec_cast(_svec4_i8 val);
 /**
- * @brief cast val from _svec4_i8 type to svec<4,int> type.
+ * @brief cast val from _svec4_i8 type to svec<4,int32_t> type.
  */
-template <> FORCEINLINE svec<4,int> svec_cast<svec<4,int> >(_svec4_i8 val) {
+template <> FORCEINLINE svec<4,int32_t> svec_cast<svec<4,int32_t> >(_svec4_i8 val) {
     return vec_unpackh(vec_unpackh(val.v));
 }
 //CAST_L4(_svec4_i8, _svec4_u32, uint32_t); //better way, use unpack + zero mask
@@ -3269,19 +3269,19 @@ CAST_OPT(_svec4_u8, _svec4_i8, int8_t);
 //CAST_L4(_svec4_u8, _svec4_i16, int16_t); //better way, use unpack + zero mask
 template <class T> static T svec_cast(_svec4_u8 val);
 /**
- * @brief cast val from _svec4_u8 type to svec<4,short> type.
+ * @brief cast val from _svec4_u8 type to svec<4, int16_T> type.
  */
-template <> FORCEINLINE svec<4,short> svec_cast<_svec4_i16>(_svec4_u8 val) {
+template <> FORCEINLINE svec<4,int16_t> svec_cast<svec<4,int16_t> >(_svec4_u8 val) {
     __vector int16_t v = vec_unpackh((__vector int8_t)val.v);
     __vector int16_t mask = {0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0};
     return (v & mask);
 }
-//CAST_L4(_svec4_u8, _svec4_u16, uint16_t); //better way use unpack + zero mask
+//CAST_L4(_svec4_u8, svec<4,uint16_t>, uint16_t); //better way use unpack + zero mask
 template <class T> static T svec_cast(_svec4_u8 val);
 /**
  * @brief cast val from _svec4_u8 type to svec<4,unsigned short> type.
  */
-template <> FORCEINLINE svec<4,unsigned short> svec_cast<_svec4_u16>(_svec4_u8 val) {
+template <> FORCEINLINE svec<4,unsigned short> svec_cast<svec<4,uint16_t> >(_svec4_u8 val) {
     __vector uint16_t v = vec_unpackh((__vector int8_t)val.v);
     __vector uint16_t mask = {0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0};
     return (v & mask);
@@ -3289,9 +3289,9 @@ template <> FORCEINLINE svec<4,unsigned short> svec_cast<_svec4_u16>(_svec4_u8 v
 //CAST_L4(_svec4_u8, _svec4_i32, int32_t);
 template <class T> static T svec_cast(_svec4_u8 val); //better way use unpack + zero mask
 /**
- * @brief cast val from _svec4_u8 type to svec<4,int> type.
+ * @brief cast val from _svec4_u8 type to svec<4,int32_t> type.
  */
-template <> FORCEINLINE svec<4,int> svec_cast<svec<4,int> >(_svec4_u8 val) {
+template <> FORCEINLINE svec<4,int32_t> svec_cast<svec<4,int32_t> >(_svec4_u8 val) {
     __vector int32_t v = vec_unpackh(vec_unpackh((__vector int8_t)val.v));
     __vector int32_t mask = {0xFF, 0xFF, 0xFF, 0xFF};
     return (v & mask);
@@ -3318,19 +3318,19 @@ CAST_L4(_svec4_i16, _svec4_u8, uint8_t); //could use pack
 //CAST_L4(_svec4_i16, _svec4_i16, int16_t);
 CAST_OPT(_svec4_i16, _svec4_u16, uint16_t);
 //CAST_L4(_svec4_i16, _svec4_i32, int32_t); //use unpack
-template <class T> static T svec_cast(svec<4,short> val);
+template <class T> static T svec_cast(svec<4,int16_t> val);
 /**
- * @brief cast val from svec<4,short> type to svec<4,int> type.
+ * @brief cast val from svec<4,int16_t> type to svec<4,int32_t> type.
  */
-template <> FORCEINLINE svec<4,int> svec_cast<svec<4,int> >(svec<4,short> val) {
+template <> FORCEINLINE svec<4,int32_t> svec_cast<svec<4,int32_t> >(svec<4,int16_t> val) {
     return vec_unpackh(val.v);
 }
 //CAST_L4(_svec4_i16, _svec4_u32, uint32_t); //use unpack and zeromaskout
-template <class T> static T svec_cast(svec<4,short> val);
+template <class T> static T svec_cast(svec<4,int16_t> val);
 /**
- * @brief cast val from svec<4,short> type to _svec4_u32 type.
+ * @brief cast val from svec<4,int16_t> type to _svec4_u32 type.
  */
-template <> FORCEINLINE _svec4_u32 svec_cast<_svec4_u32>(svec<4,short> val) {
+template <> FORCEINLINE _svec4_u32 svec_cast<_svec4_u32>(svec<4,int16_t> val) {
     __vector uint32_t v = vec_unpackh(val.v);
     return (v);
 }
@@ -3348,9 +3348,9 @@ CAST_OPT(_svec4_u16, _svec4_i16, int16_t);
 //CAST_L4(_svec4_u16, _svec4_i32, int32_t); //use unpack +mask
 template <class T> static T svec_cast(svec<4,unsigned short> val);
 /**
- * @brief cast val from svec<4,unsigned short> type to svec<4,int> type.
+ * @brief cast val from svec<4,unsigned short> type to svec<4,int32_t> type.
  */
-template <> FORCEINLINE svec<4,int> svec_cast<svec<4,int> >(svec<4,unsigned short> val) {
+template <> FORCEINLINE svec<4,int32_t> svec_cast<svec<4,int32_t> >(svec<4,unsigned short> val) {
     __vector int32_t v = vec_unpackh((__vector int16_t)val.v);
     __vector int32_t mask = {0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF};
     return (v & mask);
@@ -3379,11 +3379,11 @@ CAST_L4(_svec4_i32, _svec4_u16, uint16_t);
 //CAST_L4(_svec4_i32, _svec4_i32, int32_t);
 CAST_OPT(_svec4_i32, _svec4_u32, uint32_t);
 //CAST_L4(_svec4_i32, _svec4_i64, int64_t); //use p8 unpack
-template <class T> static T svec_cast(svec<4,int> val);
+template <class T> static T svec_cast(svec<4,int32_t> val);
 /**
- * @brief cast val from svec<4,int> type to _svec4_i64 type.
+ * @brief cast val from svec<4,int32_t> type to _svec4_i64 type.
  */
-template <> FORCEINLINE _svec4_i64 svec_cast<_svec4_i64>(svec<4,int> val) {
+template <> FORCEINLINE _svec4_i64 svec_cast<_svec4_i64>(svec<4,int32_t> val) {
 #ifdef __POWER8
   return _svec4_i64(vec_unpackh_p8((__vector unsigned int)val.v),vec_unpackl_p8((__vector unsigned int)val.v));
 #else
@@ -3392,11 +3392,11 @@ template <> FORCEINLINE _svec4_i64 svec_cast<_svec4_i64>(svec<4,int> val) {
 #endif
 }
 //CAST_L4(_svec4_i32, _svec4_u64, uint64_t); //use p8 unpack
-template <class T> static T svec_cast(svec<4,int> val);
+template <class T> static T svec_cast(svec<4,int32_t> val);
 /**
- * @brief cast val from svec<4,int> type to _svec4_u64 type.
+ * @brief cast val from svec<4,int32_t> type to _svec4_u64 type.
  */
-template <> FORCEINLINE _svec4_u64 svec_cast<_svec4_u64>(svec<4,int> val) {
+template <> FORCEINLINE _svec4_u64 svec_cast<_svec4_u64>(svec<4,int32_t> val) {
 #ifdef __POWER8
   return _svec4_u64(vec_unpackh_p8((__vector unsigned int)val.v),vec_unpackl_p8((__vector unsigned int)val.v));
 #else
@@ -3405,11 +3405,11 @@ template <> FORCEINLINE _svec4_u64 svec_cast<_svec4_u64>(svec<4,int> val) {
 #endif
 }
 //CAST_L4(_svec4_i32, _svec4_f, float); //use ctf
-template <class T> static T svec_cast(svec<4,int> val);
+template <class T> static T svec_cast(svec<4,int32_t> val);
 /**
- * @brief cast val from svec<4,int> type to _svec4_f type.
+ * @brief cast val from svec<4,int32_t> type to _svec4_f type.
  */
-template <> FORCEINLINE _svec4_f svec_cast<_svec4_f> (svec<4,int> val) {
+template <> FORCEINLINE _svec4_f svec_cast<_svec4_f> (svec<4,int32_t> val) {
   return vec_ctf(val.v,0);
 }
 CAST_L4(_svec4_i32, _svec4_d, double);
@@ -3460,14 +3460,14 @@ CAST_L4(_svec4_i64, _svec4_u16, uint16_t);
 //CAST_L4(_svec4_i64, _svec4_i32, int32_t); //use p8 trunk
 template <class T> static T svec_cast(_svec4_i64 val);
 /**
- * @brief cast val from _svec4_i64 type to svec<4,int> type.
+ * @brief cast val from _svec4_i64 type to svec<4,int32_t> type.
  */
-template <> FORCEINLINE svec<4,int> svec_cast<svec<4,int> >(_svec4_i64 val) {
+template <> FORCEINLINE svec<4,int32_t> svec_cast<svec<4,int32_t> >(_svec4_i64 val) {
 #ifdef __POWER8
   return (__vector signed int)vec_pack_p8(val.v[0],val.v[1]);
 #else
   INC_STATS_NAME(STATS_OTHER_SLOW, 1, "cast i64 to i32");
-  return  svec<4,int>((int32_t)val[0], (int32_t)val[1], (int32_t)val[2], (int32_t)val[3]);
+  return  svec<4,int32_t>((int32_t)val[0], (int32_t)val[1], (int32_t)val[2], (int32_t)val[3]);
 #endif
 }
 //CAST_L4(_svec4_i64, _svec4_u32, uint32_t); //use p8 trunk
@@ -3497,14 +3497,14 @@ CAST_L4(_svec4_u64, _svec4_u16, uint16_t);
 //CAST_L4(_svec4_u64, _svec4_i32, int32_t); //use p8 pack
 template <class T> static T svec_cast(_svec4_u64 val);
 /**
- * @brief cast val from _svec4_u64 type to svec<4,int> type.
+ * @brief cast val from _svec4_u64 type to svec<4,int32_t> type.
  */
-template <> FORCEINLINE svec<4,int> svec_cast<svec<4,int> >(_svec4_u64 val) {
+template <> FORCEINLINE svec<4,int32_t> svec_cast<svec<4,int32_t> >(_svec4_u64 val) {
 #ifdef __POWER8
   return (__vector signed int)vec_pack_p8(val.v[0],val.v[1]);
 #else
   INC_STATS_NAME(STATS_OTHER_SLOW, 1, "cast u64 to i32");
-  return  svec<4,int>((int32_t)val[0], (int32_t)val[1], (int32_t)val[2], (int32_t)val[3]);
+  return  svec<4,int32_t>((int32_t)val[0], (int32_t)val[1], (int32_t)val[2], (int32_t)val[3]);
 #endif
 }
 //CAST_L4(_svec4_u64, _svec4_u32, uint32_t); //use p8 pack
@@ -3549,27 +3549,27 @@ template <> FORCEINLINE _svec4_u8 svec_cast<_svec4_u8>(_svec4_f val) {
 //CAST_L4(_svec4_f, _svec4_i16, int16_t); //use cts + pack
 template <class T> static T svec_cast(_svec4_f val);
 /**
- * @brief cast val from _svec4_f type to svec<4,short> type.
+ * @brief cast val from _svec4_f type to svec<4,int16_t> type.
  */
-template <> FORCEINLINE svec<4,short> svec_cast<_svec4_i16>(_svec4_f val) {
+template <> FORCEINLINE svec<4,int16_t> svec_cast<svec<4,int16_t> >(_svec4_f val) {
     __vector signed int tsi=vec_splat_s32(0);//{0,0,0,0};
     return vec_pack(vec_cts(val.v, 0), tsi);
 }
 //CAST_L4(_svec4_f, _svec4_u16, uint16_t); //use ctu + pack
 template <class T> static T svec_cast(_svec4_f val);
 /**
- * @brief cast val from _svec4_f type to svec<4,unsigned short> type.
+ * @brief cast val from _svec4_f type to svec<4,uint16_t> type.
  */
-template <> FORCEINLINE svec<4,unsigned short> svec_cast<svec<4,unsigned short> >(_svec4_f val) {
+template <> FORCEINLINE svec<4,uint16_t> svec_cast<svec<4,uint16_t> >(_svec4_f val) {
     __vector unsigned int tsi=vec_splat_s32(0);//{0,0,0,0};
     return vec_pack(vec_ctu(val.v, 0), tsi);
 }
-//CAST_L4(_svec4_f, svec<4,int>, int32_t);//use cts
+//CAST_L4(_svec4_f, svec<4,int32_t>, int32_t);//use cts
 template <class T> static T svec_cast(_svec4_f val);
 /**
- * @brief cast val from _svec4_f type to svec<4,int> type.
+ * @brief cast val from _svec4_f type to svec<4,int32_t> type.
  */
-template <> FORCEINLINE svec<4,int> svec_cast<svec<4,int> >(_svec4_f val) {
+template <> FORCEINLINE svec<4,int32_t> svec_cast<svec<4,int32_t> >(_svec4_f val) {
     return vec_cts(val.v, 0);
 }
 //CAST_L4(_svec4_f, _svec4_u32, uint32_t); //use ctu
