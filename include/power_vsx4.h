@@ -1540,7 +1540,7 @@ GATHER_GENERAL_L4(_svec4_i32, int32_t, _svec4_u32, _svec4_i1);
 template<>
 FORCEINLINE svec<4,int32_t> svec_gather<svec<4,int32_t> >(svec<4,uint64_t> ptrs, svec<4,bool> mask) {
   typedef svec<4,int32_t> RetVec;
-  return lGatherGeneral<RetVec,int32_t,svec<4,uint64_t>,_svec4_i1>(ptrs,mask);
+  return lGatherGeneral<RetVec,int32_t,svec<4,uint64_t>,svec<4,bool> >(ptrs,mask);
 }
 
 GATHER_GENERAL_L4(_svec4_u32, uint32_t, _svec4_u32, _svec4_i1);
@@ -1549,7 +1549,7 @@ GATHER_GENERAL_L4(_svec4_u32, uint32_t, _svec4_u32, _svec4_i1);
 template<>
 FORCEINLINE _svec4_u32 svec_gather<svec<4,uint32_t> >(svec<4,uint64_t> ptrs, svec<4,bool> mask) {
   typedef svec<4,uint32_t> RetVec;
-  return lGatherGeneral<RetVec,uint32_t,svec<4,uint64_t>,_svec4_i1>(ptrs,mask);
+  return lGatherGeneral<RetVec,uint32_t,svec<4,uint64_t>,svec<4,bool> >(ptrs,mask);
 }
 
 
@@ -1561,7 +1561,7 @@ GATHER_GENERAL_L4(_svec4_i64, int64_t, _svec4_u32, _svec4_i1);
 template<>
 FORCEINLINE svec<4,int64_t> svec_gather<svec<4,int64_t> >(svec<4,uint64_t> ptrs, svec<4,bool> mask) {
   typedef svec<4,int64_t> RetVec;
-  return lGatherGeneral<RetVec,int64_t, svec<4,uint64_t>,_svec4_i1>(ptrs,mask);
+  return lGatherGeneral<RetVec,int64_t, svec<4,uint64_t>,svec<4,bool> >(ptrs,mask);
 }
 
 GATHER_GENERAL_L4(_svec4_u64, uint64_t, _svec4_u32, _svec4_i1);
@@ -1570,7 +1570,7 @@ GATHER_GENERAL_L4(_svec4_u64, uint64_t, _svec4_u32, _svec4_i1);
 template<>
 FORCEINLINE svec<4,uint64_t> svec_gather<svec<4,uint64_t> >(svec<4,uint64_t> ptrs, svec<4,bool> mask) {
   typedef svec<4,uint64_t> RetVec;
-  return lGatherGeneral<RetVec,uint64_t, svec<4,uint64_t>,_svec4_i1>(ptrs,mask);
+  return lGatherGeneral<RetVec,uint64_t, svec<4,uint64_t>,svec<4,bool> >(ptrs,mask);
 }
 
 
@@ -1580,7 +1580,7 @@ GATHER_GENERAL_L4(_svec4_f, float, _svec4_u32, _svec4_i1);
 template<>
 FORCEINLINE svec<4,float> svec_gather<svec<4,float> >(svec<4,uint64_t> ptrs, svec<4,bool> mask) {
   typedef svec<4,float> RetVec;
-  return lGatherGeneral<RetVec,float,svec<4,uint64_t>,_svec4_i1>(ptrs,mask);
+  return lGatherGeneral<RetVec,float,svec<4,uint64_t>,svec<4,bool> >(ptrs,mask);
 }
 
 GATHER_GENERAL_L4(_svec4_d, double, _svec4_u32, _svec4_i1);
@@ -1738,9 +1738,9 @@ GATHER_BASE_OFFSETS_L4(uint16_t, int64_t);
 static FORCEINLINE svec<4,int32_t>
 svec_gather_base_offsets(int32_t *b, uint32_t scale, svec<4,int32_t> offsets, svec<4,bool> mask){
   #ifdef __POWER8
-  return lGatherBaseOffsets32_32P8<svec<4,int32_t>,int32_t,svec<4,int32_t>,_svec4_i1>((uint8_t*)b,scale,offsets,mask);
+  return lGatherBaseOffsets32_32P8<svec<4,int32_t>,int32_t,svec<4,int32_t>,svec<4,bool> >((uint8_t*)b,scale,offsets,mask);
   #else
-  return lGatherBaseOffsets<svec<4,int32_t>, int32_t, svec<4,int32_t>,_svec4_i1>((uint8_t*)b,scale,offsets,mask);
+  return lGatherBaseOffsets<svec<4,int32_t>, int32_t, svec<4,int32_t>,svec<4,bool> >((uint8_t*)b,scale,offsets,mask);
   #endif
 }
 
@@ -1750,10 +1750,10 @@ svec_gather_base_offsets(int32_t* b, uint32_t scale, svec<4,int64_t> offsets, sv
     uint8_t *p = (uint8_t*)b;
     typedef svec<4,int32_t> RetVec;
   #ifdef __POWER8
-  RetVec r1=lGatherBaseOffsets64_32P8<svec<4,int32_t>,int32_t,svec<4,int64_t>,_svec4_i1>(p,scale,offsets,mask);
+  RetVec r1=lGatherBaseOffsets64_32P8<svec<4,int32_t>,int32_t,svec<4,int64_t>,svec<4,bool> >(p,scale,offsets,mask);
   return r1;
   #else
-  return lGatherBaseOffsets<svec<4,int32_t>, int32_t,svec<4,int64_t>,_svec4_i1>(p,scale,offsets,mask);
+  return lGatherBaseOffsets<svec<4,int32_t>, int32_t,svec<4,int64_t>,svec<4,bool> >(p,scale,offsets,mask);
   #endif
 }
 
@@ -1761,9 +1761,9 @@ svec_gather_base_offsets(int32_t* b, uint32_t scale, svec<4,int64_t> offsets, sv
 static FORCEINLINE _svec4_u32
 svec_gather_base_offsets(uint32_t *b, uint32_t scale, svec<4,int32_t> offsets, svec<4,bool> mask){
   #ifdef __POWER8
-  return lGatherBaseOffsets32_32P8<svec<4,uint32_t>,uint32_t,svec<4,int32_t>,_svec4_i1>((uint8_t*)b,scale,offsets,mask);
+  return lGatherBaseOffsets32_32P8<svec<4,uint32_t>,uint32_t,svec<4,int32_t>,svec<4,bool> >((uint8_t*)b,scale,offsets,mask);
   #else
-  return lGatherBaseOffsets<svec<4,uint32_t>, uint32_t, svec<4,int32_t>,_svec4_i1>((uint8_t*)b,scale,offsets,mask);
+  return lGatherBaseOffsets<svec<4,uint32_t>, uint32_t, svec<4,int32_t>,svec<4,bool> >((uint8_t*)b,scale,offsets,mask);
   #endif
 }
 
@@ -1773,10 +1773,10 @@ svec_gather_base_offsets(uint32_t* b, uint32_t scale, svec<4,int64_t> offsets, s
     uint8_t *p = (uint8_t*)b;
     typedef svec<4,uint32_t> RetVec;
   #ifdef __POWER8
-  RetVec r1=lGatherBaseOffsets64_32P8<svec<4,uint32_t>,uint32_t,svec<4,int64_t>,_svec4_i1>(p,scale,offsets,mask);
+  RetVec r1=lGatherBaseOffsets64_32P8<svec<4,uint32_t>,uint32_t,svec<4,int64_t>,svec<4,bool> >(p,scale,offsets,mask);
   return r1;
   #else
-  return lGatherBaseOffsets<svec<4,uint32_t>, uint32_t,svec<4,int64_t>,_svec4_i1>(p,scale,offsets,mask);
+  return lGatherBaseOffsets<svec<4,uint32_t>, uint32_t,svec<4,int64_t>,svec<4,bool> >(p,scale,offsets,mask);
   #endif
 }
 
@@ -1786,10 +1786,10 @@ svec_gather_base_offsets(int64_t *b, uint32_t scale, svec<4,int32_t> offsets,sve
   uint8_t *p = (uint8_t *)b;
   typedef svec<4,int64_t> RetVec;
   #ifdef __POWER8
-    svec<4,int64_t> r2 = lGatherBaseOffsets32_64P8<RetVec,int64_t,svec<4,int32_t>,_svec4_i1>(p,scale,offsets,mask);
+    svec<4,int64_t> r2 = lGatherBaseOffsets32_64P8<RetVec,int64_t,svec<4,int32_t>,svec<4,bool> >(p,scale,offsets,mask);
     return r2;
   #else
-    return lGatherBaseOffsets<RetVec,int64_t, svec<4,int32_t>,_svec4_i1>((uint8_t*)p,scale,offsets,mask);
+    return lGatherBaseOffsets<RetVec,int64_t, svec<4,int32_t>,svec<4,bool> >((uint8_t*)p,scale,offsets,mask);
   #endif
 }
 
@@ -1801,10 +1801,10 @@ svec_gather_base_offsets(uint64_t *b, uint32_t scale, svec<4,int32_t> offsets,sv
   uint8_t *p = (uint8_t *)b;
   typedef svec<4,uint64_t> RetVec;
   #ifdef __POWER8
-    svec<4,uint64_t> r2 = lGatherBaseOffsets32_64P8<RetVec,uint64_t,svec<4,int32_t>,_svec4_i1>(p,scale,offsets,mask);
+    svec<4,uint64_t> r2 = lGatherBaseOffsets32_64P8<RetVec,uint64_t,svec<4,int32_t>,svec<4,bool> >(p,scale,offsets,mask);
     return r2;
   #else
-    return lGatherBaseOffsets<svec<4,uint64_t>,uint64_t, svec<4,int32_t>,_svec4_i1>((uint8_t*)p,scale,offsets,mask);
+    return lGatherBaseOffsets<svec<4,uint64_t>,uint64_t, svec<4,int32_t>,svec<4,bool> >((uint8_t*)p,scale,offsets,mask);
   #endif
 }
 
@@ -1815,9 +1815,9 @@ static FORCEINLINE svec<4,float>
 svec_gather_base_offsets(float *b, uint32_t scale, svec<4,int32_t> offsets, svec<4,bool> mask){
     uint8_t *p = (uint8_t*)b;
   #ifdef __POWER8
-  return  lGatherBaseOffsets32_32P8<svec<4,float>,float,svec<4,int32_t>,_svec4_i1>(p,scale,offsets,mask);
+  return  lGatherBaseOffsets32_32P8<svec<4,float>,float,svec<4,int32_t>,svec<4,bool> >(p,scale,offsets,mask);
   #else
-  return  lGatherBaseOffsets<svec<4,float>,float, svec<4,int32_t>,_svec4_i1>((uint8_t*)p,scale,offsets,mask);
+  return  lGatherBaseOffsets<svec<4,float>,float, svec<4,int32_t>,svec<4,bool> >((uint8_t*)p,scale,offsets,mask);
   #endif
 }
 
@@ -1827,10 +1827,10 @@ svec_gather_base_offsets(float* b, uint32_t scale, svec<4,int64_t> offsets, svec
   uint8_t *p = (uint8_t*)b;
   #ifdef __POWER8
   typedef svec<4,float> RetVec;
-  RetVec r1=lGatherBaseOffsets64_32P8<RetVec,float,svec<4,int64_t>,_svec4_i1>(p,scale,offsets,mask);
+  RetVec r1=lGatherBaseOffsets64_32P8<RetVec,float,svec<4,int64_t>,svec<4,bool> >(p,scale,offsets,mask);
   return r1;
   #else
-  return lGatherBaseOffsets<svec<4,float>,float,svec<4,int64_t>,_svec4_i1>(p,scale,offsets,mask);
+  return lGatherBaseOffsets<svec<4,float>,float,svec<4,int64_t>,svec<4,bool> >(p,scale,offsets,mask);
   #endif
 }
 
@@ -1841,10 +1841,10 @@ svec_gather_base_offsets(double* b, uint32_t scale, svec<4,int32_t> offsets, sve
   typedef svec<4,double> RetVec;
   uint8_t* p = (uint8_t*)b;
   #ifdef __POWER8
-    svec<4,double> r2 = lGatherBaseOffsets32_64P8<RetVec,double,svec<4,int32_t>,_svec4_i1>(p,scale,offsets,mask);
+    svec<4,double> r2 = lGatherBaseOffsets32_64P8<RetVec,double,svec<4,int32_t>,svec<4,bool> >(p,scale,offsets,mask);
     return r2;
   #else
-    return lGatherBaseOffsets<svec<4,double>,double,svec<4,int32_t>,_svec4_i1>(p,scale,offsets,mask);
+    return lGatherBaseOffsets<svec<4,double>,double,svec<4,int32_t>,svec<4,bool> >(p,scale,offsets,mask);
   #endif
 }
 
@@ -1854,10 +1854,10 @@ svec_gather_base_offsets(double* b, uint32_t scale, svec<4,int64_t> offsets, sve
     uint8_t *p = (uint8_t*)b;
     typedef svec<4,double> RetVec;
   #ifdef __POWER8
-    RetVec r1=lGatherBaseOffsets64_64P8<RetVec,double,svec<4,int64_t>,_svec4_i1>(p,scale,offsets,mask);
+    RetVec r1=lGatherBaseOffsets64_64P8<RetVec,double,svec<4,int64_t>,svec<4,bool> >(p,scale,offsets,mask);
     return r1;
   #else
-    return lGatherBaseOffsets<svec<4,double>, double, svec<4,int64_t>,_svec4_i1>(p,scale,offsets,mask);
+    return lGatherBaseOffsets<svec<4,double>, double, svec<4,int64_t>,svec<4,bool> >(p,scale,offsets,mask);
   #endif
 }
 
@@ -1960,7 +1960,7 @@ static FORCEINLINE void svec_scatter(svec<4,uint64_t> ptrs, svec<4,int32_t> val,
  #ifdef __POWER8
   lScatter64_32<int32_t, svec<4,uint64_t>, svec<4,int32_t> >(ptrs,val,mask);
  #else
-  lScatterGeneral<int32_t, svec<4,uint64_t>, svec<4,int32_t>, _svec4_i1>(ptrs,val,mask);
+  lScatterGeneral<int32_t, svec<4,uint64_t>, svec<4,int32_t>, svec<4,bool> >(ptrs,val,mask);
  #endif
 }
 
@@ -1971,7 +1971,7 @@ static FORCEINLINE void svec_scatter(svec<4,uint64_t> ptrs, svec<4,uint32_t> val
  #ifdef __POWER8
   lScatter64_32<uint32_t, svec<4,uint64_t>, svec<4,uint32_t> >(ptrs,val,mask);
  #else
-  lScatterGeneral<uint32_t, svec<4,uint64_t>, svec<4,uint32_t>, _svec4_i1>(ptrs,val,mask);
+  lScatterGeneral<uint32_t, svec<4,uint64_t>, svec<4,uint32_t>, svec<4,bool> >(ptrs,val,mask);
  #endif
 }
 
@@ -1986,7 +1986,7 @@ static FORCEINLINE void svec_scatter (svec<4,uint64_t> ptrs,svec<4,float> val,sv
  #ifdef __POWER8
   lScatter64_32<float, svec<4,uint64_t>, svec<4,float> >(ptrs,val,mask);
  #else
-  lScatterGeneral<float, svec<4,uint64_t>, svec<4,float>, _svec4_i1>(ptrs,val,mask);
+  lScatterGeneral<float, svec<4,uint64_t>, svec<4,float>, svec<4,bool> >(ptrs,val,mask);
  #endif
 }
 
