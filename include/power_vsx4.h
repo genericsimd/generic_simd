@@ -386,7 +386,7 @@ template <>
  * @brief data representation and operations on a vector of 4 unsigned short.
  */
 template <>
-struct svec<4,unsigned short> {
+struct svec<4,uint16_t> {
     __vector unsigned short v;
     /**
      * @brief Default constructor
@@ -1161,16 +1161,16 @@ FORCEINLINE svec<4,int16_t> svec_select(svec<4,bool> mask, svec<4,int16_t> a, sv
 }
 
 /**
- * @brief select of svec<4,unsigned short> vectors by a mask vector
+ * @brief select of svec<4,uint16_t> vectors by a mask vector
  * see svec_select(svec<4,bool> mask, svec<4,bool> a, svec<4,bool> b)
  */
-FORCEINLINE svec<4,unsigned short> svec_select(svec<4,bool> mask, svec<4,unsigned short> a, svec<4,unsigned short> b) {
+FORCEINLINE svec<4,uint16_t> svec_select(svec<4,bool> mask, svec<4,uint16_t> a, svec<4,uint16_t> b) {
     INC_STATS_NAME(STATS_OTHER_SLOW, 1, "select u16");
     uint16_t v0 = mask[0] ? a[0] : b[0];
     uint16_t v1 = mask[1] ? a[1] : b[1];
     uint16_t v2 = mask[2] ? a[2] : b[2];
     uint16_t v3 = mask[3] ? a[3] : b[3];
-    return svec<4,unsigned short>(v0, v1, v2, v3);
+    return svec<4,uint16_t>(v0, v1, v2, v3);
 }
 
 /**
@@ -1350,8 +1350,8 @@ FORCEINLINE svec<4,int16_t> svec_load_const<svec<4,int16_t> >(const int16_t* p) 
 
 template <class RetVecType> static RetVecType svec_load_const(const uint16_t* p);
 template<>
-FORCEINLINE svec<4,unsigned short> svec_load_const<svec<4,unsigned short> >(const uint16_t* p) {
-    return svec<4,unsigned short>(p[0], p[0], p[0], p[0]);
+FORCEINLINE svec<4,uint16_t> svec_load_const<svec<4,uint16_t> >(const uint16_t* p) {
+    return svec<4,uint16_t>(p[0], p[0], p[0], p[0]);
 }
 
 template <class RetVecType> static RetVecType svec_load_const(const int32_t* p);
@@ -1422,7 +1422,7 @@ FORCEINLINE svec<4,int16_t> svec_load_and_splat<svec<4,int16_t> >(int16_t* p) {
 
 template <class RetVecType> static RetVecType svec_load_and_splat(uint16_t* p);
 template<>
-FORCEINLINE svec<4,unsigned short> svec_load_and_splat<svec<4,unsigned short> >(uint16_t* p) {
+FORCEINLINE svec<4,uint16_t> svec_load_and_splat<svec<4,uint16_t> >(uint16_t* p) {
     INC_STATS_NAME(STATS_SMEAR_SLOW,1,"load_and_splat u16");
     uint16_t v = *p;
     return svec<4,uint16_t>(v,v,v,v);
@@ -2406,7 +2406,7 @@ UNARY_OP_L4(_svec4_d, svec_log, log);
 UNARY_OP_OPT(_svec4_i8, svec_abs, vec_abs);
 static FORCEINLINE _svec4_u8  svec_abs(svec<4,uint8_t> v) { return v;}
 UNARY_OP_OPT(_svec4_i16, svec_abs, vec_abs);
-static FORCEINLINE svec<4,unsigned short>  svec_abs(svec<4,unsigned short> v) { return v;}
+static FORCEINLINE svec<4,unt16_t>  svec_abs(svec<4,uint16_t> v) { return v;}
 UNARY_OP_OPT(_svec4_i32, svec_abs, vec_abs);
 static FORCEINLINE svec<4,uint32_t>  svec_abs(svec<4,uint32_t> v) { return v;}
 UNARY_OP_L4(_svec4_i64, svec_abs, abs<int64_t>);
@@ -3236,7 +3236,7 @@ template <class T> static T svec_cast(svec<4,int8_t> val);
 /**
  * @brief cast val from svec<4,int8_t> type to svec<4,uint16_t> type.
  */
-template <> FORCEINLINE svec<4,unsigned short> svec_cast<svec<4,uint16_t> >(svec<4,int8_t> val) {
+template <> FORCEINLINE svec<4,uint16_t> svec_cast<svec<4,uint16_t> >(svec<4,int8_t> val) {
     __vector uint16_t v = vec_unpackh(val.v);
     return (v);
 }
@@ -3279,9 +3279,9 @@ template <> FORCEINLINE svec<4,int16_t> svec_cast<svec<4,int16_t> >(svec<4,uint8
 //CAST_L4(svec<4,uint8_t>, svec<4,uint16_t>, uint16_t); //better way use unpack + zero mask
 template <class T> static T svec_cast(svec<4,uint8_t> val);
 /**
- * @brief cast val from svec<4,uint8_t> type to svec<4,unsigned short> type.
+ * @brief cast val from svec<4,uint8_t> type to svec<4,uint16_t> type.
  */
-template <> FORCEINLINE svec<4,unsigned short> svec_cast<svec<4,uint16_t> >(svec<4,uint8_t> val) {
+template <> FORCEINLINE svec<4,uint16_t> svec_cast<svec<4,uint16_t> >(svec<4,uint8_t> val) {
     __vector uint16_t v = vec_unpackh((__vector int8_t)val.v);
     __vector uint16_t mask = {0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0};
     return (v & mask);
