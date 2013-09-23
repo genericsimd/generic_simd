@@ -535,7 +535,7 @@ struct svec<4,int64_t> {
      */
     FORCEINLINE svec() { }
     /**
-     * @brief For internal use only. Construct _svec4_i64 with two _m128i objects
+     * @brief For internal use only. Construct svec<4,int64_t> with two _m128i objects
      * @return a signed long long vector, whose value is from the vv.
      */
     FORCEINLINE svec(__m128i a, __m128i b){
@@ -589,7 +589,7 @@ struct svec<4,uint64_t> {
      */
     FORCEINLINE svec() { }
     /**
-     * @brief For internal use only. Construct _svec4_i64 with two _m128i objects
+     * @brief For internal use only. Construct svec<4,int64_t> with two _m128i objects
      * @return a signed long long vector, whose value is from the vv.
      */
     FORCEINLINE svec(__m128i a, __m128i b){
@@ -979,8 +979,8 @@ static FORCEINLINE void svec_store(svec<4,uint32_t> *p, svec<4,uint32_t> v) {
  * \note p does not have to be aligned
  * @return a new vector loaded from p
  */
-static FORCEINLINE _svec4_i64 svec_load(const _svec4_i64 *p) {
-  return _svec4_i64(_mm_loadu_si128((__m128i *)(&p->v[0])),
+static FORCEINLINE svec<4,int64_t> svec_load(const svec<4,int64_t> *p) {
+  return svec<4,int64_t>(_mm_loadu_si128((__m128i *)(&p->v[0])),
                    _mm_loadu_si128((__m128i *)(&p->v[1])));
 }
 
@@ -990,7 +990,7 @@ static FORCEINLINE _svec4_i64 svec_load(const _svec4_i64 *p) {
  * \note p does not have to be aligned
  * @param[in] v vector to be stored
  */
-static FORCEINLINE void svec_store(_svec4_i64 *p, _svec4_i64 v) {
+static FORCEINLINE void svec_store(svec<4,int64_t> *p, svec<4,int64_t> v) {
   _mm_storeu_si128((__m128i *)(&p->v[0]), v.v[0]);
   _mm_storeu_si128((__m128i *)(&p->v[1]), v.v[1]);
 }
@@ -1001,8 +1001,8 @@ static FORCEINLINE void svec_store(_svec4_i64 *p, _svec4_i64 v) {
  * \note p does not have to be aligned
  * @return a new vector loaded from p
  */
-static FORCEINLINE _svec4_u64 svec_load(const _svec4_u64 *p) {
-  return _svec4_u64(_mm_loadu_si128((__m128i *)(&p->v[0])),
+static FORCEINLINE svec<4,uint64_t> svec_load(const svec<4,uint64_t> *p) {
+  return svec<4,uint64_t>(_mm_loadu_si128((__m128i *)(&p->v[0])),
                    _mm_loadu_si128((__m128i *)(&p->v[1])));
 }
 /**
@@ -1011,7 +1011,7 @@ static FORCEINLINE _svec4_u64 svec_load(const _svec4_u64 *p) {
  * \note p does not have to be aligned
  * @param[in] v vector to be stored
  */
-static FORCEINLINE void svec_store(_svec4_u64 *p, _svec4_u64 v) {
+static FORCEINLINE void svec_store(svec<4,uint64_t> *p, svec<4,uint64_t> v) {
   _mm_storeu_si128((__m128i *)(&p->v[0]), v.v[0]);
   _mm_storeu_si128((__m128i *)(&p->v[1]), v.v[1]);
 }
@@ -1154,31 +1154,31 @@ FORCEINLINE svec<4,uint32_t> svec_select(svec<4,bool> mask, svec<4,uint32_t> a, 
 }
 
 /**
- * @brief select of _svec4_i64 vectors by a mask vector
+ * @brief select of svec<4,int64_t> vectors by a mask vector
  * see svec_select(svec<4,bool> mask, svec<4,bool> a, svec<4,bool> b)
  */
-FORCEINLINE _svec4_i64 svec_select(svec<4,bool> mask, _svec4_i64 a, _svec4_i64 b) {
+FORCEINLINE svec<4,int64_t> svec_select(svec<4,bool> mask, svec<4,int64_t> a, svec<4,int64_t> b) {
   __m128 m0 = _mm_shuffle_ps(mask.v, mask.v, _MM_SHUFFLE(1, 1, 0, 0));
   __m128 m1 = _mm_shuffle_ps(mask.v, mask.v, _MM_SHUFFLE(3, 3, 2, 2));
   __m128d m0d = _mm_castps_pd(m0);
   __m128d m1d = _mm_castps_pd(m1);
   __m128d r0 = _mm_blendv_pd(_mm_castsi128_pd(b.v[0]), _mm_castsi128_pd(a.v[0]), m0d);
   __m128d r1 = _mm_blendv_pd(_mm_castsi128_pd(b.v[1]), _mm_castsi128_pd(a.v[1]), m1d);
-  return _svec4_i64(_mm_castpd_si128(r0), _mm_castpd_si128(r1));
+  return svec<4,int64_t>(_mm_castpd_si128(r0), _mm_castpd_si128(r1));
 }
 
 /**
- * @brief select of _svec4_u64 vectors by a mask vector
+ * @brief select of svec<4,uint64_t> vectors by a mask vector
  * see svec_select(svec<4,bool> mask, svec<4,bool> a, svec<4,bool> b)
  */
-FORCEINLINE _svec4_u64 svec_select(svec<4,bool> mask, _svec4_u64 a, _svec4_u64 b) {
+FORCEINLINE svec<4,uint64_t> svec_select(svec<4,bool> mask, svec<4,uint64_t> a, svec<4,uint64_t> b) {
   __m128 m0 = _mm_shuffle_ps(mask.v, mask.v, _MM_SHUFFLE(1, 1, 0, 0));
   __m128 m1 = _mm_shuffle_ps(mask.v, mask.v, _MM_SHUFFLE(3, 3, 2, 2));
   __m128d m0d = _mm_castps_pd(m0);
   __m128d m1d = _mm_castps_pd(m1);
   __m128d r0 = _mm_blendv_pd(_mm_castsi128_pd(b.v[0]), _mm_castsi128_pd(a.v[0]), m0d);
   __m128d r1 = _mm_blendv_pd(_mm_castsi128_pd(b.v[1]), _mm_castsi128_pd(a.v[1]), m1d);
-  return _svec4_u64(_mm_castpd_si128(r0), _mm_castpd_si128(r1));
+  return svec<4,uint64_t>(_mm_castpd_si128(r0), _mm_castpd_si128(r1));
 }
 
 /**
@@ -1235,13 +1235,13 @@ static FORCEINLINE svec<4,uint32_t> svec_broadcast(svec<4,uint32_t> v, int index
   return _mm_set1_epi32(v[index]);
 }
 
-static FORCEINLINE _svec4_i64 svec_broadcast(_svec4_i64 v, int index) {
+static FORCEINLINE svec<4,int64_t> svec_broadcast(svec<4,int64_t> v, int index) {
   int64_t val = v[index];
-  return _svec4_i64(val);
+  return svec<4,int64_t>(val);
 }
-static FORCEINLINE _svec4_u64 svec_broadcast(_svec4_u64 v, int index) {
+static FORCEINLINE svec<4,uint64_t> svec_broadcast(svec<4,uint64_t> v, int index) {
   uint64_t val = v[index];
-  return _svec4_u64(val);
+  return svec<4,uint64_t>(val);
 }
 
 static FORCEINLINE _svec4_f svec_broadcast(_svec4_f v, int index) {
@@ -1311,7 +1311,7 @@ LOAD_CONST_SSE(_svec4_d, double);
 /**
  * @brief data representation and operations on a vector of 4 pointers.
  * This is only used in gather and scatter.
- * @note In 32bit platform, _svec4_ptr extends svec<4,uint32_t>, while in 64bit platform, _svec4_ptr extends _svec4_u64.
+ * @note In 32bit platform, _svec4_ptr extends svec<4,uint32_t>, while in 64bit platform, _svec4_ptr extends svec<4,uint64_t>.
  * @see gather and scatter
  */
 #if defined(__x86_64__) || defined(__PPC64__)
@@ -1322,7 +1322,7 @@ template <>
      * @return a vector of 4 pointers: {p10, p1, p2, p3}.
      */
     FORCEINLINE svec(void* p0, void* p1, void* p2, void* p3):
-        _svec4_u64((uint64_t)(p0),(uint64_t)(p1),(uint64_t)(p2),(uint64_t)(p3)){}
+        svec<4,uint64_t>((uint64_t)(p0),(uint64_t)(p1),(uint64_t)(p2),(uint64_t)(p3)){}
 };
 #else // 32-bit
 template <>
@@ -1370,14 +1370,14 @@ FORCEINLINE _svec4_f svec_gather<_svec4_f>(svec<4,uint32_t> ptrs, svec<4,bool> m
 }
 GATHER_GENERAL_L4(_svec4_d, double, _svec4_u32, _svec4_i1);
 
-template <class RetVecType> static RetVecType svec_gather(_svec4_u64 ptrs, svec<4,bool> mask);
+template <class RetVecType> static RetVecType svec_gather(svec<4,uint64_t> ptrs, svec<4,bool> mask);
 GATHER_GENERAL_L4(_svec4_i8, int8_t, _svec4_u64, _svec4_i1);
 GATHER_GENERAL_L4(_svec4_i16, int16_t, _svec4_u64, _svec4_i1);
 GATHER_GENERAL_L4(_svec4_u16, uint16_t, _svec4_u64, _svec4_i1);
 GATHER_GENERAL_L4(_svec4_u8, uint8_t, _svec4_u64, _svec4_i1);
 //GATHER_GENERAL_L4(_svec4_i32, int32_t, _svec4_u64, _svec4_i1);
 template<>
-FORCEINLINE svec<4,int32_t> svec_gather<svec<4,int32_t> >(_svec4_u64 ptrs, svec<4,bool> mask) {
+FORCEINLINE svec<4,int32_t> svec_gather<svec<4,int32_t> >(svec<4,uint64_t> ptrs, svec<4,bool> mask) {
   svec<4,int32_t> ret;
   if(svec_extract(mask,0)) { svec_insert(&ret, 0, *((int32_t*)svec_extract(ptrs,0)));}
   if(svec_extract(mask,1)) { svec_insert(&ret, 1, *((int32_t*)svec_extract(ptrs,1)));}
@@ -1388,14 +1388,14 @@ FORCEINLINE svec<4,int32_t> svec_gather<svec<4,int32_t> >(_svec4_u64 ptrs, svec<
 }
 //GATHER_GENERAL_L4(_svec4_u32, uint32_t, _svec4_u64, _svec4_i1);
 template<>
-FORCEINLINE svec<4,uint32_t> svec_gather<svec<4,uint32_t> >(_svec4_u64 ptrs, svec<4,bool> mask) {
+FORCEINLINE svec<4,uint32_t> svec_gather<svec<4,uint32_t> >(svec<4,uint64_t> ptrs, svec<4,bool> mask) {
   return svec<4,uint32_t>(svec_gather<svec<4,int32_t> >(ptrs, mask).v);
 }
 GATHER_GENERAL_L4(_svec4_i64, int64_t, _svec4_u64, _svec4_i1);
 GATHER_GENERAL_L4(_svec4_u64, uint64_t, _svec4_u64, _svec4_i1);
 //GATHER_GENERAL_L4(_svec4_f, float, _svec4_u64, _svec4_i1);
 template<>
-FORCEINLINE _svec4_f svec_gather<_svec4_f>(_svec4_u64 ptrs, svec<4,bool> mask) {
+FORCEINLINE _svec4_f svec_gather<_svec4_f>(svec<4,uint64_t> ptrs, svec<4,bool> mask) {
   return _svec4_f(_mm_castsi128_ps(svec_gather<svec<4,int32_t> >(ptrs, mask).v));
 }
 GATHER_GENERAL_L4(_svec4_d, double, _svec4_u64, _svec4_i1);
@@ -1714,7 +1714,7 @@ static FORCEINLINE svec<4,uint16_t>  svec_abs(svec<4,uint16_t> v) { return v;}
 UNARY_OP_L4(_svec4_i32, svec_abs, abs<int32_t>);
 static FORCEINLINE svec<4,uint32_t>  svec_abs(svec<4,uint32_t> v) { return v;}
 UNARY_OP_L4(_svec4_i64, svec_abs, abs<int64_t>);
-static FORCEINLINE _svec4_u64  svec_abs(_svec4_u64 v) { return v;}
+static FORCEINLINE svec<4,uint64_t>  svec_abs(svec<4,uint64_t> v) { return v;}
 //UNARY_OP(_svec4_f, svec_abs, abs);
 static FORCEINLINE _svec4_f svec_abs(_svec4_f v) {
   unsigned int x = 0x7fffffff;
@@ -1898,15 +1898,15 @@ static FORCEINLINE svec<4,uint32_t>  svec_shl(svec<4,uint32_t> a, int32_t s) {
   return svec<4,uint32_t>(_mm_sll_epi32(a.v, _mm_set_epi32(0, 0, 0, s)));                            \
 }
 //BINARY_OP_SCALAR_L4(_svec4_i64, int32_t, svec_shl, <<);
-static FORCEINLINE _svec4_i64  svec_shl(_svec4_i64 a, int32_t s) {
+static FORCEINLINE svec<4,int64_t>  svec_shl(svec<4,int64_t> a, int32_t s) {
   __m128i amt = _mm_set_epi32(0, 0, 0, s);
-  return _svec4_i64(_mm_sll_epi64(a.v[0], amt),
+  return svec<4,int64_t>(_mm_sll_epi64(a.v[0], amt),
                     _mm_sll_epi64(a.v[1], amt));
 }
 //BINARY_OP_SCALAR_L4(_svec4_u64, int32_t, svec_shl, <<);
-static FORCEINLINE _svec4_u64  svec_shl(_svec4_u64 a, int32_t s) {
+static FORCEINLINE svec<4,uint64_t>  svec_shl(svec<4,uint64_t> a, int32_t s) {
   __m128i amt = _mm_set_epi32(0, 0, 0, s);
-  return _svec4_u64(_mm_sll_epi64(a.v[0], amt),
+  return svec<4,uint64_t>(_mm_sll_epi64(a.v[0], amt),
                     _mm_sll_epi64(a.v[1], amt));
 }
 
@@ -1930,10 +1930,10 @@ static FORCEINLINE svec<4,uint32_t>  svec_shr(svec<4,uint32_t> a, int32_t s) {
   return svec<4,uint32_t>(_mm_srl_epi32(a.v, _mm_set_epi32(0, 0, 0, s)));                            \
 }
 BINARY_OP_SCALAR_L4(_svec4_i64, int32_t, svec_shr, >>);
-//BINARY_OP_SCALAR_L4(_svec4_u64, int32_t, svec_shr, >>);
-static FORCEINLINE _svec4_u64  svec_shr(_svec4_u64 a, int32_t s) {
+//BINARY_OP_SCALAR_L4(svec<4,uint64_t>, int32_t, svec_shr, >>);
+static FORCEINLINE svec<4,uint64_t>  svec_shr(svec<4,uint64_t> a, int32_t s) {
   __m128i amt = _mm_set_epi32(0, 0, 0, s);
-  return _svec4_u64(_mm_srl_epi64(a.v[0], amt),
+  return svec<4,uint64_t>(_mm_srl_epi64(a.v[0], amt),
                     _mm_srl_epi64(a.v[1], amt));
 }
 
@@ -2226,44 +2226,44 @@ CMP_OP_L4(_svec4_u32, _svec4_i1, greater_equal, >=);
 CMP_ALL_MASKED_OP(_svec4_u32, _svec4_i1);
 
 
-static FORCEINLINE svec<4,bool> svec_equal(_svec4_i64 a, _svec4_i64 b) {
+static FORCEINLINE svec<4,bool> svec_equal(svec<4,int64_t> a, svec<4,int64_t> b) {
   __m128i cmp0 = _mm_cmpeq_epi64(a.v[0], b.v[0]);
   __m128i cmp1 = _mm_cmpeq_epi64(a.v[1], b.v[1]);
   return svec<4,bool>(_mm_shuffle_ps(_mm_castsi128_ps(cmp0), _mm_castsi128_ps(cmp1),
                         _MM_SHUFFLE(2, 0, 2, 0)));
 }
-static FORCEINLINE svec<4,bool> svec_not_equal(_svec4_i64 a, _svec4_i64 b) {
+static FORCEINLINE svec<4,bool> svec_not_equal(svec<4,int64_t> a, svec<4,int64_t> b) {
   return ~(a == b);
 }
 
-static FORCEINLINE svec<4,bool> svec_less_than(_svec4_i64 a, _svec4_i64 b) {
+static FORCEINLINE svec<4,bool> svec_less_than(svec<4,int64_t> a, svec<4,int64_t> b) {
   return ~(a >= b);
 }
 
-static FORCEINLINE svec<4,bool> svec_less_equal(_svec4_i64 a, _svec4_i64 b) {
+static FORCEINLINE svec<4,bool> svec_less_equal(svec<4,int64_t> a, svec<4,int64_t> b) {
   return (a < b) | (a == b);
 }
 
-static FORCEINLINE svec<4,bool> svec_greater_than(_svec4_i64 a, _svec4_i64 b) {
+static FORCEINLINE svec<4,bool> svec_greater_than(svec<4,int64_t> a, svec<4,int64_t> b) {
   __m128i cmp0 = _mm_cmpgt_epi64(a.v[0], b.v[0]);
   __m128i cmp1 = _mm_cmpgt_epi64(a.v[1], b.v[1]);
   return svec<4,bool>(_mm_shuffle_ps(_mm_castsi128_ps(cmp0), _mm_castsi128_ps(cmp1),
                         _MM_SHUFFLE(2, 0, 2, 0)));
 }
 
-static FORCEINLINE svec<4,bool> svec_greater_equal(_svec4_i64 a, _svec4_i64 b) {
+static FORCEINLINE svec<4,bool> svec_greater_equal(svec<4,int64_t> a, svec<4,int64_t> b) {
   return (a > b) | (a == b);
 }
 CMP_ALL_MASKED_OP(_svec4_i64, _svec4_i1);
 
-static FORCEINLINE svec<4,bool> svec_equal(_svec4_u64 a, _svec4_u64 b) {
+static FORCEINLINE svec<4,bool> svec_equal(svec<4,uint64_t> a, svec<4,uint64_t> b) {
   __m128i cmp0 = _mm_cmpeq_epi64(a.v[0], b.v[0]);
   __m128i cmp1 = _mm_cmpeq_epi64(a.v[1], b.v[1]);
   return svec<4,bool>(_mm_shuffle_ps(_mm_castsi128_ps(cmp0), _mm_castsi128_ps(cmp1),
                         _MM_SHUFFLE(2, 0, 2, 0)));
 }
 
-static FORCEINLINE svec<4,bool> svec_not_equal(_svec4_u64 a, _svec4_u64 b) {
+static FORCEINLINE svec<4,bool> svec_not_equal(svec<4,uint64_t> a, svec<4,uint64_t> b) {
   return ~(a == b);
 }
 
