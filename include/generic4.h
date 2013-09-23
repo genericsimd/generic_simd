@@ -1354,16 +1354,16 @@ CAST_BITS(_svec4_d, d, _svec4_u64, u64);
 //////////////////////////////////////////////////////////////
 
 //add the impl of i1's
-FORCEINLINE void _svec4_i1::Helper::operator=(uint32_t value) {
+FORCEINLINE void svec<4,bool>::Helper::operator=(uint32_t value) {
   svec_insert(m_self, m_index, value);
 }
-FORCEINLINE void _svec4_i1::Helper::operator=(_svec4_i1::Helper helper) {
+FORCEINLINE void svec<4,bool>::Helper::operator=(svec<4,bool>::Helper helper) {
   svec_insert(m_self, m_index, helper.operator uint32_t());
 }
-FORCEINLINE _svec4_i1::Helper::operator uint32_t() const {
+FORCEINLINE svec<4,bool>::Helper::operator uint32_t() const {
   return svec_extract(*m_self, m_index);
 }
-const FORCEINLINE uint32_t _svec4_i1::operator[](int index) const {
+const FORCEINLINE uint32_t svec<4,bool>::operator[](int index) const {
   return svec_extract(*this, index);
 }
 SUBSCRIPT_FUNC_IMPL(_svec4_i8, int8_t);
@@ -1382,70 +1382,70 @@ SUBSCRIPT_FUNC_IMPL(_svec4_d, double);
  * \note This is a reduction operation that returns a scalar value.
  * @return true if at least one element in the mask vector is true, otherwise false
  */
-FORCEINLINE bool _svec4_i1::any_true() { return svec_any_true(*this); }
+FORCEINLINE bool svec<4,bool>::any_true() { return svec_any_true(*this); }
 
 /**
  * @brief Check if all the elements in the mask vector is true. 
  * \note This is a reduction operation that returns a scalar value.
  * @return true if all the elements in the mask vector are true, otherwise false.
  */
-FORCEINLINE bool _svec4_i1::all_true() { return svec_all_true(*this); }
+FORCEINLINE bool svec<4,bool>::all_true() { return svec_all_true(*this); }
 
 /**
  * @brief Check all the elements in the mask vector is false. 
  * \note This is a reduction operation that returns a scalar value.
  * @return true if all the elements in the mask vector are false, otherwise false.
  */
-FORCEINLINE bool _svec4_i1::none_true() { return svec_none_true(*this); }
+FORCEINLINE bool svec<4,bool>::none_true() { return svec_none_true(*this); }
 
 /**
  * @brief Element-wise bit-wise compliment operator. E.g., "~a"
  * @return the result of bit-wise compliment as a boolean vector. 
  */
-FORCEINLINE _svec4_i1 _svec4_i1::operator~() { return svec_not(*this); }
+FORCEINLINE svec<4,bool> svec<4,bool>::operator~() { return svec_not(*this); }
 
 /**
  * @brief Element-wise bit-wise OR operator. E.g., "a | b"
  * @param[in] a a boolean vector
  * @return the result of bit-wise OR as a boolean vector.
  */
-FORCEINLINE _svec4_i1 _svec4_i1::operator|(_svec4_i1 a) { return svec_or(*this, a); }
+FORCEINLINE svec<4,bool> svec<4,bool>::operator|(svec<4,bool> a) { return svec_or(*this, a); }
 /**
  * @brief Element-wise bit-wise AND operator. E.g., "a & b"
  * @param[in] a a boolean vector
  * @return the result of bit-wise AND as a boolean vector.
  */
-FORCEINLINE _svec4_i1 _svec4_i1::operator&(_svec4_i1 a) { return svec_and(*this, a); }
+FORCEINLINE svec<4,bool> svec<4,bool>::operator&(svec<4,bool> a) { return svec_and(*this, a); }
 /**
  * @brief Element-wise bit-wise XOR operator. E.g., "a ^ b"
  * @param[in] a a boolean vector
  * @return the result of bit-wise XOR as a boolean vector.
  */
-FORCEINLINE _svec4_i1 _svec4_i1::operator^(_svec4_i1 a) { return svec_xor(*this, a); }
+FORCEINLINE svec<4,bool> svec<4,bool>::operator^(svec<4,bool> a) { return svec_xor(*this, a); }
 /**
  * @brief Element-wise bit-wise not operator. E.g., "!a"
  * @return the result of bit-wise compliment as a boolean vector.
  */
-FORCEINLINE _svec4_i1 _svec4_i1::operator!() { return svec_not(*this); }
+FORCEINLINE svec<4,bool> svec<4,bool>::operator!() { return svec_not(*this); }
 
 /**
  * @brief Element-wise boolean AND operator. E.g., "a && b"
  * @param[in] a a boolean vector
  * @return the result of boolean AND as a boolean vector.
  */
-FORCEINLINE _svec4_i1 _svec4_i1::operator&&(_svec4_i1 a) { return svec_and(*this, a); }
+FORCEINLINE svec<4,bool> svec<4,bool>::operator&&(svec<4,bool> a) { return svec_and(*this, a); }
 /**
  * @brief Element-wise boolean OR operator. E.g., "a || b"
  * @param[in] a a boolean vector
  * @return the result of boolean OR as a boolean vector.
  */
-FORCEINLINE _svec4_i1 _svec4_i1::operator||(_svec4_i1 a) { return svec_or(*this, a); }
+FORCEINLINE svec<4,bool> svec<4,bool>::operator||(svec<4,bool> a) { return svec_or(*this, a); }
 /**
  * @brief Element-wise compare equal. E.g., "a == b"
  * @param[in] a a boolean vector
  * @return the result of compare-equal as a boolean vector
  */
-FORCEINLINE _svec4_i1 _svec4_i1::operator ==(_svec4_i1 a) {
+FORCEINLINE svec<4,bool> svec<4,bool>::operator ==(svec<4,bool> a) {
     return svec_equal(*this, a);
 }
 
@@ -1454,7 +1454,7 @@ FORCEINLINE _svec4_i1 _svec4_i1::operator ==(_svec4_i1 a) {
  * @param[in] a a boolean vector
  * @return the result of compare-not-equal as a boolean vector
  */
-FORCEINLINE _svec4_i1 _svec4_i1::operator !=(_svec4_i1 a) {
+FORCEINLINE svec<4,bool> svec<4,bool>::operator !=(svec<4,bool> a) {
     return svec_not_equal(*this, a);
 }
 
