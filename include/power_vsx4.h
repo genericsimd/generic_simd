@@ -2406,7 +2406,7 @@ UNARY_OP_L4(_svec4_d, svec_log, log);
 UNARY_OP_OPT(_svec4_i8, svec_abs, vec_abs);
 static FORCEINLINE _svec4_u8  svec_abs(svec<4,uint8_t> v) { return v;}
 UNARY_OP_OPT(_svec4_i16, svec_abs, vec_abs);
-static FORCEINLINE svec<4,unt16_t>  svec_abs(svec<4,uint16_t> v) { return v;}
+static FORCEINLINE svec<4,uint16_t>  svec_abs(svec<4,uint16_t> v) { return v;}
 UNARY_OP_OPT(_svec4_i32, svec_abs, vec_abs);
 static FORCEINLINE svec<4,uint32_t>  svec_abs(svec<4,uint32_t> v) { return v;}
 UNARY_OP_L4(_svec4_i64, svec_abs, abs<int64_t>);
