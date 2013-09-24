@@ -663,11 +663,11 @@ FORCEINLINE svec<LANES,STYPE> svec_gather_base_offsets(STYPE* b, uint32_t scale,
 /**
  * @brief macros for general impl of gather base step
  */
-#define GATHER_STRIDE(VTYPE, STYPE, OTYPE, MTYPE)         \
-template <class RetVecType> static RetVecType svec_gather_stride(STYPE* b, OTYPE o, OTYPE s); \
+#define GATHER_STRIDE(STYPE, OSTYPE)         \
+template <class RetVecType> static RetVecType svec_gather_stride(STYPE* b, OSTYPE o, OSTYPE s); \
 template<> \
-FORCEINLINE VTYPE svec_gather_stride<VTYPE>(STYPE* b, OTYPE o, OTYPE s) {   \
-  VTYPE ret; \
+FORCEINLINE svec<LANES,STYPE> svec_gather_stride<svec<LANES,STYPE> >(STYPE* b, OSTYPE o, OSTYPE s) {   \
+  svec<LANES,STYPE> ret; \
   b += o; \
   for(int i = 0; i < LANES; ++i, b+=s) { \
     ret[i] = *b; \
@@ -679,51 +679,51 @@ FORCEINLINE VTYPE svec_gather_stride<VTYPE>(STYPE* b, OTYPE o, OTYPE s) {   \
 /**
  * @brief macros for fast impl of gather base step
  */
-#define GATHER_STRIDE_L4(VTYPE, STYPE, OTYPE, MTYPE)         \
-template <class RetVecType> static RetVecType svec_gather_stride(STYPE* b, OTYPE o, OTYPE s); \
+#define GATHER_STRIDE_L4(STYPE, OSTYPE)         \
+template <class RetVecType> static RetVecType svec_gather_stride(STYPE* b, OSTYPE o, OSTYPE s); \
 template<> \
-FORCEINLINE VTYPE svec_gather_stride<VTYPE>(STYPE* b, OTYPE o, OTYPE s) {   \
+FORCEINLINE svec<LANES,STYPE> svec_gather_stride<svec<LANES,STYPE> >(STYPE* b, OSTYPE o, OSTYPE s) {   \
   int64_t off = (int64_t)o; int64_t stride = (int64_t)s;\
-  OTYPE stride2 = stride * 2; \
+  OSTYPE stride2 = stride * 2; \
   STYPE v0 = *(b + off); \
   STYPE v1 = *(b + off + stride); \
   STYPE v2 = *(b + off + stride2); \
   STYPE v3 = *(b + off + stride2 + stride); \
-  return VTYPE(v0, v1, v2, v3); \
+  return svec<LANES,STYPE>(v0, v1, v2, v3); \
 }
 
-//#define GATHER_STRIDE_L4(VTYPE, STYPE, OTYPE, MTYPE)         \
-//FORCEINLINE VTYPE svec_gather_stride(STYPE* b, OTYPE o, OTYPE s) {   \
+//#define GATHER_STRIDE_L4(STYPE, OSTYPE)         \
+//FORCEINLINE svec<LANES,STYPE> svec_gather_stride(STYPE* b, OSTYPE o, OSTYPE s) {   \
 //  int64_t off = (int64_t)o; int64_t stride = (int64_t)s;\
 //  b += off; STYPE v0 = *b; \
 //  b += stride; STYPE v1 = *b; \
 //  b += stride; STYPE v2 = *b; \
 //  b += stride; STYPE v3 = *b;  \
-//  return VTYPE(v0, v1, v2, v3); \
+//  return svec<LANES,STYPE>(v0, v1, v2, v3); \
 //}
 
-#define SCATTER_STRIDE(VTYPE, STYPE, OTYPE, MTYPE)         \
-FORCEINLINE void svec_scatter_stride(STYPE* b, OTYPE o, OTYPE s, VTYPE val) {   \
+#define SCATTER_STRIDE(STYPE, OSTYPE)   \
+FORCEINLINE void svec_scatter_stride(STYPE* b, OSTYPE o, OSTYPE s, svec<LANES,STYPE> val) {   \
   b += o; \
   for(int i = 0; i < LANES; ++i, b+=s) { \
     *b = svec_extract(val, i); \
   }\
-  INC_STATS_NAME(STATS_SCATTER_SLOW,1, "scatter stride general "#VTYPE);          \
+  INC_STATS_NAME(STATS_SCATTER_SLOW,1, "scatter stride general svec<LANES,"#STYPE">");          \
 }
 
 
-#define SCATTER_STRIDE_L4(VTYPE, STYPE, OTYPE, MTYPE)         \
-FORCEINLINE void svec_scatter_stride(STYPE* b, OTYPE o, OTYPE s, VTYPE val) {   \
+#define SCATTER_STRIDE_L4(STYPE, OSTYPE)         \
+FORCEINLINE void svec_scatter_stride(STYPE* b, OSTYPE o, OSTYPE s, svec<LANES,STYPE> val) {   \
   int64_t off = (int64_t)o; int64_t stride = (int64_t)s;\
-  OTYPE stride2 = stride * 2; \
+  OSTYPE stride2 = stride * 2; \
   *(b + off) = svec_extract(val, 0); \
   *(b + off + stride) = svec_extract(val, 1); \
   *(b + off + stride2) = svec_extract(val, 2); \
   *(b + off + stride2 + stride) = svec_extract(val, 3); \
 }
 
-//#define SCATTER_STRIDE_L4(VTYPE, STYPE, OTYPE, MTYPE)         \
-//FORCEINLINE void svec_scatter_stride(STYPE* b, OTYPE o, OTYPE s, VTYPE val) {   \
+//#define SCATTER_STRIDE_L4(STYPE, OSTYPE)         \
+//FORCEINLINE void svec_scatter_stride(STYPE* b, OSTYPE o, OSTYPE s, svec<LANES,STYPE> val) {   \
 //  int64_t off = (int64_t)o; int64_t stride = (int64_t)s;\
 //  b += off; *b = svec_extract(val, 0);\
 //  b += stride; *b = svec_extract(val, 1); \
@@ -733,10 +733,10 @@ FORCEINLINE void svec_scatter_stride(STYPE* b, OTYPE o, OTYPE s, VTYPE val) {   
 
 
 
-#define SCATTER_GENERAL(VTYPE, STYPE, PTRTYPE, MTYPE)            \
-static FORCEINLINE void svec_scatter(PTRTYPE ptrs, VTYPE val, MTYPE mask) { \
+#define SCATTER_GENERAL(STYPE, PSTYPE)            \
+static FORCEINLINE void svec_scatter(svec<LANES,PSTYPE> ptrs, svec<LANES,STYPE> val, svec<LANES,bool> mask) { \
     for(int i = 0; i < LANES; ++i) { if(mask[i]){ *((STYPE*)ptrs[i]) = val[i];} } \
-    INC_STATS_NAME(STATS_SCATTER_SLOW,1, "scatter general "#VTYPE);          \
+    INC_STATS_NAME(STATS_SCATTER_SLOW,1, "scatter general svec<LANES,"#STYPE">");          \
 }
 
 
@@ -753,19 +753,19 @@ static FORCEINLINE void lScatterGeneral(PTRTYPE ptrs,
   INC_STATS_NAME(STATS_SCATTER_SLOW,1, "scatter general");
 }
 
-#define SCATTER_GENERAL_L4(VTYPE, STYPE, PTRTYPE, MTYPE)            \
-static FORCEINLINE void svec_scatter(PTRTYPE ptrs, VTYPE val, MTYPE mask) { \
-    lScatterGeneral<STYPE, PTRTYPE, VTYPE, MTYPE>(ptrs, val, mask); \
+#define SCATTER_GENERAL_L4(STYPE, PSTYPE)            \
+static FORCEINLINE void svec_scatter(svec<LANES,PSTYPE> ptrs, svec<LANES,STYPE> val, svec<LANES,bool> mask) { \
+    lScatterGeneral<STYPE, svec<LANES,PSTYPE>, svec<LANES,STYPE>, svec<LANES,bool> >(ptrs, val, mask); \
 }
 
 
 /**
  * @ macros for generic impl of scatter base offsets
  */
-#define SCATTER_BASE_OFFSETS(VTYPE, STYPE, OTYPE, MTYPE)         \
-FORCEINLINE void svec_scatter_base_offsets(STYPE* b, uint32_t scale, OTYPE offsets, VTYPE val, MTYPE mask) {   \
+#define SCATTER_BASE_OFFSETS(STYPE, OSTYPE)         \
+FORCEINLINE void svec_scatter_base_offsets(STYPE* b, uint32_t scale, svec<LANES,OSTYPE> offsets, svec<LANES,STYPE> val, svec<LANES,bool> mask) {   \
   for(int i=0;i<LANES;++i){if(mask[i]){*(STYPE*)((uint8_t*)b + scale * offsets[i]) = val[i];}}\
-  INC_STATS_NAME(STATS_SCATTER_SLOW,1,"scatter offset "#VTYPE);          \
+  INC_STATS_NAME(STATS_SCATTER_SLOW,1,"scatter offset svec<LANES,"#STYPE">");          \
 }
 
 /**
@@ -786,28 +786,28 @@ static FORCEINLINE void lScatterBaseOffsets(unsigned char *b,
 /**
  * @ macros for generic impl of scatter base offsets
  */
-#define SCATTER_BASE_OFFSETS_L4(VTYPE, STYPE, OTYPE, MTYPE)         \
-FORCEINLINE void svec_scatter_base_offsets(STYPE* b, uint32_t scale, OTYPE offsets, VTYPE val, MTYPE mask) {   \
-  lScatterBaseOffsets<STYPE, OTYPE, VTYPE, MTYPE>((uint8_t*)b, scale, offsets, val, mask); \
+#define SCATTER_BASE_OFFSETS_L4(STYPE, OSTYPE)         \
+FORCEINLINE void svec_scatter_base_offsets(STYPE* b, uint32_t scale, svec<LANES,OSTYPE> offsets, svec<LANES,STYPE> val, svec<LANES,bool> mask) {   \
+  lScatterBaseOffsets<STYPE, svec<LANES,OSTYPE>, svec<LANES,STYPE>, svec<LANES,bool> >((uint8_t*)b, scale, offsets, val, mask); \
 }
 
 
 
 
-#define MASKED_LOAD_STORE(VTYPE, STYPE, MTYPE)                       \
-static FORCEINLINE VTYPE svec_masked_load(VTYPE *p, MTYPE mask) { \
-    return svec_gather_base_offsets((STYPE*)p, sizeof(STYPE), _svec4_i32(0,1,2,3), mask);  \
+#define MASKED_LOAD_STORE_L4(STYPE)                       \
+static FORCEINLINE svec<LANES,STYPE> svec_masked_load(svec<LANES,STYPE> *p, svec<LANES,bool> mask) { \
+    return svec_gather_base_offsets((STYPE*)p, sizeof(STYPE), svec<LANES,int32_t>(0,1,2,3), mask);  \
 }                                                      \
-static FORCEINLINE void svec_masked_store(VTYPE *p, VTYPE v, MTYPE mask) { \
-    svec_scatter_base_offsets((STYPE*)p, sizeof(STYPE), _svec4_i32(0,1,2,3), v, mask); \
+static FORCEINLINE void svec_masked_store(svec<LANES,STYPE> *p, svec<LANES,STYPE> v, svec<LANES,bool> mask) { \
+    svec_scatter_base_offsets((STYPE*)p, sizeof(STYPE), svec<LANES,int32_t>(0,1,2,3), v, mask); \
 }
 
-#define MASKED_LOAD_STORE_L8(VTYPE, STYPE, MTYPE)                       \
-static FORCEINLINE VTYPE svec_masked_load(VTYPE *p, MTYPE mask) { \
-    return svec_gather_base_offsets((STYPE*)p, sizeof(STYPE), svec8_i32(0,1,2,3,4,5,6,7), mask);  \
+#define MASKED_LOAD_STORE_L8(STYPE)                       \
+static FORCEINLINE svec<LANES,STYPE> svec_masked_load(svec<LANES,STYPE> *p, svec<LANES,bool> mask) { \
+    return svec_gather_base_offsets((STYPE*)p, sizeof(STYPE), svec<LANES,int32_t>(0,1,2,3,4,5,6,7), mask);  \
 }                                                      \
-static FORCEINLINE void svec_masked_store(VTYPE *p, VTYPE v, MTYPE mask) { \
-    svec_scatter_base_offsets((STYPE*)p, sizeof(STYPE), svec8_i32(0,1,2,3,4,5,6,7), v, mask); \
+static FORCEINLINE void svec_masked_store(svec<LANES,STYPE> *p, svec<LANES,STYPE> v, svec<LANES,bool> mask) { \
+    svec_scatter_base_offsets((STYPE*)p, sizeof(STYPE), svec<LANES,int32_t>(0,1,2,3,4,5,6,7), v, mask); \
 }
 
 
@@ -830,10 +830,10 @@ template<class T> static FORCEINLINE T abs(T a) {
   return a >= 0 ? a : -a;
 }
 
-#define UNARY_OP(TYPE, NAME, OP)            \
-static FORCEINLINE TYPE NAME(TYPE v) {      \
+#define UNARY_OP(STYPE, NAME, OP)            \
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> v) {      \
   INC_STATS_NAME(STATS_UNARY_SLOW, 1, #OP);           \
-  TYPE ret; \
+  svec<LANES,STYPE> ret; \
   for (int i = 0; i < LANES; ++i) { ret[i] = OP(v[i]); } \
   return ret; \
 }
