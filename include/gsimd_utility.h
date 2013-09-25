@@ -838,10 +838,10 @@ static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> v) {      \
   return ret; \
 }
 
-#define UNARY_OP_L4(TYPE, NAME, OP)            \
-static FORCEINLINE TYPE NAME(TYPE v) {      \
+#define UNARY_OP_L4(STYPE, NAME, OP)            \
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> v) {      \
   INC_STATS_NAME(STATS_UNARY_SLOW, 1, #OP);           \
-  return TYPE(OP(svec_extract(v, 0)),\
+  return svec<LANES,STYPE>(OP(svec_extract(v, 0)),\
               OP(svec_extract(v, 1)),\
               OP(svec_extract(v, 2)),\
               OP(svec_extract(v, 3)));\
@@ -850,26 +850,26 @@ static FORCEINLINE TYPE NAME(TYPE v) {      \
 /**
  * @brief macros for generic slow impl of binary operation
  */
-#define BINARY_OP(TYPE, NAME, OP)                \
-static FORCEINLINE TYPE NAME(TYPE a, TYPE b) {                   \
+#define BINARY_OP(STYPE, NAME, OP)                \
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> a, svec<LANES,STYPE> b) {                   \
   INC_STATS_NAME(STATS_BINARY_SLOW, 1, #NAME);               \
-  TYPE ret; \
+  svec<LANES,STYPE> ret; \
   for (int i = 0; i < LANES; ++i) { ret[i] = a[i] OP b[i]; } \
   return ret;                            \
 }
 
-#define BINARY_OP2(TYPE, TYPE2, NAME, OP)                \
-static FORCEINLINE TYPE NAME(TYPE a, TYPE2 b) {                   \
+#define BINARY_OP2(STYPE, STYPE2, NAME, OP)                \
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> a, svec<LANES,STYPE2> b) {                   \
   INC_STATS_NAME(STATS_BINARY_SLOW, 1, #NAME);               \
-  TYPE ret; \
+  svec<LANES,STYPE> ret; \
   for (int i = 0; i < LANES; ++i) { ret[i] = a[i] OP b[i]; } \
   return ret;                            \
 }
 
-#define BINARY_OP_FUNC(TYPE, NAME, FUNC)                \
-static FORCEINLINE TYPE NAME(TYPE a, TYPE b) {                   \
+#define BINARY_OP_FUNC(STYPE, NAME, FUNC)                \
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> a, svec<LANES,STYPE> b) {                   \
   INC_STATS_NAME(STATS_BINARY_SLOW, 1, #NAME);               \
-  TYPE ret; \
+  svec<LANES,STYPE> ret; \
   for (int i = 0; i < LANES; ++i) { ret[i] = FUNC(a[i], b[i]); } \
   return ret;                            \
 }
@@ -927,20 +927,30 @@ static FORCEINLINE VTYPE NAME(VTYPE a, STYPE s) {                   \
 /**
  * @brief macros for binary: vector op scalar
  */
-#define BINARY_OP_SCALAR(VTYPE, STYPE, NAME, OP)            \
-static FORCEINLINE VTYPE NAME(VTYPE a, STYPE s) {           \
+#define BINARY_OP_SCALAR(STYPE, NAME, OP)            \
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> a, STYPE s) {           \
   INC_STATS_NAME(STATS_BINARY_SLOW, 1, #NAME);              \
-  VTYPE ret; \
+  svec<LANES,STYPE> ret; \
+  for (int i = 0; i < LANES; ++i) { ret[i] = a[i] OP s; } \
+  return ret;                            \
+}
+/**
+ * @brief macros for binary shift: vector op intvalue
+ */
+#define BINARY_SHT_SCALAR(STYPE, SHTTYPE, NAME, OP)            \
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> a, SHTTYPE s) {           \
+  INC_STATS_NAME(STATS_BINARY_SLOW, 1, #NAME);              \
+  svec<LANES,STYPE> ret; \
   for (int i = 0; i < LANES; ++i) { ret[i] = a[i] OP s; } \
   return ret;                            \
 }
 /**
  * @brief macros for binary: scalar op vector
  */
-#define BINARY_SCALAR_OP(VTYPE, STYPE, NAME, OP)                \
-static FORCEINLINE VTYPE NAME(STYPE s, VTYPE a) {                   \
+#define BINARY_SCALAR_OP(STYPE, NAME, OP)                \
+static FORCEINLINE svec<LANES,STYPE> NAME(STYPE s, svec<LANES,STYPE> a) {                   \
   INC_STATS_NAME(STATS_BINARY_SLOW, 1, #NAME);               \
-  VTYPE ret; \
+  svec<LANES,STYPE> ret; \
   for (int i = 0; i < LANES; ++i) { ret[i] = s OP a[i]; }\
   return ret;                            \
 }
@@ -1018,8 +1028,8 @@ template<class T> static FORCEINLINE T min(T a, T b) {
   return a < b ? a : b;
 }
 
-#define BINARY_OP_REDUCE_FUNC(VTYPE, STYPE, NAME, FUNC) \
-static FORCEINLINE STYPE NAME(VTYPE a) {            \
+#define BINARY_OP_REDUCE_FUNC(STYPE, NAME, FUNC) \
+static FORCEINLINE STYPE NAME(svec<LANES,STYPE> a) {            \
   INC_STATS_NAME(STATS_OTHER_SLOW, 1, "reduce");   \
   STYPE r = a[0]; \
   for(int i = 1; i < LANES; ++i) { r = FUNC(r, a[i]); } \

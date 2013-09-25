@@ -2321,41 +2321,41 @@ static FORCEINLINE svec<4,bool> svec_not(svec<4,bool> a) {
 
 
 // 1. Unary
-#define UNARY_OP_OPT(TYPE, NAME, OP)\
-static FORCEINLINE TYPE NAME(TYPE a) { \
+#define UNARY_OP_OPT(STYPE, NAME, OP)\
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> a) { \
   return OP(a.v); \
 }
 
 /**
  * @brief macros for 64bit object, i64/u64/double
  */
-#define UNARY_OP_OPT64(TYPE, NAME, OP)\
-static FORCEINLINE TYPE NAME(TYPE a) { \
-  return  TYPE(OP(a.v[0]), OP(a.v[1]));  \
+#define UNARY_OP_OPT64(STYPE, NAME, OP)\
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> a) { \
+  return  svec<LANES,STYPE>(OP(a.v[0]), OP(a.v[1]));  \
 }
 
 // neg operation
-UNARY_OP_OPT(_svec4_i8, svec_neg, -);
-UNARY_OP_OPT(_svec4_u8, svec_neg, -);
-UNARY_OP_OPT(_svec4_i16, svec_neg, -);
-UNARY_OP_OPT(_svec4_u16, svec_neg, -);
-UNARY_OP_OPT(_svec4_i32, svec_neg, -);
-UNARY_OP_OPT(_svec4_u32, svec_neg, -);
-UNARY_OP_OPT64(_svec4_i64, svec_neg, -);
-UNARY_OP_OPT64(_svec4_u64, svec_neg, -);
-UNARY_OP_OPT(_svec4_f, svec_neg, -);
-UNARY_OP_OPT64(_svec4_d, svec_neg, -);
+UNARY_OP_OPT(int8_t, svec_neg, -);
+UNARY_OP_OPT(uint8_t, svec_neg, -);
+UNARY_OP_OPT(int16_t, svec_neg, -);
+UNARY_OP_OPT(uint16_t, svec_neg, -);
+UNARY_OP_OPT(int32_t, svec_neg, -);
+UNARY_OP_OPT(uint32_t, svec_neg, -);
+UNARY_OP_OPT64(int64_t, svec_neg, -);
+UNARY_OP_OPT64(uint64_t, svec_neg, -);
+UNARY_OP_OPT(float, svec_neg, -);
+UNARY_OP_OPT64(double, svec_neg, -);
 
 //  2. Math unary
 //round
-UNARY_OP_L4(_svec4_f, svec_round, roundf);
-UNARY_OP_L4(_svec4_d, svec_round, round);
+UNARY_OP_L4(float, svec_round, roundf);
+UNARY_OP_L4(double, svec_round, round);
 //floor
-UNARY_OP_OPT(_svec4_f, svec_floor, vec_floor);
-UNARY_OP_L4(_svec4_d, svec_floor, floor);
+UNARY_OP_OPT(float, svec_floor, vec_floor);
+UNARY_OP_L4(double, svec_floor, floor);
 //ceil
-UNARY_OP_OPT(_svec4_f, svec_ceil, vec_ceil);
-UNARY_OP_L4(_svec4_d, svec_ceil, ceil);
+UNARY_OP_OPT(float, svec_ceil, vec_ceil);
+UNARY_OP_L4(double, svec_ceil, ceil);
 //reverse 1/
 static FORCEINLINE svec<4,float> svec_rcp(svec<4,float> v) {
   //return vec_re(v);//Get the reciprocal estimate
@@ -2365,7 +2365,7 @@ static FORCEINLINE svec<4,float> svec_rcp(svec<4,float> v) {
   return svec<4,float>(r);
 }
 
-UNARY_OP_L4(_svec4_d, svec_rcp, 1.0/);
+UNARY_OP_L4(double, svec_rcp, 1.0/);
 //reverse sqrt
 static FORCEINLINE svec<4,float> svec_rsqrt(svec<4,float> v) {
     //return vec_rsqrte(v);
@@ -2382,38 +2382,38 @@ static FORCEINLINE svec<4,float> svec_rsqrt(svec<4,float> v) {
 
 }
 
-UNARY_OP_L4(_svec4_d, svec_rsqrt, 1.0/sqrt);
+UNARY_OP_L4(double, svec_rsqrt, 1.0/sqrt);
 //sqrt
 static FORCEINLINE svec<4,float> svec_sqrt(svec<4,float> v) {
     __vector float r = vec_madd( v.v, svec_rsqrt(v).v, (__vector float){0,0,0,0} );
     return svec<4,float>(r);
 }
 
-UNARY_OP_L4(_svec4_d, svec_sqrt, sqrt);
+UNARY_OP_L4(double, svec_sqrt, sqrt);
 
 //exp
 static FORCEINLINE svec<4,float> svec_exp(svec<4,float> v) {
   return vec_expte(v.v);
 }
-UNARY_OP_L4(_svec4_d, svec_exp, exp);
+UNARY_OP_L4(double, svec_exp, exp);
 
 
 //log
 static FORCEINLINE svec<4,float> svec_log(svec<4,float> v) {
   return svec<4,float>(vec_loge(v.v)) * log(2);
 }
-UNARY_OP_L4(_svec4_d, svec_log, log);
+UNARY_OP_L4(double, svec_log, log);
 //abs - for all types
-UNARY_OP_OPT(_svec4_i8, svec_abs, vec_abs);
+UNARY_OP_OPT(int8_t, svec_abs, vec_abs);
 static FORCEINLINE _svec4_u8  svec_abs(svec<4,uint8_t> v) { return v;}
-UNARY_OP_OPT(_svec4_i16, svec_abs, vec_abs);
+UNARY_OP_OPT(int16_t, svec_abs, vec_abs);
 static FORCEINLINE svec<4,uint16_t>  svec_abs(svec<4,uint16_t> v) { return v;}
-UNARY_OP_OPT(_svec4_i32, svec_abs, vec_abs);
+UNARY_OP_OPT(int32_t, svec_abs, vec_abs);
 static FORCEINLINE svec<4,uint32_t>  svec_abs(svec<4,uint32_t> v) { return v;}
-UNARY_OP_L4(_svec4_i64, svec_abs, abs<int64_t>);
+UNARY_OP_L4(int64_t, svec_abs, abs<int64_t>);
 static FORCEINLINE svec<4,uint64_t>  svec_abs(svec<4,uint64_t> v) { return v;}
-UNARY_OP_OPT(_svec4_f, svec_abs, vec_abs);
-UNARY_OP_OPT64(_svec4_d, svec_abs, vec_abs);
+UNARY_OP_OPT(float, svec_abs, vec_abs);
+UNARY_OP_OPT64(double, svec_abs, vec_abs);
 
 
 

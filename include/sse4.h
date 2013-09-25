@@ -1616,17 +1616,17 @@ static FORCEINLINE uint64_t svec_movmsk(svec<4,bool> mask) {
 //////////////////////////////////////////////////////////////
 // 1. Unary
 
-#define UNARY_OP_OPT(TYPE, NAME, OP)\
-static FORCEINLINE TYPE NAME(TYPE a) { \
+#define UNARY_OP_OPT(STYPE, NAME, OP)\
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> a) { \
   return OP(a.v); \
 }
 
 /**
  * @brief macros for 64bit object, i64/u64/double
  */
-#define UNARY_OP_OPT64(TYPE, NAME, OP)\
-static FORCEINLINE TYPE NAME(TYPE a) { \
-  return  TYPE(OP(a.v[0]), OP(a.v[1]));  \
+#define UNARY_OP_OPT64(STYPE, NAME, OP)\
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> a) { \
+  return  svec<LANES,STYPE>(OP(a.v[0]), OP(a.v[1]));  \
 }
 
 // neg operation
@@ -1649,10 +1649,10 @@ static FORCEINLINE svec<4,uint32_t>  svec_neg(svec<4,uint32_t> a) {
   return  _mm_sub_epi32(_mm_setzero_si128(), (a.v));
 }
 //it seems i64/f/d sse overload's "-" operator.
-UNARY_OP_OPT64(_svec4_i64, svec_neg, -);
-UNARY_OP_OPT64(_svec4_u64, svec_neg, -);
-UNARY_OP_OPT(_svec4_f, svec_neg, -);
-UNARY_OP_OPT64(_svec4_d, svec_neg, -);
+UNARY_OP_OPT64(int64_t, svec_neg, -);
+UNARY_OP_OPT64(uint64_t, svec_neg, -);
+UNARY_OP_OPT(float, svec_neg, -);
+UNARY_OP_OPT64(double, svec_neg, -);
 
 //  2. Math unary
 //round
@@ -1665,11 +1665,11 @@ static FORCEINLINE svec<4,double> svec_round(svec<4,double> a) {
       _mm_round_pd(a.v[1], _MM_FROUND_TO_NEAREST_INT | _MM_FROUND_NO_EXC));
 }
 //floor
-UNARY_OP_OPT(_svec4_f, svec_floor, _mm_floor_ps);
-UNARY_OP_OPT64(_svec4_d, svec_floor, _mm_floor_pd);
+UNARY_OP_OPT(float, svec_floor, _mm_floor_ps);
+UNARY_OP_OPT64(double, svec_floor, _mm_floor_pd);
 //ceil
-UNARY_OP_OPT(_svec4_f, svec_ceil, _mm_ceil_ps);
-UNARY_OP_OPT64(_svec4_d, svec_ceil, _mm_ceil_pd);
+UNARY_OP_OPT(float, svec_ceil, _mm_ceil_ps);
+UNARY_OP_OPT64(double, svec_ceil, _mm_ceil_pd);
 //reverse 1/
 static FORCEINLINE svec<4,float> svec_rcp(svec<4,float> v) {
   __m128 rcp = _mm_rcp_ps(v.v);
@@ -1679,7 +1679,7 @@ static FORCEINLINE svec<4,float> svec_rcp(svec<4,float> v) {
   __m128 r = _mm_mul_ps(rcp, twominus);
   return r;
 }
-UNARY_OP_L4(_svec4_d, svec_rcp, 1.0/);
+UNARY_OP_L4(double, svec_rcp, 1.0/);
 //reverse sqrt
 static FORCEINLINE svec<4,float> svec_rsqrt(svec<4,float> v) {
   __m128 rsqrt = _mm_rsqrt_ps(v.v);
@@ -1692,33 +1692,33 @@ static FORCEINLINE svec<4,float> svec_rsqrt(svec<4,float> v) {
   __m128 half_scale = _mm_mul_ps(_mm_set1_ps(0.5), rs_mul);
   return half_scale;
 }
-UNARY_OP_L4(_svec4_d, svec_rsqrt, 1.0/sqrt);
+UNARY_OP_L4(double, svec_rsqrt, 1.0/sqrt);
 //sqrt
-UNARY_OP_OPT(_svec4_f, svec_sqrt, _mm_sqrt_ps);
-UNARY_OP_OPT64(_svec4_d, svec_sqrt, _mm_sqrt_pd);
+UNARY_OP_OPT(float, svec_sqrt, _mm_sqrt_ps);
+UNARY_OP_OPT64(double, svec_sqrt, _mm_sqrt_pd);
 //exp - _mm_exp_ps/_mm_exp_pd not in gcc but in ICC
-UNARY_OP_L4(_svec4_f, svec_exp, expf);
-UNARY_OP_L4(_svec4_d, svec_exp, exp);
+UNARY_OP_L4(float, svec_exp, expf);
+UNARY_OP_L4(double, svec_exp, exp);
 //log - _mm_log_ps / _mm_log_pd not in gcc but in ICC
-UNARY_OP_L4(_svec4_f, svec_log, logf);
-UNARY_OP_L4(_svec4_d, svec_log, log);
+UNARY_OP_L4(float, svec_log, logf);
+UNARY_OP_L4(double, svec_log, log);
 //abs - for all types
-UNARY_OP_L4(_svec4_i8, svec_abs, abs<int8_t>);
+UNARY_OP_L4(int8_t, svec_abs, abs<int8_t>);
 static FORCEINLINE _svec4_u8  svec_abs(_svec4_u8 v) { return v;}
-UNARY_OP_L4(_svec4_i16, svec_abs, abs<int16_t>);
+UNARY_OP_L4(int16_t, svec_abs, abs<int16_t>);
 static FORCEINLINE svec<4,uint16_t>  svec_abs(svec<4,uint16_t> v) { return v;}
-UNARY_OP_L4(_svec4_i32, svec_abs, abs<int32_t>);
+UNARY_OP_L4(int32_t, svec_abs, abs<int32_t>);
 static FORCEINLINE svec<4,uint32_t>  svec_abs(svec<4,uint32_t> v) { return v;}
-UNARY_OP_L4(_svec4_i64, svec_abs, abs<int64_t>);
+UNARY_OP_L4(int64_t, svec_abs, abs<int64_t>);
 static FORCEINLINE svec<4,uint64_t>  svec_abs(svec<4,uint64_t> v) { return v;}
-//UNARY_OP(_svec4_f, svec_abs, abs);
+//UNARY_OP(float, svec_abs, abs);
 static FORCEINLINE svec<4,float> svec_abs(svec<4,float> v) {
   unsigned int x = 0x7fffffff;
   float &f = * (float *)( &x );
   __m128 tmp = _mm_set1_ps(f);
   return _mm_and_ps(v.v, tmp);
 }
-UNARY_OP_L4(_svec4_d, svec_abs, abs);
+UNARY_OP_L4(double, svec_abs, abs);
 
 //  3. Binary
 
@@ -1850,8 +1850,8 @@ INT_BINARY_OP_METHODS64(_svec4_u64, uint64_t);
 
 
 //power only for float - cannot find _mm_pow_ps/pd in gcc
-BINARY_OP_FUNC(_svec4_f, svec_pow, powf);
-BINARY_OP_FUNC(_svec4_d, svec_pow, pow);
+BINARY_OP_FUNC(float, svec_pow, powf);
+BINARY_OP_FUNC(double, svec_pow, pow);
 
 //shift left
 BINARY_OP2_L4(_svec4_i8, _svec4_u8, svec_shl, <<);
@@ -1992,22 +1992,22 @@ BINARY_OP_OPT_FUNC64(_svec4_d, _svec4_d, svec_min, _mm_min_pd);
 
 //6. Reduce
 
-#define MAX_MIN_REDUCE_METHODS(VTYPE, STYPE) \
-BINARY_OP_REDUCE_FUNC(VTYPE, STYPE, svec_reduce_add, add<STYPE>); \
-BINARY_OP_REDUCE_FUNC(VTYPE, STYPE, svec_reduce_max, max<STYPE>); \
-BINARY_OP_REDUCE_FUNC(VTYPE, STYPE, svec_reduce_min, min<STYPE>); \
+#define MAX_MIN_REDUCE_METHODS(STYPE) \
+BINARY_OP_REDUCE_FUNC(STYPE, svec_reduce_add, add<STYPE>); \
+BINARY_OP_REDUCE_FUNC(STYPE, svec_reduce_max, max<STYPE>); \
+BINARY_OP_REDUCE_FUNC(STYPE, svec_reduce_min, min<STYPE>); \
 
 
-MAX_MIN_REDUCE_METHODS(_svec4_i8, int8_t);
-MAX_MIN_REDUCE_METHODS(_svec4_u8, uint8_t);
-MAX_MIN_REDUCE_METHODS(_svec4_i16, int16_t);
-MAX_MIN_REDUCE_METHODS(_svec4_u16, uint16_t);
-MAX_MIN_REDUCE_METHODS(_svec4_i32, int32_t);
-MAX_MIN_REDUCE_METHODS(_svec4_u32, uint32_t);
-MAX_MIN_REDUCE_METHODS(_svec4_i64, int64_t);
-MAX_MIN_REDUCE_METHODS(_svec4_u64, uint64_t);
-MAX_MIN_REDUCE_METHODS(_svec4_f, float);
-MAX_MIN_REDUCE_METHODS(_svec4_d, double);
+MAX_MIN_REDUCE_METHODS(int8_t);
+MAX_MIN_REDUCE_METHODS(uint8_t);
+MAX_MIN_REDUCE_METHODS(int16_t);
+MAX_MIN_REDUCE_METHODS(uint16_t);
+MAX_MIN_REDUCE_METHODS(int32_t);
+MAX_MIN_REDUCE_METHODS(uint32_t);
+MAX_MIN_REDUCE_METHODS(int64_t);
+MAX_MIN_REDUCE_METHODS(uint64_t);
+MAX_MIN_REDUCE_METHODS(float);
+MAX_MIN_REDUCE_METHODS(double);
 
 //FORCEINLINE _svec4_d svec_preduce_add(_svec4_d v0, _svec4_d v1, _svec4_d v2, _svec4_d v3) {
 //  return svec<4,double>(

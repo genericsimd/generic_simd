@@ -1009,73 +1009,74 @@ UNARY_OP(double, svec_abs, abs);
 //  3. Binary
 
 //add, sub, div, mul.
-#define BINARY_OP_METHODS(VTYPE, STYPE) \
-BINARY_OP(VTYPE, svec_add, +); \
-BINARY_OP(VTYPE, svec_sub, -); \
-BINARY_OP(VTYPE, svec_mul, *); \
-BINARY_OP(VTYPE, svec_div, /); \
-BINARY_OP_SCALAR(VTYPE, STYPE, svec_add_scalar, +); \
-BINARY_SCALAR_OP(VTYPE, STYPE, svec_scalar_add, +); \
-BINARY_OP_SCALAR(VTYPE, STYPE, svec_sub_scalar, -); \
-BINARY_SCALAR_OP(VTYPE, STYPE, svec_scalar_sub, -); \
-BINARY_OP_SCALAR(VTYPE, STYPE, svec_mul_scalar, *); \
-BINARY_SCALAR_OP(VTYPE, STYPE, svec_scalar_mul, *); \
-BINARY_OP_SCALAR(VTYPE, STYPE, svec_div_scalar, /); \
-BINARY_SCALAR_OP(VTYPE, STYPE, svec_scalar_div, /); \
+#define BINARY_OP_METHODS(STYPE) \
+BINARY_OP(STYPE, svec_add, +); \
+BINARY_OP(STYPE, svec_sub, -); \
+BINARY_OP(STYPE, svec_mul, *); \
+BINARY_OP(STYPE, svec_div, /); \
+BINARY_OP_SCALAR(STYPE, svec_add_scalar, +); \
+BINARY_SCALAR_OP(STYPE, svec_scalar_add, +); \
+BINARY_OP_SCALAR(STYPE, svec_sub_scalar, -); \
+BINARY_SCALAR_OP(STYPE, svec_scalar_sub, -); \
+BINARY_OP_SCALAR(STYPE, svec_mul_scalar, *); \
+BINARY_SCALAR_OP(STYPE, svec_scalar_mul, *); \
+BINARY_OP_SCALAR(STYPE, svec_div_scalar, /); \
+BINARY_SCALAR_OP(STYPE, svec_scalar_div, /); \
 
-#define INT_BINARY_OP_METHODS(VTYPE, STYPE) \
-BINARY_OP(VTYPE, svec_or, |); \
-BINARY_OP(VTYPE, svec_and, &); \
-BINARY_OP(VTYPE, svec_xor, ^); \
-BINARY_OP_SCALAR(VTYPE, int32_t, svec_shl, <<); \
-BINARY_OP_SCALAR(VTYPE, int32_t, svec_shr, >>); \
-BINARY_OP(VTYPE, svec_rem, %); \
-BINARY_OP_SCALAR(VTYPE, STYPE, svec_rem, %);
+#define INT_BINARY_OP_METHODS(STYPE) \
+BINARY_OP(STYPE, svec_or, |); \
+BINARY_OP(STYPE, svec_and, &); \
+BINARY_OP(STYPE, svec_xor, ^); \
+BINARY_SHT_SCALAR(STYPE, int32_t, svec_shl, <<); \
+BINARY_SHT_SCALAR(STYPE, int32_t, svec_shr, >>); \
+BINARY_OP(STYPE, svec_rem, %); \
+BINARY_OP_SCALAR(STYPE, svec_rem, %);
 
-BINARY_OP_METHODS(svec8_i8, int8_t);
-BINARY_OP_METHODS(svec8_u8, uint8_t);
-BINARY_OP_METHODS(svec8_i16, int16_t);
-BINARY_OP_METHODS(svec8_u16, uint16_t);
-BINARY_OP_METHODS(svec8_i32, int32_t);
-BINARY_OP_METHODS(svec8_u32, uint32_t);
-BINARY_OP_METHODS(svec8_i64, int64_t);
-BINARY_OP_METHODS(svec8_u64, uint64_t);
-BINARY_OP_METHODS(svec8_f, float);
-BINARY_OP_METHODS(svec8_d, double);
+BINARY_OP_METHODS(int8_t);
+BINARY_OP_METHODS(uint8_t);
+BINARY_OP_METHODS(int16_t);
+BINARY_OP_METHODS(uint16_t);
+BINARY_OP_METHODS(int32_t);
+BINARY_OP_METHODS(uint32_t);
+BINARY_OP_METHODS(int64_t);
+BINARY_OP_METHODS(uint64_t);
+BINARY_OP_METHODS(float);
+BINARY_OP_METHODS(double);
 
-INT_BINARY_OP_METHODS(svec8_i8, int8_t);
-INT_BINARY_OP_METHODS(svec8_u8, uint8_t);
-INT_BINARY_OP_METHODS(svec8_i16, int16_t);
-INT_BINARY_OP_METHODS(svec8_u16, uint16_t);
-INT_BINARY_OP_METHODS(svec8_i32, int32_t);
-INT_BINARY_OP_METHODS(svec8_u32, uint32_t);
-INT_BINARY_OP_METHODS(svec8_i64, int64_t);
-INT_BINARY_OP_METHODS(svec8_u64, uint64_t);
+INT_BINARY_OP_METHODS(int8_t);
+INT_BINARY_OP_METHODS(uint8_t);
+INT_BINARY_OP_METHODS(int16_t);
+INT_BINARY_OP_METHODS(uint16_t);
+INT_BINARY_OP_METHODS(int32_t);
+INT_BINARY_OP_METHODS(uint32_t);
+INT_BINARY_OP_METHODS(int64_t);
+INT_BINARY_OP_METHODS(uint64_t);
 
 
 //power only for float
-BINARY_OP_FUNC(svec8_f, svec_pow, powf);
-BINARY_OP_FUNC(svec8_d, svec_pow, pow);
+BINARY_OP_FUNC(float, svec_pow, powf);
+BINARY_OP_FUNC(double, svec_pow, pow);
 
 //shift left
-BINARY_OP2(svec8_i8, svec8_u8, svec_shl, <<);
-BINARY_OP2(svec8_u8, svec8_u8, svec_shl, <<);
-BINARY_OP2(svec8_i16, svec8_u16, svec_shl, <<);
-BINARY_OP2(svec8_u16, svec8_u16, svec_shl, <<);
-BINARY_OP2(svec8_i32, svec8_u32, svec_shl, <<);
-BINARY_OP2(svec8_u32, svec8_u32, svec_shl, <<);
-BINARY_OP2(svec8_i64, svec8_u64, svec_shl, <<);
-BINARY_OP2(svec8_u64, svec8_u64, svec_shl, <<);
+//shift left
+BINARY_OP2(int8_t, uint8_t, svec_shl, <<);
+BINARY_OP2(uint8_t, uint8_t, svec_shl, <<);
+BINARY_OP2(int16_t, uint16_t, svec_shl, <<);
+BINARY_OP2(uint16_t, uint16_t, svec_shl, <<);
+BINARY_OP2(int32_t, uint32_t, svec_shl, <<);
+BINARY_OP2(uint32_t, uint32_t, svec_shl, <<);
+BINARY_OP2(int64_t, uint64_t, svec_shl, <<);
+BINARY_OP2(uint64_t, uint64_t, svec_shl, <<);
 
 //shift right
-BINARY_OP2(svec8_i8, svec8_u8, svec_shr, >>);
-BINARY_OP2(svec8_u8, svec8_u8, svec_shr, >>);
-BINARY_OP2(svec8_i16, svec8_u16, svec_shr, >>);
-BINARY_OP2(svec8_u16, svec8_u16, svec_shr, >>);
-BINARY_OP2(svec8_i32, svec8_u32, svec_shr, >>);
-BINARY_OP2(svec8_u32, svec8_u32, svec_shr, >>);
-BINARY_OP2(svec8_i64, svec8_u64, svec_shr, >>);
-BINARY_OP2(svec8_u64, svec8_u64, svec_shr, >>);
+BINARY_OP2(int8_t, uint8_t, svec_shr, >>);
+BINARY_OP2(uint8_t, uint8_t, svec_shr, >>);
+BINARY_OP2(int16_t, uint16_t, svec_shr, >>);
+BINARY_OP2(uint16_t, uint16_t, svec_shr, >>);
+BINARY_OP2(int32_t, uint32_t, svec_shr, >>);
+BINARY_OP2(uint32_t, uint32_t, svec_shr, >>);
+BINARY_OP2(int64_t, uint64_t, svec_shr, >>);
+BINARY_OP2(uint64_t, uint64_t, svec_shr, >>);
 
 //  4. Ternary
 
@@ -1089,23 +1090,23 @@ TERNERY(svec8_d);
 
 
 //  5. Max/Min & 6. Reduce
-#define MAX_MIN_REDUCE_METHODS(VTYPE, STYPE) \
-BINARY_OP_FUNC(VTYPE, svec_max, max<STYPE>); \
-BINARY_OP_FUNC(VTYPE, svec_min, min<STYPE>); \
-BINARY_OP_REDUCE_FUNC(VTYPE, STYPE, svec_reduce_add, add<STYPE>); \
-BINARY_OP_REDUCE_FUNC(VTYPE, STYPE, svec_reduce_max, max<STYPE>); \
-BINARY_OP_REDUCE_FUNC(VTYPE, STYPE, svec_reduce_min, min<STYPE>); \
+#define MAX_MIN_REDUCE_METHODS(STYPE) \
+BINARY_OP_FUNC(STYPE, svec_max, max<STYPE>); \
+BINARY_OP_FUNC(STYPE, svec_min, min<STYPE>); \
+BINARY_OP_REDUCE_FUNC(STYPE, svec_reduce_add, add<STYPE>); \
+BINARY_OP_REDUCE_FUNC(STYPE, svec_reduce_max, max<STYPE>); \
+BINARY_OP_REDUCE_FUNC(STYPE, svec_reduce_min, min<STYPE>); \
 
-MAX_MIN_REDUCE_METHODS(svec8_i8, int8_t);
-MAX_MIN_REDUCE_METHODS(svec8_u8, uint8_t);
-MAX_MIN_REDUCE_METHODS(svec8_i16, int16_t);
-MAX_MIN_REDUCE_METHODS(svec8_u16, uint16_t);
-MAX_MIN_REDUCE_METHODS(svec8_i32, int32_t);
-MAX_MIN_REDUCE_METHODS(svec8_u32, uint32_t);
-MAX_MIN_REDUCE_METHODS(svec8_i64, int64_t);
-MAX_MIN_REDUCE_METHODS(svec8_u64, uint64_t);
-MAX_MIN_REDUCE_METHODS(svec8_f, float);
-MAX_MIN_REDUCE_METHODS(svec8_d, double);
+MAX_MIN_REDUCE_METHODS(int8_t);
+MAX_MIN_REDUCE_METHODS(uint8_t);
+MAX_MIN_REDUCE_METHODS(int16_t);
+MAX_MIN_REDUCE_METHODS(uint16_t);
+MAX_MIN_REDUCE_METHODS(int32_t);
+MAX_MIN_REDUCE_METHODS(uint32_t);
+MAX_MIN_REDUCE_METHODS(int64_t);
+MAX_MIN_REDUCE_METHODS(uint64_t);
+MAX_MIN_REDUCE_METHODS(float);
+MAX_MIN_REDUCE_METHODS(double);
 
 FORCEINLINE svec8_d svec_preduce_add(svec8_d v0, svec8_d v1, svec8_d v2, svec8_d v3,
     svec8_d v4, svec8_d v5, svec8_d v6, svec8_d v7) {
