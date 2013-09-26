@@ -877,10 +877,10 @@ static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> a, svec<LANES,STYPE>
 /**
  * @brief macros for generic slow imple of binary operation
  */
-#define BINARY_OP_L4(TYPE, NAME, OP)                \
-static FORCEINLINE TYPE NAME(TYPE a, TYPE b) {                   \
+#define BINARY_OP_L4(STYPE, NAME, OP)                \
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> a, svec<LANES,STYPE> b) {                   \
   INC_STATS_NAME(STATS_BINARY_SLOW, 1, #NAME);               \
-  TYPE ret(svec_extract(a, 0) OP svec_extract(b, 0),\
+  svec<LANES,STYPE> ret(svec_extract(a, 0) OP svec_extract(b, 0),\
            svec_extract(a, 1) OP svec_extract(b, 1),\
            svec_extract(a, 2) OP svec_extract(b, 2),\
            svec_extract(a, 3) OP svec_extract(b, 3));\
@@ -890,10 +890,10 @@ static FORCEINLINE TYPE NAME(TYPE a, TYPE b) {                   \
 /**
  * @brief macros for generic slow imple of binary operation, style 2
  */
-#define BINARY_OP2_L4(TYPE, TYPB_B, NAME, OP)                \
-static FORCEINLINE TYPE NAME(TYPE a, TYPB_B b) {                   \
+#define BINARY_OP2_L4(STYPE, STYPE2, NAME, OP)                \
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> a, svec<LANES,STYPE2> b) {                   \
   INC_STATS_NAME(STATS_BINARY_SLOW, 1, #NAME);               \
-  TYPE ret(svec_extract(a, 0) OP svec_extract(b, 0),\
+  svec<LANES,STYPE> ret(svec_extract(a, 0) OP svec_extract(b, 0),\
            svec_extract(a, 1) OP svec_extract(b, 1),\
            svec_extract(a, 2) OP svec_extract(b, 2),\
            svec_extract(a, 3) OP svec_extract(b, 3));\
@@ -901,10 +901,10 @@ static FORCEINLINE TYPE NAME(TYPE a, TYPB_B b) {                   \
 }
 
 
-#define BINARY_OP_FUNC_L4(TYPE, NAME, FUNC)                \
-static FORCEINLINE TYPE NAME(TYPE a, TYPE b) {                   \
+#define BINARY_OP_FUNC_L4(STYPE, NAME, FUNC)                \
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> a, svec<LANES,STYPE> b) {                   \
   INC_STATS_NAME(STATS_BINARY_SLOW, 1, #NAME);               \
-  TYPE ret(FUNC(svec_extract(a, 0), svec_extract(b, 0)),\
+  svec<LANES,STYPE> ret(FUNC(svec_extract(a, 0), svec_extract(b, 0)),\
            FUNC(svec_extract(a, 1), svec_extract(b, 1)),\
            FUNC(svec_extract(a, 2), svec_extract(b, 2)),\
            FUNC(svec_extract(a, 3), svec_extract(b, 3))); \
@@ -914,10 +914,10 @@ static FORCEINLINE TYPE NAME(TYPE a, TYPE b) {                   \
 /**
  * @brief macros for binary: vector op scalar
  */
-#define BINARY_OP_SCALAR_L4(VTYPE, STYPE, NAME, OP)                \
-static FORCEINLINE VTYPE NAME(VTYPE a, STYPE s) {                   \
+#define BINARY_OP_SCALAR_L4(STYPE, STYPE2, NAME, OP)                \
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> a, STYPE2 s) {                   \
   INC_STATS_NAME(STATS_BINARY_SLOW, 1, #NAME);               \
-  VTYPE ret(svec_extract(a, 0) OP s,\
+  svec<LANES,STYPE> ret(svec_extract(a, 0) OP s,\
             svec_extract(a, 1) OP s,\
             svec_extract(a, 2) OP s,\
             svec_extract(a, 3) OP s);\
@@ -955,38 +955,38 @@ static FORCEINLINE svec<LANES,STYPE> NAME(STYPE s, svec<LANES,STYPE> a) {       
   return ret;                            \
 }
 
-#define TERNERY(VTYPE) \
+#define TERNERY(STYPE) \
 /**
  * @brief vector multiply and add operation. return a * b + c.
  */ \
-FORCEINLINE VTYPE svec_madd(VTYPE a, VTYPE b, VTYPE c) { \
-  VTYPE res; \
+FORCEINLINE svec<LANES,STYPE> svec_madd(svec<LANES,STYPE> a, svec<LANES,STYPE> b, svec<LANES,STYPE> c) { \
+  svec<LANES,STYPE> res; \
   for(int i = 0; i < LANES; ++i) { res[i] = a[i]*b[i]+c[i]; } \
   return res; \
 } \
 /**
  * @brief vector multiply and add operation. return a * b - c.
  */ \
-FORCEINLINE VTYPE svec_msub(VTYPE a, VTYPE b, VTYPE c) { \
-  VTYPE res; \
+FORCEINLINE svec<LANES,STYPE> svec_msub(svec<LANES,STYPE> a, svec<LANES,STYPE> b, svec<LANES,STYPE> c) { \
+  svec<LANES,STYPE> res; \
   for(int i = 0; i < LANES; ++i) { res[i] = a[i]*b[i]-c[i]; } \
   return res; \
 } \
 /**
  * @brief vector multiply and add operation. return -( a * b - c ).
  */ \
-FORCEINLINE VTYPE svec_nmsub(VTYPE a, VTYPE b, VTYPE c) { \
-  VTYPE res; \
+FORCEINLINE svec<LANES,STYPE> svec_nmsub(svec<LANES,STYPE> a, svec<LANES,STYPE> b, svec<LANES,STYPE> c) { \
+  svec<LANES,STYPE> res; \
   for(int i = 0; i < LANES; ++i) { res[i] = -(a[i]*b[i]-c[i]); } \
   return res; \
 }
 
-#define TERNERY_L4(VTYPE) \
+#define TERNERY_L4(STYPE) \
 /**
  * @brief vector multiply and add operation. return a * b + c.
  */ \
-FORCEINLINE VTYPE svec_madd(VTYPE a, VTYPE b, VTYPE c) { \
-  VTYPE ret(svec_extract(a, 0) * svec_extract(b, 0) + svec_extract(c, 0),\
+FORCEINLINE svec<LANES,STYPE> svec_madd(svec<LANES,STYPE> a, svec<LANES,STYPE> b, svec<LANES,STYPE> c) { \
+  svec<LANES,STYPE> ret(svec_extract(a, 0) * svec_extract(b, 0) + svec_extract(c, 0),\
             svec_extract(a, 1) * svec_extract(b, 1) + svec_extract(c, 1),\
             svec_extract(a, 2) * svec_extract(b, 2) + svec_extract(c, 2),\
             svec_extract(a, 3) * svec_extract(b, 3) + svec_extract(c, 3));\
@@ -995,8 +995,8 @@ FORCEINLINE VTYPE svec_madd(VTYPE a, VTYPE b, VTYPE c) { \
 /**
  * @brief vector multiply and add operation. return a * b - c.
  */ \
-FORCEINLINE VTYPE svec_msub(VTYPE a, VTYPE b, VTYPE c) { \
-  VTYPE ret(svec_extract(a, 0) * svec_extract(b, 0) - svec_extract(c, 0),\
+FORCEINLINE svec<LANES,STYPE> svec_msub(svec<LANES,STYPE> a, svec<LANES,STYPE> b, svec<LANES,STYPE> c) { \
+  svec<LANES,STYPE> ret(svec_extract(a, 0) * svec_extract(b, 0) - svec_extract(c, 0),\
             svec_extract(a, 1) * svec_extract(b, 1) - svec_extract(c, 1),\
             svec_extract(a, 2) * svec_extract(b, 2) - svec_extract(c, 2),\
             svec_extract(a, 3) * svec_extract(b, 3) - svec_extract(c, 3));\
@@ -1005,8 +1005,8 @@ FORCEINLINE VTYPE svec_msub(VTYPE a, VTYPE b, VTYPE c) { \
 /**
  * @brief vector multiply and add operation. return - ( a * b - c).
  */ \
-FORCEINLINE VTYPE svec_nmsub(VTYPE a, VTYPE b, VTYPE c) { \
-  VTYPE ret(- (svec_extract(a, 0) * svec_extract(b, 0) - svec_extract(c, 0)),\
+FORCEINLINE svec<LANES,STYPE> svec_nmsub(svec<LANES,STYPE> a, svec<LANES,STYPE> b, svec<LANES,STYPE> c) { \
+  svec<LANES,STYPE> ret(- (svec_extract(a, 0) * svec_extract(b, 0) - svec_extract(c, 0)),\
             - (svec_extract(a, 1) * svec_extract(b, 1) - svec_extract(c, 1)),\
             - (svec_extract(a, 2) * svec_extract(b, 2) - svec_extract(c, 2)),\
             - (svec_extract(a, 3) * svec_extract(b, 3) - svec_extract(c, 3)));\
@@ -1036,8 +1036,8 @@ static FORCEINLINE STYPE NAME(svec<LANES,STYPE> a) {            \
   return r; \
 }
 
-#define BINARY_OP_REDUCE_FUNC_L4(VTYPE, STYPE, NAME, FUNC) \
-static FORCEINLINE STYPE NAME(VTYPE a) {            \
+#define BINARY_OP_REDUCE_FUNC_L4(STYPE, NAME, FUNC) \
+static FORCEINLINE STYPE NAME(svec<LANES,STYPE> a) {            \
   INC_STATS_NAME(STATS_OTHER_SLOW, 1, "reduce");   \
   return FUNC(FUNC(FUNC(a[0], a[1]), a[2]), a[3]); \
 }

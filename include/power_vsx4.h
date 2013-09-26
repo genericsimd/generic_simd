@@ -2642,8 +2642,8 @@ BINARY_OP_OPT64(_svec4_d, svec_div, /);
 
 
 //power only for float
-BINARY_OP_FUNC_L4(_svec4_f, svec_pow, powf);
-BINARY_OP_FUNC_L4(_svec4_d, svec_pow, pow);
+BINARY_OP_FUNC_L4(float, svec_pow, powf);
+BINARY_OP_FUNC_L4(double, svec_pow, pow);
 
 //or
 BINARY_OP_OPT(_svec4_i8, svec_or, |);
@@ -2754,55 +2754,55 @@ static FORCEINLINE _svec4_u64  svec_shr(svec<4,uint64_t> a, svec<4,uint64_t> b) 
 //uniform shift left
 
 // a better impl may be by smear and vector shift
-BINARY_OP_SCALAR_L4(_svec4_i8, int32_t, svec_shl, <<);
-BINARY_OP_SCALAR_L4(_svec4_u8, int32_t, svec_shl, <<);
-BINARY_OP_SCALAR_L4(_svec4_i16, int32_t, svec_shl, <<);
-BINARY_OP_SCALAR_L4(_svec4_u16, int32_t, svec_shl, <<);
-BINARY_OP_SCALAR_L4(_svec4_i32, int32_t, svec_shl, <<);
-BINARY_OP_SCALAR_L4(_svec4_u32, int32_t, svec_shl, <<);
-BINARY_OP_SCALAR_L4(_svec4_i64, int32_t, svec_shl, <<);
-BINARY_OP_SCALAR_L4(_svec4_u64, int32_t, svec_shl, <<);
+BINARY_OP_SCALAR_L4(int8_t, int32_t, svec_shl, <<);
+BINARY_OP_SCALAR_L4(uint8_t, int32_t, svec_shl, <<);
+BINARY_OP_SCALAR_L4(int16_t, int32_t, svec_shl, <<);
+BINARY_OP_SCALAR_L4(uint16_t, int32_t, svec_shl, <<);
+BINARY_OP_SCALAR_L4(int32_t, int32_t, svec_shl, <<);
+BINARY_OP_SCALAR_L4(uint32_t, int32_t, svec_shl, <<);
+BINARY_OP_SCALAR_L4(int64_t, int32_t, svec_shl, <<);
+BINARY_OP_SCALAR_L4(uint64_t, int32_t, svec_shl, <<);
 //shift right
-BINARY_OP_SCALAR_L4(_svec4_i8, int32_t, svec_shr, >>);
-BINARY_OP_SCALAR_L4(_svec4_u8, int32_t, svec_shr, >>);
-BINARY_OP_SCALAR_L4(_svec4_i16, int32_t, svec_shr, >>);
-BINARY_OP_SCALAR_L4(_svec4_u16, int32_t, svec_shr, >>);
-BINARY_OP_SCALAR_L4(_svec4_i32, int32_t, svec_shr, >>);
-BINARY_OP_SCALAR_L4(_svec4_u32, int32_t, svec_shr, >>);
-BINARY_OP_SCALAR_L4(_svec4_i64, int32_t, svec_shr, >>);
-BINARY_OP_SCALAR_L4(_svec4_u64, int32_t, svec_shr, >>);
+BINARY_OP_SCALAR_L4(int8_t, int32_t, svec_shr, >>);
+BINARY_OP_SCALAR_L4(uint8_t, int32_t, svec_shr, >>);
+BINARY_OP_SCALAR_L4(int16_t, int32_t, svec_shr, >>);
+BINARY_OP_SCALAR_L4(uint16_t, int32_t, svec_shr, >>);
+BINARY_OP_SCALAR_L4(int32_t, int32_t, svec_shr, >>);
+BINARY_OP_SCALAR_L4(uint32_t, int32_t, svec_shr, >>);
+BINARY_OP_SCALAR_L4(int64_t, int32_t, svec_shr, >>);
+BINARY_OP_SCALAR_L4(uint64_t, int32_t, svec_shr, >>);
 
 //remainder %
 
 /**
  * @brief remainder impl uses generic one
  */
-BINARY_OP_L4(_svec4_i8, svec_rem, %);
-BINARY_OP_L4(_svec4_u8, svec_rem, %);
-BINARY_OP_L4(_svec4_i16, svec_rem, %);
-BINARY_OP_L4(_svec4_u16, svec_rem, %);
-BINARY_OP_L4(_svec4_i32, svec_rem, %);
-BINARY_OP_L4(_svec4_u32, svec_rem, %);
-BINARY_OP_L4(_svec4_i64, svec_rem, %);
-BINARY_OP_L4(_svec4_u64, svec_rem, %);
+BINARY_OP_L4(int8_t, svec_rem, %);
+BINARY_OP_L4(uint8_t, svec_rem, %);
+BINARY_OP_L4(int16_t, svec_rem, %);
+BINARY_OP_L4(uint16_t, svec_rem, %);
+BINARY_OP_L4(int32_t, svec_rem, %);
+BINARY_OP_L4(uint32_t, svec_rem, %);
+BINARY_OP_L4(int64_t, svec_rem, %);
+BINARY_OP_L4(uint64_t, svec_rem, %);
 
-BINARY_OP_SCALAR_L4(_svec4_i8, int8_t, svec_rem, %);
-BINARY_OP_SCALAR_L4(_svec4_u8, uint8_t, svec_rem, %);
-BINARY_OP_SCALAR_L4(_svec4_i16, int16_t, svec_rem, %);
-BINARY_OP_SCALAR_L4(_svec4_u16, uint16_t, svec_rem, %);
-BINARY_OP_SCALAR_L4(_svec4_i32, int32_t, svec_rem, %);
-BINARY_OP_SCALAR_L4(_svec4_u32, uint16_t, svec_rem, %);
-BINARY_OP_SCALAR_L4(_svec4_i64, int64_t, svec_rem, %);
-BINARY_OP_SCALAR_L4(_svec4_u64, uint64_t, svec_rem, %);
+BINARY_OP_SCALAR_L4(int8_t, int8_t, svec_rem, %);
+BINARY_OP_SCALAR_L4(uint8_t, uint8_t, svec_rem, %);
+BINARY_OP_SCALAR_L4(int16_t, int16_t, svec_rem, %);
+BINARY_OP_SCALAR_L4(uint16_t, uint16_t, svec_rem, %);
+BINARY_OP_SCALAR_L4(int32_t, int32_t, svec_rem, %);
+BINARY_OP_SCALAR_L4(uint32_t, uint16_t, svec_rem, %);
+BINARY_OP_SCALAR_L4(int64_t, int64_t, svec_rem, %);
+BINARY_OP_SCALAR_L4(uint64_t, uint64_t, svec_rem, %);
 
 
 //  4. Ternary
 
 //madd / msub for only int32/u32/float/double
-TERNERY_L4(_svec4_i32);
-TERNERY_L4(_svec4_u32);
-TERNERY_L4(_svec4_i64);
-TERNERY_L4(_svec4_u64);
+TERNERY_L4(int32_t);
+TERNERY_L4(uint32_t);
+TERNERY_L4(int64_t);
+TERNERY_L4(uint64_t);
 
 /**
  * @brief vector multiply and add operation. return a * b + c.
@@ -2850,10 +2850,10 @@ BINARY_OP_OPT_FUNC(_svec4_i16, _svec4_i16, svec_max, vec_max);
 BINARY_OP_OPT_FUNC(_svec4_u16, _svec4_u16, svec_max, vec_max);
 BINARY_OP_OPT_FUNC(_svec4_i32, _svec4_i32, svec_max, vec_max);
 BINARY_OP_OPT_FUNC(_svec4_u32, _svec4_u32, svec_max, vec_max);
-BINARY_OP_FUNC_L4(_svec4_i64, svec_max, max<int64_t>);
-BINARY_OP_FUNC_L4(_svec4_u64, svec_max, max<uint64_t>);
+BINARY_OP_FUNC_L4(int64_t, svec_max, max<int64_t>);
+BINARY_OP_FUNC_L4(uint64_t, svec_max, max<uint64_t>);
 BINARY_OP_OPT_FUNC(_svec4_f, _svec4_f, svec_max, vec_max);
-BINARY_OP_FUNC_L4(_svec4_d, svec_max, max<double>);
+BINARY_OP_FUNC_L4(double, svec_max, max<double>);
 
 BINARY_OP_OPT_FUNC(_svec4_i8, _svec4_i8, svec_min, vec_min);
 BINARY_OP_OPT_FUNC(_svec4_u8, _svec4_u8, svec_min, vec_min);
@@ -2861,45 +2861,29 @@ BINARY_OP_OPT_FUNC(_svec4_i16, _svec4_i16, svec_min, vec_min);
 BINARY_OP_OPT_FUNC(_svec4_u16, _svec4_u16, svec_min, vec_min);
 BINARY_OP_OPT_FUNC(_svec4_i32, _svec4_i32, svec_min, vec_min);
 BINARY_OP_OPT_FUNC(_svec4_u32, _svec4_u32, svec_min, vec_min);
-BINARY_OP_FUNC_L4(_svec4_i64, svec_min, min<int64_t>);
-BINARY_OP_FUNC_L4(_svec4_u64, svec_min, min<uint64_t>);
+BINARY_OP_FUNC_L4(int64_t, svec_min, min<int64_t>);
+BINARY_OP_FUNC_L4(uint64_t, svec_min, min<uint64_t>);
 BINARY_OP_OPT_FUNC(_svec4_f, _svec4_f, svec_min, vec_min);
-BINARY_OP_FUNC_L4(_svec4_d, svec_min, min<double>);
+BINARY_OP_FUNC_L4(double, svec_min, min<double>);
 
 // 6. reduce
 
-BINARY_OP_REDUCE_FUNC_L4(_svec4_i8, int8_t, svec_reduce_add, add<int8_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_u8, uint8_t, svec_reduce_add, add<uint8_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_i16, int16_t, svec_reduce_add, add<int16_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_u16, uint16_t, svec_reduce_add, add<uint16_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_i32, int32_t, svec_reduce_add, add<int32_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_u32, uint32_t, svec_reduce_add, add<uint32_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_i64, int64_t, svec_reduce_add, add<int64_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_u64, uint64_t, svec_reduce_add, add<uint64_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_f, float, svec_reduce_add, add<float>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_d, double, svec_reduce_add, add<double>);
+#define MAX_MIN_REDUCE_METHODS(STYPE) \
+BINARY_OP_REDUCE_FUNC_L4(STYPE, svec_reduce_add, add<STYPE>); \
+BINARY_OP_REDUCE_FUNC_L4(STYPE, svec_reduce_max, max<STYPE>); \
+BINARY_OP_REDUCE_FUNC_L4(STYPE, svec_reduce_min, min<STYPE>); \
 
-BINARY_OP_REDUCE_FUNC_L4(_svec4_i8, int8_t, svec_reduce_max, max<int8_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_u8, uint8_t, svec_reduce_max, max<uint8_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_i16, int16_t, svec_reduce_max, max<int16_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_u16, uint16_t, svec_reduce_max, max<uint16_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_i32, int32_t, svec_reduce_max, max<int32_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_u32, uint32_t, svec_reduce_max, max<uint32_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_i64, int64_t, svec_reduce_max, max<int64_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_u64, uint64_t, svec_reduce_max, max<uint64_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_f, float, svec_reduce_max, max<float>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_d, double, svec_reduce_max, max<double>);
+MAX_MIN_REDUCE_METHODS(int8_t);
+MAX_MIN_REDUCE_METHODS(uint8_t);
+MAX_MIN_REDUCE_METHODS(int16_t);
+MAX_MIN_REDUCE_METHODS(uint16_t);
+MAX_MIN_REDUCE_METHODS(int32_t);
+MAX_MIN_REDUCE_METHODS(uint32_t);
+MAX_MIN_REDUCE_METHODS(int64_t);
+MAX_MIN_REDUCE_METHODS(uint64_t);
+MAX_MIN_REDUCE_METHODS(float);
+MAX_MIN_REDUCE_METHODS(double);
 
-BINARY_OP_REDUCE_FUNC_L4(_svec4_i8, int8_t, svec_reduce_min, min<int8_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_u8, uint8_t, svec_reduce_min, min<uint8_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_i16, int16_t, svec_reduce_min, min<int16_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_u16, uint16_t, svec_reduce_min, min<uint16_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_i32, int32_t, svec_reduce_min, min<int32_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_u32, uint32_t, svec_reduce_min, min<uint32_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_i64, int64_t, svec_reduce_min, min<int64_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_u64, uint64_t, svec_reduce_min, min<uint64_t>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_f, float, svec_reduce_min, min<float>);
-BINARY_OP_REDUCE_FUNC_L4(_svec4_d, double, svec_reduce_min, min<double>);
 
 
 FORCEINLINE svec<4,double> svec_preduce_add(svec<4,double> v0, svec<4,double> v1, svec<4,double> v2, svec<4,double> v3) {

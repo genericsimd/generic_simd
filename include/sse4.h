@@ -1722,65 +1722,65 @@ UNARY_OP_L4(double, svec_abs, abs);
 
 //  3. Binary
 
-#define BINARY_OP_OPT_FUNC(TYPE, TYPE_B, NAME, FUNC) \
-static FORCEINLINE TYPE NAME(TYPE a, TYPE_B b) { \
-  return TYPE(FUNC(a.v, b.v)); \
+#define BINARY_OP_OPT_FUNC(STYPE, STYPE2, NAME, FUNC) \
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> a, svec<LANES,STYPE2> b) { \
+  return svec<LANES,STYPE>(FUNC(a.v, b.v)); \
 }
 
-#define BINARY_OP_OPT_FUNC64(TYPE, TYPE_B, NAME, FUNC) \
-static FORCEINLINE TYPE NAME(TYPE a, TYPE_B b) { \
-  return TYPE(FUNC(a.v[0], b.v[0]), FUNC(a.v[1], b.v[1])); \
+#define BINARY_OP_OPT_FUNC64(STYPE, STYPE2, NAME, FUNC) \
+static FORCEINLINE svec<LANES,STYPE> NAME(svec<LANES,STYPE> a, svec<LANES,STYPE> b) { \
+  return svec<LANES,STYPE>(FUNC(a.v[0], b.v[0]), FUNC(a.v[1], b.v[1])); \
 }
 
 //add, sub, div, mul.
 
 //add
-BINARY_OP_OPT_FUNC(_svec4_i8, _svec4_i8, svec_add, _mm_add_epi8);
-BINARY_OP_OPT_FUNC(_svec4_u8, _svec4_u8, svec_add, _mm_add_epi8);
-BINARY_OP_OPT_FUNC(_svec4_i16, _svec4_i16, svec_add, _mm_add_epi16);
-BINARY_OP_OPT_FUNC(_svec4_u16, _svec4_u16, svec_add, _mm_add_epi16);
-BINARY_OP_OPT_FUNC(_svec4_i32, _svec4_i32, svec_add, _mm_add_epi32);
-BINARY_OP_OPT_FUNC(_svec4_u32, _svec4_u32, svec_add, _mm_add_epi32);
-BINARY_OP_OPT_FUNC64(_svec4_i64, _svec4_i64, svec_add, _mm_add_epi64);
-BINARY_OP_OPT_FUNC64(_svec4_u64, _svec4_u64, svec_add, _mm_add_epi64);
-BINARY_OP_OPT_FUNC(_svec4_f, _svec4_f, svec_add, _mm_add_ps);
-BINARY_OP_OPT_FUNC64(_svec4_d, _svec4_d, svec_add, _mm_add_pd);
+BINARY_OP_OPT_FUNC(int8_t, int8_t, svec_add, _mm_add_epi8);
+BINARY_OP_OPT_FUNC(uint8_t, uint8_t, svec_add, _mm_add_epi8);
+BINARY_OP_OPT_FUNC(int16_t, int16_t, svec_add, _mm_add_epi16);
+BINARY_OP_OPT_FUNC(uint16_t, uint16_t, svec_add, _mm_add_epi16);
+BINARY_OP_OPT_FUNC(int32_t, int32_t, svec_add, _mm_add_epi32);
+BINARY_OP_OPT_FUNC(uint32_t, uint32_t, svec_add, _mm_add_epi32);
+BINARY_OP_OPT_FUNC64(int64_t, int64_t, svec_add, _mm_add_epi64);
+BINARY_OP_OPT_FUNC64(uint64_t, uint64_t, svec_add, _mm_add_epi64);
+BINARY_OP_OPT_FUNC(float, float, svec_add, _mm_add_ps);
+BINARY_OP_OPT_FUNC64(double, double, svec_add, _mm_add_pd);
 
 //sub
-BINARY_OP_OPT_FUNC(_svec4_i8, _svec4_i8, svec_sub, _mm_sub_epi8);
-BINARY_OP_OPT_FUNC(_svec4_u8, _svec4_u8, svec_sub, _mm_sub_epi8);
-BINARY_OP_OPT_FUNC(_svec4_i16, _svec4_i16, svec_sub, _mm_sub_epi16);
-BINARY_OP_OPT_FUNC(_svec4_u16, _svec4_u16, svec_sub, _mm_sub_epi16);
-BINARY_OP_OPT_FUNC(_svec4_i32, _svec4_i32, svec_sub, _mm_sub_epi32);
-BINARY_OP_OPT_FUNC(_svec4_u32, _svec4_u32, svec_sub, _mm_sub_epi32);
-BINARY_OP_OPT_FUNC64(_svec4_i64, _svec4_i64, svec_sub, _mm_sub_epi64);
-BINARY_OP_OPT_FUNC64(_svec4_u64, _svec4_u64, svec_sub, _mm_sub_epi64);
-BINARY_OP_OPT_FUNC(_svec4_f, _svec4_f, svec_sub, _mm_sub_ps);
-BINARY_OP_OPT_FUNC64(_svec4_d, _svec4_d, svec_sub, _mm_sub_pd);
+BINARY_OP_OPT_FUNC(int8_t, int8_t, svec_sub, _mm_sub_epi8);
+BINARY_OP_OPT_FUNC(uint8_t, uint8_t, svec_sub, _mm_sub_epi8);
+BINARY_OP_OPT_FUNC(int16_t, int16_t, svec_sub, _mm_sub_epi16);
+BINARY_OP_OPT_FUNC(uint16_t, uint16_t, svec_sub, _mm_sub_epi16);
+BINARY_OP_OPT_FUNC(int32_t, int32_t, svec_sub, _mm_sub_epi32);
+BINARY_OP_OPT_FUNC(uint32_t, uint32_t, svec_sub, _mm_sub_epi32);
+BINARY_OP_OPT_FUNC64(int64_t, int64_t, svec_sub, _mm_sub_epi64);
+BINARY_OP_OPT_FUNC64(uint64_t, uint64_t, svec_sub, _mm_sub_epi64);
+BINARY_OP_OPT_FUNC(float, float, svec_sub, _mm_sub_ps);
+BINARY_OP_OPT_FUNC64(double, double, svec_sub, _mm_sub_pd);
 
 //mul
-BINARY_OP_L4(_svec4_i8, svec_mul, *);
-BINARY_OP_L4(_svec4_u8, svec_mul, *);
-BINARY_OP_L4(_svec4_i16, svec_mul, *);
-BINARY_OP_L4(_svec4_u16, svec_mul, *);
-BINARY_OP_OPT_FUNC(_svec4_i32, _svec4_i32, svec_mul, _mm_mullo_epi32);
-BINARY_OP_OPT_FUNC(_svec4_u32, _svec4_u32, svec_mul, _mm_mullo_epi32);
-BINARY_OP_L4(_svec4_i64, svec_mul, *);
-BINARY_OP_L4(_svec4_u64, svec_mul, *);
-BINARY_OP_OPT_FUNC(_svec4_f, _svec4_f, svec_mul, _mm_mul_ps);
-BINARY_OP_OPT_FUNC64(_svec4_d, _svec4_d, svec_mul, _mm_mul_pd);
+BINARY_OP_L4(int8_t, svec_mul, *);
+BINARY_OP_L4(uint8_t, svec_mul, *);
+BINARY_OP_L4(int16_t, svec_mul, *);
+BINARY_OP_L4(uint16_t, svec_mul, *);
+BINARY_OP_OPT_FUNC(int32_t, int32_t, svec_mul, _mm_mullo_epi32);
+BINARY_OP_OPT_FUNC(uint32_t, uint32_t, svec_mul, _mm_mullo_epi32);
+BINARY_OP_L4(int64_t, svec_mul, *);
+BINARY_OP_L4(uint64_t, svec_mul, *);
+BINARY_OP_OPT_FUNC(float, float, svec_mul, _mm_mul_ps);
+BINARY_OP_OPT_FUNC64(double, double, svec_mul, _mm_mul_pd);
 
 //div - no _mm_idiv_epi32 and _mm_udiv_epi32
-BINARY_OP_L4(_svec4_i8, svec_div, /);
-BINARY_OP_L4(_svec4_u8, svec_div, /);
-BINARY_OP_L4(_svec4_i16, svec_div, /);
-BINARY_OP_L4(_svec4_u16, svec_div, /);
-BINARY_OP_L4(_svec4_i32, svec_div, /);
-BINARY_OP_L4(_svec4_u32, svec_div, /);
-BINARY_OP_L4(_svec4_i64, svec_div, /);
-BINARY_OP_L4(_svec4_u64, svec_div, /);
-BINARY_OP_OPT_FUNC(_svec4_f, _svec4_f, svec_div, _mm_div_ps);
-BINARY_OP_OPT_FUNC64(_svec4_d, _svec4_d, svec_div, _mm_div_pd);
+BINARY_OP_L4(int8_t, svec_div, /);
+BINARY_OP_L4(uint8_t, svec_div, /);
+BINARY_OP_L4(int16_t, svec_div, /);
+BINARY_OP_L4(uint16_t, svec_div, /);
+BINARY_OP_L4(int32_t, svec_div, /);
+BINARY_OP_L4(uint32_t, svec_div, /);
+BINARY_OP_L4(int64_t, svec_div, /);
+BINARY_OP_L4(uint64_t, svec_div, /);
+BINARY_OP_OPT_FUNC(float, float, svec_div, _mm_div_ps);
+BINARY_OP_OPT_FUNC64(double, double, svec_div, _mm_div_pd);
 
 #define BIN_VEC_SCAL(VTYPE, STYPE) \
 static FORCEINLINE VTYPE svec_add_scalar(VTYPE a, STYPE s) { \
@@ -1822,31 +1822,31 @@ BIN_VEC_SCAL(_svec4_d, double);
 
 
 
-#define INT_BINARY_OP_METHODS(VTYPE, STYPE) \
-BINARY_OP_OPT_FUNC(VTYPE, VTYPE, svec_or, _mm_or_si128); \
-BINARY_OP_OPT_FUNC(VTYPE, VTYPE, svec_and, _mm_and_si128); \
-BINARY_OP_OPT_FUNC(VTYPE, VTYPE, svec_xor, _mm_xor_si128); \
-BINARY_OP_L4(VTYPE, svec_rem, %); \
-BINARY_OP_SCALAR_L4(VTYPE, STYPE, svec_rem, %);
+#define INT_BINARY_OP_METHODS(STYPE) \
+BINARY_OP_OPT_FUNC(STYPE, STYPE, svec_or, _mm_or_si128); \
+BINARY_OP_OPT_FUNC(STYPE, STYPE, svec_and, _mm_and_si128); \
+BINARY_OP_OPT_FUNC(STYPE, STYPE, svec_xor, _mm_xor_si128); \
+BINARY_OP_L4(STYPE, svec_rem, %); \
+BINARY_OP_SCALAR_L4(STYPE, STYPE, svec_rem, %);
 
-#define INT_BINARY_OP_METHODS64(VTYPE, STYPE) \
-BINARY_OP_OPT_FUNC64(VTYPE, VTYPE, svec_or, _mm_or_si128); \
-BINARY_OP_OPT_FUNC64(VTYPE, VTYPE, svec_and, _mm_and_si128); \
-BINARY_OP_OPT_FUNC64(VTYPE, VTYPE, svec_xor, _mm_xor_si128); \
-BINARY_OP_L4(VTYPE, svec_rem, %); \
-BINARY_OP_SCALAR_L4(VTYPE, STYPE, svec_rem, %);
-
-
+#define INT_BINARY_OP_METHODS64(STYPE) \
+BINARY_OP_OPT_FUNC64(STYPE, STYPE, svec_or, _mm_or_si128); \
+BINARY_OP_OPT_FUNC64(STYPE, STYPE, svec_and, _mm_and_si128); \
+BINARY_OP_OPT_FUNC64(STYPE, STYPE, svec_xor, _mm_xor_si128); \
+BINARY_OP_L4(STYPE, svec_rem, %); \
+BINARY_OP_SCALAR_L4(STYPE, STYPE, svec_rem, %);
 
 
-INT_BINARY_OP_METHODS(_svec4_i8, int8_t);
-INT_BINARY_OP_METHODS(_svec4_u8, uint8_t);
-INT_BINARY_OP_METHODS(_svec4_i16, int16_t);
-INT_BINARY_OP_METHODS(_svec4_u16, uint16_t);
-INT_BINARY_OP_METHODS(_svec4_i32, int32_t);
-INT_BINARY_OP_METHODS(_svec4_u32, uint32_t);
-INT_BINARY_OP_METHODS64(_svec4_i64, int64_t);
-INT_BINARY_OP_METHODS64(_svec4_u64, uint64_t);
+
+
+INT_BINARY_OP_METHODS(int8_t);
+INT_BINARY_OP_METHODS(uint8_t);
+INT_BINARY_OP_METHODS(int16_t);
+INT_BINARY_OP_METHODS(uint16_t);
+INT_BINARY_OP_METHODS(int32_t);
+INT_BINARY_OP_METHODS(uint32_t);
+INT_BINARY_OP_METHODS64(int64_t);
+INT_BINARY_OP_METHODS64(uint64_t);
 
 
 //power only for float - cannot find _mm_pow_ps/pd in gcc
@@ -1854,52 +1854,52 @@ BINARY_OP_FUNC(float, svec_pow, powf);
 BINARY_OP_FUNC(double, svec_pow, pow);
 
 //shift left
-BINARY_OP2_L4(_svec4_i8, _svec4_u8, svec_shl, <<);
-BINARY_OP2_L4(_svec4_u8, _svec4_u8, svec_shl, <<);
-BINARY_OP2_L4(_svec4_i16, _svec4_u16, svec_shl, <<);
-BINARY_OP2_L4(_svec4_u16, _svec4_u16, svec_shl, <<);
-BINARY_OP2_L4(_svec4_i32, _svec4_u32, svec_shl, <<);
-BINARY_OP2_L4(_svec4_u32, _svec4_u32, svec_shl, <<);
-BINARY_OP2_L4(_svec4_i64, _svec4_u64, svec_shl, <<);
-BINARY_OP2_L4(_svec4_u64, _svec4_u64, svec_shl, <<);
+BINARY_OP2_L4(int8_t, uint8_t, svec_shl, <<);
+BINARY_OP2_L4(uint8_t, uint8_t, svec_shl, <<);
+BINARY_OP2_L4(int16_t, uint16_t, svec_shl, <<);
+BINARY_OP2_L4(uint16_t, uint16_t, svec_shl, <<);
+BINARY_OP2_L4(int32_t, uint32_t, svec_shl, <<);
+BINARY_OP2_L4(uint32_t, uint32_t, svec_shl, <<);
+BINARY_OP2_L4(int64_t, uint64_t, svec_shl, <<);
+BINARY_OP2_L4(uint64_t, uint64_t, svec_shl, <<);
 
 //shift right
-BINARY_OP2_L4(_svec4_i8, _svec4_u8, svec_shr, >>);
-BINARY_OP2_L4(_svec4_u8, _svec4_u8, svec_shr, >>);
-BINARY_OP2_L4(_svec4_i16, _svec4_u16, svec_shr, >>);
-BINARY_OP2_L4(_svec4_u16, _svec4_u16, svec_shr, >>);
-BINARY_OP2_L4(_svec4_i32, _svec4_u32, svec_shr, >>);
-BINARY_OP2_L4(_svec4_u32, _svec4_u32, svec_shr, >>);
-BINARY_OP2_L4(_svec4_i64, _svec4_u64, svec_shr, >>);
-BINARY_OP2_L4(_svec4_u64, _svec4_u64, svec_shr, >>);
+BINARY_OP2_L4(int8_t, uint8_t, svec_shr, >>);
+BINARY_OP2_L4(uint8_t, uint8_t, svec_shr, >>);
+BINARY_OP2_L4(int16_t, uint16_t, svec_shr, >>);
+BINARY_OP2_L4(uint16_t, uint16_t, svec_shr, >>);
+BINARY_OP2_L4(int32_t, uint32_t, svec_shr, >>);
+BINARY_OP2_L4(uint32_t, uint32_t, svec_shr, >>);
+BINARY_OP2_L4(int64_t, uint64_t, svec_shr, >>);
+BINARY_OP2_L4(uint64_t, uint64_t, svec_shr, >>);
 
 // shift scalar left
-BINARY_OP_SCALAR_L4(_svec4_i8, int32_t, svec_shl, <<);
-BINARY_OP_SCALAR_L4(_svec4_u8, int32_t, svec_shl, <<);
-//BINARY_OP_SCALAR_L4(_svec4_i16, int32_t, svec_shl, <<);
+BINARY_OP_SCALAR_L4(int8_t, int32_t, svec_shl, <<);
+BINARY_OP_SCALAR_L4(uint8_t, int32_t, svec_shl, <<);
+//BINARY_OP_SCALAR_L4(int16_t, int32_t, svec_shl, <<);
 static FORCEINLINE svec<4,int16_t>  svec_shl(svec<4,int16_t> a, int32_t s) {
   return svec<4,int16_t>(_mm_sll_epi16(a.v, _mm_set_epi32(0, 0, 0, s)));                            \
 }
 
-//BINARY_OP_SCALAR_L4(svec<4,uint16_t>, int32_t, svec_shl, <<);
+//BINARY_OP_SCALAR_L4(uint16_t, int32_t, svec_shl, <<);
 static FORCEINLINE svec<4,uint16_t>  svec_shl(svec<4,uint16_t> a, int32_t s) {
   return svec<4,uint16_t>(_mm_sll_epi16(a.v, _mm_set_epi32(0, 0, 0, s)));                            \
 }
-//BINARY_OP_SCALAR_L4(_svec4_i32, int32_t, svec_shl, <<);
+//BINARY_OP_SCALAR_L4(int32_t, int32_t, svec_shl, <<);
 static FORCEINLINE svec<4,int32_t>  svec_shl(svec<4,int32_t> a, int32_t s) {
   return svec<4,int32_t>(_mm_sll_epi32(a.v, _mm_set_epi32(0, 0, 0, s)));                            \
 }
-//BINARY_OP_SCALAR_L4(_svec4_u32, int32_t, svec_shl, <<);
+//BINARY_OP_SCALAR_L4(uint32_t, int32_t, svec_shl, <<);
 static FORCEINLINE svec<4,uint32_t>  svec_shl(svec<4,uint32_t> a, int32_t s) {
   return svec<4,uint32_t>(_mm_sll_epi32(a.v, _mm_set_epi32(0, 0, 0, s)));                            \
 }
-//BINARY_OP_SCALAR_L4(_svec4_i64, int32_t, svec_shl, <<);
+//BINARY_OP_SCALAR_L4(int64_t, int32_t, svec_shl, <<);
 static FORCEINLINE svec<4,int64_t>  svec_shl(svec<4,int64_t> a, int32_t s) {
   __m128i amt = _mm_set_epi32(0, 0, 0, s);
   return svec<4,int64_t>(_mm_sll_epi64(a.v[0], amt),
                     _mm_sll_epi64(a.v[1], amt));
 }
-//BINARY_OP_SCALAR_L4(_svec4_u64, int32_t, svec_shl, <<);
+//BINARY_OP_SCALAR_L4(uint64_t, int32_t, svec_shl, <<);
 static FORCEINLINE svec<4,uint64_t>  svec_shl(svec<4,uint64_t> a, int32_t s) {
   __m128i amt = _mm_set_epi32(0, 0, 0, s);
   return svec<4,uint64_t>(_mm_sll_epi64(a.v[0], amt),
@@ -1907,26 +1907,26 @@ static FORCEINLINE svec<4,uint64_t>  svec_shl(svec<4,uint64_t> a, int32_t s) {
 }
 
 //shift sclar right
-BINARY_OP_SCALAR_L4(_svec4_i8, int32_t, svec_shr, >>);
-BINARY_OP_SCALAR_L4(_svec4_u8, int32_t, svec_shr, >>);
-//BINARY_OP_SCALAR_L4(svec<4,int16_t>, int32_t, svec_shr, >>);
+BINARY_OP_SCALAR_L4(int8_t, int32_t, svec_shr, >>);
+BINARY_OP_SCALAR_L4(uint8_t, int32_t, svec_shr, >>);
+//BINARY_OP_SCALAR_L4(int16_t, int32_t, svec_shr, >>);
 static FORCEINLINE svec<4,int16_t>  svec_shr(svec<4,int16_t> a, int32_t s) {
   return svec<4,int16_t>(_mm_sra_epi16(a.v, _mm_set_epi32(0, 0, 0, s)));                            \
 }
-//BINARY_OP_SCALAR_L4(svec<4,uint16_t>, int32_t, svec_shr, >>);
+//BINARY_OP_SCALAR_L4(uint16_t, int32_t, svec_shr, >>);
 static FORCEINLINE svec<4,uint16_t>  svec_shr(svec<4,uint16_t> a, int32_t s) {
   return svec<4,uint16_t>(_mm_srl_epi16(a.v, _mm_set_epi32(0, 0, 0, s)));                            \
 }
-//BINARY_OP_SCALAR_L4(svec<4,int32_t>, int32_t, svec_shr, >>);
+//BINARY_OP_SCALAR_L4(int32_t, int32_t, svec_shr, >>);
 static FORCEINLINE svec<4,int32_t>  svec_shr(svec<4,int32_t> a, int32_t s) {
   return svec<4,int32_t>(_mm_sra_epi32(a.v, _mm_set_epi32(0, 0, 0, s)));                            \
 }
-//BINARY_OP_SCALAR_L4(_svec4_u32, int32_t, svec_shr, >>);
+//BINARY_OP_SCALAR_L4(uint32_t, int32_t, svec_shr, >>);
 static FORCEINLINE svec<4,uint32_t>  svec_shr(svec<4,uint32_t> a, int32_t s) {
   return svec<4,uint32_t>(_mm_srl_epi32(a.v, _mm_set_epi32(0, 0, 0, s)));                            \
 }
-BINARY_OP_SCALAR_L4(_svec4_i64, int32_t, svec_shr, >>);
-//BINARY_OP_SCALAR_L4(svec<4,uint64_t>, int32_t, svec_shr, >>);
+BINARY_OP_SCALAR_L4(int64_t, int32_t, svec_shr, >>);
+//BINARY_OP_SCALAR_L4(uint64_t, int32_t, svec_shr, >>);
 static FORCEINLINE svec<4,uint64_t>  svec_shr(svec<4,uint64_t> a, int32_t s) {
   __m128i amt = _mm_set_epi32(0, 0, 0, s);
   return svec<4,uint64_t>(_mm_srl_epi64(a.v[0], amt),
@@ -1936,57 +1936,57 @@ static FORCEINLINE svec<4,uint64_t>  svec_shr(svec<4,uint64_t> a, int32_t s) {
 //  4. Ternary
 
 //madd / msub for only int32/u32/float/double
-#define TERNERY_OPT(VTYPE) \
+#define TERNERY_OPT(STYPE) \
 /**
  * @brief vector multiply and add operation. return a * b + c.
  */ \
-FORCEINLINE VTYPE svec_madd(VTYPE a, VTYPE b, VTYPE c) { \
+FORCEINLINE svec<LANES,STYPE> svec_madd(svec<LANES,STYPE> a, svec<LANES,STYPE> b, svec<LANES,STYPE> c) { \
   return a * b + c;\
 } \
 /**
  * @brief vector multiply and add operation. return a * b - c.
  */ \
-FORCEINLINE VTYPE svec_msub(VTYPE a, VTYPE b, VTYPE c) { \
+FORCEINLINE svec<LANES,STYPE> svec_msub(svec<LANES,STYPE> a, svec<LANES,STYPE> b, svec<LANES,STYPE> c) { \
   return a * b - c;\
 } \
 /**
  * @brief vector multiply and add operation. return -(a * b - c).
  */ \
-FORCEINLINE VTYPE svec_nmsub(VTYPE a, VTYPE b, VTYPE c) { \
+FORCEINLINE svec<LANES,STYPE> svec_nmsub(svec<LANES,STYPE> a, svec<LANES,STYPE> b, svec<LANES,STYPE> c) { \
   return c - a * b ;\
 }
 
 
-TERNERY_OPT(_svec4_i32);
-TERNERY_OPT(_svec4_u32);
-TERNERY_OPT(_svec4_i64);
-TERNERY_OPT(_svec4_u64);
-TERNERY_OPT(_svec4_f);
-TERNERY_OPT(_svec4_d);
+TERNERY_OPT(int32_t);
+TERNERY_OPT(uint32_t);
+TERNERY_OPT(int64_t);
+TERNERY_OPT(uint64_t);
+TERNERY_OPT(float);
+TERNERY_OPT(double);
 
 
 //  5. Max/Min
-BINARY_OP_FUNC_L4(_svec4_i8, svec_max, max<int8_t>);
-BINARY_OP_FUNC_L4(_svec4_u8, svec_max, max<uint8_t>);
-BINARY_OP_FUNC_L4(_svec4_i16, svec_max, max<int16_t>);
-BINARY_OP_FUNC_L4(_svec4_u16, svec_max, max<uint16_t>);
-BINARY_OP_OPT_FUNC(_svec4_i32, _svec4_i32, svec_max, _mm_max_epi32);
-BINARY_OP_OPT_FUNC(_svec4_u32, _svec4_u32, svec_max, _mm_max_epu32);
-BINARY_OP_FUNC_L4(_svec4_i64, svec_max, max<int64_t>);
-BINARY_OP_FUNC_L4(_svec4_u64, svec_max, max<uint64_t>);
-BINARY_OP_OPT_FUNC(_svec4_f, _svec4_f, svec_max, _mm_max_ps);
-BINARY_OP_OPT_FUNC64(_svec4_d, _svec4_d, svec_max, _mm_max_pd);
+BINARY_OP_FUNC_L4(int8_t, svec_max, max<int8_t>);
+BINARY_OP_FUNC_L4(uint8_t, svec_max, max<uint8_t>);
+BINARY_OP_FUNC_L4(int16_t, svec_max, max<int16_t>);
+BINARY_OP_FUNC_L4(uint16_t, svec_max, max<uint16_t>);
+BINARY_OP_OPT_FUNC(int32_t, int32_t, svec_max, _mm_max_epi32);
+BINARY_OP_OPT_FUNC(uint32_t, uint32_t, svec_max, _mm_max_epu32);
+BINARY_OP_FUNC_L4(int64_t, svec_max, max<int64_t>);
+BINARY_OP_FUNC_L4(uint64_t, svec_max, max<uint64_t>);
+BINARY_OP_OPT_FUNC(float, float, svec_max, _mm_max_ps);
+BINARY_OP_OPT_FUNC64(double, double, svec_max, _mm_max_pd);
 
-BINARY_OP_FUNC_L4(_svec4_i8, svec_min, min<int8_t>);
-BINARY_OP_FUNC_L4(_svec4_u8, svec_min, min<uint8_t>);
-BINARY_OP_FUNC_L4(_svec4_i16, svec_min, min<int16_t>);
-BINARY_OP_FUNC_L4(_svec4_u16, svec_min, min<uint16_t>);
-BINARY_OP_OPT_FUNC(_svec4_i32, _svec4_i32, svec_min, _mm_min_epi32);
-BINARY_OP_OPT_FUNC(_svec4_u32, _svec4_u32, svec_min, _mm_min_epu32);
-BINARY_OP_FUNC_L4(_svec4_i64, svec_min, min<int64_t>);
-BINARY_OP_FUNC_L4(_svec4_u64, svec_min, min<uint64_t>);
-BINARY_OP_OPT_FUNC(_svec4_f, _svec4_f, svec_min, _mm_min_ps);
-BINARY_OP_OPT_FUNC64(_svec4_d, _svec4_d, svec_min, _mm_min_pd);
+BINARY_OP_FUNC_L4(int8_t, svec_min, min<int8_t>);
+BINARY_OP_FUNC_L4(uint8_t, svec_min, min<uint8_t>);
+BINARY_OP_FUNC_L4(int16_t, svec_min, min<int16_t>);
+BINARY_OP_FUNC_L4(uint16_t, svec_min, min<uint16_t>);
+BINARY_OP_OPT_FUNC(int32_t, int32_t, svec_min, _mm_min_epi32);
+BINARY_OP_OPT_FUNC(uint32_t, uint32_t, svec_min, _mm_min_epu32);
+BINARY_OP_FUNC_L4(int64_t, svec_min, min<int64_t>);
+BINARY_OP_FUNC_L4(uint64_t, svec_min, min<uint64_t>);
+BINARY_OP_OPT_FUNC(float, float, svec_min, _mm_min_ps);
+BINARY_OP_OPT_FUNC64(double, double, svec_min, _mm_min_pd);
 
 
 

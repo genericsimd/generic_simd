@@ -1123,12 +1123,12 @@ BINARY_OP2(uint64_t, uint64_t, svec_shr, >>);
 //  4. Ternary
 
 //madd / msub for only int32/u32/float/double
-TERNERY(_svec4_i32);
-TERNERY(_svec4_u32);
-TERNERY(_svec4_i64);
-TERNERY(_svec4_u64);
-TERNERY(_svec4_f);
-TERNERY(_svec4_d);
+TERNERY(int32_t);
+TERNERY(uint32_t);
+TERNERY(int64_t);
+TERNERY(uint64_t);
+TERNERY(float);
+TERNERY(double);
 
 
 //  5. Max/Min & 6. Reduce
