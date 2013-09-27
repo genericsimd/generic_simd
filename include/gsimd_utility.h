@@ -1046,77 +1046,77 @@ static FORCEINLINE STYPE NAME(svec<LANES,STYPE> a) {            \
 /**
  * @brief macros for binary: vector op scalar
  */
-#define CMP_OP(VTYPE, MTYPE, NAME, OP)                \
-static FORCEINLINE MTYPE svec_##NAME(VTYPE a, VTYPE b) {                   \
+#define CMP_OP(STYPE, NAME, OP)                \
+static FORCEINLINE svec<LANES,bool> svec_##NAME(svec<LANES,STYPE> a, svec<LANES,STYPE> b) {                   \
   INC_STATS_NAME(STATS_BINARY_SLOW, 1, #NAME);               \
-  MTYPE ret; \
+  svec<LANES,bool> ret; \
   for (int i = 0; i < LANES; ++i) { ret[i] = a[i] OP b[i]; } \
   return ret;                            \
 }
 
-#define CMP_OP_L4(VTYPE, MTYPE, NAME, OP)                \
-  static FORCEINLINE MTYPE svec_##NAME(VTYPE a, VTYPE b) {    \
+#define CMP_OP_L4(STYPE, NAME, OP)                \
+  static FORCEINLINE svec<LANES,bool> svec_##NAME(svec<LANES,STYPE> a, svec<LANES,STYPE> b) {    \
     INC_STATS_NAME(STATS_COMPARE_SLOW, 1, #NAME);                   \
     uint32_t r0 = (a[0] OP b[0]); \
     uint32_t r1 = (a[1] OP b[1]); \
     uint32_t r2 = (a[2] OP b[2]); \
     uint32_t r3 = (a[3] OP b[3]); \
-    return MTYPE(r0,r1,r2,r3);                  \
+    return svec<LANES,bool>(r0,r1,r2,r3);                  \
   }
 
 /**
  * Macros for masked operation based on fast operation
  */
-#define CMP_MASKED_OP(VTYPE, MTYPE, NAME, OP) \
+#define CMP_MASKED_OP(STYPE, NAME, OP) \
 /**
  * @brief Do NAME operation on a and b with mask
  * If mask is true, return the compare result, otherwise return false.
  */\
-FORCEINLINE MTYPE svec_masked_##NAME(VTYPE a, VTYPE b, \
-                                      MTYPE mask) { \
+FORCEINLINE svec<LANES,bool> svec_masked_##NAME(svec<LANES,STYPE> a, svec<LANES,STYPE> b, \
+                               svec<LANES,bool> mask) { \
   return svec_and(svec_##NAME(a,b) , mask);              \
 }
 
 
 
 
-#define CMP_ALL_NOMASK_OP(VTYPE, MTYPE)    \
-  CMP_OP(VTYPE, MTYPE, equal, ==) \
-  CMP_OP(VTYPE, MTYPE, not_equal, !=) \
-  CMP_OP(VTYPE, MTYPE, less_than, <) \
-  CMP_OP(VTYPE, MTYPE, less_equal, <=) \
-  CMP_OP(VTYPE, MTYPE, greater_than, >) \
-  CMP_OP(VTYPE, MTYPE, greater_equal, >=)
+#define CMP_ALL_NOMASK_OP(STYPE)    \
+  CMP_OP(STYPE, equal, ==) \
+  CMP_OP(STYPE, not_equal, !=) \
+  CMP_OP(STYPE, less_than, <) \
+  CMP_OP(STYPE, less_equal, <=) \
+  CMP_OP(STYPE, greater_than, >) \
+  CMP_OP(STYPE, greater_equal, >=)
 
-#define CMP_ALL_NOMASK_OP_L4(VTYPE, MTYPE)    \
-  CMP_OP_L4(VTYPE, MTYPE, equal, ==) \
-  CMP_OP_L4(VTYPE, MTYPE, not_equal, !=) \
-  CMP_OP_L4(VTYPE, MTYPE, less_than, <) \
-  CMP_OP_L4(VTYPE, MTYPE, less_equal, <=) \
-  CMP_OP_L4(VTYPE, MTYPE, greater_than, >) \
-  CMP_OP_L4(VTYPE, MTYPE, greater_equal, >=)
+#define CMP_ALL_NOMASK_OP_L4(STYPE)    \
+  CMP_OP_L4(STYPE, equal, ==) \
+  CMP_OP_L4(STYPE, not_equal, !=) \
+  CMP_OP_L4(STYPE, less_than, <) \
+  CMP_OP_L4(STYPE, less_equal, <=) \
+  CMP_OP_L4(STYPE, greater_than, >) \
+  CMP_OP_L4(STYPE, greater_equal, >=)
 
-#define CMP_ALL_MASKED_OP(VTYPE, MTYPE)  \
-  CMP_MASKED_OP(VTYPE, MTYPE, equal, ==) \
-  CMP_MASKED_OP(VTYPE, MTYPE, not_equal, !=) \
-  CMP_MASKED_OP(VTYPE, MTYPE, less_than, <) \
-  CMP_MASKED_OP(VTYPE, MTYPE, less_equal, <=) \
-  CMP_MASKED_OP(VTYPE, MTYPE, greater_than, >) \
-  CMP_MASKED_OP(VTYPE, MTYPE, greater_equal, >=)
+#define CMP_ALL_MASKED_OP(STYPE)  \
+  CMP_MASKED_OP(STYPE, equal, ==) \
+  CMP_MASKED_OP(STYPE, not_equal, !=) \
+  CMP_MASKED_OP(STYPE, less_than, <) \
+  CMP_MASKED_OP(STYPE, less_equal, <=) \
+  CMP_MASKED_OP(STYPE, greater_than, >) \
+  CMP_MASKED_OP(STYPE, greater_equal, >=)
 
-#define CMP_ALL_OP(VTYPE, MTYPE)    \
-  CMP_ALL_NOMASK_OP(VTYPE, MTYPE) \
-  CMP_ALL_MASKED_OP(VTYPE, MTYPE)
+#define CMP_ALL_OP(STYPE)    \
+  CMP_ALL_NOMASK_OP(STYPE) \
+  CMP_ALL_MASKED_OP(STYPE)
 
 //  8. Cast
-#define CAST(FROM, TO, STO)        \
-template <class T> static T svec_cast(FROM val);     \
+#define CAST(SFROM, STO)        \
+template <class T> static T svec_cast(svec<LANES,SFROM> val);     \
 /**
  * @brief cast val from FROM type to TO type.
  */ \
-template <> FORCEINLINE TO svec_cast<TO>(FROM val) {      \
-    INC_STATS_NAME(STATS_CAST_SLOW, 1, #FROM"-"#TO);          \
-    TO ret; \
+template <> FORCEINLINE svec<LANES,STO> svec_cast<svec<LANES,STO> >(svec<LANES,SFROM> val) {      \
+    INC_STATS_NAME(STATS_CAST_SLOW, 1, "svec<LANES,"#SFROM">-svec<LANES,"#STO">");          \
+    svec<LANES,STO> ret; \
     for (int i = 0; i < LANES; ++i) { ret[i] = (STO)val[i]; } \
     return ret; \
 }
@@ -1140,12 +1140,12 @@ typedef union {
     double d;
 } BitcastUnion;
 
-#define CAST_BITS(FROM, FROM_F, TO, TO_F)        \
-template <class T> static T svec_cast_bits(FROM val);     \
-template <> FORCEINLINE TO svec_cast_bits<TO>(FROM val) {      \
-    INC_STATS_NAME(STATS_CAST_SLOW, 1, #FROM"-"#TO);          \
+#define CAST_BITS(SFROM, FROM_F, STO, TO_F)        \
+template <class T> static T svec_cast_bits(svec<LANES,SFROM> val);     \
+template <> FORCEINLINE svec<LANES,STO> svec_cast_bits<svec<LANES,STO> >(svec<LANES,SFROM> val) {      \
+    INC_STATS_NAME(STATS_CAST_SLOW, 1, "svec<LANES,"#SFROM">-svec<LANES,"#STO">");          \
     BitcastUnion u[LANES]; \
-    TO ret; \
+    svec<LANES,STO> ret; \
     for(int i = 0; i < LANES; ++i) {u[i].FROM_F = val[i]; ret[i] = u[i].TO_F;} \
     return ret; \
 }

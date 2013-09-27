@@ -1124,16 +1124,16 @@ FORCEINLINE svec8_d svec_preduce_add(svec8_d v0, svec8_d v1, svec8_d v2, svec8_d
 
 
 //  7. Compare
-CMP_ALL_OP(svec8_i8, svec8_i1);
-CMP_ALL_OP(svec8_u8, svec8_i1);
-CMP_ALL_OP(svec8_i16, svec8_i1);
-CMP_ALL_OP(svec8_u16, svec8_i1);
-CMP_ALL_OP(svec8_i32, svec8_i1);
-CMP_ALL_OP(svec8_u32, svec8_i1);
-CMP_ALL_OP(svec8_i64, svec8_i1);
-CMP_ALL_OP(svec8_u64, svec8_i1);
-CMP_ALL_OP(svec8_f, svec8_i1);
-CMP_ALL_OP(svec8_d, svec8_i1);
+CMP_ALL_OP(int8_t);
+CMP_ALL_OP(uint8_t);
+CMP_ALL_OP(int16_t);
+CMP_ALL_OP(uint16_t);
+CMP_ALL_OP(int32_t);
+CMP_ALL_OP(uint32_t);
+CMP_ALL_OP(int64_t);
+CMP_ALL_OP(uint64_t);
+CMP_ALL_OP(float);
+CMP_ALL_OP(double);
 
 /**
  * @brief element by element comparison of two svec<4,bool> type object
@@ -1141,8 +1141,8 @@ CMP_ALL_OP(svec8_d, svec8_i1);
  * @param b
  * @return a svec<4,bool> object
  */
-CMP_OP(svec8_i1, svec8_i1, equal, ==);
-CMP_OP(svec8_i1, svec8_i1, not_equal, !=);
+CMP_OP(bool, equal, ==);
+CMP_OP(bool, not_equal, !=);
 
 //  8. Cast
 
@@ -1152,147 +1152,147 @@ CMP_OP(svec8_i1, svec8_i1, not_equal, !=);
  */
 
 //i1 -> all
-//CAST(svec8_i1, svec8_i1, uint32_t);
-CAST(svec8_i1, svec8_i8, int8_t);  //better way: packing
-CAST(svec8_i1, svec8_u8, uint8_t);  //better way: packing
-CAST(svec8_i1, svec8_i16, int16_t);  //better way: packing
-CAST(svec8_i1, svec8_u16, uint16_t); //better way: packing
-CAST(svec8_i1, svec8_i32, int32_t);
-CAST(svec8_i1, svec8_u32, uint32_t);
-CAST(svec8_i1, svec8_i64, int64_t); //better way: unpack, singed ext
-CAST(svec8_i1, svec8_u64, uint64_t);//better way: unpack, singed ext
-CAST(svec8_i1, svec8_f, float); //si to fp call
-CAST(svec8_i1, svec8_d, double);
+//CAST(bool, uint32_t);
+CAST(bool, int8_t);  //better way: packing
+CAST(bool, uint8_t);  //better way: packing
+CAST(bool, int16_t);  //better way: packing
+CAST(bool, uint16_t); //better way: packing
+CAST(bool, int32_t);
+CAST(bool, uint32_t);
+CAST(bool, int64_t); //better way: unpack, singed ext
+CAST(bool, uint64_t);//better way: unpack, singed ext
+CAST(bool, float); //si to fp call
+CAST(bool, double);
 
 //i8 -> all
-CAST(svec8_i8, svec8_i1, uint32_t);
-//CAST(svec8_i8, svec8_i8, int8_t);
-CAST(svec8_i8, svec8_u8, uint8_t);
-CAST(svec8_i8, svec8_i16, int16_t); //better way, use vec_unpackh
-CAST(svec8_i8, svec8_u16, uint16_t); //better way, sext + zero mask and
-CAST(svec8_i8, svec8_i32, int32_t); //better way, use twice vec_unpack
-CAST(svec8_i8, svec8_u32, uint32_t); //better way, use unpack + zero mask
-CAST(svec8_i8, svec8_i64, int64_t);
-CAST(svec8_i8, svec8_u64, uint64_t);
-CAST(svec8_i8, svec8_f, float);
-CAST(svec8_i8, svec8_d, double);
+CAST(int8_t, bool);
+//CAST(int8_t, int8_t);
+CAST(int8_t, uint8_t);
+CAST(int8_t, int16_t); //better way, use vec_unpackh
+CAST(int8_t, uint16_t); //better way, sext + zero mask and
+CAST(int8_t, int32_t); //better way, use twice vec_unpack
+CAST(int8_t, uint32_t); //better way, use unpack + zero mask
+CAST(int8_t, int64_t);
+CAST(int8_t, uint64_t);
+CAST(int8_t, float);
+CAST(int8_t, double);
 
 //u8 -> all
-CAST(svec8_u8, svec8_i1, uint32_t);
-CAST(svec8_u8, svec8_i8, int8_t);
-//CAST(svec8_u8, svec8_u8, uint8_t);
-CAST(svec8_u8, svec8_i16, int16_t); //better way, use unpack + zero mask
-CAST(svec8_u8, svec8_u16, uint16_t); //better way use unpack + zero mask
-CAST(svec8_u8, svec8_i32, int32_t);
-CAST(svec8_u8, svec8_u32, uint32_t);
-CAST(svec8_u8, svec8_i64, int64_t);
-CAST(svec8_u8, svec8_u64, uint64_t);
-CAST(svec8_u8, svec8_f, float);
-CAST(svec8_u8, svec8_d, double);
+CAST(uint8_t, bool);
+CAST(uint8_t, int8_t);
+//CAST(uint8_t, uint8_t);
+CAST(uint8_t, int16_t); //better way, use unpack + zero mask
+CAST(uint8_t, uint16_t); //better way use unpack + zero mask
+CAST(uint8_t, int32_t);
+CAST(uint8_t, uint32_t);
+CAST(uint8_t, int64_t);
+CAST(uint8_t, uint64_t);
+CAST(uint8_t, float);
+CAST(uint8_t, double);
 
 //i16 -> all
-CAST(svec8_i16, svec8_i1, uint32_t);
-CAST(svec8_i16, svec8_i8, int8_t); //could use pack
-CAST(svec8_i16, svec8_u8, uint8_t); //could use pack
-//CAST(svec8_i16, svec8_i16, int16_t);
-CAST(svec8_i16, svec8_u16, uint16_t);
-CAST(svec8_i16, svec8_i32, int32_t); //use unpack
-CAST(svec8_i16, svec8_u32, uint32_t); //use unpack and zeromaskout
-CAST(svec8_i16, svec8_i64, int64_t);
-CAST(svec8_i16, svec8_u64, uint64_t);
-CAST(svec8_i16, svec8_f, float);
-CAST(svec8_i16, svec8_d, double);
+CAST(int16_t, bool);
+CAST(int16_t, int8_t); //could use pack
+CAST(int16_t, uint8_t); //could use pack
+//CAST(int16_t, int16_t);
+CAST(int16_t, uint16_t);
+CAST(int16_t, int32_t); //use unpack
+CAST(int16_t, uint32_t); //use unpack and zeromaskout
+CAST(int16_t, int64_t);
+CAST(int16_t, uint64_t);
+CAST(int16_t, float);
+CAST(int16_t, double);
 
 //u16 -> all
-CAST(svec8_u16, svec8_i1, uint32_t);
-CAST(svec8_u16, svec8_i8, int8_t);
-CAST(svec8_u16, svec8_u8, uint8_t);
-CAST(svec8_u16, svec8_i16, int16_t);
-//CAST(svec8_u16, svec8_u16, uint16_t);
-CAST(svec8_u16, svec8_i32, int32_t); //use unpack +mask
-CAST(svec8_u16, svec8_u32, uint32_t); //use unpack + mask
-CAST(svec8_u16, svec8_i64, int64_t);
-CAST(svec8_u16, svec8_u64, uint64_t);
-CAST(svec8_u16, svec8_f, float);
-CAST(svec8_u16, svec8_d, double);
+CAST(uint16_t, bool);
+CAST(uint16_t, int8_t);
+CAST(uint16_t, uint8_t);
+CAST(uint16_t, int16_t);
+//CAST(uint16_t, uint16_t);
+CAST(uint16_t, int32_t); //use unpack +mask
+CAST(uint16_t, uint32_t); //use unpack + mask
+CAST(uint16_t, int64_t);
+CAST(uint16_t, uint64_t);
+CAST(uint16_t, float);
+CAST(uint16_t, double);
 
 //i32 -> all
-CAST(svec8_i32, svec8_i1, uint32_t);
-CAST(svec8_i32, svec8_i8, int8_t);
-CAST(svec8_i32, svec8_u8, uint8_t);
-CAST(svec8_i32, svec8_i16, int16_t);
-CAST(svec8_i32, svec8_u16, uint16_t);
-//CAST(svec8_i32, svec8_i32, int32_t);
-CAST(svec8_i32, svec8_u32, uint32_t);
-CAST(svec8_i32, svec8_i64, int64_t); //use p8 unpack
-CAST(svec8_i32, svec8_u64, uint64_t); //use p8 unpack
-CAST(svec8_i32, svec8_f, float); //use ctf
-CAST(svec8_i32, svec8_d, double);
+CAST(int32_t, bool);
+CAST(int32_t, int8_t);
+CAST(int32_t, uint8_t);
+CAST(int32_t, int16_t);
+CAST(int32_t, uint16_t);
+//CAST(int32_t, int32_t);
+CAST(int32_t, uint32_t);
+CAST(int32_t, int64_t); //use p8 unpack
+CAST(int32_t, uint64_t); //use p8 unpack
+CAST(int32_t, float); //use ctf
+CAST(int32_t, double);
 
 //u32 -> all
-CAST(svec8_u32, svec8_i1, uint32_t);
-CAST(svec8_u32, svec8_i8, int8_t);
-CAST(svec8_u32, svec8_u8, uint8_t);
-CAST(svec8_u32, svec8_i16, int16_t);
-CAST(svec8_u32, svec8_u16, uint16_t);
-CAST(svec8_u32, svec8_i32, int32_t);
-//CAST(svec8_u32, svec8_u32, uint32_t);
-CAST(svec8_u32, svec8_i64, int64_t); //use p8 unpack
-CAST(svec8_u32, svec8_u64, uint64_t); //use p8 unpack
-CAST(svec8_u32, svec8_f, float);
-CAST(svec8_u32, svec8_d, double);
+CAST(uint32_t, bool);
+CAST(uint32_t, int8_t);
+CAST(uint32_t, uint8_t);
+CAST(uint32_t, int16_t);
+CAST(uint32_t, uint16_t);
+CAST(uint32_t, int32_t);
+//CAST(uint32_t, uint32_t);
+CAST(uint32_t, int64_t); //use p8 unpack
+CAST(uint32_t, uint64_t); //use p8 unpack
+CAST(uint32_t, float);
+CAST(uint32_t, double);
 
 //i64-> all
-CAST(svec8_i64, svec8_i1, uint32_t);
-CAST(svec8_i64, svec8_i8, int8_t);
-CAST(svec8_i64, svec8_u8, uint8_t);
-CAST(svec8_i64, svec8_i16, int16_t);
-CAST(svec8_i64, svec8_u16, uint16_t);
-CAST(svec8_i64, svec8_i32, int32_t); //use p8 trunk
-CAST(svec8_i64, svec8_u32, uint32_t); //use p8 trunk
-//CAST(svec8_i64, svec8_i64, int64_t);
-CAST(svec8_i64, svec8_u64, uint64_t);
-CAST(svec8_i64, svec8_f, float);
-CAST(svec8_i64, svec8_d, double);
+CAST(int64_t, bool);
+CAST(int64_t, int8_t);
+CAST(int64_t, uint8_t);
+CAST(int64_t, int16_t);
+CAST(int64_t, uint16_t);
+CAST(int64_t, int32_t); //use p8 trunk
+CAST(int64_t, uint32_t); //use p8 trunk
+//CAST(int64_t, int64_t);
+CAST(int64_t, uint64_t);
+CAST(int64_t, float);
+CAST(int64_t, double);
 
 //u64 -> all
-CAST(svec8_u64, svec8_i1, uint32_t);
-CAST(svec8_u64, svec8_i8, int8_t);
-CAST(svec8_u64, svec8_u8, uint8_t);
-CAST(svec8_u64, svec8_i16, int16_t);
-CAST(svec8_u64, svec8_u16, uint16_t);
-CAST(svec8_u64, svec8_i32, int32_t); //use p8 pack
-CAST(svec8_u64, svec8_u32, uint32_t); //use p8 pack
-CAST(svec8_u64, svec8_i64, int64_t);
-//CAST(svec8_u64, svec8_u64, uint64_t);
-CAST(svec8_u64, svec8_f, float);
-CAST(svec8_u64, svec8_d, double);
+CAST(uint64_t, bool);
+CAST(uint64_t, int8_t);
+CAST(uint64_t, uint8_t);
+CAST(uint64_t, int16_t);
+CAST(uint64_t, uint16_t);
+CAST(uint64_t, int32_t); //use p8 pack
+CAST(uint64_t, uint32_t); //use p8 pack
+CAST(uint64_t, int64_t);
+//CAST(uint64_t, uint64_t);
+CAST(uint64_t, float);
+CAST(uint64_t, double);
 
 //float -> all
-CAST(svec8_f, svec8_i1, uint32_t);
-CAST(svec8_f, svec8_i8, int8_t); //use cts + pack+pack
-CAST(svec8_f, svec8_u8, uint8_t); //use ctu + pack + pack
-CAST(svec8_f, svec8_i16, int16_t); //use cts + pack
-CAST(svec8_f, svec8_u16, uint16_t); //use ctu + pack
-CAST(svec8_f, svec8_i32, int32_t);//use cts
-CAST(svec8_f, svec8_u32, uint32_t); //use ctu
-CAST(svec8_f, svec8_i64, int64_t);
-CAST(svec8_f, svec8_u64, uint64_t);
-//CAST(svec8_f, svec8_f, float);
-CAST(svec8_f, svec8_d, double);
+CAST(float, bool);
+CAST(float, int8_t); //use cts + pack+pack
+CAST(float, uint8_t); //use ctu + pack + pack
+CAST(float, int16_t); //use cts + pack
+CAST(float, uint16_t); //use ctu + pack
+CAST(float, int32_t);//use cts
+CAST(float, uint32_t); //use ctu
+CAST(float, int64_t);
+CAST(float, uint64_t);
+//CAST(float, float);
+CAST(float, double);
 
 //double -> all
-CAST(svec8_d, svec8_i1, uint32_t);
-CAST(svec8_d, svec8_i8, int8_t);
-CAST(svec8_d, svec8_u8, uint8_t);
-CAST(svec8_d, svec8_i16, int16_t);
-CAST(svec8_d, svec8_u16, uint16_t);
-CAST(svec8_d, svec8_i32, int32_t);
-CAST(svec8_d, svec8_u32, uint32_t);
-CAST(svec8_d, svec8_i64, int64_t);
-CAST(svec8_d, svec8_u64, uint64_t);
-CAST(svec8_d, svec8_f, float);
-//CAST(svec8_d, svec8_d, double);
+CAST(double, bool);
+CAST(double, int8_t);
+CAST(double, uint8_t);
+CAST(double, int16_t);
+CAST(double, uint16_t);
+CAST(double, int32_t);
+CAST(double, uint32_t);
+CAST(double, int64_t);
+CAST(double, uint64_t);
+CAST(double, float);
+//CAST(double, double);
 
 ////casts bits, only for 32bit i32/u32 <--> float i64/u64<-->double
 
@@ -1300,15 +1300,16 @@ CAST(svec8_d, svec8_f, float);
 /**
  * @brief cast based on directly change the __vector type
  */
-CAST_BITS(svec8_i32, i32, svec8_f, f);
-CAST_BITS(svec8_u32, u32, svec8_f, f);
-CAST_BITS(svec8_f, f, svec8_i32, i32);
-CAST_BITS(svec8_f, f, svec8_u32, u32);
+CAST_BITS(int32_t, i32, float, f);
+CAST_BITS(uint32_t, u32, float, f);
+CAST_BITS(float, f, int32_t, i32);
+CAST_BITS(float, f, uint32_t, u32);
 
-CAST_BITS(svec8_i64, i64, svec8_d, d);
-CAST_BITS(svec8_u64, u64, svec8_d, d);
-CAST_BITS(svec8_d, d, svec8_i64, i64);
-CAST_BITS(svec8_d, d, svec8_u64, u64);
+CAST_BITS(int64_t, i64, double, d);
+CAST_BITS(uint64_t, u64, double, d);
+CAST_BITS(double, d, int64_t, i64);
+CAST_BITS(double, d, uint64_t, u64);
+
 
 
 //////////////////////////////////////////////////////////////

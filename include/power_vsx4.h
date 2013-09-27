@@ -2936,11 +2936,11 @@ static FORCEINLINE svec<4,bool> svec_not_equal(svec<4,int8_t> a, svec<4,int8_t> 
     return ~ svec_equal(a, b);
 }
 
-CMP_OP_L4(_svec4_i8, _svec4_i1, less_than, <);
-CMP_OP_L4(_svec4_i8, _svec4_i1, less_equal, <=);
-CMP_OP_L4(_svec4_i8, _svec4_i1, greater_than, >);
-CMP_OP_L4(_svec4_i8, _svec4_i1, greater_equal, >=);
-CMP_ALL_MASKED_OP(_svec4_i8, _svec4_i1);
+CMP_OP_L4(int8_t, less_than, <);
+CMP_OP_L4(int8_t, less_equal, <=);
+CMP_OP_L4(int8_t, greater_than, >);
+CMP_OP_L4(int8_t, greater_equal, >=);
+CMP_ALL_MASKED_OP(int8_t);
 
 static FORCEINLINE svec<4,bool> svec_equal(svec<4,uint8_t> a, svec<4,uint8_t> b) {
     __vector bool char t = vec_cmpeq(a.v,b.v);
@@ -2951,20 +2951,20 @@ static FORCEINLINE svec<4,bool> svec_not_equal(svec<4,uint8_t> a, svec<4,uint8_t
     return ~ svec_equal(a, b);
 }
 
-CMP_OP_L4(_svec4_u8, _svec4_i1, less_than, <);
-CMP_OP_L4(_svec4_u8, _svec4_i1, less_equal, <=);
-CMP_OP_L4(_svec4_u8, _svec4_i1, greater_than, >);
-CMP_OP_L4(_svec4_u8, _svec4_i1, greater_equal, >=);
-CMP_ALL_MASKED_OP(_svec4_u8, _svec4_i1);
+CMP_OP_L4(uint8_t, less_than, <);
+CMP_OP_L4(uint8_t, less_equal, <=);
+CMP_OP_L4(uint8_t, greater_than, >);
+CMP_OP_L4(uint8_t, greater_equal, >=);
+CMP_ALL_MASKED_OP(uint8_t);
 
 /**
  * @brief svec<4,int16_t>/svec<4,uint16_t> have no fast impl of cmp ops
  */
-CMP_ALL_NOMASK_OP_L4(_svec4_i16, _svec4_i1);
-CMP_ALL_MASKED_OP(_svec4_i16, _svec4_i1);
+CMP_ALL_NOMASK_OP_L4(int16_t);
+CMP_ALL_MASKED_OP(int16_t);
 
-CMP_ALL_NOMASK_OP_L4(_svec4_u16, _svec4_i1);
-CMP_ALL_MASKED_OP(_svec4_u16, _svec4_i1);
+CMP_ALL_NOMASK_OP_L4(uint16_t);
+CMP_ALL_MASKED_OP(uint16_t);
 
 /**
  * @brief svec<4,int32_t>/svec<4,uint32_t> have fast impl of cmp ops
@@ -2994,7 +2994,7 @@ static FORCEINLINE svec<4,bool> svec_greater_equal(svec<4,int32_t> a, svec<4,int
   return svec_greater_than(a, b) | svec_equal(a, b);
 }
 
-CMP_ALL_MASKED_OP(_svec4_i32, _svec4_i1);
+CMP_ALL_MASKED_OP(int32_t);
 
 static FORCEINLINE svec<4,bool> svec_equal(svec<4,uint32_t> a, svec<4,uint32_t> b) {
   return (__vector unsigned int)vec_cmpeq(a.v,b.v);
@@ -3020,7 +3020,7 @@ static FORCEINLINE svec<4,bool> svec_greater_equal(svec<4,uint32_t> a, svec<4,ui
   return svec_greater_than(a, b) | svec_equal(a, b);
 }
 
-CMP_ALL_MASKED_OP(_svec4_u32, _svec4_i1);
+CMP_ALL_MASKED_OP(uint32_t);
 
 /**
  * @brief svec_i64/u64 has fast impl for ==/!= on POWER8
@@ -3047,11 +3047,11 @@ static FORCEINLINE svec<4,bool> svec_not_equal(svec<4,int64_t> a, svec<4,int64_t
   return ~ svec_equal(a, b);
 }
 
-CMP_OP_L4(_svec4_i64, _svec4_i1, less_than, <);
-CMP_OP_L4(_svec4_i64, _svec4_i1, less_equal, <=);
-CMP_OP_L4(_svec4_i64, _svec4_i1, greater_than, >);
-CMP_OP_L4(_svec4_i64, _svec4_i1, greater_equal, >=);
-CMP_ALL_MASKED_OP(_svec4_i64, _svec4_i1);
+CMP_OP_L4(int64_t, less_than, <);
+CMP_OP_L4(int64_t, less_equal, <=);
+CMP_OP_L4(int64_t, greater_than, >);
+CMP_OP_L4(int64_t, greater_equal, >=);
+CMP_ALL_MASKED_OP(int64_t);
 
 static FORCEINLINE svec<4,bool> svec_equal(svec<4,uint64_t> a, svec<4,uint64_t> b) {
 #ifdef __POWER8
@@ -3074,11 +3074,11 @@ static FORCEINLINE svec<4,bool> svec_not_equal(svec<4,uint64_t> a, svec<4,uint64
   return ~ svec_equal(a, b);
 }
 
-CMP_OP_L4(_svec4_u64, _svec4_i1, less_than, <);
-CMP_OP_L4(_svec4_u64, _svec4_i1, less_equal, <=);
-CMP_OP_L4(_svec4_u64, _svec4_i1, greater_than, >);
-CMP_OP_L4(_svec4_u64, _svec4_i1, greater_equal, >=);
-CMP_ALL_MASKED_OP(_svec4_u64, _svec4_i1);
+CMP_OP_L4(uint64_t, less_than, <);
+CMP_OP_L4(uint64_t, less_equal, <=);
+CMP_OP_L4(uint64_t, greater_than, >);
+CMP_OP_L4(uint64_t, greater_equal, >=);
+CMP_ALL_MASKED_OP(uint64_t);
 
 /**
  * @brief float vec have fast impl of cmp ops
@@ -3108,14 +3108,14 @@ static FORCEINLINE svec<4,bool> svec_greater_equal(svec<4,float> a, svec<4,float
     return (__vector unsigned int)vec_cmpge(a.v,b.v);
 }
 
-CMP_ALL_MASKED_OP(_svec4_f, _svec4_i1);
+CMP_ALL_MASKED_OP(float);
 
 /**
  * @brief double vec has fast impl for >, < for POWER8
  * Check why double has not ==, !=
  */
-CMP_OP(_svec4_d, _svec4_i1, equal, ==);
-CMP_OP(_svec4_d, _svec4_i1, not_equal, !=);
+CMP_OP(double, equal, ==);
+CMP_OP(double, not_equal, !=);
 
 static FORCEINLINE svec<4,bool> svec_less_than(svec<4,double> a, svec<4,double> b) {
 #ifdef __POWER8
@@ -3156,7 +3156,7 @@ static FORCEINLINE svec<4,bool> svec_greater_equal(svec<4,double> a, svec<4,doub
     return svec_greater_than(a, b) | svec_equal(a, b);
 }
 
-CMP_ALL_MASKED_OP(_svec4_d, _svec4_i1);
+CMP_ALL_MASKED_OP(double);
 
 //  8. Cast
 
