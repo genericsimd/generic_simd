@@ -3163,25 +3163,25 @@ CMP_ALL_MASKED_OP(double);
 /**
  * @brief cast based on directly change the __vector type
  */
-#define CAST_OPT(FROM, TO, STO)        \
-template <class T> static T svec_cast(FROM val);     \
+#define CAST_OPT(SFROM, STO)        \
+template <class T> static T svec_cast(svec<LANES,SFROM> val);     \
 /**
  * @brief cast val from FROM type to TO type.
  */ \
-template <> FORCEINLINE TO svec_cast<TO>(FROM val) {      \
-    return TO((__vector STO)(val.v)); \
+template <> FORCEINLINE svec<LANES,STO> svec_cast<svec<LANES,STO> >(svec<LANES,SFROM> val) {      \
+    return svec<LANES,STO>((val.v)); \
 }
 
 /**
  * @brief cast based on directly change the __vector type
  */
-#define CAST_OPT64(FROM, TO, STO)        \
-template <class T> static T svec_cast(FROM val);     \
+#define CAST_OPT64(SFROM, STO)        \
+template <class T> static T svec_cast(svec<LANES,SFROM> val);     \
 /**
  * @brief cast val from FROM type to TO type.
  */ \
-template <> FORCEINLINE TO svec_cast<TO>(FROM val) {      \
-    return TO((__vector STO)(val.v[0]), (__vector STO)(val.v[1])); \
+template <> FORCEINLINE svec<LANES,STO> svec_cast<svec<LANES,STO> >(svec<LANES,SFROM> val) {      \
+    return svec<LANES,STO>((val.v[0]),(val.v[1])); \
 }
 
 /**
@@ -3192,23 +3192,23 @@ template <> FORCEINLINE TO svec_cast<TO>(FROM val) {      \
 
 
 //i1 -> all
-//CAST_L4(_svec4_i1, _svec4_i1, uint32_t);
-CAST_L4(_svec4_i1, _svec4_i8, int8_t);  //better way: packing
-CAST_L4(_svec4_i1, _svec4_u8, uint8_t);  //better way: packing
-CAST_L4(_svec4_i1, _svec4_i16, int16_t);  //better way: packing
-CAST_L4(_svec4_i1, _svec4_u16, uint16_t); //better way: packing
-CAST_OPT(_svec4_i1, _svec4_i32, int32_t);
-CAST_OPT(_svec4_i1, _svec4_u32, uint32_t);
-CAST_L4(_svec4_i1, _svec4_i64, int64_t); //better way: unpack, singed ext
-CAST_L4(_svec4_i1, _svec4_u64, uint64_t);//better way: unpack, singed ext
-CAST_L4(_svec4_i1, _svec4_f, float); //si to fp call
-CAST_L4(_svec4_i1, _svec4_d, double);
+//CAST_L4(bool, _svec4_i1, bool);
+CAST_L4(bool, int8_t);  //better way: packing
+CAST_L4(bool, uint8_t);  //better way: packing
+CAST_L4(bool, int16_t);  //better way: packing
+CAST_L4(bool, uint16_t); //better way: packing
+CAST_OPT(bool, int32_t);
+CAST_OPT(bool, uint32_t);
+CAST_L4(bool, int64_t); //better way: unpack, singed ext
+CAST_L4(bool, uint64_t);//better way: unpack, singed ext
+CAST_L4(bool, float); //si to fp call
+CAST_L4(bool, double);
 
 //i8 -> all
-CAST_L4(_svec4_i8, _svec4_i1, uint32_t);
-//CAST_L4(_svec4_i8, _svec4_i8, int8_t);
-CAST_OPT(_svec4_i8, _svec4_u8, uint8_t);
-//CAST_L4(_svec4_i8, _svec4_i16, int16_t); //better way, use vec_unpackh
+CAST_L4(int8_t, bool);
+//CAST_L4(int8_t, int8_t);
+CAST_OPT(int8_t, uint8_t);
+//CAST_L4(int8_t, _svec4_i16, int16_t); //better way, use vec_unpackh
 template <class T> static T svec_cast(svec<4,int8_t> val);
 /**
  * @brief cast val from svec<4,int8_t> type to svec<4,int16_t> type.
@@ -3242,16 +3242,16 @@ template <> FORCEINLINE svec<4,uint32_t> svec_cast<svec<4,uint32_t> >(svec<4,int
     __vector uint32_t v = vec_unpackh(vec_unpackh(val.v));
     return (v);
 }
-CAST_L4(_svec4_i8, _svec4_i64, int64_t);
-CAST_L4(_svec4_i8, _svec4_u64, uint64_t);
-CAST_L4(_svec4_i8, _svec4_f, float);
-CAST_L4(_svec4_i8, _svec4_d, double);
+CAST_L4(int8_t, int64_t);
+CAST_L4(int8_t, uint64_t);
+CAST_L4(int8_t, float);
+CAST_L4(int8_t, double);
 
 //u8 -> all
-CAST_L4(_svec4_u8, _svec4_i1, uint32_t);
-CAST_OPT(_svec4_u8, _svec4_i8, int8_t);
-//CAST_L4(_svec4_u8, _svec4_u8, uint8_t);
-//CAST_L4(_svec4_u8, _svec4_i16, int16_t); //better way, use unpack + zero mask
+CAST_L4(uint8_t, bool);
+CAST_OPT(uint8_t, int8_t);
+//CAST_L4(uint8_t, uint8_t);
+//CAST_L4(uint8_t, int16_t); //better way, use unpack + zero mask
 template <class T> static T svec_cast(svec<4,uint8_t> val);
 /**
  * @brief cast val from svec<4,uint8_t> type to svec<4, int16_T> type.
@@ -3291,18 +3291,18 @@ template <> FORCEINLINE svec<4,uint32_t> svec_cast<svec<4,uint32_t> >(svec<4,uin
     __vector uint32_t mask = {0xFF, 0xFF, 0xFF, 0xFF};
     return (v & mask);
 }
-CAST_L4(_svec4_u8, _svec4_i64, int64_t);
-CAST_L4(_svec4_u8, _svec4_u64, uint64_t);
-CAST_L4(_svec4_u8, _svec4_f, float);
-CAST_L4(_svec4_u8, _svec4_d, double);
+CAST_L4(uint8_t, int64_t);
+CAST_L4(uint8_t, uint64_t);
+CAST_L4(uint8_t, float);
+CAST_L4(uint8_t, double);
 
 //i16 -> all
-CAST_L4(_svec4_i16, _svec4_i1, uint32_t);
-CAST_L4(_svec4_i16, _svec4_i8, int8_t); //could use pack
-CAST_L4(_svec4_i16, _svec4_u8, uint8_t); //could use pack
-//CAST_L4(_svec4_i16, _svec4_i16, int16_t);
-CAST_OPT(_svec4_i16, _svec4_u16, uint16_t);
-//CAST_L4(_svec4_i16, _svec4_i32, int32_t); //use unpack
+CAST_L4(int16_t, bool);
+CAST_L4(int16_t, int8_t); //could use pack
+CAST_L4(int16_t, uint8_t); //could use pack
+//CAST_L4(int16_t, int16_t);
+CAST_OPT(int16_t, uint16_t);
+//CAST_L4(int16_t, int32_t); //use unpack
 template <class T> static T svec_cast(svec<4,int16_t> val);
 /**
  * @brief cast val from svec<4,int16_t> type to svec<4,int32_t> type.
@@ -3319,18 +3319,18 @@ template <> FORCEINLINE svec<4,uint32_t> svec_cast<svec<4,uint32_t> >(svec<4,int
     __vector uint32_t v = vec_unpackh(val.v);
     return (v);
 }
-CAST_L4(_svec4_i16, _svec4_i64, int64_t);
-CAST_L4(_svec4_i16, _svec4_u64, uint64_t);
-CAST_L4(_svec4_i16, _svec4_f, float);
-CAST_L4(_svec4_i16, _svec4_d, double);
+CAST_L4(int16_t, int64_t);
+CAST_L4(int16_t, uint64_t);
+CAST_L4(int16_t, float);
+CAST_L4(int16_t, double);
 
 //u16 -> all
-CAST_L4(_svec4_u16, _svec4_i1, uint32_t);
-CAST_L4(_svec4_u16, _svec4_i8, int8_t);
-CAST_L4(_svec4_u16, _svec4_u8, uint8_t);
-CAST_OPT(_svec4_u16, _svec4_i16, int16_t);
-//CAST_L4(_svec4_u16, _svec4_u16, uint16_t);
-//CAST_L4(_svec4_u16, _svec4_i32, int32_t); //use unpack +mask
+CAST_L4(uint16_t, bool);
+CAST_L4(uint16_t, int8_t);
+CAST_L4(uint16_t, uint8_t);
+CAST_OPT(uint16_t, int16_t);
+//CAST_L4(uint16_t, uint16_t);
+//CAST_L4(uint16_t, int32_t); //use unpack +mask
 template <class T> static T svec_cast(svec<4,uint16_t> val);
 /**
  * @brief cast val from svec<4,uint16_t> type to svec<4,int32_t> type.
@@ -3350,20 +3350,20 @@ template <> FORCEINLINE svec<4,uint32_t> svec_cast<svec<4,uint32_t> >(svec<4,uin
     __vector uint32_t mask = {0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF};
     return (v & mask);
 }
-CAST_L4(_svec4_u16, _svec4_i64, int64_t);
-CAST_L4(_svec4_u16, _svec4_u64, uint64_t);
-CAST_L4(_svec4_u16, _svec4_f, float);
-CAST_L4(_svec4_u16, _svec4_d, double);
+CAST_L4(uint16_t, int64_t);
+CAST_L4(uint16_t, uint64_t);
+CAST_L4(uint16_t, float);
+CAST_L4(uint16_t, double);
 
 //i32 -> all
-CAST_L4(_svec4_i32, _svec4_i1, uint32_t);
-CAST_L4(_svec4_i32, _svec4_i8, int8_t);
-CAST_L4(_svec4_i32, _svec4_u8, uint8_t);
-CAST_L4(_svec4_i32, _svec4_i16, int16_t);
-CAST_L4(_svec4_i32, _svec4_u16, uint16_t);
-//CAST_L4(_svec4_i32, _svec4_i32, int32_t);
-CAST_OPT(_svec4_i32, _svec4_u32, uint32_t);
-//CAST_L4(_svec4_i32, _svec4_i64, int64_t); //use p8 unpack
+CAST_L4(int32_t, bool);
+CAST_L4(int32_t, int8_t);
+CAST_L4(int32_t, uint8_t);
+CAST_L4(int32_t, int16_t);
+CAST_L4(int32_t, uint16_t);
+//CAST_L4(int32_t, int32_t);
+CAST_OPT(int32_t, uint32_t);
+//CAST_L4(int32_t, int64_t); //use p8 unpack
 template <class T> static T svec_cast(svec<4,int32_t> val);
 /**
  * @brief cast val from svec<4,int32_t> type to svec<4,int64_t> type.
@@ -3376,7 +3376,7 @@ template <> FORCEINLINE svec<4,int64_t> svec_cast<svec<4,int64_t> >(svec<4,int32
   return  svec<4,int64_t>((int64_t)val[0], (int64_t)val[1], (int64_t)val[2], (int64_t)val[3]);
 #endif
 }
-//CAST_L4(_svec4_i32, _svec4_u64, uint64_t); //use p8 unpack
+//CAST_L4(int32_t, uint64_t); //use p8 unpack
 template <class T> static T svec_cast(svec<4,int32_t> val);
 /**
  * @brief cast val from svec<4,int32_t> type to svec<4,uint64_t> type.
@@ -3389,7 +3389,7 @@ template <> FORCEINLINE svec<4,uint64_t> svec_cast<svec<4,uint64_t> >(svec<4,int
   return  svec<4,uint64_t>((uint64_t)val[0], (uint64_t)val[1], (uint64_t)val[2], (uint64_t)val[3]);
 #endif
 }
-//CAST_L4(_svec4_i32, _svec4_f, float); //use ctf
+//CAST_L4(int32_t, float); //use ctf
 template <class T> static T svec_cast(svec<4,int32_t> val);
 /**
  * @brief cast val from svec<4,int32_t> type to svec<4,float> type.
@@ -3397,17 +3397,17 @@ template <class T> static T svec_cast(svec<4,int32_t> val);
 template <> FORCEINLINE svec<4,float> svec_cast<svec<4,float> > (svec<4,int32_t> val) {
   return vec_ctf(val.v,0);
 }
-CAST_L4(_svec4_i32, _svec4_d, double);
+CAST_L4(int32_t, double);
 
 //u32 -> all
-CAST_L4(_svec4_u32, _svec4_i1, uint32_t);
-CAST_L4(_svec4_u32, _svec4_i8, int8_t);
-CAST_L4(_svec4_u32, _svec4_u8, uint8_t);
-CAST_L4(_svec4_u32, _svec4_i16, int16_t);
-CAST_L4(_svec4_u32, _svec4_u16, uint16_t);
-CAST_OPT(_svec4_u32, _svec4_i32, int32_t);
-//CAST_L4(_svec4_u32, _svec4_u32, uint32_t);
-//CAST_L4(_svec4_u32, _svec4_i64, int64_t); //use p8 unpack
+CAST_L4(uint32_t, bool);
+CAST_L4(uint32_t, int8_t);
+CAST_L4(uint32_t, uint8_t);
+CAST_L4(uint32_t, int16_t);
+CAST_L4(uint32_t, uint16_t);
+CAST_OPT(uint32_t, int32_t);
+//CAST_L4(uint32_t, uint32_t);
+//CAST_L4(uint32_t, int64_t); //use p8 unpack
 template <class T> static T svec_cast(svec<4,uint32_t> val);
 /**
  * @brief cast val from svec<4,uint32_t> type to svec<4,int64_t> type.
@@ -3420,7 +3420,7 @@ template <> FORCEINLINE svec<4,int64_t> svec_cast<svec<4,int64_t> >(svec<4,uint3
   return  svec<4,int64_t>((int64_t)val[0], (int64_t)val[1], (int64_t)val[2], (int64_t)val[3]);
 #endif
 }
-//CAST_L4(_svec4_u32, svec<4,uint64_t>, uint64_t); //use p8 unpack
+//CAST_L4(uint32_t, uint64_t); //use p8 unpack
 template <class T> static T svec_cast(svec<4,uint32_t> val);
 /**
  * @brief cast val from svec<4,uint32_t> type to svec<4,uint64_t> type.
@@ -3433,16 +3433,16 @@ template <> FORCEINLINE svec<4,uint64_t> svec_cast<svec<4,uint64_t> >(svec<4,uin
   return  svec<4,uint64_t>((uint64_t)val[0], (uint64_t)val[1], (uint64_t)val[2], (uint64_t)val[3]);
 #endif
 }
-CAST_L4(_svec4_u32, _svec4_f, float);
-CAST_L4(_svec4_u32, _svec4_d, double);
+CAST_L4(uint32_t, float);
+CAST_L4(uint32_t, double);
 
 //i64-> all
-CAST_L4(_svec4_i64, _svec4_i1, uint32_t);
-CAST_L4(_svec4_i64, _svec4_i8, int8_t);
-CAST_L4(_svec4_i64, _svec4_u8, uint8_t);
-CAST_L4(_svec4_i64, _svec4_i16, int16_t);
-CAST_L4(_svec4_i64, _svec4_u16, uint16_t);
-//CAST_L4(_svec4_i64, _svec4_i32, int32_t); //use p8 trunk
+CAST_L4(int64_t, bool);
+CAST_L4(int64_t, int8_t);
+CAST_L4(int64_t, uint8_t);
+CAST_L4(int64_t, int16_t);
+CAST_L4(int64_t, uint16_t);
+//CAST_L4(int64_t, int32_t); //use p8 trunk
 template <class T> static T svec_cast(svec<4,int64_t> val);
 /**
  * @brief cast val from svec<4,int64_t> type to svec<4,int32_t> type.
@@ -3455,7 +3455,7 @@ template <> FORCEINLINE svec<4,int32_t> svec_cast<svec<4,int32_t> >(svec<4,int64
   return  svec<4,int32_t>((int32_t)val[0], (int32_t)val[1], (int32_t)val[2], (int32_t)val[3]);
 #endif
 }
-//CAST_L4(svec<4,int64_t>, _svec4_u32, uint32_t); //use p8 trunk
+//CAST_L4(svec<4,int64_t>, uint32_t); //use p8 trunk
 template <class T> static T svec_cast(svec<4,int64_t> val);
 /**
  * @brief cast val from svec<4,int64_t> type to svec<4,uint32_t> type.
@@ -3468,18 +3468,18 @@ template <> FORCEINLINE svec<4,uint32_t> svec_cast<svec<4,uint32_t> >(svec<4,int
   return  svec<4,uint32_t>((uint32_t)val[0], (uint32_t)val[1], (uint32_t)val[2], (uint32_t)val[3]);
 #endif
 }
-//CAST_L4(_svec4_i64, _svec4_i64, int64_t);
-CAST_OPT64(_svec4_i64, _svec4_u64, uint64_t);
-CAST_L4(_svec4_i64, _svec4_f, float);
-CAST_L4(_svec4_i64, _svec4_d, double);
+//CAST_L4(int64_t, int64_t);
+CAST_OPT64(int64_t, uint64_t);
+CAST_L4(int64_t, float);
+CAST_L4(int64_t, double);
 
 //u64 -> all
-CAST_L4(_svec4_u64, _svec4_i1, uint32_t);
-CAST_L4(_svec4_u64, _svec4_i8, int8_t);
-CAST_L4(_svec4_u64, _svec4_u8, uint8_t);
-CAST_L4(_svec4_u64, _svec4_i16, int16_t);
-CAST_L4(_svec4_u64, _svec4_u16, uint16_t);
-//CAST_L4(_svec4_u64, _svec4_i32, int32_t); //use p8 pack
+CAST_L4(uint64_t, bool);
+CAST_L4(uint64_t, int8_t);
+CAST_L4(uint64_t, uint8_t);
+CAST_L4(uint64_t, int16_t);
+CAST_L4(uint64_t, uint16_t);
+//CAST_L4(uint64_t, int32_t); //use p8 pack
 template <class T> static T svec_cast(svec<4,uint64_t> val);
 /**
  * @brief cast val from svec<4,uint64_t> type to svec<4,int32_t> type.
@@ -3492,7 +3492,7 @@ template <> FORCEINLINE svec<4,int32_t> svec_cast<svec<4,int32_t> >(svec<4,uint6
   return  svec<4,int32_t>((int32_t)val[0], (int32_t)val[1], (int32_t)val[2], (int32_t)val[3]);
 #endif
 }
-//CAST_L4(_svec4_u64, _svec4_u32, uint32_t); //use p8 pack
+//CAST_L4(uint64_t, uint32_t); //use p8 pack
 template <class T> static T svec_cast(svec<4,uint64_t> val);
 /**
  * @brief cast val from svec<4,uint64_t> type to svec<4,uint32_t> type.
@@ -3505,14 +3505,14 @@ template <> FORCEINLINE svec<4,uint32_t> svec_cast<svec<4,uint32_t> >(svec<4,uin
   return  svec<4,uint32_t>((uint32_t)val[0], (uint32_t)val[1], (uint32_t)val[2], (uint32_t)val[3]);
 #endif
 }
-CAST_OPT64(_svec4_u64, _svec4_i64, int64_t);
-//CAST_L4(_svec4_u64, _svec4_u64, uint64_t);
-CAST_L4(_svec4_u64, _svec4_f, float);
-CAST_L4(_svec4_u64, _svec4_d, double);
+CAST_OPT64(uint64_t, int64_t);
+//CAST_L4(uint64_t, uint64_t);
+CAST_L4(uint64_t, float);
+CAST_L4(uint64_t, double);
 
 //float -> all
-CAST_L4(_svec4_f, _svec4_i1, uint32_t);
-//CAST_L4(_svec4_f, _svec4_i8, int8_t); //use cts + pack+pack
+CAST_L4(float, bool);
+//CAST_L4(float, int8_t); //use cts + pack+pack
 template <class T> static T svec_cast(svec<4,float> val);
 /**
  * @brief cast val from svec<4,float> type to svec<4,int8_t> type.
@@ -3521,7 +3521,7 @@ template <> FORCEINLINE svec<4,int8_t> svec_cast<svec<4,int8_t> >(svec<4,float> 
     __vector signed int tsi=vec_splat_s32(0);//{0,0,0,0};
     return vec_pack(vec_pack(vec_cts(val.v, 0), tsi), (__vector signed short)tsi);
 }
-//CAST_L4(svec<4,float>, _svec4_u8, uint8_t); //use ctu + pack + pack
+//CAST_L4(svec<4,float>, uint8_t); //use ctu + pack + pack
 template <class T> static T svec_cast(svec<4,float> val);
 /**
  * @brief cast val from svec<4,float> type to svec<4,uint8_t> type.
@@ -3531,7 +3531,7 @@ template <> FORCEINLINE svec<4,uint8_t> svec_cast<svec<4,uint8_t> >(svec<4,float
     return vec_pack(vec_pack(vec_ctu(val.v, 0), tsi), (__vector unsigned short)tsi);
 
 }
-//CAST_L4(svec<4,float>, _svec4_i16, int16_t); //use cts + pack
+//CAST_L4(svec<4,float>, int16_t); //use cts + pack
 template <class T> static T svec_cast(svec<4,float> val);
 /**
  * @brief cast val from svec<4,float> type to svec<4,int16_t> type.
@@ -3540,7 +3540,7 @@ template <> FORCEINLINE svec<4,int16_t> svec_cast<svec<4,int16_t> >(svec<4,float
     __vector signed int tsi=vec_splat_s32(0);//{0,0,0,0};
     return vec_pack(vec_cts(val.v, 0), tsi);
 }
-//CAST_L4(svec<4,float>, _svec4_u16, uint16_t); //use ctu + pack
+//CAST_L4(svec<4,float>, uint16_t); //use ctu + pack
 template <class T> static T svec_cast(svec<4,float> val);
 /**
  * @brief cast val from svec<4,float> type to svec<4,uint16_t> type.
@@ -3549,7 +3549,7 @@ template <> FORCEINLINE svec<4,uint16_t> svec_cast<svec<4,uint16_t> >(svec<4,flo
     __vector unsigned int tsi=vec_splat_s32(0);//{0,0,0,0};
     return vec_pack(vec_ctu(val.v, 0), tsi);
 }
-//CAST_L4(svec<4,float>, svec<4,int32_t>, int32_t);//use cts
+//CAST_L4(svec<4,float>, int32_t);//use cts
 template <class T> static T svec_cast(svec<4,float> val);
 /**
  * @brief cast val from svec<4,float> type to svec<4,int32_t> type.
@@ -3557,7 +3557,7 @@ template <class T> static T svec_cast(svec<4,float> val);
 template <> FORCEINLINE svec<4,int32_t> svec_cast<svec<4,int32_t> >(svec<4,float> val) {
     return vec_cts(val.v, 0);
 }
-//CAST_L4(svec<4,float>, svec<4,uint32_t>, uint32_t); //use ctu
+//CAST_L4(svec<4,float>, uint32_t); //use ctu
 template <class T> static T svec_cast(svec<4,float> val);
 /**
  * @brief cast val from svec<4,float> type to svec<4,uint32_t> type.
@@ -3565,23 +3565,23 @@ template <class T> static T svec_cast(svec<4,float> val);
 template <> FORCEINLINE svec<4,uint32_t> svec_cast<svec<4,uint32_t> >(svec<4,float> val) {
     return vec_ctu(val.v, 0);
 }
-CAST_L4(_svec4_f, _svec4_i64, int64_t);
-CAST_L4(_svec4_f, _svec4_u64, uint64_t);
-//CAST_L4(_svec4_f, _svec4_f, float);
-CAST_L4(_svec4_f, _svec4_d, double);
+CAST_L4(float, int64_t);
+CAST_L4(float, uint64_t);
+//CAST_L4(float, float);
+CAST_L4(float, double);
 
 //double -> all
-CAST_L4(_svec4_d, _svec4_i1, uint32_t);
-CAST_L4(_svec4_d, _svec4_i8, int8_t);
-CAST_L4(_svec4_d, _svec4_u8, uint8_t);
-CAST_L4(_svec4_d, _svec4_i16, int16_t);
-CAST_L4(_svec4_d, _svec4_u16, uint16_t);
-CAST_L4(_svec4_d, _svec4_i32, int32_t);
-CAST_L4(_svec4_d, _svec4_u32, uint32_t);
-CAST_L4(_svec4_d, _svec4_i64, int64_t);
-CAST_L4(_svec4_d, _svec4_u64, uint64_t);
-CAST_L4(_svec4_d, _svec4_f, float);
-//CAST_L4(_svec4_d, _svec4_d, double);
+CAST_L4(double, bool);
+CAST_L4(double, int8_t);
+CAST_L4(double, uint8_t);
+CAST_L4(double, int16_t);
+CAST_L4(double, uint16_t);
+CAST_L4(double, int32_t);
+CAST_L4(double, uint32_t);
+CAST_L4(double, int64_t);
+CAST_L4(double, uint64_t);
+CAST_L4(double, float);
+//CAST_L4(double, double);
 
 ////casts bits, only for 32bit i32/u32 <--> float i64/u64<-->double
 //typedef union {

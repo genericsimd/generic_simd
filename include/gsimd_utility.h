@@ -1121,14 +1121,14 @@ template <> FORCEINLINE svec<LANES,STO> svec_cast<svec<LANES,STO> >(svec<LANES,S
     return ret; \
 }
 
-#define CAST_L4(FROM, TO, STO)        \
-template <class T> static T svec_cast(FROM val);     \
+#define CAST_L4(SFROM, STO)        \
+template <class T> static T svec_cast(svec<LANES,SFROM> val);     \
 /**
  * @brief cast val from FROM type to TO type.
  */ \
-template <> FORCEINLINE TO svec_cast<TO>(FROM val) {      \
-    INC_STATS_NAME(STATS_CAST_SLOW, 1, #FROM"-"#TO);          \
-    return TO((STO)val[0],(STO)val[1],(STO)val[2],(STO)val[3]); \
+template <> FORCEINLINE svec<LANES,STO> svec_cast<svec<LANES,STO> >(svec<LANES,SFROM> val) {      \
+    INC_STATS_NAME(STATS_CAST_SLOW, 1, "svec<LANES,"#SFROM">-svec<LANES,"#STO">");          \
+    return svec<LANES,STO>((STO)val[0],(STO)val[1],(STO)val[2],(STO)val[3]); \
 }
 
 typedef union {
