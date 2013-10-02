@@ -1331,16 +1331,16 @@ FORCEINLINE svec8_i1::Helper::operator uint32_t() const {
 const FORCEINLINE uint32_t svec8_i1::operator[](int index) const {
   return svec_extract(*this, index);
 }
-SUBSCRIPT_FUNC_IMPL(svec8_i8, int8_t);
-SUBSCRIPT_FUNC_IMPL(svec8_u8, uint8_t);
-SUBSCRIPT_FUNC_IMPL(svec8_i16, int16_t);
-SUBSCRIPT_FUNC_IMPL(svec8_u16, uint16_t);
-SUBSCRIPT_FUNC_IMPL(svec8_i32, int32_t);
-SUBSCRIPT_FUNC_IMPL(svec8_u32, uint32_t);
-SUBSCRIPT_FUNC_IMPL(svec8_i64, int64_t);
-SUBSCRIPT_FUNC_IMPL(svec8_u64, uint64_t);
-SUBSCRIPT_FUNC_IMPL(svec8_f, float);
-SUBSCRIPT_FUNC_IMPL(svec8_d, double);
+SUBSCRIPT_FUNC_IMPL(int8_t);
+SUBSCRIPT_FUNC_IMPL(uint8_t);
+SUBSCRIPT_FUNC_IMPL(int16_t);
+SUBSCRIPT_FUNC_IMPL(uint16_t);
+SUBSCRIPT_FUNC_IMPL(int32_t);
+SUBSCRIPT_FUNC_IMPL(uint32_t);
+SUBSCRIPT_FUNC_IMPL(int64_t);
+SUBSCRIPT_FUNC_IMPL(uint64_t);
+SUBSCRIPT_FUNC_IMPL(float);
+SUBSCRIPT_FUNC_IMPL(double);
 
 /**
  * @brief Check if any element in the mask vector is true. 
@@ -1423,40 +1423,40 @@ FORCEINLINE svec8_i1 svec8_i1::operator !=(svec8_i1 a) {
     return svec_not_equal(*this, a);
 }
 
-VEC_CMP_IMPL(svec8_i8, svec8_i1);
-VEC_CMP_IMPL(svec8_u8, svec8_i1);
-VEC_CMP_IMPL(svec8_i16, svec8_i1);
-VEC_CMP_IMPL(svec8_u16, svec8_i1);
-VEC_CMP_IMPL(svec8_i32, svec8_i1);
-VEC_CMP_IMPL(svec8_u32, svec8_i1);
-VEC_CMP_IMPL(svec8_i64, svec8_i1);
-VEC_CMP_IMPL(svec8_u64, svec8_i1);
-VEC_CMP_IMPL(svec8_f, svec8_i1);
-VEC_CMP_IMPL(svec8_d, svec8_i1);
+VEC_CMP_IMPL(int8_t);
+VEC_CMP_IMPL(uint8_t);
+VEC_CMP_IMPL(int16_t);
+VEC_CMP_IMPL(uint16_t);
+VEC_CMP_IMPL(int32_t);
+VEC_CMP_IMPL(uint32_t);
+VEC_CMP_IMPL(int64_t);
+VEC_CMP_IMPL(uint64_t);
+VEC_CMP_IMPL(float);
+VEC_CMP_IMPL(double);
 
-MVEC_CLASS_METHOD_IMPL(svec8_i1, uint32_t);
-VEC_CLASS_METHOD_IMPL(svec8_i8, int8_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-VEC_CLASS_METHOD_IMPL(svec8_u8, uint8_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-VEC_CLASS_METHOD_IMPL(svec8_i16, int16_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-VEC_CLASS_METHOD_IMPL(svec8_u16, uint16_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-VEC_CLASS_METHOD_IMPL(svec8_i32, int32_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-VEC_CLASS_METHOD_IMPL(svec8_u32, uint32_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-VEC_CLASS_METHOD_IMPL(svec8_i64, int64_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-VEC_CLASS_METHOD_IMPL(svec8_u64, uint64_t, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-VEC_CLASS_METHOD_IMPL(svec8_f, float, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
-VEC_CLASS_METHOD_IMPL(svec8_d, double, svec8_i1, svec8_ptr, svec8_i32, svec8_i64);
+MVEC_CLASS_METHOD_IMPL(bool);
+VEC_CLASS_METHOD_IMPL(int8_t);
+VEC_CLASS_METHOD_IMPL(uint8_t);
+VEC_CLASS_METHOD_IMPL(int16_t);
+VEC_CLASS_METHOD_IMPL(uint16_t);
+VEC_CLASS_METHOD_IMPL(int32_t);
+VEC_CLASS_METHOD_IMPL(uint32_t);
+VEC_CLASS_METHOD_IMPL(int64_t);
+VEC_CLASS_METHOD_IMPL(uint64_t);
+VEC_CLASS_METHOD_IMPL(float);
+VEC_CLASS_METHOD_IMPL(double);
 
-VEC_INT_CLASS_METHOD_IMPL(svec8_i8, svec8_u8, int8_t);
-VEC_INT_CLASS_METHOD_IMPL(svec8_u8, svec8_u8, uint8_t);
-VEC_INT_CLASS_METHOD_IMPL(svec8_i16, svec8_u16, int16_t);
-VEC_INT_CLASS_METHOD_IMPL(svec8_u16, svec8_u16, uint16_t);
-VEC_INT_CLASS_METHOD_IMPL(svec8_i32, svec8_u32, int32_t);
-VEC_INT_CLASS_METHOD_IMPL(svec8_u32, svec8_u32, uint32_t);
-VEC_INT_CLASS_METHOD_IMPL(svec8_i64, svec8_u64, int64_t);
-VEC_INT_CLASS_METHOD_IMPL(svec8_u64, svec8_u64, uint64_t);
+VEC_INT_CLASS_METHOD_IMPL(int8_t, uint8_t);
+VEC_INT_CLASS_METHOD_IMPL(uint8_t, uint8_t);
+VEC_INT_CLASS_METHOD_IMPL(int16_t, uint16_t);
+VEC_INT_CLASS_METHOD_IMPL(uint16_t, uint16_t);
+VEC_INT_CLASS_METHOD_IMPL(int32_t, uint32_t);
+VEC_INT_CLASS_METHOD_IMPL(uint32_t, uint32_t);
+VEC_INT_CLASS_METHOD_IMPL(int64_t, uint64_t);
+VEC_INT_CLASS_METHOD_IMPL(uint64_t, uint64_t);
 
-VEC_FLOAT_CLASS_METHOD_IMPL(svec8_f);
-VEC_FLOAT_CLASS_METHOD_IMPL(svec8_d);
+VEC_FLOAT_CLASS_METHOD_IMPL(float);
+VEC_FLOAT_CLASS_METHOD_IMPL(double);
 
 #undef LANES
 } //end of namespace generic4

@@ -150,25 +150,11 @@ template <>
 template <>
   struct svec<4,void*>;
 
-//required because macros are confused by the , in the template declaration
-//and to reduce typing
-typedef svec<4,bool> _svec4_i1;
-typedef svec<4,int8_t> _svec4_i8;
-typedef svec<4,uint8_t> _svec4_u8;
-typedef svec<4,int16_t> _svec4_i16;
-typedef svec<4,uint16_t> _svec4_u16;
-typedef svec<4,int32_t> _svec4_i32;
-typedef svec<4,uint32_t> _svec4_u32;
-typedef svec<4,int64_t> _svec4_i64;
-typedef svec<4,uint64_t> _svec4_u64;
-typedef svec<4,float> _svec4_f;
-typedef svec<4,double> _svec4_d;
-typedef svec<4,void*> _svec4_ptr;
 
 /**
  * @brief Data representation and operations on a vector of 4 boolean values.
  * This is used in predicated vector operations. Specifically the ith value of 
- * _svec4_i1 indicates whether the ith lane of a predicated vector operation is 
+ * svec<4,bool> indicates whether the ith lane of a predicated vector operation is
  * enabled or not.
  * 
  * See also gather, scatter, load, store, and compare operations.
@@ -714,7 +700,7 @@ LOAD_CONST(double);
 /**
  * @brief data representation and operations on a vector of 4 pointers.
  * This is only used in gather and scatter.
- * @note In 32bit platform, _svec4_ptr extends _svec4_u32, while in 64bit platform, _svec4_ptr extends _svec4_u64.
+ * @note In 32bit platform, svec<4,void*>_ptr extends svec<4,uint32_t>, while in 64bit platform, svec<4,void*> extends svec<4,uint64_t>.
  * @see gather and scatter
  */
 #if defined(__x86_64__) || defined(__PPC64__)
@@ -1039,13 +1025,13 @@ UNARY_OP(float, svec_log, logf);
 UNARY_OP(double, svec_log, log);
 //abs - for all types
 UNARY_OP(int8_t, svec_abs, abs<int8_t>);
-static FORCEINLINE _svec4_u8  svec_abs(svec<4,uint8_t> v) { return v;}
+static FORCEINLINE svec<4,uint8_t>  svec_abs(svec<4,uint8_t> v) { return v;}
 UNARY_OP(int16_t, svec_abs, abs<int16_t>);
-static FORCEINLINE _svec4_u16  svec_abs(svec<4,uint16_t> v) { return v;}
+static FORCEINLINE svec<4,uint16_t>  svec_abs(svec<4,uint16_t> v) { return v;}
 UNARY_OP(int32_t, svec_abs, abs<int32_t>);
-static FORCEINLINE _svec4_u32  svec_abs(svec<4,uint32_t> v) { return v;}
+static FORCEINLINE svec<4,uint32_t>  svec_abs(svec<4,uint32_t> v) { return v;}
 UNARY_OP(int64_t, svec_abs, abs<int64_t>);
-static FORCEINLINE _svec4_u64  svec_abs(svec<4,uint64_t> v) { return v;}
+static FORCEINLINE svec<4,uint64_t>  svec_abs(svec<4,uint64_t> v) { return v;}
 UNARY_OP(float, svec_abs, abs);
 UNARY_OP(double, svec_abs, abs);
 
@@ -1150,8 +1136,8 @@ MAX_MIN_REDUCE_METHODS(uint64_t);
 MAX_MIN_REDUCE_METHODS(float);
 MAX_MIN_REDUCE_METHODS(double);
 
-FORCEINLINE _svec4_d svec_preduce_add(_svec4_d v0, _svec4_d v1, _svec4_d v2, _svec4_d v3) {
-  return _svec4_d(
+FORCEINLINE svec<4,double> svec_preduce_add(svec<4,double> v0, svec<4,double> v1, svec<4,double> v2, svec<4,double> v3) {
+  return svec<4,double>(
       svec_reduce_add(v0),
       svec_reduce_add(v1),
       svec_reduce_add(v2),
@@ -1367,16 +1353,16 @@ FORCEINLINE svec<4,bool>::Helper::operator uint32_t() const {
 const FORCEINLINE uint32_t svec<4,bool>::operator[](int index) const {
   return svec_extract(*this, index);
 }
-SUBSCRIPT_FUNC_IMPL(_svec4_i8, int8_t);
-SUBSCRIPT_FUNC_IMPL(_svec4_u8, uint8_t);
-SUBSCRIPT_FUNC_IMPL(_svec4_i16, int16_t);
-SUBSCRIPT_FUNC_IMPL(_svec4_u16, uint16_t);
-SUBSCRIPT_FUNC_IMPL(_svec4_i32, int32_t);
-SUBSCRIPT_FUNC_IMPL(_svec4_u32, uint32_t);
-SUBSCRIPT_FUNC_IMPL(_svec4_i64, int64_t);
-SUBSCRIPT_FUNC_IMPL(_svec4_u64, uint64_t);
-SUBSCRIPT_FUNC_IMPL(_svec4_f, float);
-SUBSCRIPT_FUNC_IMPL(_svec4_d, double);
+SUBSCRIPT_FUNC_IMPL(int8_t);
+SUBSCRIPT_FUNC_IMPL(uint8_t);
+SUBSCRIPT_FUNC_IMPL(int16_t);
+SUBSCRIPT_FUNC_IMPL(uint16_t);
+SUBSCRIPT_FUNC_IMPL(int32_t);
+SUBSCRIPT_FUNC_IMPL(uint32_t);
+SUBSCRIPT_FUNC_IMPL(int64_t);
+SUBSCRIPT_FUNC_IMPL(uint64_t);
+SUBSCRIPT_FUNC_IMPL(float);
+SUBSCRIPT_FUNC_IMPL(double);
 
 /**
  * @brief Check if any element in the mask vector is true. 
@@ -1459,40 +1445,40 @@ FORCEINLINE svec<4,bool> svec<4,bool>::operator !=(svec<4,bool> a) {
     return svec_not_equal(*this, a);
 }
 
-VEC_CMP_IMPL(_svec4_i8, _svec4_i1);
-VEC_CMP_IMPL(_svec4_u8, _svec4_i1);
-VEC_CMP_IMPL(_svec4_i16, _svec4_i1);
-VEC_CMP_IMPL(_svec4_u16, _svec4_i1);
-VEC_CMP_IMPL(_svec4_i32, _svec4_i1);
-VEC_CMP_IMPL(_svec4_u32, _svec4_i1);
-VEC_CMP_IMPL(_svec4_i64, _svec4_i1);
-VEC_CMP_IMPL(_svec4_u64, _svec4_i1);
-VEC_CMP_IMPL(_svec4_f, _svec4_i1);
-VEC_CMP_IMPL(_svec4_d, _svec4_i1);
+VEC_CMP_IMPL(int8_t);
+VEC_CMP_IMPL(uint8_t);
+VEC_CMP_IMPL(int16_t);
+VEC_CMP_IMPL(uint16_t);
+VEC_CMP_IMPL(int32_t);
+VEC_CMP_IMPL(uint32_t);
+VEC_CMP_IMPL(int64_t);
+VEC_CMP_IMPL(uint64_t);
+VEC_CMP_IMPL(float);
+VEC_CMP_IMPL(double);
 
-MVEC_CLASS_METHOD_IMPL(_svec4_i1, uint32_t);
-VEC_CLASS_METHOD_IMPL(_svec4_i8, int8_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
-VEC_CLASS_METHOD_IMPL(_svec4_u8, uint8_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
-VEC_CLASS_METHOD_IMPL(_svec4_i16, int16_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
-VEC_CLASS_METHOD_IMPL(_svec4_u16, uint16_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
-VEC_CLASS_METHOD_IMPL(_svec4_i32, int32_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
-VEC_CLASS_METHOD_IMPL(_svec4_u32, uint32_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
-VEC_CLASS_METHOD_IMPL(_svec4_i64, int64_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
-VEC_CLASS_METHOD_IMPL(_svec4_u64, uint64_t, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
-VEC_CLASS_METHOD_IMPL(_svec4_f, float, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
-VEC_CLASS_METHOD_IMPL(_svec4_d, double, _svec4_i1, _svec4_ptr, _svec4_i32, _svec4_i64);
+MVEC_CLASS_METHOD_IMPL(bool);
+VEC_CLASS_METHOD_IMPL(int8_t);
+VEC_CLASS_METHOD_IMPL(uint8_t);
+VEC_CLASS_METHOD_IMPL(int16_t);
+VEC_CLASS_METHOD_IMPL(uint16_t);
+VEC_CLASS_METHOD_IMPL(int32_t);
+VEC_CLASS_METHOD_IMPL(uint32_t);
+VEC_CLASS_METHOD_IMPL(int64_t);
+VEC_CLASS_METHOD_IMPL(uint64_t);
+VEC_CLASS_METHOD_IMPL(float);
+VEC_CLASS_METHOD_IMPL(double);
 
-VEC_INT_CLASS_METHOD_IMPL(_svec4_i8, _svec4_u8, int8_t);
-VEC_INT_CLASS_METHOD_IMPL(_svec4_u8, _svec4_u8, uint8_t);
-VEC_INT_CLASS_METHOD_IMPL(_svec4_i16, _svec4_u16, int16_t);
-VEC_INT_CLASS_METHOD_IMPL(_svec4_u16, _svec4_u16, uint16_t);
-VEC_INT_CLASS_METHOD_IMPL(_svec4_i32, _svec4_u32, int32_t);
-VEC_INT_CLASS_METHOD_IMPL(_svec4_u32, _svec4_u32, uint32_t);
-VEC_INT_CLASS_METHOD_IMPL(_svec4_i64, _svec4_u64, int64_t);
-VEC_INT_CLASS_METHOD_IMPL(_svec4_u64, _svec4_u64, uint64_t);
+VEC_INT_CLASS_METHOD_IMPL(int8_t, uint8_t);
+VEC_INT_CLASS_METHOD_IMPL(uint8_t, uint8_t);
+VEC_INT_CLASS_METHOD_IMPL(int16_t, uint16_t);
+VEC_INT_CLASS_METHOD_IMPL(uint16_t, uint16_t);
+VEC_INT_CLASS_METHOD_IMPL(int32_t, uint32_t);
+VEC_INT_CLASS_METHOD_IMPL(uint32_t, uint32_t);
+VEC_INT_CLASS_METHOD_IMPL(int64_t, uint64_t);
+VEC_INT_CLASS_METHOD_IMPL(uint64_t, uint64_t);
 
-VEC_FLOAT_CLASS_METHOD_IMPL(_svec4_f);
-VEC_FLOAT_CLASS_METHOD_IMPL(_svec4_d);
+VEC_FLOAT_CLASS_METHOD_IMPL(float);
+VEC_FLOAT_CLASS_METHOD_IMPL(double);
 
 #undef LANES
 } //end of namespace vsx4

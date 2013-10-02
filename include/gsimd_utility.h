@@ -552,9 +552,9 @@ FORCEINLINE svec<LANES,STYPE> svec_select(bool cond, svec<LANES,STYPE> a, svec<L
 /**
  * @brief macro for setzero method implementation
  */
-#define ZERO(VTYPE, NAME)                   \
-  static FORCEINLINE VTYPE svec_zero(VTYPE) {  \
-    VTYPE ret(0,0,0,0);                        \
+#define ZERO(STYPE, NAME)                   \
+  static FORCEINLINE svec<LANES,STYPE> svec_zero(svec<LANES,STYPE>) {  \
+    svec<LANES,STYPE> ret(0,0,0,0);                        \
     return ret;                                \
   }
 
@@ -1157,12 +1157,12 @@ template <> FORCEINLINE svec<LANES,STO> svec_cast_bits<svec<LANES,STO> >(svec<LA
 //
 //////////////////////////////////////////////////////////////
 
-#define SUBSCRIPT_FUNC_IMPL(VTYPE, STYPE) \
-FORCEINLINE STYPE& VTYPE::operator[](int index) { \
+#define SUBSCRIPT_FUNC_IMPL(STYPE) \
+FORCEINLINE STYPE& svec<LANES,STYPE>::operator[](int index) { \
   INC_STATS_NAME(STATS_INSERT, 1, "insert "#STYPE);   \
   return v[index];   \
 } \
-const FORCEINLINE STYPE  VTYPE::operator[](int index) const { \
+const FORCEINLINE STYPE  svec<LANES,STYPE>::operator[](int index) const { \
   return v[index]; \
 }
 
@@ -1172,301 +1172,301 @@ const FORCEINLINE STYPE  VTYPE::operator[](int index) const { \
  *
  */
 
-#define VEC_CMP_IMPL(VTYPE, MTYPE)     \
+#define VEC_CMP_IMPL(STYPE)     \
 /**
  * @brief Element-wise compare equal, return a bool vector, e.g., "a == b"
  * @param[in] a a vector
  * @return the result of compare equal as a boolean vector.
  */\
-  FORCEINLINE MTYPE VTYPE::operator==(VTYPE a) { return svec_equal(*this, a); } \
+  FORCEINLINE svec<LANES,bool> svec<LANES,STYPE>::operator==(svec<LANES,STYPE> a) { return svec_equal(*this, a); } \
 /**
  * @brief Element-wise compare not equal, return a bool vector. E.g. "a != b"
  * @param[in] a a vector
  * @return the result of compare not equal as a boolean vector.
  */\
-  FORCEINLINE MTYPE VTYPE::operator!=(VTYPE a) { return svec_not_equal(*this, a); } \
+  FORCEINLINE svec<LANES,bool> svec<LANES,STYPE>::operator!=(svec<LANES,STYPE> a) { return svec_not_equal(*this, a); } \
 /**
  * @brief Element-wise compare less than, return a bool vector. E.g. "a < b"
  * @param[in] a a vector
  * @return the result of compare less than as a boolean vector.
  */\
-  FORCEINLINE MTYPE VTYPE::operator<(VTYPE a) { return svec_less_than(*this, a); } \
+  FORCEINLINE svec<LANES,bool> svec<LANES,STYPE>::operator<(svec<LANES,STYPE> a) { return svec_less_than(*this, a); } \
 /**
  * @brief Element-wise compare less equal, return a bool vector. E.g. "a <= b"
  * @param[in] a a vector
  * @return the result of compare less equal as a boolean vector.
  */\
-  FORCEINLINE MTYPE VTYPE::operator<=(VTYPE a) { return svec_less_equal(*this, a); } \
+  FORCEINLINE svec<LANES,bool> svec<LANES,STYPE>::operator<=(svec<LANES,STYPE> a) { return svec_less_equal(*this, a); } \
 /**
  * @brief Element-wise compare greater than, return a bool vector. E.g. "a > b"
  * @param[in] a a vector
  * @return the result of compare greater than as a boolean vector.
  */\
-  FORCEINLINE MTYPE VTYPE::operator>(VTYPE a) { return svec_greater_than(*this, a); } \
+  FORCEINLINE svec<LANES,bool> svec<LANES,STYPE>::operator>(svec<LANES,STYPE> a) { return svec_greater_than(*this, a); } \
 /**
  * @brief Element-wise compare greater equal, return a bool vector. E.g. "a >= b"
  * @param[in] a a vector
  * @return the result of compare greater equal as a boolean vector.
  */\
-  FORCEINLINE MTYPE VTYPE::operator>=(VTYPE a) { return svec_greater_equal(*this, a); }
+  FORCEINLINE svec<LANES,bool> svec<LANES,STYPE>::operator>=(svec<LANES,STYPE> a) { return svec_greater_equal(*this, a); }
 
-#define VEC_UNARY_IMPL(VTYPE, STYPE) \
+#define VEC_UNARY_IMPL(STYPE) \
 /**
  * @brief get the neg value, return a VTYPE vector. E.g. "-a"
  */\
-  FORCEINLINE VTYPE VTYPE::operator-() {return svec_neg(*this); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator-() {return svec_neg(*this); } \
 /**
  * @brief Get the sum of all the element values in the vector. return a STYPE scalar
  */\
-  FORCEINLINE STYPE VTYPE::reduce_add() {return svec_reduce_add(*this); } \
+  FORCEINLINE STYPE svec<LANES,STYPE>::reduce_add() {return svec_reduce_add(*this); } \
 /**
  * @brief Get the max value of all the element values in the vector. return a STYPE scalar
  */\
-  FORCEINLINE STYPE VTYPE::reduce_max() {return svec_reduce_max(*this); } \
+  FORCEINLINE STYPE svec<LANES,STYPE>::reduce_max() {return svec_reduce_max(*this); } \
 /**
  * @brief Get the min value of all the element values in the vector. return a STYPE scalar
  */\
-  FORCEINLINE STYPE VTYPE::reduce_min() {return svec_reduce_min(*this); }
+  FORCEINLINE STYPE svec<LANES,STYPE>::reduce_min() {return svec_reduce_min(*this); }
 
 
-#define VEC_BIN_IMPL(VTYPE, STYPE)    \
+#define VEC_BIN_IMPL(STYPE)    \
 /**
  * @brief Add two vectors
  */\
-  FORCEINLINE VTYPE VTYPE::operator+(VTYPE a) { return svec_add(*this, a); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator+(svec<LANES,STYPE> a) { return svec_add(*this, a); } \
 /**
  * @brief Add a vector and a scalar
  */\
-  FORCEINLINE VTYPE VTYPE::operator+(STYPE s) { return svec_add_scalar(*this, s); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator+(STYPE s) { return svec_add_scalar(*this, s); } \
 /**
  * @brief Add a scalar and a vector
  */\
-  FORCEINLINE VTYPE operator+(STYPE s, VTYPE a) {return svec_scalar_add(s, a);} \
+  FORCEINLINE svec<LANES,STYPE> operator+(STYPE s, svec<LANES,STYPE> a) {return svec_scalar_add(s, a);} \
 /**
  * @brief Sub two vectors
  */\
-  FORCEINLINE VTYPE VTYPE::operator-(VTYPE a) { return svec_sub(*this, a); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator-(svec<LANES,STYPE> a) { return svec_sub(*this, a); } \
 /**
  * @brief Sub a vector and a scalar
  */\
-  FORCEINLINE VTYPE VTYPE::operator-(STYPE s) { return svec_sub_scalar(*this, s); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator-(STYPE s) { return svec_sub_scalar(*this, s); } \
 /**
  * @brief Sub a scalar and a vector
  */\
-  FORCEINLINE VTYPE operator-(STYPE s, VTYPE a) {return svec_scalar_sub(s, a);} \
+  FORCEINLINE svec<LANES,STYPE> operator-(STYPE s, svec<LANES,STYPE> a) {return svec_scalar_sub(s, a);} \
 /**
  * @brief Multiply two vectors
  */\
-  FORCEINLINE VTYPE VTYPE::operator*(VTYPE a) { return svec_mul(*this, a); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator*(svec<LANES,STYPE> a) { return svec_mul(*this, a); } \
 /**
  * @brief Multiply a vector and a scalar
  */\
-  FORCEINLINE VTYPE VTYPE::operator*(STYPE s) { return svec_mul_scalar(*this, s) ;} \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator*(STYPE s) { return svec_mul_scalar(*this, s) ;} \
 /**
  * @brief Multiply a scalar and a vector
  */\
-  FORCEINLINE VTYPE operator*(STYPE s, VTYPE a) {return svec_scalar_mul(s, a);} \
+  FORCEINLINE svec<LANES,STYPE> operator*(STYPE s, svec<LANES,STYPE> a) {return svec_scalar_mul(s, a);} \
 /**
  * @brief Divide a vector by a vector
  */\
-  FORCEINLINE VTYPE VTYPE::operator/(VTYPE a) { return svec_div(*this, a); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator/(svec<LANES,STYPE> a) { return svec_div(*this, a); } \
 /**
  * @brief Divide a vector by a scalar
  */\
-  FORCEINLINE VTYPE VTYPE::operator/(STYPE s) { return svec_div_scalar(*this, s) ;} \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator/(STYPE s) { return svec_div_scalar(*this, s) ;} \
 /**
  * @brief Divide a scalar by a vector
  */\
-  FORCEINLINE VTYPE operator/(STYPE s, VTYPE a) {return svec_scalar_div(s, a);} \
+  FORCEINLINE svec<LANES,STYPE> operator/(STYPE s, svec<LANES,STYPE> a) {return svec_scalar_div(s, a);} \
 
   /**
    * @brief mask class's class method impl
    */
-  #define MVEC_CLASS_METHOD_IMPL(VTYPE, STYPE) \
+  #define MVEC_CLASS_METHOD_IMPL(STYPE) \
   /*!
      @brief load the vector from the pointer p
      @param[in] p load address
      \note p does not have to be aligned
      @return no return value. This vector is updated with value loaded from p.
    */\
-    FORCEINLINE VTYPE VTYPE::load(VTYPE* p){ return svec_load(p); } \
+    FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::load(svec<LANES,STYPE>* p){ return svec_load(p); } \
   /*!
      @brief Store the vector to address p.
      @param[in] p store address
      \note p does not have to be aligned
    */\
-    FORCEINLINE void VTYPE::store(VTYPE* p){ svec_store(p, *this); }
+    FORCEINLINE void svec<LANES,STYPE>::store(svec<LANES,STYPE>* p){ svec_store(p, *this); }
 
 
-#define VEC_CLASS_METHOD_IMPL(VTYPE, STYPE, MTYPE, PTYPE, OTYPE32, OTYPE64) \
-  MVEC_CLASS_METHOD_IMPL(VTYPE, STYPE); \
+#define VEC_CLASS_METHOD_IMPL(STYPE) \
+  MVEC_CLASS_METHOD_IMPL(STYPE); \
 /*!
    @brief Return a new vector by only loading the value from the pointer p if the mask element is true
  */\
-  FORCEINLINE VTYPE VTYPE::masked_load(VTYPE* p, MTYPE mask){ return svec_masked_load(p, mask); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::masked_load(svec<LANES,STYPE>* p, svec<LANES,bool> mask){ return svec_masked_load(p, mask); } \
 /*!
    @brief Store the vector element's value to pointer p if the mask element is true
  */\
-  FORCEINLINE void VTYPE::masked_store(VTYPE* p, MTYPE mask){ svec_masked_store(p, *this, mask); } \
-  VEC_UNARY_IMPL(VTYPE, STYPE); \
-  VEC_BIN_IMPL(VTYPE, STYPE); \
+  FORCEINLINE void svec<LANES,STYPE>::masked_store(svec<LANES,STYPE>* p, svec<LANES,bool> mask){ svec_masked_store(p, *this, mask); } \
+  VEC_UNARY_IMPL(STYPE); \
+  VEC_BIN_IMPL(STYPE); \
 /*!
    @brief Construct a vector by loading a scalar value from pointer p, and splat it to all the elements in the vector
  */\
-  FORCEINLINE VTYPE VTYPE::load_const(const STYPE* p) {return svec_load_const<VTYPE>(p);} \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::load_const(const STYPE* p) {return svec_load_const<svec<LANES,STYPE> >(p);} \
 /*!
    @brief Construct a vector by loading a scalar value from pointer p, and splat it to all the elements in the vector
  */\
-  FORCEINLINE VTYPE VTYPE::load_and_splat(STYPE* p) {return svec_load_and_splat<VTYPE>(p); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::load_and_splat(STYPE* p) {return svec_load_and_splat<svec<LANES,STYPE> >(p); } \
   /*!
      @brief Gather the elements pointed by the vector ptrs if the mask element is true, and return a vector.
    */\
-  FORCEINLINE VTYPE VTYPE::gather(PTYPE ptrs, MTYPE mask) {return svec_gather<VTYPE>(ptrs, mask); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::gather(svec<LANES,void*> ptrs, svec<LANES,bool> mask) {return svec_gather<svec<LANES,STYPE> >(ptrs, mask); } \
   /*!
      @brief Scatter the vector's elements to the locations pointed by the vector ptrs if the mask element is true.
    */\
-  FORCEINLINE void VTYPE::scatter(PTYPE ptrs, MTYPE mask) { svec_scatter(ptrs, *this, mask); } \
+  FORCEINLINE void svec<LANES,STYPE>::scatter(svec<LANES,void*> ptrs, svec<LANES,bool> mask) { svec_scatter(ptrs, *this, mask); } \
   /*!
      @brief Gather the elements pointed by calculating the addresses ((char*)b + scale * offsets) if the mask element is true, and return a vector.
    */\
-  FORCEINLINE VTYPE VTYPE::gather_base_offsets(STYPE* b, uint32_t scale, OTYPE32 offsets, MTYPE mask) { \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::gather_base_offsets(STYPE* b, uint32_t scale, svec<LANES,int32_t> offsets, svec<LANES,bool> mask) { \
     return svec_gather_base_offsets(b, scale, offsets, mask); \
   } \
   /*!
      @brief Gather the elements pointed by calculating the addresses ((char*)b + scale * offsets) if the mask element is true, and return a vector.
    */\
-  FORCEINLINE VTYPE VTYPE::gather_base_offsets(STYPE* b, uint32_t scale, OTYPE64 offsets, MTYPE mask) {\
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::gather_base_offsets(STYPE* b, uint32_t scale, svec<LANES,int64_t> offsets, svec<LANES,bool> mask) {\
       return svec_gather_base_offsets(b, scale, offsets, mask); \
   } \
   /*!
      @brief Scatter the vector's elements to the addresses ((char*)b + scale * offsets) if the mask element is true.
    */\
-  FORCEINLINE void VTYPE::scatter_base_offsets(STYPE* b, uint32_t scale, OTYPE32 offsets, MTYPE mask) { \
+  FORCEINLINE void svec<LANES,STYPE>::scatter_base_offsets(STYPE* b, uint32_t scale, svec<LANES,int32_t> offsets, svec<LANES,bool> mask) { \
       svec_scatter_base_offsets(b, scale, offsets, *this, mask); \
   } \
   /*!
      @brief Scatter the vector's elements to the addresses ((char*)b + scale * offsets) if the mask element is true.
    */\
-  FORCEINLINE void VTYPE::scatter_base_offsets(STYPE* b, uint32_t scale, OTYPE64 offsets, MTYPE mask) {\
+  FORCEINLINE void svec<LANES,STYPE>::scatter_base_offsets(STYPE* b, uint32_t scale, svec<LANES,int64_t> offsets, svec<LANES,bool> mask) {\
       svec_scatter_base_offsets(b, scale, offsets, *this, mask); \
   } \
   /*!
      @brief Gather the elements pointed by (b+off, b++off+stride, b+off+2*stride, b+off+3*step).
    */\
-  FORCEINLINE VTYPE VTYPE::gather_stride(STYPE* b, int32_t off, int32_t stride) { \
-    return svec_gather_stride<VTYPE>(b, off, stride); \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::gather_stride(STYPE* b, int32_t off, int32_t stride) { \
+    return svec_gather_stride<svec<LANES,STYPE> >(b, off, stride); \
   } \
   /*!
      @brief Gather the elements pointed by (b+off, b++off+stride, b+off+2*stride, b+off+3*step).
    */\
-  FORCEINLINE VTYPE VTYPE::gather_stride(STYPE* b, int64_t off, int64_t stride) {\
-      return svec_gather_stride<VTYPE>(b, off, stride); \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::gather_stride(STYPE* b, int64_t off, int64_t stride) {\
+      return svec_gather_stride<svec<LANES,STYPE> >(b, off, stride); \
   } \
   /*!
      @brief Scatter the vector's elements to the addresses (b+off, b++off+stride, b+off+2*stride, b+off+3*step).
    */\
-  FORCEINLINE void VTYPE::scatter_stride(STYPE* b, int32_t off, int32_t stride) { \
+  FORCEINLINE void svec<LANES,STYPE>::scatter_stride(STYPE* b, int32_t off, int32_t stride) { \
       svec_scatter_stride(b, off, stride, *this); \
   } \
   /*!
      @brief Scatter the vector's elements to the addresses (b+off, b++off+stride, b+off+2*stride, b+off+3*step).
    */\
-  FORCEINLINE void VTYPE::scatter_stride(STYPE* b, int64_t off, int64_t stride) {\
+  FORCEINLINE void svec<LANES,STYPE>::scatter_stride(STYPE* b, int64_t off, int64_t stride) {\
     svec_scatter_stride(b, off, stride, *this); \
   } \
   /*!
      @brief Return a new vector by setting all the elements of the new vector with this vector's index element.
    */\
-  FORCEINLINE VTYPE VTYPE::broadcast(int32_t index) { return svec_broadcast(*this, index);} \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::broadcast(int32_t index) { return svec_broadcast(*this, index);} \
   /*!
      @brief Return a new vector by rotate this vector's elements. e.g. newVec[i] = thisVec[i+index]
    */\
-  FORCEINLINE VTYPE VTYPE::rotate(int32_t index) { return svec_rotate(*this, index); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::rotate(int32_t index) { return svec_rotate(*this, index); } \
   /*!
      @brief Return a new vector by shuffle this vector's elements with index vector e.g. newVec[i] = thisVec[index[i]]
    */\
-  FORCEINLINE VTYPE VTYPE::shuffle(OTYPE32 index) { return svec_shuffle(*this, index); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::shuffle(svec<LANES,int32_t> index) { return svec_shuffle(*this, index); } \
   /*!
      @brief Return a new vector of the vector's abs value.
    */\
-  FORCEINLINE VTYPE VTYPE::abs() { return svec_abs(*this); }
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::abs() { return svec_abs(*this); }
 
-#define VEC_INT_CLASS_METHOD_IMPL(VTYPE, VTYPE_B, STYPE) \
+#define VEC_INT_CLASS_METHOD_IMPL(STYPE, STYPE2) \
   /**
    * @brief Or operator. E.g. "a | b".
    */\
-  FORCEINLINE VTYPE VTYPE::operator|(VTYPE a) { return svec_or(*this, a); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator|(svec<LANES,STYPE> a) { return svec_or(*this, a); } \
   /**
    * @brief And operator. E.g. "a & b".
    */\
-  FORCEINLINE VTYPE VTYPE::operator&(VTYPE a) { return svec_and(*this, a); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator&(svec<LANES,STYPE> a) { return svec_and(*this, a); } \
   /**
    * @brief Xor operator. E.g. "a ^ b".
    */\
-  FORCEINLINE VTYPE VTYPE::operator^(VTYPE a) { return svec_xor(*this, a); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator^(svec<LANES,STYPE> a) { return svec_xor(*this, a); } \
   /**
    * @brief Left shift operator. E.g. "a << b".The b must be unsigned vector
    */\
-  FORCEINLINE VTYPE VTYPE::operator<<(VTYPE_B a) { return svec_shl(*this, a); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator<<(svec<LANES,STYPE2> a) { return svec_shl(*this, a); } \
   /**
    * @brief Left shift operator by a scalar. E.g. "a << 5".
    */\
-  FORCEINLINE VTYPE VTYPE::operator<<(int32_t s) { return svec_shl(*this, s); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator<<(int32_t s) { return svec_shl(*this, s); } \
   /**
    * @brief Right shift operator. E.g. "a >> b".The b must be unsigned vector
    */\
-  FORCEINLINE VTYPE VTYPE::operator>>(VTYPE_B a) { return svec_shr(*this, a); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator>>(svec<LANES,STYPE2> a) { return svec_shr(*this, a); } \
   /**
    * @brief Right shift operator by a scalar. E.g. "a >> 5".
    */\
-  FORCEINLINE VTYPE VTYPE::operator>>(int32_t s) { return svec_shr(*this, s); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator>>(int32_t s) { return svec_shr(*this, s); } \
   /**
    * @brief Remainder operator on a vector. E.g. "a % b".
    */\
-  FORCEINLINE VTYPE VTYPE::operator%(VTYPE a) { return svec_rem(*this, a); } \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator%(svec<LANES,STYPE> a) { return svec_rem(*this, a); } \
   /**
    * @brief Remainder operator on a scalar. E.g. "a % 5".
    */\
-  FORCEINLINE VTYPE VTYPE::operator%(STYPE s) { return svec_rem(*this, s); }
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::operator%(STYPE s) { return svec_rem(*this, s); }
 
 
-#define VEC_FLOAT_CLASS_METHOD_IMPL(VTYPE) \
+#define VEC_FLOAT_CLASS_METHOD_IMPL(STYPE) \
   /**
    * @brief return the round VTYPE vector.
    */\
-  FORCEINLINE VTYPE VTYPE::round() { return svec_round(*this);} \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::round() { return svec_round(*this);} \
   /**
    * @brief return the floor VTYPE vector.
    */\
-  FORCEINLINE VTYPE VTYPE::floor() { return svec_floor(*this);} \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::floor() { return svec_floor(*this);} \
   /**
    * @brief return the ceil VTYPE vector.
    */\
-  FORCEINLINE VTYPE VTYPE::ceil() { return svec_ceil(*this);} \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::ceil() { return svec_ceil(*this);} \
   /**
    * @brief return the sqrt VTYPE vector.
    */\
-  FORCEINLINE VTYPE VTYPE::sqrt() { return svec_sqrt(*this);} \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::sqrt() { return svec_sqrt(*this);} \
   /**
    * @brief return the reverse VTYPE vector. (1.0/thisVec)
    */\
-  FORCEINLINE VTYPE VTYPE::rcp() { return svec_rcp(*this);} \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::rcp() { return svec_rcp(*this);} \
   /**
    * @brief return the reverse sqrt VTYPE vector. ( 1.0/sqrt(thisVec) )
    */\
-  FORCEINLINE VTYPE VTYPE::rsqrt() { return svec_rsqrt(*this);}\
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::rsqrt() { return svec_rsqrt(*this);}\
   /**
    * @brief return the exp VTYPE vector.
    */\
-  FORCEINLINE VTYPE VTYPE::exp() {return svec_exp(*this);} \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::exp() {return svec_exp(*this);} \
   /**
    * @brief return the log VTYPE vector.
    */\
-  FORCEINLINE VTYPE VTYPE::log() {return svec_log(*this);} \
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::log() {return svec_log(*this);} \
   /**
    * @brief return the pow VTYPE vector.
    */\
-  FORCEINLINE VTYPE VTYPE::pow(VTYPE a) { return svec_pow(*this, a); }
+  FORCEINLINE svec<LANES,STYPE> svec<LANES,STYPE>::pow(svec<LANES,STYPE> a) { return svec_pow(*this, a); }
 
 
 #endif /* GSIMD_UTILITY_H_ */

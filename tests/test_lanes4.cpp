@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define EXPECT_VEC_EQ(v1, v2) EXPECT_TRUE(vec_all_eq(v1, v2))
 
-typedef _svec4_ptr svec4_ptr;
+typedef svec<4,void*> svec4_ptr;
 typedef svec<4,bool> svec4_i1;
 typedef svec<4,int8_t> svec4_i8;
 typedef svec<4,uint8_t> svec4_u8;
@@ -2250,7 +2250,7 @@ TEST(svec4_u32, cast)
 TEST(svec4_i64, cast)
 {
   svec4_i64 v = random_vec<int64_t, svec4_i64>();
-  EXPECT_SVEC_EQ(svec_cast<svec4_i1>(v), (ref_cast<svec4_i64, svec4_i1, uint32_t>(v)));
+  EXPECT_SVEC_EQ(svec_cast<svec4_i1>(v), (ref_cast<svec4_i64, svec4_i1, bool>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_i8>(v), (ref_cast<svec4_i64, svec4_i8, int8_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_u8>(v), (ref_cast<svec4_i64, svec4_u8, uint8_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_i16>(v), (ref_cast<svec4_i64, svec4_i16, int16_t>(v)));
@@ -2266,7 +2266,8 @@ TEST(svec4_i64, cast)
 TEST(svec4_u64, cast)
 {
   svec4_u64 v = random_vec<uint64_t, svec4_u64>();
-  EXPECT_SVEC_EQ(svec_cast<svec4_i1>(v), (ref_cast<svec4_u64, svec4_i1, uint32_t>(v)));
+  DUMP(v);
+  EXPECT_SVEC_EQ(svec_cast<svec4_i1>(v), (ref_cast<svec4_u64, svec4_i1, bool>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_i8>(v), (ref_cast<svec4_u64, svec4_i8, int8_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_u8>(v), (ref_cast<svec4_u64, svec4_u8, uint8_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_i16>(v), (ref_cast<svec4_u64, svec4_i16, int16_t>(v)));
@@ -2283,7 +2284,7 @@ TEST(svec4_u64, cast)
 TEST(svec4_f, cast)
 {
   svec4_f v = random_vec<float, svec4_f>();
-  EXPECT_SVEC_EQ(svec_cast<svec4_i1>(v), (ref_cast<svec4_f, svec4_i1, uint32_t>(v)));
+  EXPECT_SVEC_EQ(svec_cast<svec4_i1>(v), (ref_cast<svec4_f, svec4_i1, bool>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_i8>(v), (ref_cast<svec4_f, svec4_i8, int8_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_u8>(v), (ref_cast<svec4_f, svec4_u8, uint8_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_i16>(v), (ref_cast<svec4_f, svec4_i16, int16_t>(v)));
@@ -2299,7 +2300,9 @@ TEST(svec4_f, cast)
 TEST(svec4_d, cast)
 {
   svec4_d v = random_vec<double, svec4_d>();
-  EXPECT_SVEC_EQ(svec_cast<svec4_i1>(v), (ref_cast<svec4_d, svec4_i1, uint32_t>(v)));
+  DUMP(v);
+  EXPECT_SVEC_EQ(svec_cast<svec4_i1>(v), (ref_cast<svec4_d, svec4_i1, bool>(v)));
+  DUMP(svec_cast<svec4_i1>(v)); DUMP((ref_cast<svec4_d, svec4_i1, uint32_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_i8>(v), (ref_cast<svec4_d, svec4_i8, int8_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_u8>(v), (ref_cast<svec4_d, svec4_u8, uint8_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_i16>(v), (ref_cast<svec4_d, svec4_i16, int16_t>(v)));
