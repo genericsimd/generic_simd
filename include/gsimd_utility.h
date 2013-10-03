@@ -614,10 +614,10 @@ FORCEINLINE svec<LANES,STYPE> svec_gather<svec<LANES,STYPE> >(svec<LANES,PSTYPE>
  * @param mask
  * @return
  */
-#define GATHER_GENERAL_L4(VTYPE, STYPE, PTRTYPE, MTYPE)         \
+#define GATHER_GENERAL_L4(STYPE, PSTYPE)         \
 template<> \
-FORCEINLINE VTYPE svec_gather<VTYPE>(PTRTYPE ptrs, MTYPE mask) {   \
-  return lGatherGeneral<VTYPE, STYPE, PTRTYPE, MTYPE>(ptrs, mask);                                \
+FORCEINLINE svec<LANES,STYPE> svec_gather<svec<LANES,STYPE> >(svec<LANES,PSTYPE> ptrs, svec<LANES,bool> mask) {   \
+  return lGatherGeneral<svec<LANES,STYPE>, STYPE, svec<LANES,PSTYPE>, svec<LANES,bool> >(ptrs, mask);                                \
 }
 
 /**

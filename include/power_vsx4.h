@@ -1526,26 +1526,26 @@ template <class RetVecType> static RetVecType svec_gather(svec<4,uint64_t> ptrs,
 //There is a fast impl for gather addr64 on i8/u8 types
 //But it is commented out. So I didn't move the code to here
 //Please see vsx4.h __gather64_i8
-GATHER_GENERAL_L4(_svec4_i8, int8_t, _svec4_u32, _svec4_i1);
-GATHER_GENERAL_L4(_svec4_i8, int8_t, _svec4_u64, _svec4_i1);
-GATHER_GENERAL_L4(_svec4_u8, uint8_t, _svec4_u32, _svec4_i1);
-GATHER_GENERAL_L4(_svec4_u8, uint8_t, _svec4_u64, _svec4_i1);
-GATHER_GENERAL_L4(_svec4_i16, int16_t, _svec4_u32, _svec4_i1);
-GATHER_GENERAL_L4(_svec4_i16, int16_t, _svec4_u64, _svec4_i1);
-GATHER_GENERAL_L4(_svec4_u16, uint16_t, _svec4_u32, _svec4_i1);
-GATHER_GENERAL_L4(_svec4_u16, uint16_t, _svec4_u64, _svec4_i1);
-GATHER_GENERAL_L4(_svec4_i32, int32_t, _svec4_u32, _svec4_i1);
+GATHER_GENERAL_L4(int8_t, uint32_t);
+GATHER_GENERAL_L4(int8_t, uint64_t);
+GATHER_GENERAL_L4(uint8_t, uint32_t);
+GATHER_GENERAL_L4(uint8_t, uint64_t);
+GATHER_GENERAL_L4(int16_t, uint32_t);
+GATHER_GENERAL_L4(int16_t, uint64_t);
+GATHER_GENERAL_L4(uint16_t, uint32_t);
+GATHER_GENERAL_L4(uint16_t, uint64_t);
+GATHER_GENERAL_L4(int32_t, uint32_t);
 
-//GATHER_GENERAL_L4(_svec4_i32, int32_t, _svec4_u64, _svec4_i1);
+//GATHER_GENERAL_L4(int32_t, uin64_t);
 template<>
 FORCEINLINE svec<4,int32_t> svec_gather<svec<4,int32_t> >(svec<4,uint64_t> ptrs, svec<4,bool> mask) {
   typedef svec<4,int32_t> RetVec;
   return lGatherGeneral<RetVec,int32_t,svec<4,uint64_t>,svec<4,bool> >(ptrs,mask);
 }
 
-GATHER_GENERAL_L4(_svec4_u32, uint32_t, _svec4_u32, _svec4_i1);
+GATHER_GENERAL_L4(uint32_t, uint32_t);
 
-//GATHER_GENERAL_L4(_svec4_u32, uint32_t, svec<4,uint64_t>, _svec4_i1);
+//GATHER_GENERAL_L4(uint32_t, uint64_t);
 template<>
 FORCEINLINE _svec4_u32 svec_gather<svec<4,uint32_t> >(svec<4,uint64_t> ptrs, svec<4,bool> mask) {
   typedef svec<4,uint32_t> RetVec;
@@ -1555,18 +1555,18 @@ FORCEINLINE _svec4_u32 svec_gather<svec<4,uint32_t> >(svec<4,uint64_t> ptrs, sve
 
 
 
-GATHER_GENERAL_L4(_svec4_i64, int64_t, _svec4_u32, _svec4_i1);
+GATHER_GENERAL_L4(int64_t, uint32_t);
 
-//GATHER_GENERAL_L4(_svec4_i64, int64_t, svec<4,uint64_t>, _svec4_i1);
+//GATHER_GENERAL_L4(int64_t, uint64_t);
 template<>
 FORCEINLINE svec<4,int64_t> svec_gather<svec<4,int64_t> >(svec<4,uint64_t> ptrs, svec<4,bool> mask) {
   typedef svec<4,int64_t> RetVec;
   return lGatherGeneral<RetVec,int64_t, svec<4,uint64_t>,svec<4,bool> >(ptrs,mask);
 }
 
-GATHER_GENERAL_L4(_svec4_u64, uint64_t, _svec4_u32, _svec4_i1);
+GATHER_GENERAL_L4(uint64_t, uint32_t);
 
-//GATHER_GENERAL_L4(_svec4_u64, uint64_t, _svec4_u64, _svec4_i1);
+//GATHER_GENERAL_L4(uint64_t, uint64_t);
 template<>
 FORCEINLINE svec<4,uint64_t> svec_gather<svec<4,uint64_t> >(svec<4,uint64_t> ptrs, svec<4,bool> mask) {
   typedef svec<4,uint64_t> RetVec;
@@ -1574,17 +1574,17 @@ FORCEINLINE svec<4,uint64_t> svec_gather<svec<4,uint64_t> >(svec<4,uint64_t> ptr
 }
 
 
-GATHER_GENERAL_L4(_svec4_f, float, _svec4_u32, _svec4_i1);
+GATHER_GENERAL_L4(float, uint32_t);
 
-//GATHER_GENERAL_L4(_svec4_f, float, _svec4_u64, _svec4_i1);
+//GATHER_GENERAL_L4(float, uint64_t);
 template<>
 FORCEINLINE svec<4,float> svec_gather<svec<4,float> >(svec<4,uint64_t> ptrs, svec<4,bool> mask) {
   typedef svec<4,float> RetVec;
   return lGatherGeneral<RetVec,float,svec<4,uint64_t>,svec<4,bool> >(ptrs,mask);
 }
 
-GATHER_GENERAL_L4(_svec4_d, double, _svec4_u32, _svec4_i1);
-GATHER_GENERAL_L4(_svec4_d, double, _svec4_u64, _svec4_i1);
+GATHER_GENERAL_L4(double, uint32_t);
+GATHER_GENERAL_L4(double, uint64_t);
 
 //Utility functions for gather base off sets
 
@@ -2674,42 +2674,42 @@ BINARY_OP_OPT(_svec4_u32, svec_xor, ^);
 BINARY_OP_OPT64(_svec4_i64, svec_xor, ^);
 BINARY_OP_OPT64(_svec4_u64, svec_xor, ^);
 
-#define BIN_VEC_SCAL(VTYPE, STYPE) \
-static FORCEINLINE VTYPE svec_add_scalar(VTYPE a, STYPE s) { \
-  return svec_add(a, VTYPE(s)); \
+#define BIN_VEC_SCAL(STYPE) \
+static FORCEINLINE svec<LANES,STYPE> svec_add_scalar(svec<LANES,STYPE> a, STYPE s) { \
+  return svec_add(a, svec<LANES,STYPE>(s)); \
 } \
-static FORCEINLINE VTYPE svec_scalar_add(STYPE s, VTYPE a) { \
-  return svec_add(VTYPE(s), a); \
+static FORCEINLINE svec<LANES,STYPE> svec_scalar_add(STYPE s, svec<LANES,STYPE> a) { \
+  return svec_add(svec<LANES,STYPE>(s), a); \
 } \
-static FORCEINLINE VTYPE svec_sub_scalar(VTYPE a, STYPE s) { \
-  return svec_sub(a, VTYPE(s)); \
+static FORCEINLINE svec<LANES,STYPE> svec_sub_scalar(svec<LANES,STYPE> a, STYPE s) { \
+  return svec_sub(a, svec<LANES,STYPE>(s)); \
 } \
-static FORCEINLINE VTYPE svec_scalar_sub(STYPE s, VTYPE a) { \
-  return svec_sub(VTYPE(s), a); \
+static FORCEINLINE svec<LANES,STYPE> svec_scalar_sub(STYPE s, svec<LANES,STYPE> a) { \
+  return svec_sub(svec<LANES,STYPE>(s), a); \
 } \
-static FORCEINLINE VTYPE svec_mul_scalar(VTYPE a, STYPE s) { \
-  return svec_mul(a, VTYPE(s)); \
+static FORCEINLINE svec<LANES,STYPE> svec_mul_scalar(svec<LANES,STYPE> a, STYPE s) { \
+  return svec_mul(a, svec<LANES,STYPE>(s)); \
 } \
-static FORCEINLINE VTYPE svec_scalar_mul(STYPE s, VTYPE a) { \
-  return svec_mul(VTYPE(s), a); \
+static FORCEINLINE svec<LANES,STYPE> svec_scalar_mul(STYPE s, svec<LANES,STYPE> a) { \
+  return svec_mul(svec<LANES,STYPE>(s), a); \
 } \
-static FORCEINLINE VTYPE svec_div_scalar(VTYPE a, STYPE s) { \
-  return svec_div(a, VTYPE(s)); \
+static FORCEINLINE svec<LANES,STYPE> svec_div_scalar(svec<LANES,STYPE> a, STYPE s) { \
+  return svec_div(a, svec<LANES,STYPE>(s)); \
 } \
-static FORCEINLINE VTYPE svec_scalar_div(STYPE s, VTYPE a) { \
-  return svec_div(VTYPE(s), a); \
+static FORCEINLINE svec<LANES,STYPE> svec_scalar_div(STYPE s, svec<LANES,STYPE> a) { \
+  return svec_div(svec<LANES,STYPE>(s), a); \
 } \
 
-BIN_VEC_SCAL(_svec4_i8, int8_t);
-BIN_VEC_SCAL(_svec4_u8, uint8_t);
-BIN_VEC_SCAL(_svec4_i16, int16_t);
-BIN_VEC_SCAL(_svec4_u16, uint16_t);
-BIN_VEC_SCAL(_svec4_i32, int32_t);
-BIN_VEC_SCAL(_svec4_u32, uint32_t);
-BIN_VEC_SCAL(_svec4_i64, int64_t);
-BIN_VEC_SCAL(_svec4_u64, uint64_t);
-BIN_VEC_SCAL(_svec4_f, float);
-BIN_VEC_SCAL(_svec4_d, double);
+BIN_VEC_SCAL(int8_t);
+BIN_VEC_SCAL(uint8_t);
+BIN_VEC_SCAL(int16_t);
+BIN_VEC_SCAL(uint16_t);
+BIN_VEC_SCAL(int32_t);
+BIN_VEC_SCAL(uint32_t);
+BIN_VEC_SCAL(int64_t);
+BIN_VEC_SCAL(uint64_t);
+BIN_VEC_SCAL(float);
+BIN_VEC_SCAL(double);
 
 
 //shift left
