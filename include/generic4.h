@@ -109,11 +109,9 @@ Copyright (c) 2010-2012, Intel Corporation
 #include <iostream>
 
 #include "gsimd_utility.h"
-
 namespace generic {
 
 #define LANES 4
-
 //////////////////////////////////////////////////////////////
 //
 // Constructor Section

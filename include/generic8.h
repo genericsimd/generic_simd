@@ -111,6 +111,7 @@ Copyright (c) 2010-2012, Intel Corporation
 #include "gsimd_utility.h"
 
 namespace generic {
+
 #define LANES 8
 
 //////////////////////////////////////////////////////////////
@@ -119,28 +120,41 @@ namespace generic {
 //
 //////////////////////////////////////////////////////////////
 
-struct svec8_ptr;
-struct svec8_i8;
-struct svec8_u8;
-struct svec8_i16;
-struct svec8_u16;
-struct svec8_i32;
-struct svec8_u32;
-struct svec8_i64;
-struct svec8_u64;
-struct svec8_f;
-struct svec8_d;
-
+template <>
+struct svec<8,bool>;
+template <>
+  struct svec<8,int8_t>;
+template <>
+  struct svec<8,uint8_t>;
+template <>
+  struct svec<8,int16_t>;
+template <>
+  struct svec<8,uint16_t>;
+template <>
+  struct svec<8,int32_t>;
+template <>
+  struct svec<8,uint32_t>;
+template <>
+  struct svec<8,int64_t>;
+template <>
+  struct svec<8,uint64_t>;
+template <>
+  struct svec<8,float>;
+template <>
+  struct svec<8,double>;
+template <>
+  struct svec<8,void*>;
 
 /**
  * @brief Data representation and operations on a vector of 4 boolean values.
  * This is used in predicated vector operations. Specifically the ith value of 
- * svec8_i1 indicates whether the ith lane of a predicated vector operation is
+ * svec<8,bool> indicates whether the ith lane of a predicated vector operation is
  * enabled or not.
  * 
  * See also gather, scatter, load, store, and compare operations.
  */
-struct svec8_i1 {
+template<>
+struct svec<8,bool> {
 
     uint32_t v; //only use 8 bits
 
@@ -148,14 +162,14 @@ struct svec8_i1 {
      * @brief Default constructor. 
      * @return a vector of 4 undefined values.
      */
-    FORCEINLINE svec8_i1() { v = 0;}
+    FORCEINLINE svec() { v = 0;}
     /** 
      * @brief Constructor.
      * @param[in] a,b,c,d boolean values
      * \note a,b,c,d must be either 0 or -1
      * @return a vector of 4 mask/booleans: {a,b,c,d}.
      */
-    FORCEINLINE svec8_i1(uint32_t a, uint32_t b, uint32_t c, uint32_t d,
+    FORCEINLINE svec(uint32_t a, uint32_t b, uint32_t c, uint32_t d,
                          uint32_t e, uint32_t f, uint32_t g, uint32_t h) {
       v = ((a ? 1 : 0) |(b ? 2 : 0)|(c ? 4 : 0)|(d ? 8 : 0)
            |(e ? 16 : 0) |(f ? 32 : 0)|(g ? 64 : 0)|(h ? 128 : 0) );
@@ -166,7 +180,7 @@ struct svec8_i1 {
      * \note a must be either 0 or -1
      * @return a vector of 4 mask/booleans: {a,a,a,a}.
      */
-    FORCEINLINE svec8_i1( uint32_t a){
+    FORCEINLINE svec(uint32_t a){
       v = a ? 255 : 0;
     }
 
@@ -179,19 +193,20 @@ struct svec8_i1 {
 /**
  * @brief data representation and operations on a vector of 4 signed chars.
  */
-struct svec8_i8 {
+template <>
+struct svec<8,int8_t>  {
     int8_t v[LANES];
 
     /**
      * @brief Default constructor
      * @return a vector of 4 undefined signed chars.
      */
-    FORCEINLINE svec8_i8() { }
+    FORCEINLINE svec() { }
     /**
      * @brief Constructor
      * @return a vector of 4 signed chars: {a,b,c,d}.
      */
-    FORCEINLINE svec8_i8(int8_t a, int8_t b, int8_t c, int8_t d,
+    FORCEINLINE svec(int8_t a, int8_t b, int8_t c, int8_t d,
                          int8_t e, int8_t f, int8_t g, int8_t h) {
       v[0] = a; v[1] = b; v[2] = c; v[3] = d;
       v[4] = e; v[5] = f; v[6] = g; v[7] = h;
@@ -200,7 +215,7 @@ struct svec8_i8 {
      * @brief Constructor.
      * @return a vector of 4 signed chars: {a,a,a,a}.
      */
-    FORCEINLINE svec8_i8( int8_t a) {
+    FORCEINLINE svec(int8_t a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
     }
     /**
@@ -208,7 +223,7 @@ struct svec8_i8 {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(int8_t);
-    COUT_FUNC_CHAR_DECL(char);
+    COUT_FUNC_CHAR_DECL(int8_t);
 
     VEC_CLASS_METHOD_DECL(int8_t);
     VEC_INT_CLASS_METHOD_DECL(int8_t, uint8_t);
@@ -217,18 +232,19 @@ struct svec8_i8 {
 /**
  * @brief data representation and operations on a vector of 4 unsigned chars.
  */
-struct svec8_u8 {
+template<>
+struct svec<8,uint8_t>  {
     uint8_t v[LANES];
     /**
      * @brief Default constructor
      * @return a vector of 4 undefined unsigned chars.
      */
-    FORCEINLINE svec8_u8() { }
+    FORCEINLINE svec() { }
     /**
      * @brief Constructor
      * @return a vector of 4 unsigned chars: {a,b,c,d}.
      */
-    FORCEINLINE svec8_u8(uint8_t a, uint8_t b, uint8_t c, uint8_t d,
+    FORCEINLINE svec(uint8_t a, uint8_t b, uint8_t c, uint8_t d,
         uint8_t e, uint8_t f, uint8_t g, uint8_t h) {
       v[0] = a; v[1] = b; v[2] = c; v[3] = d;
       v[4] = e; v[5] = f; v[6] = g; v[7] = h;
@@ -238,7 +254,7 @@ struct svec8_u8 {
      * @param a an unsigned char value
      * @return a vector of 4 unsigned chars: {a,a,a,a}.
      */
-    FORCEINLINE svec8_u8(uint8_t a){
+    FORCEINLINE svec(uint8_t a){
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
     }
     /**
@@ -246,7 +262,7 @@ struct svec8_u8 {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(uint8_t);
-    COUT_FUNC_CHAR_DECL(unsigned char);
+    COUT_FUNC_CHAR_DECL(uint8_t);
 
     VEC_CLASS_METHOD_DECL(uint8_t);
     VEC_INT_CLASS_METHOD_DECL(uint8_t, uint8_t);
@@ -255,18 +271,19 @@ struct svec8_u8 {
 /**
  * @brief data representation and operations on a vector of 4 signed short.
  */
-struct svec8_i16 {
+template <>
+struct svec<8,int16_t> {
     int16_t v[LANES];
     /**
      * @brief Default constructor
      * @return a vector of 4 undefined signed short.
      */
-    FORCEINLINE svec8_i16() { }
+    FORCEINLINE svec() { }
     /**
      * @brief Constructor.
      * @return a vector of 4 signed short: {a,b,c,d}.
      */
-    FORCEINLINE svec8_i16(int16_t a, int16_t b, int16_t c, int16_t d,
+    FORCEINLINE svec(int16_t a, int16_t b, int16_t c, int16_t d,
         int16_t e, int16_t f, int16_t g, int16_t h) {
       v[0] = a; v[1] = b; v[2] = c; v[3] = d;
       v[4] = e; v[5] = f; v[6] = g; v[7] = h;
@@ -276,7 +293,7 @@ struct svec8_i16 {
      * @param a a signed short
      * @return a vector of 4 signed short: {a,a,a,a}.
      */
-    FORCEINLINE svec8_i16( int16_t a) {
+    FORCEINLINE svec( int16_t a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
     }
     /**
@@ -284,7 +301,7 @@ struct svec8_i16 {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(int16_t);
-    COUT_FUNC_DECL(short);
+    COUT_FUNC_DECL(int16_t);
 
     VEC_CLASS_METHOD_DECL(int16_t);
     VEC_INT_CLASS_METHOD_DECL(int16_t, uint16_t);
@@ -294,18 +311,19 @@ struct svec8_i16 {
 /**
  * @brief data representation and operations on a vector of 4 unsigned short.
  */
-struct svec8_u16 {
+template <>
+struct svec<8,uint16_t> {
     uint16_t v[LANES];
     /**
      * @brief Default constructor
      * @return a vector of 4 undefined unsigned short.
      */
-    FORCEINLINE svec8_u16() { }
+    FORCEINLINE svec() { }
     /** 
      * @brief Constructor.
      * @return a vector of 4 unsigned short: {a,b,c,d}.
      */
-    FORCEINLINE svec8_u16(uint16_t a, uint16_t b, uint16_t c, uint16_t d,
+    FORCEINLINE svec(uint16_t a, uint16_t b, uint16_t c, uint16_t d,
         uint16_t e, uint16_t f, uint16_t g, uint16_t h) {
       v[0] = a; v[1] = b; v[2] = c; v[3] = d;
       v[4] = e; v[5] = f; v[6] = g; v[7] = h;
@@ -315,7 +333,7 @@ struct svec8_u16 {
      * @param a an unsigned short
      * @return a vector of 4 unsigned short: {a,a,a,a}.
      */
-    FORCEINLINE svec8_u16( uint16_t a) {
+    FORCEINLINE svec( uint16_t a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
     }
     /**
@@ -323,7 +341,7 @@ struct svec8_u16 {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(uint16_t);
-    COUT_FUNC_DECL(unsigned short);
+    COUT_FUNC_DECL(uint16_t);
 
     VEC_CLASS_METHOD_DECL(uint16_t);
     VEC_INT_CLASS_METHOD_DECL(uint16_t, uint16_t);
@@ -333,18 +351,19 @@ struct svec8_u16 {
 /**
  * @brief data representation and operations on a vector of 4 signed int.
  */
-struct svec8_i32 {
+template <>
+struct svec<8,int32_t> {
     int32_t v[LANES];
     /**
      * @brief Default constructor
      * @return a vector of 4 undefined signed int.
      */
-    FORCEINLINE svec8_i32() { }
+    FORCEINLINE svec() { }
     /** 
      * @brief Constructor.
      * @return a vector of 4 signed int: {a,b,c,d}.
      */
-    FORCEINLINE svec8_i32(int a, int b, int c, int d,
+    FORCEINLINE svec(int a, int b, int c, int d,
         int e, int f, int g, int h) {
       v[0] = a; v[1] = b; v[2] = c; v[3] = d;
       v[4] = e; v[5] = f; v[6] = g; v[7] = h;
@@ -354,7 +373,7 @@ struct svec8_i32 {
      * @param a a signed int
      * @return a vector of 4 signed int: {a,a,a,a}.
      */
-    FORCEINLINE svec8_i32(int32_t a) {
+    FORCEINLINE svec(int32_t a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
     }
     /**
@@ -362,7 +381,7 @@ struct svec8_i32 {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(int32_t);
-    COUT_FUNC_DECL(int);
+    COUT_FUNC_DECL(int32_t);
 
     VEC_CLASS_METHOD_DECL(int32_t);
     VEC_INT_CLASS_METHOD_DECL(int32_t, uint32_t);
@@ -372,18 +391,19 @@ struct svec8_i32 {
 /**
  * @brief data representation and operations on a vector of 4 unsigned int.
  */
-struct svec8_u32 {
+template <>
+struct svec<8,uint32_t> {
    uint32_t v[LANES];
     /**
      * @brief Default constructor
      * @return a vector of 4 undefined unsigned int.
      */
-    FORCEINLINE svec8_u32() { }
+    FORCEINLINE svec() { }
     /** 
      * @brief Constructor.
      * @return a vector of 4 unsigned int: {a,b,c,d}.
      */
-    FORCEINLINE svec8_u32(uint32_t a, uint32_t b, uint32_t c, uint32_t d,
+    FORCEINLINE svec(uint32_t a, uint32_t b, uint32_t c, uint32_t d,
         uint32_t e, uint32_t f, uint32_t g, uint32_t h) {
       v[0] = a; v[1] = b; v[2] = c; v[3] = d;
       v[4] = e; v[5] = f; v[6] = g; v[7] = h;
@@ -393,7 +413,7 @@ struct svec8_u32 {
      * @param a an unsigned int
      * @return a vector of 4 unsigned int: {a,a,a,a}.
      */
-    FORCEINLINE svec8_u32( uint32_t a) {
+    FORCEINLINE svec(uint32_t a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
     }
     /**
@@ -401,7 +421,7 @@ struct svec8_u32 {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(uint32_t);
-    COUT_FUNC_DECL(unsigned int);
+    COUT_FUNC_DECL(uint32_t);
 
     VEC_CLASS_METHOD_DECL(uint32_t);
     VEC_INT_CLASS_METHOD_DECL(uint32_t, uint32_t);
@@ -410,18 +430,19 @@ struct svec8_u32 {
 /**
  * @brief data representation and operations on a vector of 4 signed long long.
  */
-struct svec8_i64 {
+template <>
+struct svec<8,int64_t> {
     int64_t v[LANES];
     /**
      * @brief Default constructor,
      * @return a vector of 4 undefined signed long long.
      */
-    FORCEINLINE svec8_i64() { }
+    FORCEINLINE svec() { }
     /** 
      * @brief Constructor.
      * @return a vector of 4 signed long long: {a,b,c,d}.
      */
-    FORCEINLINE svec8_i64(int64_t a, int64_t b, int64_t c, int64_t d,
+    FORCEINLINE svec(int64_t a, int64_t b, int64_t c, int64_t d,
         int64_t e, int64_t f, int64_t g, int64_t h) {
       v[0] = a; v[1] = b; v[2] = c; v[3] = d;
       v[4] = e; v[5] = f; v[6] = g; v[7] = h;
@@ -431,7 +452,7 @@ struct svec8_i64 {
      * @param a a signed long long
      * @return a vector of 4 signed long long: {a,a,a,a}.
      */
-    FORCEINLINE svec8_i64( int64_t a) {
+    FORCEINLINE svec( int64_t a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
     }
     /**
@@ -439,7 +460,7 @@ struct svec8_i64 {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(int64_t);
-    COUT_FUNC_DECL(long long);
+    COUT_FUNC_DECL(int64_t);
 
     VEC_CLASS_METHOD_DECL(int64_t);
     VEC_INT_CLASS_METHOD_DECL(int64_t, uint64_t);
@@ -448,18 +469,19 @@ struct svec8_i64 {
 /**
  * @brief data representation and operations on a vector of 4 unsigned long long.
  */
-struct svec8_u64 {
+template <>
+struct svec<8,uint64_t> {
     uint64_t v[LANES];
     /**
      * @brief Default constructor
      * @return a vector of 4 undefined unsigned long long.
      */
-    FORCEINLINE svec8_u64() { }
+    FORCEINLINE svec() { }
     /** 
      * @brief Constructor.
      * @return a vector of 4 unsigned long long: {a,b,c,d}.
      */
-    FORCEINLINE svec8_u64(uint64_t a, uint64_t b, uint64_t c, uint64_t d,
+    FORCEINLINE svec(uint64_t a, uint64_t b, uint64_t c, uint64_t d,
         uint64_t e, uint64_t f, uint64_t g, uint64_t h) {
       v[0] = a; v[1] = b; v[2] = c; v[3] = d;
       v[4] = e; v[5] = f; v[6] = g; v[7] = h;
@@ -469,7 +491,7 @@ struct svec8_u64 {
      * @param a an unsigned long long.
      * @return a vector of 4 unsigned long long: {a,a,a,a}.
      */
-    FORCEINLINE svec8_u64( uint64_t a) {
+    FORCEINLINE svec( uint64_t a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
     }
     /**
@@ -477,7 +499,7 @@ struct svec8_u64 {
      * @param index specifies the index of the element in the vector.
      */
     SUBSCRIPT_FUNC_DECL(uint64_t);
-    COUT_FUNC_DECL(unsigned long long);
+    COUT_FUNC_DECL(uint64_t);
 
     VEC_CLASS_METHOD_DECL(uint64_t);
     VEC_INT_CLASS_METHOD_DECL(uint64_t, uint64_t);
@@ -486,18 +508,19 @@ struct svec8_u64 {
 /**
  * @brief data representation and operations on a vector of 4 float.
  */
-struct svec8_f {
+template<>
+struct svec<8,float>  {
     float v[LANES];
     /**
      * @brief Default constructor
      * @return a vector of 4 undefined float.
      */
-    FORCEINLINE svec8_f() { }
+    FORCEINLINE svec() { }
     /** 
      * @brief Constructor.
      * @return a vector of 4 float: {a,b,c,d}.
      */
-    FORCEINLINE svec8_f(float a, float b, float c, float d,
+    FORCEINLINE svec(float a, float b, float c, float d,
         float e, float f, float g, float h) {
       v[0] = a; v[1] = b; v[2] = c; v[3] = d;
       v[4] = e; v[5] = f; v[6] = g; v[7] = h;
@@ -507,7 +530,7 @@ struct svec8_f {
      * @param a a float
      * @return a vector of 4 floats: {a,a,a,a}.
      */
-    FORCEINLINE svec8_f( float a) {
+    FORCEINLINE svec( float a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
     }
     /**
@@ -524,18 +547,19 @@ struct svec8_f {
 /**
  * @brief data representation and operations on a vector of 4 double.
  */
-struct svec8_d {
+template<>
+struct svec<8,double> {
     double v[LANES];
     /**
      * @brief Default constructor
      * @return a vector of 4 undefined double.
      */
-    FORCEINLINE svec8_d() { }
+    FORCEINLINE svec() { }
     /** 
      * @brief Constructor.
      * @return a vector of 4 double: {a,b,c,d}.
      */
-    FORCEINLINE svec8_d(double a, double b, double c, double d,
+    FORCEINLINE svec(double a, double b, double c, double d,
         double e, double f, double g, double h) {
       v[0] = a; v[1] = b; v[2] = c; v[3] = d;
       v[4] = e; v[5] = f; v[6] = g; v[7] = h;
@@ -545,7 +569,7 @@ struct svec8_d {
      * @param a a double
      * @return a vector of 4 doubles: {a,a,a,a}.
      */
-    FORCEINLINE svec8_d( double a) {
+    FORCEINLINE svec( double a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
     }
     /**
@@ -570,10 +594,10 @@ struct svec8_d {
 //// 1. Extract / Insert
 //
 //i1 use different approach
-static FORCEINLINE uint32_t svec_extract(svec8_i1 v, int index) {
+static FORCEINLINE uint32_t svec_extract(svec<8,bool> v, int index) {
   return (v.v & (1 << index)) ? -1 : 0;
 }
-static FORCEINLINE void svec_insert(svec8_i1 *v, int index, uint32_t val) {
+static FORCEINLINE void svec_insert(svec<8,bool> *v, int index, uint32_t val) {
   if(!val) {
     v->v &= ~(1 << index);
   } else {
@@ -691,26 +715,28 @@ LOAD_CONST(double);
 /**
  * @brief data representation and operations on a vector of 4 pointers.
  * This is only used in gather and scatter.
- * @note In 32bit platform, svec8_ptr extends svec8_u32, while in 64bit platform, svec8_ptr extends svec8_u64.
+ * @note In 32bit platform, svec8_ptr extends svec<8,uint32_t>, while in 64bit platform, svec8_ptr extends svec<8,uint64_t>.
  * @see gather and scatter
  */
 #if defined(__x86_64__) || defined(__PPC64__)
-struct svec8_ptr : public svec<8,unsigned long long>{
+template<>
+struct svec<8,void*> : public svec<8,uint64_t>{
     /**
      * @brief Constructor.
      * @return a vector of 4 pointers: {p10, p1, p2, p3}.
      */
-    FORCEINLINE svec8_ptr(void* p0, void* p1, void* p2, void* p3, void* p4, void* p5, void* p6, void* p7):
-        svec<8,unsigned long long>((uint64_t)(p0),(uint64_t)(p1),(uint64_t)(p2),(uint64_t)(p3),(uint64_t)(p4),(uint64_t)(p5),(uint64_t)(p6),(uint64_t)(p7)){}
+    FORCEINLINE svec(void* p0, void* p1, void* p2, void* p3, void* p4, void* p5, void* p6, void* p7):
+        svec<8,uint64_t>((uint64_t)(p0),(uint64_t)(p1),(uint64_t)(p2),(uint64_t)(p3),(uint64_t)(p4),(uint64_t)(p5),(uint64_t)(p6),(uint64_t)(p7)){}
 };
 #else // 32-bit
-struct svec8_ptr: public svec<8,unsigned int>{
+template<>
+struct svec<8,void*>: public svec<8,uint32_t>{
     /**
      * @brief Constructor.
      * @return a vector of 4 pointers: {p0, p1, p2, p3}.
      */
-    FORCEINLINE svec8_ptr(void* p0, void* p1, void* p2, void* p3, void* p4, void* p5, void* p6, void* p7):
-        svec<8,unsigned int>((uint32_t)(p0),(uint32_t)(p1),(uint32_t)(p2),(uint32_t)(p3),(uint32_t)(p4),(uint32_t)(p5),(uint32_t)(p6),(uint32_t)(p7)){}
+    FORCEINLINE svec(void* p0, void* p1, void* p2, void* p3, void* p4, void* p5, void* p6, void* p7):
+        svec<8,uint32_t>((uint32_t)(p0),(uint32_t)(p1),(uint32_t)(p2),(uint32_t)(p3),(uint32_t)(p4),(uint32_t)(p5),(uint32_t)(p6),(uint32_t)(p7)){}
 };
 #endif // __PPC64__
 
@@ -877,7 +903,7 @@ MASKED_LOAD_STORE_L8(double);
  * @param mask the svec<4,bool> type vector
  * @return true is at least one element in the mask is true
  */
-static FORCEINLINE bool svec_any_true(const svec8_i1& mask) {
+static FORCEINLINE bool svec_any_true(const svec<8,bool>& mask) {
   return (mask.v != 0);
 }
 
@@ -886,7 +912,7 @@ static FORCEINLINE bool svec_any_true(const svec8_i1& mask) {
  * @param mask the svec<4,bool> type vector
  * @return true is all elements in the mask are true
  */
-static FORCEINLINE bool svec_all_true(const svec8_i1& mask) {
+static FORCEINLINE bool svec_all_true(const svec<8,bool>& mask) {
   return (mask.v & 0xFF) == 0xFF;
 }
 
@@ -896,7 +922,7 @@ static FORCEINLINE bool svec_all_true(const svec8_i1& mask) {
  * @param mask the svec<4,bool> type vector
  * @return true is all elements in the mask are false
  */
-static FORCEINLINE bool svec_none_true(const svec8_i1& mask) {
+static FORCEINLINE bool svec_none_true(const svec<8,bool>& mask) {
   return (mask.v == 0);
 }
 
@@ -905,8 +931,8 @@ static FORCEINLINE bool svec_none_true(const svec8_i1& mask) {
 /**
  * @brief return a & b
  */
-static FORCEINLINE svec8_i1 svec_and(svec8_i1 a, svec8_i1 b) {
-  svec8_i1 ret;
+static FORCEINLINE svec<8,bool> svec_and(svec<8,bool> a, svec<8,bool> b) {
+  svec<8,bool> ret;
   ret.v = a.v & b.v;
   return ret;
 }
@@ -915,8 +941,8 @@ static FORCEINLINE svec8_i1 svec_and(svec8_i1 a, svec8_i1 b) {
 /**
  * @brief return a | b
  */
-static FORCEINLINE svec8_i1 svec_or(svec8_i1 a, svec8_i1 b) {
-  svec8_i1 ret;
+static FORCEINLINE svec<8,bool> svec_or(svec<8,bool> a, svec<8,bool> b) {
+  svec<8,bool> ret;
   ret.v = a.v | b.v;
   return ret;
 }
@@ -924,8 +950,8 @@ static FORCEINLINE svec8_i1 svec_or(svec8_i1 a, svec8_i1 b) {
 /**
  * @brief return a ^ b
  */
-static FORCEINLINE svec8_i1 svec_xor(svec8_i1 a, svec8_i1 b) {
-  svec8_i1 ret;
+static FORCEINLINE svec<8,bool> svec_xor(svec<8,bool> a, svec<8,bool> b) {
+  svec<8,bool> ret;
   ret.v = a.v ^ b.v;
   return ret;
 }
@@ -933,8 +959,8 @@ static FORCEINLINE svec8_i1 svec_xor(svec8_i1 a, svec8_i1 b) {
 /**
  * @brief return ~a
  */
-static FORCEINLINE svec8_i1 svec_not(svec8_i1 a) {
-  svec8_i1 ret;
+static FORCEINLINE svec<8,bool> svec_not(svec<8,bool> a) {
+  svec<8,bool> ret;
   ret.v = ~a.v;
   return ret;
 }
@@ -945,7 +971,7 @@ static FORCEINLINE svec8_i1 svec_not(svec8_i1 a) {
  * @param mask the svec<4,bool> type vector
  * @return a uint64_t integer to represent the mask
  */
-static FORCEINLINE uint64_t svec_movmsk(svec8_i1 mask) {
+static FORCEINLINE uint64_t svec_movmsk(svec<8,bool> mask) {
   return (uint64_t)(mask.v);
 }
 
@@ -996,13 +1022,13 @@ UNARY_OP(float, svec_log, logf);
 UNARY_OP(double, svec_log, log);
 //abs - for all types
 UNARY_OP(int8_t, svec_abs, abs<int8_t>);
-static FORCEINLINE _svec4_u8  svec_abs(svec<8,uint8_t> v) { return v;}
+static FORCEINLINE svec<8,uint8_t>  svec_abs(svec<8,uint8_t> v) { return v;}
 UNARY_OP(int16_t, svec_abs, abs<int16_t>);
-static FORCEINLINE _svec4_u16  svec_abs(svec<8,uint16_t> v) { return v;}
+static FORCEINLINE svec<8,uint16_t>  svec_abs(svec<8,uint16_t> v) { return v;}
 UNARY_OP(int32_t, svec_abs, abs<int32_t>);
-static FORCEINLINE _svec4_u32  svec_abs(svec<8,uint32_t> v) { return v;}
+static FORCEINLINE svec<8,uint32_t>  svec_abs(svec<8,uint32_t> v) { return v;}
 UNARY_OP(int64_t, svec_abs, abs<int64_t>);
-static FORCEINLINE _svec4_u64  svec_abs(svec<8,uint64_t> v) { return v;}
+static FORCEINLINE svec<8,uint64_t>  svec_abs(svec<8,uint64_t> v) { return v;}
 UNARY_OP(float, svec_abs, abs);
 UNARY_OP(double, svec_abs, abs);
 
@@ -1058,7 +1084,6 @@ BINARY_OP_FUNC(float, svec_pow, powf);
 BINARY_OP_FUNC(double, svec_pow, pow);
 
 //shift left
-//shift left
 BINARY_OP2(int8_t, uint8_t, svec_shl, <<);
 BINARY_OP2(uint8_t, uint8_t, svec_shl, <<);
 BINARY_OP2(int16_t, uint16_t, svec_shl, <<);
@@ -1108,9 +1133,9 @@ MAX_MIN_REDUCE_METHODS(uint64_t);
 MAX_MIN_REDUCE_METHODS(float);
 MAX_MIN_REDUCE_METHODS(double);
 
-FORCEINLINE svec8_d svec_preduce_add(svec8_d v0, svec8_d v1, svec8_d v2, svec8_d v3,
-    svec8_d v4, svec8_d v5, svec8_d v6, svec8_d v7) {
-  return svec8_d(
+FORCEINLINE svec<8,double> svec_preduce_add(svec<8,double> v0, svec<8,double> v1, svec<8,double> v2, svec<8,double> v3,
+    svec<8,double> v4, svec<8,double> v5, svec<8,double> v6, svec<8,double> v7) {
+  return svec<8,double>(
       svec_reduce_add(v0),
       svec_reduce_add(v1),
       svec_reduce_add(v2),
@@ -1311,7 +1336,6 @@ CAST_BITS(double, d, int64_t, i64);
 CAST_BITS(double, d, uint64_t, u64);
 
 
-
 //////////////////////////////////////////////////////////////
 //
 // Class operations based on the above interfaces
@@ -1319,16 +1343,16 @@ CAST_BITS(double, d, uint64_t, u64);
 //////////////////////////////////////////////////////////////
 
 //add the impl of i1's
-FORCEINLINE void svec8_i1::Helper::operator=(uint32_t value) {
+FORCEINLINE void svec<8,bool>::Helper::operator=(uint32_t value) {
   svec_insert(m_self, m_index, value);
 }
-FORCEINLINE void svec8_i1::Helper::operator=(svec8_i1::Helper helper) {
+FORCEINLINE void svec<8,bool>::Helper::operator=(svec<8,bool>::Helper helper) {
   svec_insert(m_self, m_index, helper.operator uint32_t());
 }
-FORCEINLINE svec8_i1::Helper::operator uint32_t() const {
+FORCEINLINE svec<8,bool>::Helper::operator uint32_t() const {
   return svec_extract(*m_self, m_index);
 }
-const FORCEINLINE uint32_t svec8_i1::operator[](int index) const {
+const FORCEINLINE uint32_t svec<8,bool>::operator[](int index) const {
   return svec_extract(*this, index);
 }
 SUBSCRIPT_FUNC_IMPL(int8_t);
@@ -1347,70 +1371,70 @@ SUBSCRIPT_FUNC_IMPL(double);
  * \note This is a reduction operation that returns a scalar value.
  * @return true if at least one element in the mask vector is true, otherwise false
  */
-FORCEINLINE bool svec8_i1::any_true() { return svec_any_true(*this); }
+FORCEINLINE bool svec<8,bool>::any_true() { return svec_any_true(*this); }
 
 /**
  * @brief Check if all the elements in the mask vector is true. 
  * \note This is a reduction operation that returns a scalar value.
  * @return true if all the elements in the mask vector are true, otherwise false.
  */
-FORCEINLINE bool svec8_i1::all_true() { return svec_all_true(*this); }
+FORCEINLINE bool svec<8,bool>::all_true() { return svec_all_true(*this); }
 
 /**
  * @brief Check all the elements in the mask vector is false. 
  * \note This is a reduction operation that returns a scalar value.
  * @return true if all the elements in the mask vector are false, otherwise false.
  */
-FORCEINLINE bool svec8_i1::none_true() { return svec_none_true(*this); }
+FORCEINLINE bool svec<8,bool>::none_true() { return svec_none_true(*this); }
 
 /**
  * @brief Element-wise bit-wise compliment operator. E.g., "~a"
  * @return the result of bit-wise compliment as a boolean vector. 
  */
-FORCEINLINE svec8_i1 svec8_i1::operator~() { return svec_not(*this); }
+FORCEINLINE svec<8,bool> svec<8,bool>::operator~() { return svec_not(*this); }
 
 /**
  * @brief Element-wise bit-wise OR operator. E.g., "a | b"
  * @param[in] a a boolean vector
  * @return the result of bit-wise OR as a boolean vector.
  */
-FORCEINLINE svec8_i1 svec8_i1::operator|(svec8_i1 a) { return svec_or(*this, a); }
+FORCEINLINE svec<8,bool> svec<8,bool>::operator|(svec<8,bool> a) { return svec_or(*this, a); }
 /**
  * @brief Element-wise bit-wise AND operator. E.g., "a & b"
  * @param[in] a a boolean vector
  * @return the result of bit-wise AND as a boolean vector.
  */
-FORCEINLINE svec8_i1 svec8_i1::operator&(svec8_i1 a) { return svec_and(*this, a); }
+FORCEINLINE svec<8,bool> svec<8,bool>::operator&(svec<8,bool> a) { return svec_and(*this, a); }
 /**
  * @brief Element-wise bit-wise XOR operator. E.g., "a ^ b"
  * @param[in] a a boolean vector
  * @return the result of bit-wise XOR as a boolean vector.
  */
-FORCEINLINE svec8_i1 svec8_i1::operator^(svec8_i1 a) { return svec_xor(*this, a); }
+FORCEINLINE svec<8,bool> svec<8,bool>::operator^(svec<8,bool> a) { return svec_xor(*this, a); }
 /**
  * @brief Element-wise bit-wise not operator. E.g., "!a"
  * @return the result of bit-wise compliment as a boolean vector.
  */
-FORCEINLINE svec8_i1 svec8_i1::operator!() { return svec_not(*this); }
+FORCEINLINE svec<8,bool> svec<8,bool>::operator!() { return svec_not(*this); }
 
 /**
  * @brief Element-wise boolean AND operator. E.g., "a && b"
  * @param[in] a a boolean vector
  * @return the result of boolean AND as a boolean vector.
  */
-FORCEINLINE svec8_i1 svec8_i1::operator&&(svec8_i1 a) { return svec_and(*this, a); }
+FORCEINLINE svec<8,bool> svec<8,bool>::operator&&(svec<8,bool> a) { return svec_and(*this, a); }
 /**
  * @brief Element-wise boolean OR operator. E.g., "a || b"
  * @param[in] a a boolean vector
  * @return the result of boolean OR as a boolean vector.
  */
-FORCEINLINE svec8_i1 svec8_i1::operator||(svec8_i1 a) { return svec_or(*this, a); }
+FORCEINLINE svec<8,bool> svec<8,bool>::operator||(svec<8,bool> a) { return svec_or(*this, a); }
 /**
  * @brief Element-wise compare equal. E.g., "a == b"
  * @param[in] a a boolean vector
  * @return the result of compare-equal as a boolean vector
  */
-FORCEINLINE svec8_i1 svec8_i1::operator ==(svec8_i1 a) {
+FORCEINLINE svec<8,bool> svec<8,bool>::operator ==(svec<8,bool> a) {
     return svec_equal(*this, a);
 }
 
@@ -1419,7 +1443,7 @@ FORCEINLINE svec8_i1 svec8_i1::operator ==(svec8_i1 a) {
  * @param[in] a a boolean vector
  * @return the result of compare-not-equal as a boolean vector
  */
-FORCEINLINE svec8_i1 svec8_i1::operator !=(svec8_i1 a) {
+FORCEINLINE svec<8,bool> svec<8,bool>::operator !=(svec<8,bool> a) {
     return svec_not_equal(*this, a);
 }
 

@@ -52,7 +52,7 @@ using namespace vsx;
 using namespace sse;
 #else
 #include <generic4.h>
-//#include <generic8.h>
+#include <generic8.h>
 using namespace generic;
 #endif //__SSE4_2__
 #endif //__ALTIVEC__
