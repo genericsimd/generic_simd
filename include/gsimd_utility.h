@@ -357,8 +357,8 @@ template<> FORCEINLINE const bool check_lanes<16>(int n) { return n == 16; }
   FORCEINLINE void masked_store(svec<LANES,STYPE>* p, svec<LANES,bool> mask); \
   static FORCEINLINE svec<LANES,STYPE> load_const(const STYPE* p); \
   static FORCEINLINE svec<LANES,STYPE> load_and_splat(STYPE* p); \
-  static FORCEINLINE svec<LANES,STYPE> gather(svec<4,void*> ptrs, svec<LANES,bool> mask);\
-  FORCEINLINE void scatter(svec<4,void*> ptrs, svec<LANES,bool> mask); \
+  static FORCEINLINE svec<LANES,STYPE> gather(svec<LANES,void*> ptrs, svec<LANES,bool> mask);\
+  FORCEINLINE void scatter(svec<LANES,void*> ptrs, svec<LANES,bool> mask); \
   static FORCEINLINE svec<LANES,STYPE> gather_base_offsets(STYPE* b, uint32_t scale, svec<LANES,int32_t> offsets, svec<LANES,bool> mask);\
   static FORCEINLINE svec<LANES,STYPE> gather_base_offsets(STYPE* b, uint32_t scale, svec<LANES,int64_t> offsets, svec<LANES,bool> mask);\
   FORCEINLINE void scatter_base_offsets(STYPE* b, uint32_t scale, svec<LANES,int32_t> offsets, svec<LANES,bool> mask); \

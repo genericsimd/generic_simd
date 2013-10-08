@@ -103,13 +103,6 @@ Copyright (c) 2010-2012, Intel Corporation
 #ifndef GENERIC8_H_
 #define GENERIC8_H_
 
-#include <stdint.h>
-#include <math.h>
-#include <assert.h>
-#include <iostream>
-
-#include "gsimd_utility.h"
-
 namespace generic {
 
 #define LANES 8

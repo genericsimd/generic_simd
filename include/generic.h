@@ -31,32 +31,37 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * gsimd.h
+ * generic.h
  *
- *  Created on: Aug 14, 2013
- *  @author: Haichuan Wang (haichuan@us.ibm.com hwang154@illinois.edu)
- *  @brief: Generic SIMD Library header configuration file
+ *  Created on: Oct.7, 2013
+ *  @author: Haichuan Wang (hwang154@illinois.edu)
+ *  @brief: Generic SIMD Library header configuration file for generic implementation
+ *  The common defintions for all generic implementations
  */
 
-#ifndef GSIMD_H_
-#define GSIMD_H_
+#ifndef GENERIC_H_
+#define GENERIC_H_
 
-//a macro to for GSIMD
-#define __GSIMD__
-#ifdef __ALTIVEC__
-#include <power_vsx4.h>
-using namespace vsx;
-#else
-#ifdef __SSE4_2__
-#include <sse4.h>
-using namespace sse;
-#else
-#include <generic.h>
-using namespace generic;
-#endif //__SSE4_2__
-#endif //__ALTIVEC__
+#include <stdint.h>
+#include <math.h>
+#include <assert.h>
+#include <iostream>
+
+#include "gsimd_utility.h"
+
+namespace generic {
+//simple trick to generate a compiler error if invalid template
+//arguments are used
+
+template <int Lanes, class T>
+struct svec : public invalid_template_arguments<Lanes,T>::type {
+  //here we need to add the static assert
+};
+
+} //generic namespace
+
+#include <generic4.h>
+#include <generic8.h>
 
 
-
-
-#endif /* GSIMD_H_ */
+#endif /* GENERIC_H_ */

@@ -30,11 +30,11 @@ vsx4: test_lanes4.cpp libgtest.a ../include/power_vsx4.h
 	${GXX} -I${GTEST_DIR}/include -l pthread -mvsx ${CXXFLAGS} $^ -o $@
 	./$@
 
-generic4: test_lanes4.cpp libgtest.a ../include/generic4.h
+generic4: test_lanes4.cpp libgtest.a
 	${GXX} -I${GTEST_DIR}/include -l pthread ${CXXFLAGS} $^ -o $@
 	./$@
 
-generic8: test_lanes8.cpp libgtest.a ../include/generic8.h
+generic8: test_lanes8.cpp libgtest.a
 	${GXX} -I${GTEST_DIR}/include -l pthread ${CXXFLAGS} $^ -o $@
 	./$@
 

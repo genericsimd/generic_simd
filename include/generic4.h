@@ -98,17 +98,9 @@ Copyright (c) 2010-2012, Intel Corporation
  */
 
 
-
-
 #ifndef GENERIC4_H_
 #define GENERIC4_H_
 
-#include <stdint.h>
-#include <math.h>
-#include <assert.h>
-#include <iostream>
-
-#include "gsimd_utility.h"
 namespace generic {
 
 #define LANES 4
@@ -118,10 +110,6 @@ namespace generic {
 //
 //////////////////////////////////////////////////////////////
 
-template <int Lanes, class T>
-struct svec : public invalid_template_arguments<Lanes,T>::type {
-  //here we need to add the static assert
-};
 
 template <>
 struct svec<4,bool>;
