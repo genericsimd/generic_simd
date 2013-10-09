@@ -3,7 +3,7 @@
 The key header files is gsimd.h, which is the only header file that user codes include.
 
 The below structure is the header file organization.
-
+```
 gsimd.h
  |
  + generic.h
@@ -17,5 +17,6 @@ gsimd.h
     |
     + power7_intrinsics.h Intrinsics only available on IBM Power7 Platform
     + power8_intrinsics.h Intrinsics only available on IBM Power8 Platform
-    
+
 gsimd_utility.h: Common macros definitions
+```
