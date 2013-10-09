@@ -1467,6 +1467,6 @@ VEC_FLOAT_CLASS_METHOD_IMPL(float);
 VEC_FLOAT_CLASS_METHOD_IMPL(double);
 
 #undef LANES
-} //end of namespace vsx4
+} //end of namespace generic
 #endif /* POWER_VSX4_H_ */
 

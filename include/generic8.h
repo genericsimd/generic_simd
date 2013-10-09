@@ -70,7 +70,6 @@ Copyright (c) 2010-2012, Intel Corporation
  * @date  July 14, 2013
  * @author Haichuan Wang (haichuan@us.ibm.com, hwang154@illinois.edu)
  * @brief SIMD LANES=8 interfaces implemented by scalar
- *
  * The source file is organized as follows
  * I. all types definition, with class function incorporated
  * II. data operation interfaces
@@ -99,14 +98,12 @@ Copyright (c) 2010-2012, Intel Corporation
  */
 
 
-
 #ifndef GENERIC8_H_
 #define GENERIC8_H_
 
 namespace generic {
 
 #define LANES 8
-
 //////////////////////////////////////////////////////////////
 //
 // Constructor Section
@@ -460,19 +457,19 @@ struct svec<8,int64_t> {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 unsigned long long.
+ * @brief data representation and operations on a vector of 4 unsigned 64-bit int.
  */
 template <>
 struct svec<8,uint64_t> {
     uint64_t v[LANES];
     /**
      * @brief Default constructor
-     * @return a vector of 4 undefined unsigned long long.
+     * @return a vector of 4 undefined unsigned 64-bit int.
      */
     FORCEINLINE svec() { }
     /** 
      * @brief Constructor.
-     * @return a vector of 4 unsigned long long: {a,b,c,d}.
+     * @return a vector of 4 unsigned 64-bit int: {a,b,c,d}.
      */
     FORCEINLINE svec(uint64_t a, uint64_t b, uint64_t c, uint64_t d,
         uint64_t e, uint64_t f, uint64_t g, uint64_t h) {
@@ -481,8 +478,8 @@ struct svec<8,uint64_t> {
     }
     /**
      * @brief Constructor.
-     * @param a an unsigned long long.
-     * @return a vector of 4 unsigned long long: {a,a,a,a}.
+     * @param a an unsigned 64-bit int.
+     * @return a vector of 4 unsigned 64-bit int: {a,a,a,a}.
      */
     FORCEINLINE svec( uint64_t a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
@@ -1476,6 +1473,6 @@ VEC_FLOAT_CLASS_METHOD_IMPL(float);
 VEC_FLOAT_CLASS_METHOD_IMPL(double);
 
 #undef LANES
-} //end of namespace generic4
+} //end of namespace generic
 #endif /* GENERIC8_H_ */
 
