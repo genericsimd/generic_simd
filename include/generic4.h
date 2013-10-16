@@ -112,32 +112,30 @@ namespace generic {
 //
 //////////////////////////////////////////////////////////////
 
-
 template <>
-struct svec<4,bool>;
+struct svec<LANES,bool>;
 template <>
-  struct svec<4,int8_t>;
+  struct svec<LANES,int8_t>;
 template <>
-  struct svec<4,uint8_t>;
+  struct svec<LANES,uint8_t>;
 template <>
-  struct svec<4,int16_t>;
+  struct svec<LANES,int16_t>;
 template <>
-  struct svec<4,uint16_t>;
+  struct svec<LANES,uint16_t>;
 template <>
-  struct svec<4,int32_t>;
+  struct svec<LANES,int32_t>;
 template <>
-  struct svec<4,uint32_t>;
+  struct svec<LANES,uint32_t>;
 template <>
-  struct svec<4,int64_t>;
+  struct svec<LANES,int64_t>;
 template <>
-  struct svec<4,uint64_t>;
+  struct svec<LANES,uint64_t>;
 template <>
-  struct svec<4,float>;
+  struct svec<LANES,float>;
 template <>
-  struct svec<4,double>;
+  struct svec<LANES,double>;
 template <>
-  struct svec<4,void*>;
-
+  struct svec<LANES,void*>;
 
 /**
  * @brief Data representation and operations on a vector of 4 boolean values.
@@ -147,9 +145,8 @@ template <>
  * 
  * See also gather, scatter, load, store, and compare operations.
  */
-
 template<>
-struct svec<4,bool> {
+struct svec<LANES,bool> {
 
     uint32_t v; //only use 4 bits
 
@@ -187,7 +184,7 @@ struct svec<4,bool> {
  * @brief data representation and operations on a vector of 4 signed chars.
  */
 template <>
-struct svec<4,int8_t> {
+struct svec<LANES,int8_t> {
     int8_t v[LANES];
 
     /**
@@ -225,7 +222,7 @@ struct svec<4,int8_t> {
  */
 
 template<>
-struct svec<4,uint8_t> {
+struct svec<LANES,uint8_t> {
     uint8_t v[LANES];
     /**
      * @brief Default constructor
@@ -262,7 +259,7 @@ struct svec<4,uint8_t> {
  * @brief data representation and operations on a vector of 4 signed short.
  */
 template <>
-struct svec<4,int16_t> {
+struct svec<LANES,int16_t> {
     int16_t v[LANES];
     /**
      * @brief Default constructor
@@ -300,7 +297,7 @@ struct svec<4,int16_t> {
  * @brief data representation and operations on a vector of 4 unsigned short.
  */
 template <>
-struct svec<4,uint16_t> {
+struct svec<LANES,uint16_t> {
     uint16_t v[LANES];
     /**
      * @brief Default constructor
@@ -338,7 +335,7 @@ struct svec<4,uint16_t> {
  * @brief data representation and operations on a vector of 4 signed int.
  */
 template <>
-struct svec<4,int32_t> {
+struct svec<LANES,int32_t> {
     int32_t v[LANES];
     /**
      * @brief Default constructor
@@ -376,7 +373,7 @@ struct svec<4,int32_t> {
  * @brief data representation and operations on a vector of 4 unsigned int.
  */
 template <>
-struct svec<4,uint32_t> {
+struct svec<LANES,uint32_t> {
    uint32_t v[LANES];
     /**
      * @brief Default constructor
@@ -413,7 +410,7 @@ struct svec<4,uint32_t> {
  * @brief data representation and operations on a vector of 4 signed 64-bit int.
  */
 template <>
-struct svec<4,int64_t> { 
+struct svec<LANES,int64_t> {
     int64_t v[LANES];
     /**
      * @brief Default constructor,
@@ -450,7 +447,7 @@ struct svec<4,int64_t> {
  * @brief data representation and operations on a vector of 4 unsigned 64-bit int.
  */
 template <>
-struct svec<4,uint64_t> {
+struct svec<LANES,uint64_t> {
     uint64_t v[LANES];
     /**
      * @brief Default constructor
@@ -487,7 +484,7 @@ struct svec<4,uint64_t> {
  * @brief data representation and operations on a vector of 4 float.
  */
 template<>
-struct svec<4,float> {
+struct svec<LANES,float> {
     float v[LANES];
     /**
      * @brief Default constructor
@@ -524,7 +521,7 @@ struct svec<4,float> {
  * @brief data representation and operations on a vector of 4 double.
  */
 template<>
-struct svec<4,double> {
+struct svec<LANES,double> {
     double v[LANES];
     /**
      * @brief Default constructor
@@ -568,10 +565,10 @@ struct svec<4,double> {
 //// 1. Extract / Insert
 //
 //i1 use different approach
-static FORCEINLINE uint32_t svec_extract(svec<4,bool> v, int index) {
+static FORCEINLINE uint32_t svec_extract(svec<LANES,bool> v, int index) {
   return (v.v & (1 << index)) ? -1 : 0;
 }
-static FORCEINLINE void svec_insert(svec<4,bool> *v, int index, uint32_t val) {
+static FORCEINLINE void svec_insert(svec<LANES,bool> *v, int index, uint32_t val) {
   if(!val) {
     v->v &= ~(1 << index);
   } else {
@@ -603,8 +600,8 @@ LOAD_STORE(float);
 LOAD_STORE(double);
 
 // 3. Select
-static FORCEINLINE svec<4,bool> svec_select(svec<4,bool> mask, svec<4,bool> a, svec<4,bool> b) {
-  svec<4,bool> ret;
+static FORCEINLINE svec<LANES,bool> svec_select(svec<LANES,bool> mask, svec<LANES,bool> a, svec<LANES,bool> b) {
+  svec<LANES,bool> ret;
   ret.v = (a.v & mask.v) | (b.v & ~mask.v);
   return ret;
 }
@@ -693,43 +690,27 @@ LOAD_CONST(double);
  */
 #if defined(__x86_64__) || defined(__PPC64__)
 template<>
-struct svec<4,void*> : public svec<4,uint64_t>{
+struct svec<LANES,void*> : public svec<LANES,uint64_t>{
     /**
      * @brief Constructor.
      * @return a vector of 4 pointers: {p10, p1, p2, p3}.
      */
     FORCEINLINE svec(void* p0, void* p1, void* p2, void* p3):
-    svec<4,uint64_t>((uint64_t)(p0),(uint64_t)(p1),(uint64_t)(p2),(uint64_t)(p3)){}
+    svec<LANES,uint64_t>((uint64_t)(p0),(uint64_t)(p1),(uint64_t)(p2),(uint64_t)(p3)){}
 };
 #else // 32-bit
 template<>
-  struct svec<4,void*>: public svec<4,uint32_t>{
+  struct svec<LANES,void*>: public svec<LANES,uint32_t>{
     /**
      * @brief Constructor.
      * @return a vector of 4 pointers: {p0, p1, p2, p3}.
      */
     FORCEINLINE svec(void* p0, void* p1, void* p2, void* p3):
-    svec<4,uint32_t>((uint32_t)(p0),(uint32_t)(p1),(uint32_t)(p2),(uint32_t)(p3)){}
+    svec<LANES,uint32_t>((uint32_t)(p0),(uint32_t)(p1),(uint32_t)(p2),(uint32_t)(p3)){}
 };
 #endif // __PPC64__
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS //not want generate svec_gather*/svec_scatter methods
-
-/**
- * @brief utilities for fast gather general impl
- */
-template<typename RetVec, typename RetScalar, typename PTRS, typename MSK>
-static FORCEINLINE RetVec
-lGatherGeneral(PTRS ptrs, MSK mask) {
-  RetScalar r[4];
-  if(mask[0]) { r[0] = *((RetScalar*)ptrs[0]);}
-  if(mask[1]) { r[1] = *((RetScalar*)ptrs[1]);}
-  if(mask[2]) { r[2] = *((RetScalar*)ptrs[2]);}
-  if(mask[3]) { r[3] = *((RetScalar*)ptrs[3]);}
-  INC_STATS_NAME(STATS_GATHER_SLOW,1, "Gather general");
-  return RetVec(r[0],r[1],r[2],r[3]);
-}
-
 
 template <class RetVecType> static RetVecType svec_gather(svec<LANES, uint32_t> ptrs, svec<LANES,bool> mask);
 template <class RetVecType> static RetVecType svec_gather(svec<LANES, uint64_t> ptrs, svec<LANES,bool> mask);
@@ -776,26 +757,26 @@ GATHER_BASE_OFFSETS(float, int64_t);
 GATHER_BASE_OFFSETS(double, int32_t);
 GATHER_BASE_OFFSETS(double, int64_t);
 
-GATHER_STRIDE_L4(int8_t, int32_t);
-GATHER_STRIDE_L4(int8_t, int64_t);
-GATHER_STRIDE_L4(uint8_t, int32_t);
-GATHER_STRIDE_L4(uint8_t, int64_t);
-GATHER_STRIDE_L4(int16_t, int32_t);
-GATHER_STRIDE_L4(int16_t, int64_t);
-GATHER_STRIDE_L4(uint16_t, int32_t);
-GATHER_STRIDE_L4(uint16_t, int64_t);
-GATHER_STRIDE_L4(int32_t, int32_t);
-GATHER_STRIDE_L4(int32_t, int64_t);
-GATHER_STRIDE_L4(uint32_t, int32_t);
-GATHER_STRIDE_L4(uint32_t, int64_t);
-GATHER_STRIDE_L4(int64_t, int32_t);
-GATHER_STRIDE_L4(int64_t, int64_t);
-GATHER_STRIDE_L4(uint64_t, int32_t);
-GATHER_STRIDE_L4(uint64_t, int64_t);
-GATHER_STRIDE_L4(float, int32_t);
-GATHER_STRIDE_L4(float, int64_t);
-GATHER_STRIDE_L4(double, int32_t);
-GATHER_STRIDE_L4(double, int64_t);
+GATHER_STRIDE(int8_t, int32_t);
+GATHER_STRIDE(int8_t, int64_t);
+GATHER_STRIDE(uint8_t, int32_t);
+GATHER_STRIDE(uint8_t, int64_t);
+GATHER_STRIDE(int16_t, int32_t);
+GATHER_STRIDE(int16_t, int64_t);
+GATHER_STRIDE(uint16_t, int32_t);
+GATHER_STRIDE(uint16_t, int64_t);
+GATHER_STRIDE(int32_t, int32_t);
+GATHER_STRIDE(int32_t, int64_t);
+GATHER_STRIDE(uint32_t, int32_t);
+GATHER_STRIDE(uint32_t, int64_t);
+GATHER_STRIDE(int64_t, int32_t);
+GATHER_STRIDE(int64_t, int64_t);
+GATHER_STRIDE(uint64_t, int32_t);
+GATHER_STRIDE(uint64_t, int64_t);
+GATHER_STRIDE(float, int32_t);
+GATHER_STRIDE(float, int64_t);
+GATHER_STRIDE(double, int32_t);
+GATHER_STRIDE(double, int64_t);
 
 
 SCATTER_GENERAL(int8_t, uint32_t);
@@ -819,7 +800,6 @@ SCATTER_GENERAL(float, uint64_t);
 SCATTER_GENERAL(double, uint32_t);
 SCATTER_GENERAL(double, uint64_t);
 
-
 SCATTER_BASE_OFFSETS(int8_t, int32_t);
 SCATTER_BASE_OFFSETS(int8_t, int64_t);
 SCATTER_BASE_OFFSETS(uint8_t, int32_t);
@@ -841,27 +821,26 @@ SCATTER_BASE_OFFSETS(float, int64_t);
 SCATTER_BASE_OFFSETS(double, int32_t);
 SCATTER_BASE_OFFSETS(double, int64_t);
 
-
-SCATTER_STRIDE_L4(int8_t, int32_t);
-SCATTER_STRIDE_L4(int8_t, int64_t);
-SCATTER_STRIDE_L4(uint8_t, int32_t);
-SCATTER_STRIDE_L4(uint8_t, int64_t);
-SCATTER_STRIDE_L4(int16_t, int32_t);
-SCATTER_STRIDE_L4(int16_t, int64_t);
-SCATTER_STRIDE_L4(uint16_t, int32_t);
-SCATTER_STRIDE_L4(uint16_t, int64_t);
-SCATTER_STRIDE_L4(int32_t, int32_t);
-SCATTER_STRIDE_L4(int32_t, int64_t);
-SCATTER_STRIDE_L4(uint32_t, int32_t);
-SCATTER_STRIDE_L4(uint32_t, int64_t);
-SCATTER_STRIDE_L4(int64_t, int32_t);
-SCATTER_STRIDE_L4(int64_t, int64_t);
-SCATTER_STRIDE_L4(uint64_t, int32_t);
-SCATTER_STRIDE_L4(uint64_t, int64_t);
-SCATTER_STRIDE_L4(float, int32_t);
-SCATTER_STRIDE_L4(float, int64_t);
-SCATTER_STRIDE_L4(double, int32_t);
-SCATTER_STRIDE_L4(double, int64_t);
+SCATTER_STRIDE(int8_t, int32_t);
+SCATTER_STRIDE(int8_t, int64_t);
+SCATTER_STRIDE(uint8_t, int32_t);
+SCATTER_STRIDE(uint8_t, int64_t);
+SCATTER_STRIDE(int16_t, int32_t);
+SCATTER_STRIDE(int16_t, int64_t);
+SCATTER_STRIDE(uint16_t, int32_t);
+SCATTER_STRIDE(uint16_t, int64_t);
+SCATTER_STRIDE(int32_t, int32_t);
+SCATTER_STRIDE(int32_t, int64_t);
+SCATTER_STRIDE(uint32_t, int32_t);
+SCATTER_STRIDE(uint32_t, int64_t);
+SCATTER_STRIDE(int64_t, int32_t);
+SCATTER_STRIDE(int64_t, int64_t);
+SCATTER_STRIDE(uint64_t, int32_t);
+SCATTER_STRIDE(uint64_t, int64_t);
+SCATTER_STRIDE(float, int32_t);
+SCATTER_STRIDE(float, int64_t);
+SCATTER_STRIDE(double, int32_t);
+SCATTER_STRIDE(double, int64_t);
 
 #endif //DOXYGEN_SHOULD_SKIP_THIS
 
@@ -894,7 +873,7 @@ MASKED_LOAD_STORE_L4(double);
  * @param mask the svec<4,bool> type vector
  * @return true is at least one element in the mask is true
  */
-static FORCEINLINE bool svec_any_true(const svec<4,bool>& mask) {
+static FORCEINLINE bool svec_any_true(const svec<LANES,bool>& mask) {
   return (mask.v != 0);
 }
 
@@ -903,7 +882,7 @@ static FORCEINLINE bool svec_any_true(const svec<4,bool>& mask) {
  * @param mask the svec<4,bool> type vector
  * @return true is all elements in the mask are true
  */
-static FORCEINLINE bool svec_all_true(const svec<4,bool>& mask) {
+static FORCEINLINE bool svec_all_true(const svec<LANES,bool>& mask) {
   return (mask.v & 0xF) == 0xF;
 }
 
@@ -913,7 +892,7 @@ static FORCEINLINE bool svec_all_true(const svec<4,bool>& mask) {
  * @param mask the svec<4,bool> type vector
  * @return true is all elements in the mask are false
  */
-static FORCEINLINE bool svec_none_true(const svec<4,bool>& mask) {
+static FORCEINLINE bool svec_none_true(const svec<LANES,bool>& mask) {
   return (mask.v == 0);
 }
 
@@ -922,8 +901,8 @@ static FORCEINLINE bool svec_none_true(const svec<4,bool>& mask) {
 /**
  * @brief return a & b
  */
-static FORCEINLINE svec<4,bool> svec_and(svec<4,bool> a, svec<4,bool> b) {
-  svec<4,bool> ret;
+static FORCEINLINE svec<LANES,bool> svec_and(svec<LANES,bool> a, svec<LANES,bool> b) {
+  svec<LANES,bool> ret;
   ret.v = a.v & b.v;
   return ret;
 }
@@ -932,8 +911,8 @@ static FORCEINLINE svec<4,bool> svec_and(svec<4,bool> a, svec<4,bool> b) {
 /**
  * @brief return a | b
  */
-static FORCEINLINE svec<4,bool> svec_or(svec<4,bool> a, svec<4,bool> b) {
-  svec<4,bool> ret;
+static FORCEINLINE svec<LANES,bool> svec_or(svec<LANES,bool> a, svec<LANES,bool> b) {
+  svec<LANES,bool> ret;
   ret.v = a.v | b.v;
   return ret;
 }
@@ -941,8 +920,8 @@ static FORCEINLINE svec<4,bool> svec_or(svec<4,bool> a, svec<4,bool> b) {
 /**
  * @brief return a ^ b
  */
-static FORCEINLINE svec<4,bool> svec_xor(svec<4,bool> a, svec<4,bool> b) {
-  svec<4,bool> ret;
+static FORCEINLINE svec<LANES,bool> svec_xor(svec<LANES,bool> a, svec<LANES,bool> b) {
+  svec<LANES,bool> ret;
   ret.v = a.v ^ b.v;
   return ret;
 }
@@ -950,8 +929,8 @@ static FORCEINLINE svec<4,bool> svec_xor(svec<4,bool> a, svec<4,bool> b) {
 /**
  * @brief return ~a
  */
-static FORCEINLINE svec<4,bool> svec_not(svec<4,bool> a) {
-  svec<4,bool> ret;
+static FORCEINLINE svec<LANES,bool> svec_not(svec<LANES,bool> a) {
+  svec<LANES,bool> ret;
   ret.v = ~a.v;
   return ret;
 }
@@ -962,7 +941,7 @@ static FORCEINLINE svec<4,bool> svec_not(svec<4,bool> a) {
  * @param mask the svec<4,bool> type vector
  * @return a uint64_t integer to represent the mask
  */
-static FORCEINLINE uint64_t svec_movmsk(svec<4,bool> mask) {
+static FORCEINLINE uint64_t svec_movmsk(svec<LANES,bool> mask) {
   return (uint64_t)(mask.v);
 }
 
@@ -1013,13 +992,13 @@ UNARY_OP(float, svec_log, logf);
 UNARY_OP(double, svec_log, log);
 //abs - for all types
 UNARY_OP(int8_t, svec_abs, abs<int8_t>);
-static FORCEINLINE svec<4,uint8_t>  svec_abs(svec<4,uint8_t> v) { return v;}
+static FORCEINLINE svec<LANES,uint8_t>  svec_abs(svec<LANES,uint8_t> v) { return v;}
 UNARY_OP(int16_t, svec_abs, abs<int16_t>);
-static FORCEINLINE svec<4,uint16_t>  svec_abs(svec<4,uint16_t> v) { return v;}
+static FORCEINLINE svec<LANES,uint16_t>  svec_abs(svec<LANES,uint16_t> v) { return v;}
 UNARY_OP(int32_t, svec_abs, abs<int32_t>);
-static FORCEINLINE svec<4,uint32_t>  svec_abs(svec<4,uint32_t> v) { return v;}
+static FORCEINLINE svec<LANES,uint32_t>  svec_abs(svec<LANES,uint32_t> v) { return v;}
 UNARY_OP(int64_t, svec_abs, abs<int64_t>);
-static FORCEINLINE svec<4,uint64_t>  svec_abs(svec<4,uint64_t> v) { return v;}
+static FORCEINLINE svec<LANES,uint64_t>  svec_abs(svec<LANES,uint64_t> v) { return v;}
 UNARY_OP(float, svec_abs, abs);
 UNARY_OP(double, svec_abs, abs);
 
@@ -1124,8 +1103,8 @@ MAX_MIN_REDUCE_METHODS(uint64_t);
 MAX_MIN_REDUCE_METHODS(float);
 MAX_MIN_REDUCE_METHODS(double);
 
-FORCEINLINE svec<4,double> svec_preduce_add(svec<4,double> v0, svec<4,double> v1, svec<4,double> v2, svec<4,double> v3) {
-  return svec<4,double>(
+FORCEINLINE svec<LANES,double> svec_preduce_add(svec<LANES,double> v0, svec<LANES,double> v1, svec<LANES,double> v2, svec<LANES,double> v3) {
+  return svec<LANES,double>(
       svec_reduce_add(v0),
       svec_reduce_add(v1),
       svec_reduce_add(v2),
@@ -1329,16 +1308,16 @@ CAST_BITS(double, d, uint64_t, u64);
 //////////////////////////////////////////////////////////////
 
 //add the impl of i1's
-FORCEINLINE void svec<4,bool>::Helper::operator=(uint32_t value) {
+FORCEINLINE void svec<LANES,bool>::Helper::operator=(uint32_t value) {
   svec_insert(m_self, m_index, value);
 }
-FORCEINLINE void svec<4,bool>::Helper::operator=(svec<4,bool>::Helper helper) {
+FORCEINLINE void svec<LANES,bool>::Helper::operator=(svec<LANES,bool>::Helper helper) {
   svec_insert(m_self, m_index, helper.operator uint32_t());
 }
-FORCEINLINE svec<4,bool>::Helper::operator uint32_t() const {
+FORCEINLINE svec<LANES,bool>::Helper::operator uint32_t() const {
   return svec_extract(*m_self, m_index);
 }
-const FORCEINLINE uint32_t svec<4,bool>::operator[](int index) const {
+const FORCEINLINE uint32_t svec<LANES,bool>::operator[](int index) const {
   return svec_extract(*this, index);
 }
 SUBSCRIPT_FUNC_IMPL(int8_t);
@@ -1357,70 +1336,70 @@ SUBSCRIPT_FUNC_IMPL(double);
  * \note This is a reduction operation that returns a scalar value.
  * @return true if at least one element in the mask vector is true, otherwise false
  */
-FORCEINLINE bool svec<4,bool>::any_true() { return svec_any_true(*this); }
+FORCEINLINE bool svec<LANES,bool>::any_true() { return svec_any_true(*this); }
 
 /**
  * @brief Check if all the elements in the mask vector is true. 
  * \note This is a reduction operation that returns a scalar value.
  * @return true if all the elements in the mask vector are true, otherwise false.
  */
-FORCEINLINE bool svec<4,bool>::all_true() { return svec_all_true(*this); }
+FORCEINLINE bool svec<LANES,bool>::all_true() { return svec_all_true(*this); }
 
 /**
  * @brief Check all the elements in the mask vector is false. 
  * \note This is a reduction operation that returns a scalar value.
  * @return true if all the elements in the mask vector are false, otherwise false.
  */
-FORCEINLINE bool svec<4,bool>::none_true() { return svec_none_true(*this); }
+FORCEINLINE bool svec<LANES,bool>::none_true() { return svec_none_true(*this); }
 
 /**
  * @brief Element-wise bit-wise compliment operator. E.g., "~a"
  * @return the result of bit-wise compliment as a boolean vector. 
  */
-FORCEINLINE svec<4,bool> svec<4,bool>::operator~() { return svec_not(*this); }
+FORCEINLINE svec<LANES,bool> svec<LANES,bool>::operator~() { return svec_not(*this); }
 
 /**
  * @brief Element-wise bit-wise OR operator. E.g., "a | b"
  * @param[in] a a boolean vector
  * @return the result of bit-wise OR as a boolean vector.
  */
-FORCEINLINE svec<4,bool> svec<4,bool>::operator|(svec<4,bool> a) { return svec_or(*this, a); }
+FORCEINLINE svec<LANES,bool> svec<LANES,bool>::operator|(svec<LANES,bool> a) { return svec_or(*this, a); }
 /**
  * @brief Element-wise bit-wise AND operator. E.g., "a & b"
  * @param[in] a a boolean vector
  * @return the result of bit-wise AND as a boolean vector.
  */
-FORCEINLINE svec<4,bool> svec<4,bool>::operator&(svec<4,bool> a) { return svec_and(*this, a); }
+FORCEINLINE svec<LANES,bool> svec<LANES,bool>::operator&(svec<LANES,bool> a) { return svec_and(*this, a); }
 /**
  * @brief Element-wise bit-wise XOR operator. E.g., "a ^ b"
  * @param[in] a a boolean vector
  * @return the result of bit-wise XOR as a boolean vector.
  */
-FORCEINLINE svec<4,bool> svec<4,bool>::operator^(svec<4,bool> a) { return svec_xor(*this, a); }
+FORCEINLINE svec<LANES,bool> svec<LANES,bool>::operator^(svec<LANES,bool> a) { return svec_xor(*this, a); }
 /**
  * @brief Element-wise bit-wise not operator. E.g., "!a"
  * @return the result of bit-wise compliment as a boolean vector.
  */
-FORCEINLINE svec<4,bool> svec<4,bool>::operator!() { return svec_not(*this); }
+FORCEINLINE svec<LANES,bool> svec<LANES,bool>::operator!() { return svec_not(*this); }
 
 /**
  * @brief Element-wise boolean AND operator. E.g., "a && b"
  * @param[in] a a boolean vector
  * @return the result of boolean AND as a boolean vector.
  */
-FORCEINLINE svec<4,bool> svec<4,bool>::operator&&(svec<4,bool> a) { return svec_and(*this, a); }
+FORCEINLINE svec<LANES,bool> svec<LANES,bool>::operator&&(svec<LANES,bool> a) { return svec_and(*this, a); }
 /**
  * @brief Element-wise boolean OR operator. E.g., "a || b"
  * @param[in] a a boolean vector
  * @return the result of boolean OR as a boolean vector.
  */
-FORCEINLINE svec<4,bool> svec<4,bool>::operator||(svec<4,bool> a) { return svec_or(*this, a); }
+FORCEINLINE svec<LANES,bool> svec<LANES,bool>::operator||(svec<LANES,bool> a) { return svec_or(*this, a); }
 /**
  * @brief Element-wise compare equal. E.g., "a == b"
  * @param[in] a a boolean vector
  * @return the result of compare-equal as a boolean vector
  */
-FORCEINLINE svec<4,bool> svec<4,bool>::operator ==(svec<4,bool> a) {
+FORCEINLINE svec<LANES,bool> svec<LANES,bool>::operator ==(svec<LANES,bool> a) {
     return svec_equal(*this, a);
 }
 
@@ -1429,7 +1408,7 @@ FORCEINLINE svec<4,bool> svec<4,bool>::operator ==(svec<4,bool> a) {
  * @param[in] a a boolean vector
  * @return the result of compare-not-equal as a boolean vector
  */
-FORCEINLINE svec<4,bool> svec<4,bool>::operator !=(svec<4,bool> a) {
+FORCEINLINE svec<LANES,bool> svec<LANES,bool>::operator !=(svec<LANES,bool> a) {
     return svec_not_equal(*this, a);
 }
 
