@@ -138,7 +138,7 @@ template <>
   struct svec<8,void*>;
 
 /**
- * @brief Data representation and operations on a vector of 4 boolean values.
+ * @brief Data representation and operations on a vector of 8 boolean values.
  * This is used in predicated vector operations. Specifically the ith value of 
  * svec<8,bool> indicates whether the ith lane of a predicated vector operation is
  * enabled or not.
@@ -152,14 +152,14 @@ struct svec<8,bool> {
 
     /**
      * @brief Default constructor. 
-     * @return a vector of 4 undefined values.
+     * @return a vector of 8 undefined values.
      */
     FORCEINLINE svec() { v = 0;}
     /** 
      * @brief Constructor.
      * @param[in] a,b,c,d boolean values
      * \note a,b,c,d must be either 0 or -1
-     * @return a vector of 4 mask/booleans: {a,b,c,d}.
+     * @return a vector of 8 mask/booleans: {a,b,c,d,e,f,g,h}.
      */
     FORCEINLINE svec(uint32_t a, uint32_t b, uint32_t c, uint32_t d,
                          uint32_t e, uint32_t f, uint32_t g, uint32_t h) {
@@ -170,7 +170,7 @@ struct svec<8,bool> {
      * @brief Constructor.
      * @param[in] a a boolean value
      * \note a must be either 0 or -1
-     * @return a vector of 4 mask/booleans: {a,a,a,a}.
+     * @return a vector of 8 mask/booleans: {a,a,a,a,a,a,a,a}a,a,a}.
      */
     FORCEINLINE svec(uint32_t a){
       v = a ? 255 : 0;
@@ -183,7 +183,7 @@ struct svec<8,bool> {
 
 
 /**
- * @brief data representation and operations on a vector of 4 signed chars.
+ * @brief data representation and operations on a vector of 8 signed chars.
  */
 template <>
 struct svec<8,int8_t>  {
@@ -191,12 +191,12 @@ struct svec<8,int8_t>  {
 
     /**
      * @brief Default constructor
-     * @return a vector of 4 undefined signed chars.
+     * @return a vector of 8 undefined signed chars.
      */
     FORCEINLINE svec() { }
     /**
      * @brief Constructor
-     * @return a vector of 4 signed chars: {a,b,c,d}.
+     * @return a vector of 8 signed chars: {a,b,c,d,e,f,g,h}.
      */
     FORCEINLINE svec(int8_t a, int8_t b, int8_t c, int8_t d,
                          int8_t e, int8_t f, int8_t g, int8_t h) {
@@ -205,7 +205,7 @@ struct svec<8,int8_t>  {
     }
     /**
      * @brief Constructor.
-     * @return a vector of 4 signed chars: {a,a,a,a}.
+     * @return a vector of 8 signed chars: {a,a,a,a,a,a,a,a}.
      */
     FORCEINLINE svec(int8_t a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
@@ -222,19 +222,19 @@ struct svec<8,int8_t>  {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 unsigned chars.
+ * @brief data representation and operations on a vector of 8 unsigned chars.
  */
 template<>
 struct svec<8,uint8_t>  {
     uint8_t v[LANES];
     /**
      * @brief Default constructor
-     * @return a vector of 4 undefined unsigned chars.
+     * @return a vector of 8 undefined unsigned chars.
      */
     FORCEINLINE svec() { }
     /**
      * @brief Constructor
-     * @return a vector of 4 unsigned chars: {a,b,c,d}.
+     * @return a vector of 8 unsigned chars: {a,b,c,d,e,f,g,h}.
      */
     FORCEINLINE svec(uint8_t a, uint8_t b, uint8_t c, uint8_t d,
         uint8_t e, uint8_t f, uint8_t g, uint8_t h) {
@@ -244,7 +244,7 @@ struct svec<8,uint8_t>  {
     /**
      * @brief Constructor.
      * @param a an unsigned char value
-     * @return a vector of 4 unsigned chars: {a,a,a,a}.
+     * @return a vector of 8 unsigned chars: {a,a,a,a,a,a,a,a}.
      */
     FORCEINLINE svec(uint8_t a){
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
@@ -261,19 +261,19 @@ struct svec<8,uint8_t>  {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 signed short.
+ * @brief data representation and operations on a vector of 8 signed short.
  */
 template <>
 struct svec<8,int16_t> {
     int16_t v[LANES];
     /**
      * @brief Default constructor
-     * @return a vector of 4 undefined signed short.
+     * @return a vector of 8 undefined signed short.
      */
     FORCEINLINE svec() { }
     /**
      * @brief Constructor.
-     * @return a vector of 4 signed short: {a,b,c,d}.
+     * @return a vector of 8 signed short: {a,b,c,d,e,f,g,h}.
      */
     FORCEINLINE svec(int16_t a, int16_t b, int16_t c, int16_t d,
         int16_t e, int16_t f, int16_t g, int16_t h) {
@@ -283,7 +283,7 @@ struct svec<8,int16_t> {
     /**
      * @brief Constructor.
      * @param a a signed short
-     * @return a vector of 4 signed short: {a,a,a,a}.
+     * @return a vector of 8 signed short: {a,a,a,a,a,a,a,a}.
      */
     FORCEINLINE svec( int16_t a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
@@ -301,19 +301,19 @@ struct svec<8,int16_t> {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 unsigned short.
+ * @brief data representation and operations on a vector of 8 unsigned short.
  */
 template <>
 struct svec<8,uint16_t> {
     uint16_t v[LANES];
     /**
      * @brief Default constructor
-     * @return a vector of 4 undefined unsigned short.
+     * @return a vector of 8 undefined unsigned short.
      */
     FORCEINLINE svec() { }
     /** 
      * @brief Constructor.
-     * @return a vector of 4 unsigned short: {a,b,c,d}.
+     * @return a vector of 8 unsigned short: {a,b,c,d,e,f,g,h}.
      */
     FORCEINLINE svec(uint16_t a, uint16_t b, uint16_t c, uint16_t d,
         uint16_t e, uint16_t f, uint16_t g, uint16_t h) {
@@ -323,7 +323,7 @@ struct svec<8,uint16_t> {
     /**
      * @brief Constructor.
      * @param a an unsigned short
-     * @return a vector of 4 unsigned short: {a,a,a,a}.
+     * @return a vector of 8 unsigned short: {a,a,a,a,a,a,a,a}.
      */
     FORCEINLINE svec( uint16_t a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
@@ -341,19 +341,19 @@ struct svec<8,uint16_t> {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 signed int.
+ * @brief data representation and operations on a vector of 8 signed int.
  */
 template <>
 struct svec<8,int32_t> {
     int32_t v[LANES];
     /**
      * @brief Default constructor
-     * @return a vector of 4 undefined signed int.
+     * @return a vector of 8 undefined signed int.
      */
     FORCEINLINE svec() { }
     /** 
      * @brief Constructor.
-     * @return a vector of 4 signed int: {a,b,c,d}.
+     * @return a vector of 8 signed int: {a,b,c,d,e,f,g,h}.
      */
     FORCEINLINE svec(int a, int b, int c, int d,
         int e, int f, int g, int h) {
@@ -363,7 +363,7 @@ struct svec<8,int32_t> {
     /**
      * @brief Constructor.
      * @param a a signed int
-     * @return a vector of 4 signed int: {a,a,a,a}.
+     * @return a vector of 8 signed int: {a,a,a,a,a,a,a,a}.
      */
     FORCEINLINE svec(int32_t a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
@@ -381,19 +381,19 @@ struct svec<8,int32_t> {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 unsigned int.
+ * @brief data representation and operations on a vector of 8 unsigned int.
  */
 template <>
 struct svec<8,uint32_t> {
    uint32_t v[LANES];
     /**
      * @brief Default constructor
-     * @return a vector of 4 undefined unsigned int.
+     * @return a vector of 8 undefined unsigned int.
      */
     FORCEINLINE svec() { }
     /** 
      * @brief Constructor.
-     * @return a vector of 4 unsigned int: {a,b,c,d}.
+     * @return a vector of 8 unsigned int: {a,b,c,d,e,f,g,h}.
      */
     FORCEINLINE svec(uint32_t a, uint32_t b, uint32_t c, uint32_t d,
         uint32_t e, uint32_t f, uint32_t g, uint32_t h) {
@@ -403,7 +403,7 @@ struct svec<8,uint32_t> {
     /**
      * @brief Constructor.
      * @param a an unsigned int
-     * @return a vector of 4 unsigned int: {a,a,a,a}.
+     * @return a vector of 8 unsigned int: {a,a,a,a,a,a,a,a}.
      */
     FORCEINLINE svec(uint32_t a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
@@ -420,19 +420,19 @@ struct svec<8,uint32_t> {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 signed long long.
+ * @brief data representation and operations on a vector of 8 signed long long.
  */
 template <>
 struct svec<8,int64_t> {
     int64_t v[LANES];
     /**
      * @brief Default constructor,
-     * @return a vector of 4 undefined signed long long.
+     * @return a vector of 8 undefined signed long long.
      */
     FORCEINLINE svec() { }
     /** 
      * @brief Constructor.
-     * @return a vector of 4 signed long long: {a,b,c,d}.
+     * @return a vector of 8 signed long long: {a,b,c,d,e,f,g,h}.
      */
     FORCEINLINE svec(int64_t a, int64_t b, int64_t c, int64_t d,
         int64_t e, int64_t f, int64_t g, int64_t h) {
@@ -442,7 +442,7 @@ struct svec<8,int64_t> {
     /**
      * @brief Constructor.
      * @param a a signed long long
-     * @return a vector of 4 signed long long: {a,a,a,a}.
+     * @return a vector of 8 signed long long: {a,a,a,a,a,a,a,a}.
      */
     FORCEINLINE svec( int64_t a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
@@ -459,19 +459,19 @@ struct svec<8,int64_t> {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 unsigned 64-bit int.
+ * @brief data representation and operations on a vector of 8 unsigned 64-bit int.
  */
 template <>
 struct svec<8,uint64_t> {
     uint64_t v[LANES];
     /**
      * @brief Default constructor
-     * @return a vector of 4 undefined unsigned 64-bit int.
+     * @return a vector of 8 undefined unsigned 64-bit int.
      */
     FORCEINLINE svec() { }
     /** 
      * @brief Constructor.
-     * @return a vector of 4 unsigned 64-bit int: {a,b,c,d}.
+     * @return a vector of 8 unsigned 64-bit int: {a,b,c,d,e,f,g,h}.
      */
     FORCEINLINE svec(uint64_t a, uint64_t b, uint64_t c, uint64_t d,
         uint64_t e, uint64_t f, uint64_t g, uint64_t h) {
@@ -481,7 +481,7 @@ struct svec<8,uint64_t> {
     /**
      * @brief Constructor.
      * @param a an unsigned 64-bit int.
-     * @return a vector of 4 unsigned 64-bit int: {a,a,a,a}.
+     * @return a vector of 8 unsigned 64-bit int: {a,a,a,a,a,a,a,a}.
      */
     FORCEINLINE svec( uint64_t a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
@@ -498,19 +498,19 @@ struct svec<8,uint64_t> {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 float.
+ * @brief data representation and operations on a vector of 8 float.
  */
 template<>
 struct svec<8,float>  {
     float v[LANES];
     /**
      * @brief Default constructor
-     * @return a vector of 4 undefined float.
+     * @return a vector of 8 undefined float.
      */
     FORCEINLINE svec() { }
     /** 
      * @brief Constructor.
-     * @return a vector of 4 float: {a,b,c,d}.
+     * @return a vector of 8 float: {a,b,c,d,e,f,g,h}.
      */
     FORCEINLINE svec(float a, float b, float c, float d,
         float e, float f, float g, float h) {
@@ -520,7 +520,7 @@ struct svec<8,float>  {
     /**
      * @brief Constructor.
      * @param a a float
-     * @return a vector of 4 floats: {a,a,a,a}.
+     * @return a vector of 8 floats: {a,a,a,a,a,a,a,a}.
      */
     FORCEINLINE svec( float a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
@@ -537,19 +537,19 @@ struct svec<8,float>  {
 };
 
 /**
- * @brief data representation and operations on a vector of 4 double.
+ * @brief data representation and operations on a vector of 8 double.
  */
 template<>
 struct svec<8,double> {
     double v[LANES];
     /**
      * @brief Default constructor
-     * @return a vector of 4 undefined double.
+     * @return a vector of 8 undefined double.
      */
     FORCEINLINE svec() { }
     /** 
      * @brief Constructor.
-     * @return a vector of 4 double: {a,b,c,d}.
+     * @return a vector of 8 double: {a,b,c,d,e,f,g,h}.
      */
     FORCEINLINE svec(double a, double b, double c, double d,
         double e, double f, double g, double h) {
@@ -559,7 +559,7 @@ struct svec<8,double> {
     /**
      * @brief Constructor.
      * @param a a double
-     * @return a vector of 4 doubles: {a,a,a,a}.
+     * @return a vector of 8 doubles: {a,a,a,a,a,a,a,a}.
      */
     FORCEINLINE svec( double a) {
       v[0] = v[1] = v[2] = v[3] = v[4] = v[5] = v[6] = v[7] = a;
@@ -705,7 +705,7 @@ LOAD_CONST(double);
  *
  */
 /**
- * @brief data representation and operations on a vector of 4 pointers.
+ * @brief data representation and operations on a vector of 8 pointers.
  * This is only used in gather and scatter.
  * @note In 32bit platform, svec8_ptr extends svec<8,uint32_t>, while in 64bit platform, svec8_ptr extends svec<8,uint64_t>.
  * @see gather and scatter
@@ -715,7 +715,7 @@ template<>
 struct svec<8,void*> : public svec<8,uint64_t>{
     /**
      * @brief Constructor.
-     * @return a vector of 4 pointers: {p10, p1, p2, p3}.
+     * @return a vector of 8 pointers: {p0, p1, p2, p3, p4, p5, p6, p7}.
      */
     FORCEINLINE svec(void* p0, void* p1, void* p2, void* p3, void* p4, void* p5, void* p6, void* p7):
         svec<8,uint64_t>((uint64_t)(p0),(uint64_t)(p1),(uint64_t)(p2),(uint64_t)(p3),(uint64_t)(p4),(uint64_t)(p5),(uint64_t)(p6),(uint64_t)(p7)){}
@@ -725,7 +725,7 @@ template<>
 struct svec<8,void*>: public svec<8,uint32_t>{
     /**
      * @brief Constructor.
-     * @return a vector of 4 pointers: {p0, p1, p2, p3}.
+     * @return a vector of 8 pointers: {p0, p1, p2, p3, p4, p5, p6, p7}.
      */
     FORCEINLINE svec(void* p0, void* p1, void* p2, void* p3, void* p4, void* p5, void* p6, void* p7):
         svec<8,uint32_t>((uint32_t)(p0),(uint32_t)(p1),(uint32_t)(p2),(uint32_t)(p3),(uint32_t)(p4),(uint32_t)(p5),(uint32_t)(p6),(uint32_t)(p7)){}
