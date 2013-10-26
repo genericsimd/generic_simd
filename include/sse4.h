@@ -2007,26 +2007,12 @@ MAX_MIN_REDUCE_METHODS(uint64_t);
 MAX_MIN_REDUCE_METHODS(float);
 MAX_MIN_REDUCE_METHODS(double);
 
-//FORCEINLINE svec<4,double> svec_preduce_add(svec<4,double> v0, svec<4,double> v1, svec<4,double> v2, svec<4,double> v3) {
-//  return svec<4,double>(
-//      svec_reduce_add(v0),
-//      svec_reduce_add(v1),
-//      svec_reduce_add(v2),
-//      svec_reduce_add(v3)
-//      );
-//}
-
-//FORCEINLINE svec<4,double> svec_preduce_add(svec<4,double> v0, svec<4,double> v1, svec<4,double> v2, svec<4,double> v3) {
-//  __m128d s00 = _mm_hadd_pd(v0.v[0], v0.v[1]);
-//  __m128d s01 = _mm_hadd_pd(v1.v[0], v1.v[1]);
-//  __m128d s02 = _mm_hadd_pd(v2.v[0], v2.v[1]);
-//  __m128d s03 = _mm_hadd_pd(v3.v[0], v3.v[1]);
-//
-//  __m128d s0 = _mm_hadd_pd(s00, s01);
-//  __m128d s1 = _mm_hadd_pd(s02, s03);
-//
-//  return svec<4,double>(s0, s1);
-//}
+FORCEINLINE svec<LANES,float> svec_preduce_add(svec<LANES,float> v0, svec<LANES,float> v1, svec<LANES,float> v2, svec<LANES,float> v3) {
+  __m128 s0 = _mm_hadd_ps(v0.v,v1.v);
+  __m128 s1 = _mm_hadd_ps(v2.v,v3.v);
+  __m128 s = _mm_hadd_ps(s0, s1);
+  return svec<LANES,float>(s);
+}
 
 FORCEINLINE svec<4,double> svec_preduce_add(svec<4,double> v0, svec<4,double> v1, svec<4,double> v2, svec<4,double> v3) {
   __m128d s00 = _mm_add_pd(v0.v[0], v0.v[1]);

@@ -2885,6 +2885,16 @@ MAX_MIN_REDUCE_METHODS(float);
 MAX_MIN_REDUCE_METHODS(double);
 
 
+FORCEINLINE svec<LANES,float> svec_preduce_add(svec<LANES,float> v0, svec<LANES,float> v1, svec<LANES,float> v2, svec<LANES,float> v3) {
+  //TODO: rewrite it with vec_mergeh/vec_mergel. First 32bit merge, then 64 bit, then 32bit add
+  return svec<LANES,float>(
+      svec_reduce_add(v0),
+      svec_reduce_add(v1),
+      svec_reduce_add(v2),
+      svec_reduce_add(v3)
+      );
+}
+
 
 FORCEINLINE svec<4,double> svec_preduce_add(svec<4,double> v0, svec<4,double> v1, svec<4,double> v2, svec<4,double> v3) {
   //parallel reduction using mergeh mergel

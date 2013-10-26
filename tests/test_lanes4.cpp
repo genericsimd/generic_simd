@@ -2025,6 +2025,17 @@ TEST(svec4_d, binary)
     EXPECT_SVEC_EQ(s / v0, svec4_d(2/2.0, 2/4.0, 2/8.0, 2/16.0));
 }
 
+TEST(svec4_f, reduce)
+{
+  svec4_f v0(1, 2, 3, 4);
+  svec4_f v1(10, 20, 30, 40);
+  svec4_f v2(100, 200, 300, 400);
+  svec4_f v3(1000, 2000, 3000, 4000);
+
+  svec4_f sum = svec_preduce_add(v0, v1, v2, v3);
+  EXPECT_SVEC_EQ(sum, svec4_f(10, 100, 1000, 10000));
+}
+
 TEST(svec4_d, reduce)
 {
   svec4_d v0(1, 2, 3, 4);
@@ -2141,11 +2152,7 @@ TEST(svec4_i1, cast)
   EXPECT_SVEC_EQ(svec_cast<svec4_u32>(v), (ref_cast<svec4_i1, svec4_u32, uint32_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_i64>(v), (ref_cast<svec4_i1, svec4_i64, int64_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_u64>(v), (ref_cast<svec4_i1, svec4_u64, uint64_t>(v)));
-  DUMP(svec_cast<svec4_f>(v));
-  DUMP((ref_cast<svec4_i1, svec4_f, float>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_f>(v), (ref_cast<svec4_i1, svec4_f, float>(v)));
-  DUMP(svec_cast<svec4_d>(v));
-  DUMP((ref_cast<svec4_i1, svec4_d, double>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_d>(v), (ref_cast<svec4_i1, svec4_d, double>(v)));
 }
 
@@ -2266,7 +2273,6 @@ TEST(svec4_i64, cast)
 TEST(svec4_u64, cast)
 {
   svec4_u64 v = random_vec<uint64_t, svec4_u64>();
-  DUMP(v);
   EXPECT_SVEC_EQ(svec_cast<svec4_i1>(v), (ref_cast<svec4_u64, svec4_i1, bool>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_i8>(v), (ref_cast<svec4_u64, svec4_i8, int8_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_u8>(v), (ref_cast<svec4_u64, svec4_u8, uint8_t>(v)));
@@ -2300,9 +2306,7 @@ TEST(svec4_f, cast)
 TEST(svec4_d, cast)
 {
   svec4_d v = random_vec<double, svec4_d>();
-  DUMP(v);
   EXPECT_SVEC_EQ(svec_cast<svec4_i1>(v), (ref_cast<svec4_d, svec4_i1, bool>(v)));
-  DUMP(svec_cast<svec4_i1>(v)); DUMP((ref_cast<svec4_d, svec4_i1, uint32_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_i8>(v), (ref_cast<svec4_d, svec4_i8, int8_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_u8>(v), (ref_cast<svec4_d, svec4_u8, uint8_t>(v)));
   EXPECT_SVEC_EQ(svec_cast<svec4_i16>(v), (ref_cast<svec4_d, svec4_i16, int16_t>(v)));

@@ -1103,6 +1103,15 @@ MAX_MIN_REDUCE_METHODS(uint64_t);
 MAX_MIN_REDUCE_METHODS(float);
 MAX_MIN_REDUCE_METHODS(double);
 
+FORCEINLINE svec<LANES,float> svec_preduce_add(svec<LANES,float> v0, svec<LANES,float> v1, svec<LANES,float> v2, svec<LANES,float> v3) {
+  return svec<LANES,float>(
+      svec_reduce_add(v0),
+      svec_reduce_add(v1),
+      svec_reduce_add(v2),
+      svec_reduce_add(v3)
+      );
+}
+
 FORCEINLINE svec<LANES,double> svec_preduce_add(svec<LANES,double> v0, svec<LANES,double> v1, svec<LANES,double> v2, svec<LANES,double> v3) {
   return svec<LANES,double>(
       svec_reduce_add(v0),
