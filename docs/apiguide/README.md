@@ -31,6 +31,7 @@ Each API json object has five attributes
   + cast: cast operation
   + other: other operations
 - *Description*: String, detail description
+- *Example*: String. Optional. Example code.
 
 Example
 ```json

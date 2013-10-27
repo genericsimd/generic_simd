@@ -17,6 +17,11 @@ body {
   font-size: 100%;
 }
 
+a:link {text-decoration:none;font-weight:bold;}    /* unvisited link */
+a:visited {text-decoration:none;font-weight:bold;} /* visited link */
+a:hover {text-decoration:underline;font-weight:bold;}   /* mouse over link */
+a:active {text-decoration:underline;font-weight:bold;}  /* selected link */
+
 .dataclass {
 margin:5px;
 overflow-y:auto;
@@ -48,6 +53,10 @@ background-color:#e0ffff;
 .apidescclass {
   margin:5px 5px;
   display:none;
+}
+
+.apiexampleclass {
+  background-color:#ffffcc;
 }
 
 .show_hide {
@@ -135,8 +144,14 @@ $('#lane_all,#type_all,#category_all').on('click',function(){
 $.each(apidata, function(i, m){ m.id = i+1; });
              
 var view = function(api) {
-    return "<div class='apiclass'><div class='apiheaderclass'><a href='#' class='toggle'>"+ api.name +"</a></div>"+
-    "<div class='apidescclass'><b>Description</b><br>"+ api.Description +"</div></div>";
+    if(api.Example === undefined || api.Example == "") {
+      examplestr = "";
+    } else {
+      examplestr = "<h4>Example</h4><div class='apiexampleclass'>"+  api.Example  +"<div>";
+
+    }
+    return "<div class='apiclass'><div class='apiheaderclass'><a class='toggle' href='#'>"+ api.name +"</a></div>"+
+    "<div class='apidescclass'><h4>Description</h4>"+ api.Description + examplestr + "</div></div>";
 }
 
 var settings = {
