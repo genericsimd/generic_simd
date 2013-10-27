@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <!--link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" media="screen" rel="stylesheet" type="text/css"-->
+  <link href="vendor/jquery-ui.css" media="screen" rel="stylesheet" type="text/css">
+  <!--script src="http://code.jquery.com/jquery-1.10.1.min.js"></script-->
+  <script src="vendor/jquery-1.10.1.min.js"></script>
+  <!--script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script-->
+  <script src="vendor/jquery-ui.js"></script>
+  <script src="vendor/filter.js" type="text/javascript"></script>
+  <script src="apidata.js" type="text/javascript"></script>
+  <title>Generic SIMD API Guide</title>
+<style type="text/css">
+body {
+  font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
+  font-size: 100%;
+}
+
+.dataclass {
+margin:5px;
+overflow-y:auto;
+position:absolute;
+background-color:#BBFFFFFF;
+text-align:left;
+border-style:solid;
+border-width:1px;
+}
+
+.slidingDiv {
+    height:300px;
+    background-color: #99CCFF;
+    padding:20px;
+    margin-top:10px;
+    border-bottom:5px solid #3399FF;
+}
+
+.apiclass {
+margin:5px 5px;
+border-style:solid;
+border-width:1px;
+}
+
+.apiheaderclass {
+background-color:#e0ffff;
+}
+ 
+.apidescclass {
+  margin:5px 5px;
+  display:none;
+}
+
+.show_hide {
+ display:none;
+}
+</style>
+</head>
+<body>
+<script type="text/javascript">
+
+</script>
+
+<div id="filter_panel" class="dataclass" style="left:0px;height:600px;top:0px;width:300px">
+<div>
+  Search API:<input type="text" id="search_box" class="searchbox" placeholder="Type here...." style="margin-top:0px"/>
+</div>
+
+<div id="lane_list">
+  <h3 style="margin:5px 5px;">Lanes</h3>
+  <ul style="margin:0px 0px;">
+    <li><input id="lane_all" value="all" type="checkbox" checked="true"><span>All</span></li>
+    <li><input id="lane_4" value="4" type="checkbox" checked="true"><span>LANE4</span></li>
+    <li><input id="lane_8" value="8" type="checkbox" checked="true"><span>LANE8</span></li>
+  </ul>
+</div>
+<div id="type_list">
+  <h3 style="margin:5px 5px;">Types</h3>
+  <ul style="margin:0px 0px;">
+    <li><input id="type_all" value="all" type="checkbox" checked="true"><span>All</span></li>
+    <li><input id="type_bool" value="bool" type="checkbox" checked="true"><span>bool</span></li>
+    <li><input id="type_int8" value="int8_t" type="checkbox" checked="true"><span>int8_t</span></li>
+    <li><input id="type_uint8" value="uint8_t" type="checkbox" checked="true"><span>uint8_t</span></li>
+    <li><input id="type_int16" value="int16_t" type="checkbox" checked="true"><span>int16_t</span></li>
+    <li><input id="type_uint16" value="uint16_t" type="checkbox" checked="true"><span>uint16_t</span></li>
+    <li><input id="type_int32" value="int32_t" type="checkbox" checked="true"><span>int32_t</span></li>
+    <li><input id="type_uint32" value="uint32_t" type="checkbox" checked="true"><span>uint32_t</span></li>
+    <li><input id="type_int64" value="int64_t" type="checkbox" checked="true"><span>int64_t</span></li>
+    <li><input id="type_uint64" value="uint64_t" type="checkbox" checked="true"><span>uint64_t</span></li>
+    <li><input id="type_float" value="float" type="checkbox" checked="true"><span>float</span></li>
+    <li><input id="type_double" value="double" type="checkbox" checked="true"><span>double</span></li>
+  </ul>
+</div>
+<div id="category_list">
+  <h3 style="margin:5px 5px;">Categories</h3>
+  <ul style="margin:0px 0px;">
+    <li><input id="category_all" value="all" type="checkbox" checked="true"><span>All</span></li>
+    <li><input id="category_datatype" value="datatype" type="checkbox" checked="true"><span>Datatype/Constructor</span></li>
+    <li><input id="category_arithmetic" value="math" type="checkbox" checked="true"><span>Arithmetic</span></li>
+    <li><input id="category_bitop" value="bitop" type="checkbox" checked="true"><span>Bit Manipulation</span></li>
+    <li><input id="category_bitop" value="cmp" type="checkbox" checked="true"><span>Compare</span></li>
+    <li><input id="category_load" value="load" type="checkbox" checked="true"><span>Load</span></li>
+    <li><input id="category_store" value="store" type="checkbox" checked="true"><span>Store</span></li>
+    <li><input id="category_cast" value="cast" type="checkbox" checked="true"><span>Cast</span></li>
+    <li><input id="category_other" value="other" type="checkbox" checked="true"><span>Other</span></li>
+  </ul>
+</div>
+
+</div>
+<div id="api_panel" class="dataclass" style="height:600px;top:0px;width:900px;left:310px;">
+<h3  style="margin:5px 5px;">API List</h3>
+<div id="api_list"></div>
+
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $(window).resize(function() {
+        $('#filter_panel').height($(window).height()-10);
+        $('#api_panel').height($(window).height()-10);
+        $('#api_panel').width($(window).width()-320);
+    });
+});
+$('#filter_panel').height($(window).height()-10);
+$('#api_panel').height($(window).height()-10);
+$('#api_panel').width($(window).width()-320);
+
+
+$('#lane_all,#type_all,#category_all').closest('ul').children().find(':checkbox').prop('checked', true);
+
+$('#lane_all,#type_all,#category_all').on('click',function(){
+   $(this).closest('ul').children().find(':checkbox').prop('checked', $(this).is(':checked'));
+  });
+
+
+$.each(apidata, function(i, m){ m.id = i+1; });
+             
+var view = function(api) {
+    return "<div class='apiclass'><div class='apiheaderclass'><a href='#' class='toggle'>"+ api.name +"</a></div>"+
+    "<div class='apidescclass'><b>Description</b><br>"+ api.Description +"</div></div>";
+}
+
+var settings = {
+  filter_criteria: {
+          lane: ['#lane_list input:checkbox .EVENT.click .SELECT.:checked', 'Lane'],
+          type: ['#type_list input:checkbox .EVENT.click .SELECT.:checked', 'Type'],
+          category: ['#category_list input:checkbox .EVENT.click .SELECT.:checked', 'Category'],
+    },
+   and_filter_on: true,
+   search: { input: '#search_box' },
+};
+ 
+
+/* Trigger the filtering */
+var fJS = new FilterJS(apidata, "#api_list", view, settings);
+
+/* Function for api document's expand */
+$('.toggle').click(function() {
+  var content = $(this).parent().next();
+  $(content).toggle();
+  return false;
+});
+
+</script>
+
+</body>
+</html>
