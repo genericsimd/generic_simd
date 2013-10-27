@@ -31,3 +31,13 @@ Each API json object has five attributes
   + cast: cast operation
   + other: other operations
 - *Description*: String, detail description
+
+Example
+```json
+{ name: "svec< 4, bool >",
+  Lane:4, 
+  Type: "bool",
+  Category: "datatype",
+  Description: "Data representation and operations on a vector of 4 boolean values. This is used in predicated vector operations. Specifically the ith value of svec<4,bool> indicates whether the ith lane of a predicated vector operation is enabled or not"
+}
+```
