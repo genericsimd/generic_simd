@@ -3,7 +3,7 @@ apidata = [
   Lane:4, 
   Type: "bool",
   Category: "datatype",
-  Description: "Data representation and operations on a vector of 4 boolean values. This is used in predicated vector operations. Specifically the ith value of svec<4,bool> indicates whether the ith lane of a predicated vector operation is enabled or not"
+  Description: "Data representation and operations on a vector of 4 boolean values. This is used in predicated vector operations. Specifically the ith value of svec<4,bool> indicates whether the ith lane of a predicated vector operation is enabled or not."
 },
 { name: "svec< 4, bool >::svec()",
   Lane:4, 
@@ -30,18 +30,53 @@ apidata = [
   Description: "Set or get the vector element specified by index.",
   Example: "svec<4,bool> mask(0,-1,-1,0);<br>bool a = mask[0];//a is false<br>mask[2] = 0; //mask is now{0,-1,0,0}"
 },
-{ name: "svec< 4, bool > svec< 4, bool >::operator==(svec<4,bool> a)",
+{ name: "svec< 4, bool >::operator==(svec<4,bool> a)",
   Lane:4, 
   Type: "bool",
   Category: "cmp",
   Description: "Element-wise compare equal. Return a bool vector.",
   Example: "a == b"
 },
-{ name: "svec< 4, bool > svec< 4, bool >::operator!=(svec<4,bool> a)",
+{ name: "svec< 4, bool >::operator!=(svec<4,bool> a)",
   Lane:4, 
   Type: "bool",
   Category: "cmp",
   Description: "Element-wise compare not equal. Return a bool vector",
   Example: "a != b"
+},
+{ name: "svec< 4, bool >::store (svec< 4, bool > *p)",
+  Lane:4, 
+  Type: "bool",
+  Category: "store",
+  Description: "Store the vector to address p. p does not have to be aligned. Each svec< 4, bool > requires 16 bytes",
+  Example: "svec< 4, bool > mask(0,-1,-1,0);<br>void* dst=...;<br>mask.store((svec< 4, bool > *)dst);"
+},
+{ name: "static svec< 4, bool >::load (svec< 4, bool > *p)",
+  Lane:4, 
+  Type: "bool",
+  Category: "load",
+  Description: "Class method, load the vector from the pointer p, and return a new svec< 4, bool > vector. p does not have to be aligned. Each svec< 4, bool > requires 16 bytes",
+  Example: "void* src=...;<br> svec< 4, bool > mask = svec< 4, bool >::load((svec< 4, bool >*)src);"
+},
+{ name: "svec< 4, bool >::any_true()",
+  Lane:4, 
+  Type: "bool",
+  Category: "other",
+  Description: "Check if any element in the mask vector is true. Return true if at least one element in the mask vector is true, otherwise false. This is a reduction operation that returns a scalar value.",
+  Example: ""
+},
+{ name: "svec< 4, bool >::all_true()",
+  Lane:4, 
+  Type: "bool",
+  Category: "other",
+  Description: "Check if all the elements in the mask vector is true. Return true if all the elements in the mask vector are true, otherwise false. This is a reduction operation that returns a scalar value.",
+  Example: ""
+},
+{ name: "svec< 4, bool >::none_true()",
+  Lane:4, 
+  Type: "bool",
+  Category: "other",
+  Description: "Check all the elements in the mask vector is false. Return true if all the elements in the mask vector are false, otherwise false. This is a reduction operation that returns a scalar value.",
+  Example: ""
 },
 ];
