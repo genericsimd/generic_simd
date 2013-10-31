@@ -39,6 +39,7 @@ Example
   Lane:4, 
   Type: "bool",
   Category: "datatype",
-  Description: "Data representation and operations on a vector of 4 boolean values. This is used in predicated vector operations. Specifically the ith value of svec<4,bool> indicates whether the ith lane of a predicated vector operation is enabled or not"
+  Description: "Data representation and operations on a vector of 4 boolean values. This is used in predicated vector operations. Specifically the ith value of svec<4,bool> indicates whether the ith lane of a predicated vector operation is enabled or not",
+  Example: "Sample code. Use <br> for line break"
 }
 ```
