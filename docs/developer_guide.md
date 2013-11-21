@@ -41,7 +41,7 @@ $ add docs/gh-pages.github to .gitignore
 $ cd docs
 # create a branch gh-pages from the github web interface
 # clone the project repo to docs/gh-pages.github
-$ git clone -b gh-pages.github https://github.com/pengwuibm/generic_simd.git gh-pages.github
+$ git clone -b gh-pages https://github.com/pengwuibm/generic_simd.git gh-pages.github
 $ cd gh-pages.github
 # remove all trunk files from gh-pages branch
 ```
