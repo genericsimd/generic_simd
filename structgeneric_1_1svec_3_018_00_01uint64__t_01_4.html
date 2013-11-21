@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Generic SIMD Intrinsic Library API
-   &#160;<span id="projectnumber">0.7</span>
+   &#160;<span id="projectnumber">0.6</span>
    </div>
   </td>
  </tr>
@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -89,14 +89,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">generic::svec&lt; 8, uint64_t &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>data representation and operations on a vector of 4 unsigned 64-bit int.  
+<p>data representation and operations on a vector of 8 unsigned 64-bit int.  
  <a href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="generic8_8h_source.html">generic8.h</a>&gt;</code></p>
@@ -112,26 +114,171 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aba3adec000df5a74159b53cdc687224a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#aba3adec000df5a74159b53cdc687224a">svec</a> (uint64_t a)</td></tr>
 <tr class="memdesc:aba3adec000df5a74159b53cdc687224a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#aba3adec000df5a74159b53cdc687224a">More...</a><br/></td></tr>
 <tr class="separator:aba3adec000df5a74159b53cdc687224a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29c11d110ff319a629369d5659c85cb4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a29c11d110ff319a629369d5659c85cb4">SUBSCRIPT_FUNC_DECL</a> (uint64_t)</td></tr>
-<tr class="memdesc:a29c11d110ff319a629369d5659c85cb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator [] to set or get the vector element specified by index.  <a href="#a29c11d110ff319a629369d5659c85cb4">More...</a><br/></td></tr>
-<tr class="separator:a29c11d110ff319a629369d5659c85cb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4eb2505905f265797ddc2a1639fd9afe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a4eb2505905f265797ddc2a1639fd9afe">COUT_FUNC_DECL</a> (uint64_t)</td></tr>
-<tr class="separator:a4eb2505905f265797ddc2a1639fd9afe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a791f032e9d5b5908e9314a537d661bf1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a791f032e9d5b5908e9314a537d661bf1">VEC_CLASS_METHOD_DECL</a> (uint64_t)</td></tr>
-<tr class="separator:a791f032e9d5b5908e9314a537d661bf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3a4a97499d170af690062e070801055"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#ac3a4a97499d170af690062e070801055">VEC_INT_CLASS_METHOD_DECL</a> (uint64_t, uint64_t)</td></tr>
-<tr class="separator:ac3a4a97499d170af690062e070801055"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ce5528b671c50a68c42153cb8fe3ac0"><td class="memItemLeft" align="right" valign="top">uint64_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a2ce5528b671c50a68c42153cb8fe3ac0">operator[]</a> (int index)</td></tr>
+<tr class="memdesc:a2ce5528b671c50a68c42153cb8fe3ac0"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator [] to set or get the vector element specified by index.  <a href="#a2ce5528b671c50a68c42153cb8fe3ac0">More...</a><br/></td></tr>
+<tr class="separator:a2ce5528b671c50a68c42153cb8fe3ac0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac62a9225a5d7a95333cbc59193c10c88"><td class="memItemLeft" align="right" valign="top">const uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#ac62a9225a5d7a95333cbc59193c10c88">operator[]</a> (int index) const </td></tr>
+<tr class="separator:ac62a9225a5d7a95333cbc59193c10c88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c319b3e34b67404df1795456a2805b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a5c319b3e34b67404df1795456a2805b0">operator==</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; a)</td></tr>
+<tr class="memdesc:a5c319b3e34b67404df1795456a2805b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Element-wise compare equal, return a bool vector, e.g., "a == b" *.  <a href="#a5c319b3e34b67404df1795456a2805b0">More...</a><br/></td></tr>
+<tr class="separator:a5c319b3e34b67404df1795456a2805b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79a2a7c9c23a77cfebc452007d1ab606"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a79a2a7c9c23a77cfebc452007d1ab606">operator!=</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; a)</td></tr>
+<tr class="memdesc:a79a2a7c9c23a77cfebc452007d1ab606"><td class="mdescLeft">&#160;</td><td class="mdescRight">Element-wise compare not equal, return a bool vector. E.g. "a != b" *.  <a href="#a79a2a7c9c23a77cfebc452007d1ab606">More...</a><br/></td></tr>
+<tr class="separator:a79a2a7c9c23a77cfebc452007d1ab606"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af12151f8ede3208f307980dc182ec94a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#af12151f8ede3208f307980dc182ec94a">operator&lt;</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; a)</td></tr>
+<tr class="memdesc:af12151f8ede3208f307980dc182ec94a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Element-wise compare less than, return a bool vector. E.g. "a &lt; b" *.  <a href="#af12151f8ede3208f307980dc182ec94a">More...</a><br/></td></tr>
+<tr class="separator:af12151f8ede3208f307980dc182ec94a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4eab9c39cdbb76c6c5708c29139e3da3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a4eab9c39cdbb76c6c5708c29139e3da3">operator&lt;=</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; a)</td></tr>
+<tr class="memdesc:a4eab9c39cdbb76c6c5708c29139e3da3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Element-wise compare less equal, return a bool vector. E.g. "a &lt;= b" *.  <a href="#a4eab9c39cdbb76c6c5708c29139e3da3">More...</a><br/></td></tr>
+<tr class="separator:a4eab9c39cdbb76c6c5708c29139e3da3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c20d9ee5891739ea54a8d9dc27e5334"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a0c20d9ee5891739ea54a8d9dc27e5334">operator&gt;</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; a)</td></tr>
+<tr class="memdesc:a0c20d9ee5891739ea54a8d9dc27e5334"><td class="mdescLeft">&#160;</td><td class="mdescRight">Element-wise compare greater than, return a bool vector. E.g. "a &gt; b" *.  <a href="#a0c20d9ee5891739ea54a8d9dc27e5334">More...</a><br/></td></tr>
+<tr class="separator:a0c20d9ee5891739ea54a8d9dc27e5334"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aace05722f133ceb96fdb22e455c2ea02"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#aace05722f133ceb96fdb22e455c2ea02">operator&gt;=</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; a)</td></tr>
+<tr class="memdesc:aace05722f133ceb96fdb22e455c2ea02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Element-wise compare greater equal, return a bool vector. E.g. "a &gt;= b" *.  <a href="#aace05722f133ceb96fdb22e455c2ea02">More...</a><br/></td></tr>
+<tr class="separator:aace05722f133ceb96fdb22e455c2ea02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f31bf3704bc189b4780ae57d8cb1bef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a7f31bf3704bc189b4780ae57d8cb1bef">operator-</a> ()</td></tr>
+<tr class="memdesc:a7f31bf3704bc189b4780ae57d8cb1bef"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the neg value, return a VTYPE vector. E.g. "-a"  <a href="#a7f31bf3704bc189b4780ae57d8cb1bef">More...</a><br/></td></tr>
+<tr class="separator:a7f31bf3704bc189b4780ae57d8cb1bef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bc572a7d85aec188b2195e8211324e8"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a1bc572a7d85aec188b2195e8211324e8">reduce_add</a> ()</td></tr>
+<tr class="memdesc:a1bc572a7d85aec188b2195e8211324e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the sum of all the element values in the vector. return a uint64_t scalar.  <a href="#a1bc572a7d85aec188b2195e8211324e8">More...</a><br/></td></tr>
+<tr class="separator:a1bc572a7d85aec188b2195e8211324e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2547b112636653505c0492e00e1ef0a"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#aa2547b112636653505c0492e00e1ef0a">reduce_max</a> ()</td></tr>
+<tr class="memdesc:aa2547b112636653505c0492e00e1ef0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the max value of all the element values in the vector. return a uint64_t scalar.  <a href="#aa2547b112636653505c0492e00e1ef0a">More...</a><br/></td></tr>
+<tr class="separator:aa2547b112636653505c0492e00e1ef0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cdcc0dca456a598d044076bbb516fcd"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a5cdcc0dca456a598d044076bbb516fcd">reduce_min</a> ()</td></tr>
+<tr class="memdesc:a5cdcc0dca456a598d044076bbb516fcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the min value of all the element values in the vector. return a uint64_t scalar.  <a href="#a5cdcc0dca456a598d044076bbb516fcd">More...</a><br/></td></tr>
+<tr class="separator:a5cdcc0dca456a598d044076bbb516fcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a188af159d6b0ccb010d6f1ba01442425"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a188af159d6b0ccb010d6f1ba01442425">operator+</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; a)</td></tr>
+<tr class="memdesc:a188af159d6b0ccb010d6f1ba01442425"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add two vectors.  <a href="#a188af159d6b0ccb010d6f1ba01442425">More...</a><br/></td></tr>
+<tr class="separator:a188af159d6b0ccb010d6f1ba01442425"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca67b05dc5f5a54c4487c153d842d8be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#aca67b05dc5f5a54c4487c153d842d8be">operator+</a> (uint64_t s)</td></tr>
+<tr class="memdesc:aca67b05dc5f5a54c4487c153d842d8be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a vector and a scalar.  <a href="#aca67b05dc5f5a54c4487c153d842d8be">More...</a><br/></td></tr>
+<tr class="separator:aca67b05dc5f5a54c4487c153d842d8be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66e03a8f1322db364ae140fc5760833c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a66e03a8f1322db364ae140fc5760833c">operator-</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; a)</td></tr>
+<tr class="memdesc:a66e03a8f1322db364ae140fc5760833c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sub two vectors.  <a href="#a66e03a8f1322db364ae140fc5760833c">More...</a><br/></td></tr>
+<tr class="separator:a66e03a8f1322db364ae140fc5760833c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac88c02ff0a2b69f88faf5f6af25f9dcd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#ac88c02ff0a2b69f88faf5f6af25f9dcd">operator-</a> (uint64_t s)</td></tr>
+<tr class="memdesc:ac88c02ff0a2b69f88faf5f6af25f9dcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sub a vector and a scalar.  <a href="#ac88c02ff0a2b69f88faf5f6af25f9dcd">More...</a><br/></td></tr>
+<tr class="separator:ac88c02ff0a2b69f88faf5f6af25f9dcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6ec443775ec2eed0c5857fc34e6c27c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#ae6ec443775ec2eed0c5857fc34e6c27c">operator*</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; a)</td></tr>
+<tr class="memdesc:ae6ec443775ec2eed0c5857fc34e6c27c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiply two vectors.  <a href="#ae6ec443775ec2eed0c5857fc34e6c27c">More...</a><br/></td></tr>
+<tr class="separator:ae6ec443775ec2eed0c5857fc34e6c27c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f5c7a741d04879663078d18bf845081"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a1f5c7a741d04879663078d18bf845081">operator*</a> (uint64_t s)</td></tr>
+<tr class="memdesc:a1f5c7a741d04879663078d18bf845081"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiply a vector and a scalar.  <a href="#a1f5c7a741d04879663078d18bf845081">More...</a><br/></td></tr>
+<tr class="separator:a1f5c7a741d04879663078d18bf845081"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0b472acb1de4f1cc4f2215f67a488ed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#af0b472acb1de4f1cc4f2215f67a488ed">operator/</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; a)</td></tr>
+<tr class="memdesc:af0b472acb1de4f1cc4f2215f67a488ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Divide a vector by a vector.  <a href="#af0b472acb1de4f1cc4f2215f67a488ed">More...</a><br/></td></tr>
+<tr class="separator:af0b472acb1de4f1cc4f2215f67a488ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc2edcbcbc751f5ec47ba465e3bbac18"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#afc2edcbcbc751f5ec47ba465e3bbac18">operator/</a> (uint64_t s)</td></tr>
+<tr class="memdesc:afc2edcbcbc751f5ec47ba465e3bbac18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Divide a vector by a scalar.  <a href="#afc2edcbcbc751f5ec47ba465e3bbac18">More...</a><br/></td></tr>
+<tr class="separator:afc2edcbcbc751f5ec47ba465e3bbac18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a246d73eb73969c5eaa033789abd83992"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a246d73eb73969c5eaa033789abd83992">store</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; *p)</td></tr>
+<tr class="memdesc:a246d73eb73969c5eaa033789abd83992"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store the vector to address p.  <a href="#a246d73eb73969c5eaa033789abd83992">More...</a><br/></td></tr>
+<tr class="separator:a246d73eb73969c5eaa033789abd83992"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7c5e1641d3dd09c8379925e50108ba2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#ad7c5e1641d3dd09c8379925e50108ba2">masked_store</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; *p, <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; mask)</td></tr>
+<tr class="memdesc:ad7c5e1641d3dd09c8379925e50108ba2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store the vector element's value to pointer p if the mask element is true.  <a href="#ad7c5e1641d3dd09c8379925e50108ba2">More...</a><br/></td></tr>
+<tr class="separator:ad7c5e1641d3dd09c8379925e50108ba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a674f802a6dea69d68cb39b9743e2367a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a674f802a6dea69d68cb39b9743e2367a">scatter</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, void * &gt; ptrs, <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; mask)</td></tr>
+<tr class="memdesc:a674f802a6dea69d68cb39b9743e2367a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scatter the vector's elements to the locations pointed by the vector ptrs if the mask element is true.  <a href="#a674f802a6dea69d68cb39b9743e2367a">More...</a><br/></td></tr>
+<tr class="separator:a674f802a6dea69d68cb39b9743e2367a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6a1054ea19c7e329739caf8a0f1d747"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#af6a1054ea19c7e329739caf8a0f1d747">scatter_base_offsets</a> (uint64_t *b, uint32_t scale, <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, int32_t &gt; offsets, <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; mask)</td></tr>
+<tr class="memdesc:af6a1054ea19c7e329739caf8a0f1d747"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scatter the vector's elements to the addresses ((char*)b + scale * offsets) if the mask element is true.  <a href="#af6a1054ea19c7e329739caf8a0f1d747">More...</a><br/></td></tr>
+<tr class="separator:af6a1054ea19c7e329739caf8a0f1d747"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6811cb1a265713c719cc1cacd82601a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a6811cb1a265713c719cc1cacd82601a3">scatter_base_offsets</a> (uint64_t *b, uint32_t scale, <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, int64_t &gt; offsets, <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; mask)</td></tr>
+<tr class="memdesc:a6811cb1a265713c719cc1cacd82601a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scatter the vector's elements to the addresses ((char*)b + scale * offsets) if the mask element is true.  <a href="#a6811cb1a265713c719cc1cacd82601a3">More...</a><br/></td></tr>
+<tr class="separator:a6811cb1a265713c719cc1cacd82601a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2717347c2c2ac5722ac7426b2436a97e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a2717347c2c2ac5722ac7426b2436a97e">scatter_stride</a> (uint64_t *b, int32_t off, int32_t stride)</td></tr>
+<tr class="memdesc:a2717347c2c2ac5722ac7426b2436a97e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scatter the vector's elements to the addresses (b+off, b++off+stride, b+off+2*stride, b+off+3*step).  <a href="#a2717347c2c2ac5722ac7426b2436a97e">More...</a><br/></td></tr>
+<tr class="separator:a2717347c2c2ac5722ac7426b2436a97e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae28948404412481f3830afbd711333b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#ae28948404412481f3830afbd711333b7">scatter_stride</a> (uint64_t *b, int64_t off, int64_t stride)</td></tr>
+<tr class="memdesc:ae28948404412481f3830afbd711333b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scatter the vector's elements to the addresses (b+off, b++off+stride, b+off+2*stride, b+off+3*step).  <a href="#ae28948404412481f3830afbd711333b7">More...</a><br/></td></tr>
+<tr class="separator:ae28948404412481f3830afbd711333b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61d75d457469ea4eaa8ff1de03908450"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a61d75d457469ea4eaa8ff1de03908450">broadcast</a> (int32_t index)</td></tr>
+<tr class="memdesc:a61d75d457469ea4eaa8ff1de03908450"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a new vector by setting all the elements of the new vector with this vector's index element.  <a href="#a61d75d457469ea4eaa8ff1de03908450">More...</a><br/></td></tr>
+<tr class="separator:a61d75d457469ea4eaa8ff1de03908450"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d490a2b751b1419a7cfdfb885f2f283"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a7d490a2b751b1419a7cfdfb885f2f283">rotate</a> (int32_t index)</td></tr>
+<tr class="memdesc:a7d490a2b751b1419a7cfdfb885f2f283"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a new vector by rotate this vector's elements. e.g. newVec[i] = thisVec[i+index].  <a href="#a7d490a2b751b1419a7cfdfb885f2f283">More...</a><br/></td></tr>
+<tr class="separator:a7d490a2b751b1419a7cfdfb885f2f283"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac98ecb4ceef7ca35290517f90e5b8195"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#ac98ecb4ceef7ca35290517f90e5b8195">shuffle</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, int32_t &gt; index)</td></tr>
+<tr class="memdesc:ac98ecb4ceef7ca35290517f90e5b8195"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a new vector by shuffle this vector's elements with index vector e.g. newVec[i] = thisVec[index[i]].  <a href="#ac98ecb4ceef7ca35290517f90e5b8195">More...</a><br/></td></tr>
+<tr class="separator:ac98ecb4ceef7ca35290517f90e5b8195"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bfce1e5809bfb6d78ec74f0d60aec2e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a9bfce1e5809bfb6d78ec74f0d60aec2e">abs</a> ()</td></tr>
+<tr class="memdesc:a9bfce1e5809bfb6d78ec74f0d60aec2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a new vector of the vector's abs value.  <a href="#a9bfce1e5809bfb6d78ec74f0d60aec2e">More...</a><br/></td></tr>
+<tr class="separator:a9bfce1e5809bfb6d78ec74f0d60aec2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d118ef3be9101df35287c6b6ed973b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a7d118ef3be9101df35287c6b6ed973b8">operator|</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; a)</td></tr>
+<tr class="memdesc:a7d118ef3be9101df35287c6b6ed973b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Or operator. E.g. "a | b".  <a href="#a7d118ef3be9101df35287c6b6ed973b8">More...</a><br/></td></tr>
+<tr class="separator:a7d118ef3be9101df35287c6b6ed973b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c1b138c9331c7b9b3da46dbb24aff63"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a2c1b138c9331c7b9b3da46dbb24aff63">operator&amp;</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; a)</td></tr>
+<tr class="memdesc:a2c1b138c9331c7b9b3da46dbb24aff63"><td class="mdescLeft">&#160;</td><td class="mdescRight">And operator. E.g. "a &amp; b".  <a href="#a2c1b138c9331c7b9b3da46dbb24aff63">More...</a><br/></td></tr>
+<tr class="separator:a2c1b138c9331c7b9b3da46dbb24aff63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a834d279b2b8982a844f6bc6533c76f2c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a834d279b2b8982a844f6bc6533c76f2c">operator^</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; a)</td></tr>
+<tr class="memdesc:a834d279b2b8982a844f6bc6533c76f2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Xor operator. E.g. "a ^ b".  <a href="#a834d279b2b8982a844f6bc6533c76f2c">More...</a><br/></td></tr>
+<tr class="separator:a834d279b2b8982a844f6bc6533c76f2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e5dc9f56a0758207a03678cb9b58a87"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a2e5dc9f56a0758207a03678cb9b58a87">operator&lt;&lt;</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; a)</td></tr>
+<tr class="memdesc:a2e5dc9f56a0758207a03678cb9b58a87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Left shift operator. E.g. "a &lt;&lt; b".The b must be unsigned vector.  <a href="#a2e5dc9f56a0758207a03678cb9b58a87">More...</a><br/></td></tr>
+<tr class="separator:a2e5dc9f56a0758207a03678cb9b58a87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade332e2f06322e93acee928e014e2669"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#ade332e2f06322e93acee928e014e2669">operator&lt;&lt;</a> (int32_t s)</td></tr>
+<tr class="memdesc:ade332e2f06322e93acee928e014e2669"><td class="mdescLeft">&#160;</td><td class="mdescRight">Left shift operator by a scalar. E.g. "a &lt;&lt; 5".  <a href="#ade332e2f06322e93acee928e014e2669">More...</a><br/></td></tr>
+<tr class="separator:ade332e2f06322e93acee928e014e2669"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2401d80caa1df55cdd60b338633acb1b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a2401d80caa1df55cdd60b338633acb1b">operator&gt;&gt;</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; a)</td></tr>
+<tr class="memdesc:a2401d80caa1df55cdd60b338633acb1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Right shift operator. E.g. "a &gt;&gt; b".The b must be unsigned vector.  <a href="#a2401d80caa1df55cdd60b338633acb1b">More...</a><br/></td></tr>
+<tr class="separator:a2401d80caa1df55cdd60b338633acb1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67fd662774cce87f80ba61b6be9f872e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a67fd662774cce87f80ba61b6be9f872e">operator&gt;&gt;</a> (int32_t s)</td></tr>
+<tr class="memdesc:a67fd662774cce87f80ba61b6be9f872e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Right shift operator by a scalar. E.g. "a &gt;&gt; 5".  <a href="#a67fd662774cce87f80ba61b6be9f872e">More...</a><br/></td></tr>
+<tr class="separator:a67fd662774cce87f80ba61b6be9f872e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac23d4ba26a9419fa467592e5acf85a05"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#ac23d4ba26a9419fa467592e5acf85a05">operator%</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; a)</td></tr>
+<tr class="memdesc:ac23d4ba26a9419fa467592e5acf85a05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remainder operator on a vector. E.g. "a % b".  <a href="#ac23d4ba26a9419fa467592e5acf85a05">More...</a><br/></td></tr>
+<tr class="separator:ac23d4ba26a9419fa467592e5acf85a05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7638dad8c1b3fce68abd6898a4cd99fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a7638dad8c1b3fce68abd6898a4cd99fc">operator%</a> (uint64_t s)</td></tr>
+<tr class="memdesc:a7638dad8c1b3fce68abd6898a4cd99fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remainder operator on a scalar. E.g. "a % 5".  <a href="#a7638dad8c1b3fce68abd6898a4cd99fc">More...</a><br/></td></tr>
+<tr class="separator:a7638dad8c1b3fce68abd6898a4cd99fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:acd5384376722ee3fa0f4f1dd514b56a8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#acd5384376722ee3fa0f4f1dd514b56a8">load</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; *p)</td></tr>
+<tr class="memdesc:acd5384376722ee3fa0f4f1dd514b56a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">load the vector from the pointer p  <a href="#acd5384376722ee3fa0f4f1dd514b56a8">More...</a><br/></td></tr>
+<tr class="separator:acd5384376722ee3fa0f4f1dd514b56a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a095b123ca68ec097c5b3e54e70c2a1d8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a095b123ca68ec097c5b3e54e70c2a1d8">masked_load</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; *p, <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; mask)</td></tr>
+<tr class="memdesc:a095b123ca68ec097c5b3e54e70c2a1d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a new vector by only loading the value from the pointer p if the mask element is true.  <a href="#a095b123ca68ec097c5b3e54e70c2a1d8">More...</a><br/></td></tr>
+<tr class="separator:a095b123ca68ec097c5b3e54e70c2a1d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20ee32a1671ddd576cd1e4621848607e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a20ee32a1671ddd576cd1e4621848607e">load_const</a> (const uint64_t *p)</td></tr>
+<tr class="memdesc:a20ee32a1671ddd576cd1e4621848607e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a vector by loading a scalar value from pointer p, and splat it to all the elements in the vector.  <a href="#a20ee32a1671ddd576cd1e4621848607e">More...</a><br/></td></tr>
+<tr class="separator:a20ee32a1671ddd576cd1e4621848607e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fdf5041f87b4443b641576a5448f2de"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a1fdf5041f87b4443b641576a5448f2de">load_and_splat</a> (uint64_t *p)</td></tr>
+<tr class="memdesc:a1fdf5041f87b4443b641576a5448f2de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a vector by loading a scalar value from pointer p, and splat it to all the elements in the vector.  <a href="#a1fdf5041f87b4443b641576a5448f2de">More...</a><br/></td></tr>
+<tr class="separator:a1fdf5041f87b4443b641576a5448f2de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9df5d29ce1a1546c8458de4d051ac1e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#ad9df5d29ce1a1546c8458de4d051ac1e">gather</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, void * &gt; ptrs, <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; mask)</td></tr>
+<tr class="memdesc:ad9df5d29ce1a1546c8458de4d051ac1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gather the elements pointed by the vector ptrs if the mask element is true, and return a vector.  <a href="#ad9df5d29ce1a1546c8458de4d051ac1e">More...</a><br/></td></tr>
+<tr class="separator:ad9df5d29ce1a1546c8458de4d051ac1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a526d570cec81113bba96a08a316ab84c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a526d570cec81113bba96a08a316ab84c">gather_base_offsets</a> (uint64_t *b, uint32_t scale, <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, int32_t &gt; offsets, <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; mask)</td></tr>
+<tr class="memdesc:a526d570cec81113bba96a08a316ab84c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gather the elements pointed by calculating the addresses ((char*)b + scale * offsets) if the mask element is true, and return a vector.  <a href="#a526d570cec81113bba96a08a316ab84c">More...</a><br/></td></tr>
+<tr class="separator:a526d570cec81113bba96a08a316ab84c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa197dfaa479421fb836a033a11c8fa04"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#aa197dfaa479421fb836a033a11c8fa04">gather_base_offsets</a> (uint64_t *b, uint32_t scale, <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, int64_t &gt; offsets, <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; mask)</td></tr>
+<tr class="memdesc:aa197dfaa479421fb836a033a11c8fa04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gather the elements pointed by calculating the addresses ((char*)b + scale * offsets) if the mask element is true, and return a vector.  <a href="#aa197dfaa479421fb836a033a11c8fa04">More...</a><br/></td></tr>
+<tr class="separator:aa197dfaa479421fb836a033a11c8fa04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afabb46144491a262991b1db180830ea0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#afabb46144491a262991b1db180830ea0">gather_stride</a> (uint64_t *b, int32_t off, int32_t stride)</td></tr>
+<tr class="memdesc:afabb46144491a262991b1db180830ea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gather the elements pointed by (b+off, b++off+stride, b+off+2*stride, b+off+3*step).  <a href="#afabb46144491a262991b1db180830ea0">More...</a><br/></td></tr>
+<tr class="separator:afabb46144491a262991b1db180830ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cf827e097a076609510cedde7ca2075"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a8cf827e097a076609510cedde7ca2075">gather_stride</a> (uint64_t *b, int64_t off, int64_t stride)</td></tr>
+<tr class="memdesc:a8cf827e097a076609510cedde7ca2075"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gather the elements pointed by (b+off, b++off+stride, b+off+2*stride, b+off+3*step).  <a href="#a8cf827e097a076609510cedde7ca2075">More...</a><br/></td></tr>
+<tr class="separator:a8cf827e097a076609510cedde7ca2075"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a8c1ece022a7b3c9ef00fc74269d89428"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a8c1ece022a7b3c9ef00fc74269d89428">v</a> [8]</td></tr>
 <tr class="separator:a8c1ece022a7b3c9ef00fc74269d89428"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a5252a33a0eaadce59341ec529e0d8c81"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a5252a33a0eaadce59341ec529e0d8c81">operator&lt;&lt;</a> (std::ostream &amp;out, const <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; &amp;<a class="el" href="structgeneric_1_1svec_3_018_00_01uint64__t_01_4.html#a8c1ece022a7b3c9ef00fc74269d89428">v</a>)</td></tr>
+<tr class="separator:a5252a33a0eaadce59341ec529e0d8c81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;&gt;<br/>
 struct generic::svec&lt; 8, uint64_t &gt;</h3>
 
-<p>data representation and operations on a vector of 4 unsigned 64-bit int. </p>
+<p>data representation and operations on a vector of 8 unsigned 64-bit int. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a417b0151d874eaf02c9732ebd68887bc"></a>
 <div class="memitem">
@@ -147,7 +294,7 @@ struct generic::svec&lt; 8, uint64_t &gt;</h3>
 </div><div class="memdoc">
 
 <p>Default constructor. </p>
-<dl class="section return"><dt>Returns</dt><dd>a vector of 4 undefined unsigned 64-bit int. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>a vector of 8 undefined unsigned 64-bit int. </dd></dl>
 
 </div>
 </div>
@@ -212,7 +359,7 @@ struct generic::svec&lt; 8, uint64_t &gt;</h3>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
-<dl class="section return"><dt>Returns</dt><dd>a vector of 4 unsigned 64-bit int: {a,b,c,d}. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>a vector of 8 unsigned 64-bit int: {a,b,c,d,e,f,g,h}. </dd></dl>
 
 </div>
 </div>
@@ -237,36 +384,940 @@ struct generic::svec&lt; 8, uint64_t &gt;</h3>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>a vector of 4 unsigned 64-bit int: {a,a,a,a}. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>a vector of 8 unsigned 64-bit int: {a,a,a,a,a,a,a,a}. </dd></dl>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a4eb2505905f265797ddc2a1639fd9afe"></a>
+<a class="anchor" id="a9bfce1e5809bfb6d78ec74f0d60aec2e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::COUT_FUNC_DECL </td>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::abs </td>
           <td>(</td>
-          <td class="paramtype">uint64_t&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Return a new vector of the vector's abs value. </p>
+
 </div>
 </div>
-<a class="anchor" id="a29c11d110ff319a629369d5659c85cb4"></a>
+<a class="anchor" id="a61d75d457469ea4eaa8ff1de03908450"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::SUBSCRIPT_FUNC_DECL </td>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::broadcast </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return a new vector by setting all the elements of the new vector with this vector's index element. </p>
+
+</div>
+</div>
+<a class="anchor" id="ad9df5d29ce1a1546c8458de4d051ac1e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::gather </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, void * &gt;&#160;</td>
+          <td class="paramname"><em>ptrs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt;&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gather the elements pointed by the vector ptrs if the mask element is true, and return a vector. </p>
+
+</div>
+</div>
+<a class="anchor" id="a526d570cec81113bba96a08a316ab84c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::gather_base_offsets </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, int32_t &gt;&#160;</td>
+          <td class="paramname"><em>offsets</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt;&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gather the elements pointed by calculating the addresses ((char*)b + scale * offsets) if the mask element is true, and return a vector. </p>
+
+</div>
+</div>
+<a class="anchor" id="aa197dfaa479421fb836a033a11c8fa04"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::gather_base_offsets </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, int64_t &gt;&#160;</td>
+          <td class="paramname"><em>offsets</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt;&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gather the elements pointed by calculating the addresses ((char*)b + scale * offsets) if the mask element is true, and return a vector. </p>
+
+</div>
+</div>
+<a class="anchor" id="afabb46144491a262991b1db180830ea0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::gather_stride </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>off</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>stride</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gather the elements pointed by (b+off, b++off+stride, b+off+2*stride, b+off+3*step). </p>
+
+</div>
+</div>
+<a class="anchor" id="a8cf827e097a076609510cedde7ca2075"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::gather_stride </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>off</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>stride</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gather the elements pointed by (b+off, b++off+stride, b+off+2*stride, b+off+3*step). </p>
+
+</div>
+</div>
+<a class="anchor" id="acd5384376722ee3fa0f4f1dd514b56a8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::load </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>load the vector from the pointer p </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>load address </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>p does not have to be aligned </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>no return value. This vector is updated with value loaded from p. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a1fdf5041f87b4443b641576a5448f2de"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::load_and_splat </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Construct a vector by loading a scalar value from pointer p, and splat it to all the elements in the vector. </p>
+
+</div>
+</div>
+<a class="anchor" id="a20ee32a1671ddd576cd1e4621848607e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::load_const </td>
+          <td>(</td>
+          <td class="paramtype">const uint64_t *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Construct a vector by loading a scalar value from pointer p, and splat it to all the elements in the vector. </p>
+
+</div>
+</div>
+<a class="anchor" id="a095b123ca68ec097c5b3e54e70c2a1d8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::masked_load </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; *&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt;&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return a new vector by only loading the value from the pointer p if the mask element is true. </p>
+
+</div>
+</div>
+<a class="anchor" id="ad7c5e1641d3dd09c8379925e50108ba2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::masked_store </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; *&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt;&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Store the vector element's value to pointer p if the mask element is true. </p>
+
+</div>
+</div>
+<a class="anchor" id="a79a2a7c9c23a77cfebc452007d1ab606"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator!= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Element-wise compare not equal, return a bool vector. E.g. "a != b" *. </p>
+<ul>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>a vector * </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the result of compare not equal as a boolean vector. </dd></dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="ac23d4ba26a9419fa467592e5acf85a05"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator% </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Remainder operator on a vector. E.g. "a % b". </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a7638dad8c1b3fce68abd6898a4cd99fc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator% </td>
           <td>(</td>
           <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Remainder operator on a scalar. E.g. "a % 5". </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a2c1b138c9331c7b9b3da46dbb24aff63"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator&amp; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>And operator. E.g. "a &amp; b". </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a1f5c7a741d04879663078d18bf845081"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator* </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Multiply a vector and a scalar. </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="ae6ec443775ec2eed0c5857fc34e6c27c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator* </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Multiply two vectors. </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a188af159d6b0ccb010d6f1ba01442425"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator+ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add two vectors. </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="aca67b05dc5f5a54c4487c153d842d8be"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator+ </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a vector and a scalar. </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="ac88c02ff0a2b69f88faf5f6af25f9dcd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator- </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sub a vector and a scalar. </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a7f31bf3704bc189b4780ae57d8cb1bef"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator- </td>
+          <td>(</td>
           <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>get the neg value, return a VTYPE vector. E.g. "-a" </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a66e03a8f1322db364ae140fc5760833c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator- </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sub two vectors. </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="af0b472acb1de4f1cc4f2215f67a488ed"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator/ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Divide a vector by a vector. </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="afc2edcbcbc751f5ec47ba465e3bbac18"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator/ </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Divide a vector by a scalar. </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="af12151f8ede3208f307980dc182ec94a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Element-wise compare less than, return a bool vector. E.g. "a &lt; b" *. </p>
+<ul>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>a vector * </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the result of compare less than as a boolean vector. </dd></dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="ade332e2f06322e93acee928e014e2669"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Left shift operator by a scalar. E.g. "a &lt;&lt; 5". </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a2e5dc9f56a0758207a03678cb9b58a87"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Left shift operator. E.g. "a &lt;&lt; b".The b must be unsigned vector. </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a4eab9c39cdbb76c6c5708c29139e3da3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Element-wise compare less equal, return a bool vector. E.g. "a &lt;= b" *. </p>
+<ul>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>a vector * </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the result of compare less equal as a boolean vector. </dd></dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a5c319b3e34b67404df1795456a2805b0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Element-wise compare equal, return a bool vector, e.g., "a == b" *. </p>
+<ul>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>a vector * </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the result of compare equal as a boolean vector. </dd></dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a0c20d9ee5891739ea54a8d9dc27e5334"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Element-wise compare greater than, return a bool vector. E.g. "a &gt; b" *. </p>
+<ul>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>a vector * </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the result of compare greater than as a boolean vector. </dd></dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="aace05722f133ceb96fdb22e455c2ea02"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Element-wise compare greater equal, return a bool vector. E.g. "a &gt;= b" *. </p>
+<ul>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>a vector * </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the result of compare greater equal as a boolean vector. </dd></dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a2401d80caa1df55cdd60b338633acb1b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator&gt;&gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Right shift operator. E.g. "a &gt;&gt; b".The b must be unsigned vector. </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a67fd662774cce87f80ba61b6be9f872e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator&gt;&gt; </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Right shift operator by a scalar. E.g. "a &gt;&gt; 5". </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="ac62a9225a5d7a95333cbc59193c10c88"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint64_t <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a2ce5528b671c50a68c42153cb8fe3ac0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t &amp; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -282,37 +1333,141 @@ struct generic::svec&lt; 8, uint64_t &gt;</h3>
 
 </div>
 </div>
-<a class="anchor" id="a791f032e9d5b5908e9314a537d661bf1"></a>
+<a class="anchor" id="a834d279b2b8982a844f6bc6533c76f2c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::VEC_CLASS_METHOD_DECL </td>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator^ </td>
           <td>(</td>
-          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Xor operator. E.g. "a ^ b". </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a7d118ef3be9101df35287c6b6ed973b8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::operator| </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Or operator. E.g. "a | b". </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a1bc572a7d85aec188b2195e8211324e8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::reduce_add </td>
+          <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Get the sum of all the element values in the vector. return a uint64_t scalar. </p>
+<ul>
+<li></li>
+</ul>
+
 </div>
 </div>
-<a class="anchor" id="ac3a4a97499d170af690062e070801055"></a>
+<a class="anchor" id="aa2547b112636653505c0492e00e1ef0a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::VEC_INT_CLASS_METHOD_DECL </td>
+          <td class="memname">uint64_t <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::reduce_max </td>
           <td>(</td>
-          <td class="paramtype">uint64_t&#160;</td>
-          <td class="paramname">, </td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the max value of all the element values in the vector. return a uint64_t scalar. </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a5cdcc0dca456a598d044076bbb516fcd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::reduce_min </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the min value of all the element values in the vector. return a uint64_t scalar. </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a7d490a2b751b1419a7cfdfb885f2f283"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::rotate </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return a new vector by rotate this vector's elements. e.g. newVec[i] = thisVec[i+index]. </p>
+
+</div>
+</div>
+<a class="anchor" id="a674f802a6dea69d68cb39b9743e2367a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::scatter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, void * &gt;&#160;</td>
+          <td class="paramname"><em>ptrs</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint64_t&#160;</td>
-          <td class="paramname">&#160;</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt;&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -320,6 +1475,234 @@ struct generic::svec&lt; 8, uint64_t &gt;</h3>
           <td></td><td></td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+<p>Scatter the vector's elements to the locations pointed by the vector ptrs if the mask element is true. </p>
+
+</div>
+</div>
+<a class="anchor" id="af6a1054ea19c7e329739caf8a0f1d747"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::scatter_base_offsets </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, int32_t &gt;&#160;</td>
+          <td class="paramname"><em>offsets</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt;&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Scatter the vector's elements to the addresses ((char*)b + scale * offsets) if the mask element is true. </p>
+
+</div>
+</div>
+<a class="anchor" id="a6811cb1a265713c719cc1cacd82601a3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::scatter_base_offsets </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, int64_t &gt;&#160;</td>
+          <td class="paramname"><em>offsets</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt;&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Scatter the vector's elements to the addresses ((char*)b + scale * offsets) if the mask element is true. </p>
+
+</div>
+</div>
+<a class="anchor" id="a2717347c2c2ac5722ac7426b2436a97e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::scatter_stride </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>off</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>stride</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Scatter the vector's elements to the addresses (b+off, b++off+stride, b+off+2*stride, b+off+3*step). </p>
+
+</div>
+</div>
+<a class="anchor" id="ae28948404412481f3830afbd711333b7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::scatter_stride </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t *&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>off</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>stride</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Scatter the vector's elements to the addresses (b+off, b++off+stride, b+off+2*stride, b+off+3*step). </p>
+
+</div>
+</div>
+<a class="anchor" id="ac98ecb4ceef7ca35290517f90e5b8195"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::shuffle </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, int32_t &gt;&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return a new vector by shuffle this vector's elements with index vector e.g. newVec[i] = thisVec[index[i]]. </p>
+
+</div>
+</div>
+<a class="anchor" id="a246d73eb73969c5eaa033789abd83992"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, uint64_t &gt;::store </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Store the vector to address p. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>store address </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>p does not have to be aligned </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a class="anchor" id="a5252a33a0eaadce59341ec529e0d8c81"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream&amp; operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, uint64_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>v</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -338,12 +1721,12 @@ struct generic::svec&lt; 8, uint64_t &gt;</h3>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/gsa/yktgsa-h1/01/pengwu/Web20/SPMD_ON_SIMD/generic_simd.github/include/<a class="el" href="generic8_8h_source.html">generic8.h</a></li>
+<li>/cygdrive/c/workspace/ibm-summer/generic_simd/include/<a class="el" href="generic8_8h_source.html">generic8.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Oct 9 2013 16:14:03 for Generic SIMD Intrinsic Library API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Nov 21 2013 15:40:11 for Generic SIMD Intrinsic Library API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

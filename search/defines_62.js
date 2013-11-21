@@ -1,11 +1,25 @@
 var searchData=
 [
   ['bin_5fvec_5fscal',['BIN_VEC_SCAL',['../power__vsx4_8h.html#a02bf2deb6169f479bf99b156e0266587',1,'BIN_VEC_SCAL():&#160;power_vsx4.h'],['../sse4_8h.html#a02bf2deb6169f479bf99b156e0266587',1,'BIN_VEC_SCAL():&#160;sse4.h']]],
+  ['binary_5fop',['BINARY_OP',['../gsimd__utility_8h.html#aa27903e35e4076c0cbc9b18fa06dc02a',1,'gsimd_utility.h']]],
+  ['binary_5fop2',['BINARY_OP2',['../gsimd__utility_8h.html#ac254c9c40c32d4adebc2dd35b708141c',1,'gsimd_utility.h']]],
+  ['binary_5fop2_5fl4',['BINARY_OP2_L4',['../gsimd__utility_8h.html#a22f9e2573cdd9ce34dc0fb06ec52e475',1,'gsimd_utility.h']]],
+  ['binary_5fop_5ffunc',['BINARY_OP_FUNC',['../gsimd__utility_8h.html#af6083dcd3c15182375650c26f5a7a7c2',1,'gsimd_utility.h']]],
+  ['binary_5fop_5ffunc_5fl4',['BINARY_OP_FUNC_L4',['../gsimd__utility_8h.html#ae3bdf181a7e0d654d0cd036d430adbfa',1,'gsimd_utility.h']]],
+  ['binary_5fop_5fl4',['BINARY_OP_L4',['../gsimd__utility_8h.html#a79b7aedd00888260fda522bc7124440e',1,'gsimd_utility.h']]],
   ['binary_5fop_5fmethods',['BINARY_OP_METHODS',['../generic4_8h.html#aabdc080844ae197b62363a86aae08dfb',1,'BINARY_OP_METHODS():&#160;generic4.h'],['../generic8_8h.html#aabdc080844ae197b62363a86aae08dfb',1,'BINARY_OP_METHODS():&#160;generic8.h']]],
   ['binary_5fop_5fopt',['BINARY_OP_OPT',['../power__vsx4_8h.html#a839b01cb1f8089825fd37373048f10ef',1,'power_vsx4.h']]],
   ['binary_5fop_5fopt64',['BINARY_OP_OPT64',['../power__vsx4_8h.html#aec84552542189ce6847f2f8bbd8267f8',1,'power_vsx4.h']]],
   ['binary_5fop_5fopt_5ffunc',['BINARY_OP_OPT_FUNC',['../power__vsx4_8h.html#a8b476a0b8c08d83e4ba04da67fe634f0',1,'BINARY_OP_OPT_FUNC():&#160;power_vsx4.h'],['../sse4_8h.html#a8b476a0b8c08d83e4ba04da67fe634f0',1,'BINARY_OP_OPT_FUNC():&#160;sse4.h']]],
   ['binary_5fop_5fopt_5ffunc64',['BINARY_OP_OPT_FUNC64',['../power__vsx4_8h.html#ac4e830eae38a8859057093f283c6474d',1,'BINARY_OP_OPT_FUNC64():&#160;power_vsx4.h'],['../sse4_8h.html#ac4e830eae38a8859057093f283c6474d',1,'BINARY_OP_OPT_FUNC64():&#160;sse4.h']]],
+  ['binary_5fop_5freduce_5ffunc',['BINARY_OP_REDUCE_FUNC',['../gsimd__utility_8h.html#a1982c1d99f16ebb3447c944e813f0206',1,'gsimd_utility.h']]],
+  ['binary_5fop_5freduce_5ffunc_5fl4',['BINARY_OP_REDUCE_FUNC_L4',['../gsimd__utility_8h.html#a34f547e853b376627abdbb1e98b21555',1,'gsimd_utility.h']]],
+  ['binary_5fop_5fscalar',['BINARY_OP_SCALAR',['../gsimd__utility_8h.html#a4eaf09c55950481d1bbf1e3f24b6b2f3',1,'gsimd_utility.h']]],
+  ['binary_5fop_5fscalar_5fl4',['BINARY_OP_SCALAR_L4',['../gsimd__utility_8h.html#aacc135c58ae3b851b02a051a2e5014da',1,'gsimd_utility.h']]],
+  ['binary_5fscalar_5fop',['BINARY_SCALAR_OP',['../gsimd__utility_8h.html#afd2cf5521c6dde96233a2591ca209ece',1,'gsimd_utility.h']]],
+  ['binary_5fsht_5fscalar',['BINARY_SHT_SCALAR',['../gsimd__utility_8h.html#a8df0455a9bab8ff18220a3b035a7db47',1,'gsimd_utility.h']]],
+  ['broadcast',['BROADCAST',['../gsimd__utility_8h.html#a10548aea890e479a6449b7ddde6a9bee',1,'gsimd_utility.h']]],
+  ['broadcast_5fl4',['BROADCAST_L4',['../gsimd__utility_8h.html#a4fe6dd0fd929a426a9650d2b6e45297e',1,'gsimd_utility.h']]],
   ['broadcast_5fopt32',['BROADCAST_OPT32',['../power__vsx4_8h.html#acb1ec98b854197183e249caffcc8a621',1,'power_vsx4.h']]],
   ['broadcast_5fopt64',['BROADCAST_OPT64',['../power__vsx4_8h.html#a0763527f2f7d1131356f9f77c8fd4057',1,'power_vsx4.h']]]
 ];

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Generic SIMD Intrinsic Library API: /gsa/yktgsa-h1/01/pengwu/Web20/SPMD_ON_SIMD/generic_simd.github/include/power_vsx4.h File Reference</title>
+<title>Generic SIMD Intrinsic Library API: /cygdrive/c/workspace/ibm-summer/generic_simd/include/power_vsx4.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Generic SIMD Intrinsic Library API
-   &#160;<span id="projectnumber">0.7</span>
+   &#160;<span id="projectnumber">0.6</span>
    </div>
   </td>
  </tr>
@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -102,7 +102,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;altivec.h&gt;</code><br/>
 <code>#include &lt;assert.h&gt;</code><br/>
 <code>#include &lt;iostream&gt;</code><br/>
-<code>#include &quot;gsimd_utility.h&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsimd__utility_8h_source.html">gsimd_utility.h</a>&quot;</code><br/>
 <code>#include &quot;platform_intrinsics.h&quot;</code><br/>
 </div>
 <p><a href="power__vsx4_8h_source.html">Go to the source code of this file.</a></p>
@@ -384,6 +384,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a983a7cbb3eeaedb2262b5796623b8cc3"><td class="memItemLeft" align="right" valign="top">svec&lt; 4, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevsx.html#a983a7cbb3eeaedb2262b5796623b8cc3">vsx::svec_nmsub</a> (svec&lt; 4, double &gt; a, svec&lt; 4, double &gt; b, svec&lt; 4, double &gt; c)</td></tr>
 <tr class="memdesc:a983a7cbb3eeaedb2262b5796623b8cc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">vector multiply and add operation. return -(a * b - c).  <a href="#a983a7cbb3eeaedb2262b5796623b8cc3">More...</a><br/></td></tr>
 <tr class="separator:a983a7cbb3eeaedb2262b5796623b8cc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa88cedde61e3afd2161a57cdce7288ef"><td class="memItemLeft" align="right" valign="top">svec&lt; 4,float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevsx.html#aa88cedde61e3afd2161a57cdce7288ef">vsx::svec_preduce_add</a> (svec&lt; 4, float &gt; v0, svec&lt; 4, float &gt; v1, svec&lt; 4, float &gt; v2, svec&lt; 4, float &gt; v3)</td></tr>
+<tr class="separator:aa88cedde61e3afd2161a57cdce7288ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85ac8d775313796947014ba7f8096dfb"><td class="memItemLeft" align="right" valign="top">svec&lt; 4, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevsx.html#a85ac8d775313796947014ba7f8096dfb">vsx::svec_preduce_add</a> (svec&lt; 4, double &gt; v0, svec&lt; 4, double &gt; v1, svec&lt; 4, double &gt; v2, svec&lt; 4, double &gt; v3)</td></tr>
 <tr class="separator:a85ac8d775313796947014ba7f8096dfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34ca2cf9ab0113d253724ff3a85a5fcf"><td class="memItemLeft" align="right" valign="top">svec&lt; 4,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevsx.html#a34ca2cf9ab0113d253724ff3a85a5fcf">vsx::svec_masked_equal</a> (svec&lt; 4, int8_t &gt; a, svec&lt; 4, int8_t &gt; b, svec&lt; 4, bool &gt; mask)</td></tr>
@@ -1234,30 +1236,31 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> FORCEINLINE svec&lt;LANES,STYPE&gt; svec_add_scalar(svec&lt;LANES,STYPE&gt; a, STYPE s) { \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STYPE&gt; svec_add_scalar(svec&lt;LANES,STYPE&gt; a, STYPE s) { \</div>
 <div class="line">  return svec_add(a, svec&lt;LANES,STYPE&gt;(s)); \</div>
 <div class="line">} \</div>
-<div class="line">static FORCEINLINE svec&lt;LANES,STYPE&gt; svec_scalar_add(STYPE s, svec&lt;LANES,STYPE&gt; a) { \</div>
+<div class="line">static <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STYPE&gt; svec_scalar_add(STYPE s, svec&lt;LANES,STYPE&gt; a) { \</div>
 <div class="line">  return svec_add(svec&lt;LANES,STYPE&gt;(s), a); \</div>
 <div class="line">} \</div>
-<div class="line">static FORCEINLINE svec&lt;LANES,STYPE&gt; svec_sub_scalar(svec&lt;LANES,STYPE&gt; a, STYPE s) { \</div>
+<div class="line">static <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STYPE&gt; svec_sub_scalar(svec&lt;LANES,STYPE&gt; a, STYPE s) { \</div>
 <div class="line">  return svec_sub(a, svec&lt;LANES,STYPE&gt;(s)); \</div>
 <div class="line">} \</div>
-<div class="line">static FORCEINLINE svec&lt;LANES,STYPE&gt; svec_scalar_sub(STYPE s, svec&lt;LANES,STYPE&gt; a) { \</div>
+<div class="line">static <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STYPE&gt; svec_scalar_sub(STYPE s, svec&lt;LANES,STYPE&gt; a) { \</div>
 <div class="line">  return svec_sub(svec&lt;LANES,STYPE&gt;(s), a); \</div>
 <div class="line">} \</div>
-<div class="line">static FORCEINLINE svec&lt;LANES,STYPE&gt; svec_mul_scalar(svec&lt;LANES,STYPE&gt; a, STYPE s) { \</div>
+<div class="line">static <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STYPE&gt; svec_mul_scalar(svec&lt;LANES,STYPE&gt; a, STYPE s) { \</div>
 <div class="line">  return svec_mul(a, svec&lt;LANES,STYPE&gt;(s)); \</div>
 <div class="line">} \</div>
-<div class="line">static FORCEINLINE svec&lt;LANES,STYPE&gt; svec_scalar_mul(STYPE s, svec&lt;LANES,STYPE&gt; a) { \</div>
+<div class="line">static <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STYPE&gt; svec_scalar_mul(STYPE s, svec&lt;LANES,STYPE&gt; a) { \</div>
 <div class="line">  return svec_mul(svec&lt;LANES,STYPE&gt;(s), a); \</div>
 <div class="line">} \</div>
-<div class="line">static FORCEINLINE svec&lt;LANES,STYPE&gt; svec_div_scalar(svec&lt;LANES,STYPE&gt; a, STYPE s) { \</div>
+<div class="line">static <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STYPE&gt; svec_div_scalar(svec&lt;LANES,STYPE&gt; a, STYPE s) { \</div>
 <div class="line">  return svec_div(a, svec&lt;LANES,STYPE&gt;(s)); \</div>
 <div class="line">} \</div>
-<div class="line">static FORCEINLINE svec&lt;LANES,STYPE&gt; svec_scalar_div(STYPE s, svec&lt;LANES,STYPE&gt; a) { \</div>
+<div class="line">static <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STYPE&gt; svec_scalar_div(STYPE s, svec&lt;LANES,STYPE&gt; a) { \</div>
 <div class="line">  return svec_div(svec&lt;LANES,STYPE&gt;(s), a); \</div>
 <div class="line">} \</div>
+<div class="ttc" id="gsimd__utility_8h_html_a724fb9f82013c782db5c3c12ea36aac8"><div class="ttname"><a href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a></div><div class="ttdeci">#define FORCEINLINE</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:175</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1290,9 +1293,10 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> FORCEINLINE svec&lt;LANES,STYPE&gt; NAME(svec&lt;LANES,STYPE&gt; a, svec&lt;LANES,STYPE&gt; b) { \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STYPE&gt; NAME(svec&lt;LANES,STYPE&gt; a, svec&lt;LANES,STYPE&gt; b) { \</div>
 <div class="line">  return svec&lt;LANES,STYPE&gt;(a.v OP b.v); \</div>
 <div class="line">}</div>
+<div class="ttc" id="gsimd__utility_8h_html_a724fb9f82013c782db5c3c12ea36aac8"><div class="ttname"><a href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a></div><div class="ttdeci">#define FORCEINLINE</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:175</div></div>
 </div><!-- fragment -->
 <p>macros based on __vector type's operator overload </p>
 
@@ -1327,9 +1331,10 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> FORCEINLINE svec&lt;LANES,STYPE&gt; NAME(svec&lt;LANES,STYPE&gt; a, svec&lt;LANES,STYPE&gt; b) { \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STYPE&gt; NAME(svec&lt;LANES,STYPE&gt; a, svec&lt;LANES,STYPE&gt; b) { \</div>
 <div class="line">  return svec&lt;LANES,STYPE&gt;(a.v[0] OP b.v[0], a.v[1] OP b.v[1]); \</div>
 <div class="line">}</div>
+<div class="ttc" id="gsimd__utility_8h_html_a724fb9f82013c782db5c3c12ea36aac8"><div class="ttname"><a href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a></div><div class="ttdeci">#define FORCEINLINE</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:175</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1368,9 +1373,10 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> FORCEINLINE svec&lt;LANES,STYPE&gt; NAME(svec&lt;LANES,STYPE&gt; a, svec&lt;LANES,STYPE2&gt; b) { \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STYPE&gt; NAME(svec&lt;LANES,STYPE&gt; a, svec&lt;LANES,STYPE2&gt; b) { \</div>
 <div class="line">  return svec&lt;LANES,STYPE&gt;(FUNC(a.v, b.v)); \</div>
 <div class="line">}</div>
+<div class="ttc" id="gsimd__utility_8h_html_a724fb9f82013c782db5c3c12ea36aac8"><div class="ttname"><a href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a></div><div class="ttdeci">#define FORCEINLINE</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:175</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1409,9 +1415,10 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> FORCEINLINE svec&lt;LANES,STYPE&gt; NAME(svec&lt;LANES,STYPE&gt; a, svec&lt;LANES,STYPE2&gt; b) { \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STYPE&gt; NAME(svec&lt;LANES,STYPE&gt; a, svec&lt;LANES,STYPE2&gt; b) { \</div>
 <div class="line">  return svec&lt;LANES,STYPE&gt;(FUNC(a.v[0], b.v[0]), FUNC(a.v[1], b.v[1])); \</div>
 <div class="line">}</div>
+<div class="ttc" id="gsimd__utility_8h_html_a724fb9f82013c782db5c3c12ea36aac8"><div class="ttname"><a href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a></div><div class="ttdeci">#define FORCEINLINE</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:175</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1428,10 +1435,11 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> FORCEINLINE svec&lt;LANES,STYPE&gt; svec_broadcast(svec&lt;LANES,STYPE&gt; v, <span class="keyword">const</span> <span class="keywordtype">int</span> index) { \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STYPE&gt; svec_broadcast(svec&lt;LANES,STYPE&gt; v, <span class="keyword">const</span> <span class="keywordtype">int</span> index) { \</div>
 <div class="line">     if(__builtin_constant_p(index) &amp;&amp; index &gt;=0 &amp;&amp; index &lt; 4){ <span class="keywordflow">return</span> svec&lt;LANES,STYPE&gt;(vec_splat_p7(v.v, index)); }                 \</div>
 <div class="line">     else { STYPE bval = v[index]; <span class="keywordflow">return</span> svec&lt;LANES,STYPE&gt;(bval, bval, bval, bval); }                            \</div>
 <div class="line">  }</div>
+<div class="ttc" id="gsimd__utility_8h_html_a724fb9f82013c782db5c3c12ea36aac8"><div class="ttname"><a href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a></div><div class="ttdeci">#define FORCEINLINE</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:175</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1448,12 +1456,13 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> FORCEINLINE svec&lt;LANES,STYPE&gt; svec_broadcast(svec&lt;LANES,STYPE&gt; v, <span class="keyword">const</span> <span class="keywordtype">int</span> index) { \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STYPE&gt; svec_broadcast(svec&lt;LANES,STYPE&gt; v, <span class="keyword">const</span> <span class="keywordtype">int</span> index) { \</div>
 <div class="line">     if(__builtin_constant_p(index) &amp;&amp; index &gt;=0 &amp;&amp; index &lt; 4){ \</div>
 <div class="line">        __vector STYPE r = vec_splat_p7(v.v[index &gt;&gt; 1], index %2);  \</div>
 <div class="line">        return svec&lt;LANES,STYPE&gt;(r, r); }                 \</div>
 <div class="line">     else { STYPE bval = v[index]; <span class="keywordflow">return</span> svec&lt;LANES,STYPE&gt;(bval, bval, bval, bval); }                            \</div>
 <div class="line">  }</div>
+<div class="ttc" id="gsimd__utility_8h_html_a724fb9f82013c782db5c3c12ea36aac8"><div class="ttname"><a href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a></div><div class="ttdeci">#define FORCEINLINE</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:175</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1481,9 +1490,10 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; <span class="keyword">static</span> T svec_cast_bits(svec&lt;LANES,SFROM&gt; val);     \ \</div>
-<div class="line">template &lt;&gt; FORCEINLINE svec&lt;LANES,STO&gt; svec_cast_bits&lt;svec&lt;LANES,STO&gt; &gt;(svec&lt;LANES,SFROM&gt; val) {      \</div>
+<div class="line">template &lt;&gt; <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STO&gt; svec_cast_bits&lt;svec&lt;LANES,STO&gt; &gt;(svec&lt;LANES,SFROM&gt; val) {      \</div>
 <div class="line">    return svec&lt;LANES,STO&gt;((__vector STO)(val.v)); \</div>
 <div class="line">}</div>
+<div class="ttc" id="gsimd__utility_8h_html_a724fb9f82013c782db5c3c12ea36aac8"><div class="ttname"><a href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a></div><div class="ttdeci">#define FORCEINLINE</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:175</div></div>
 </div><!-- fragment -->
 <p>cast based on directly change the __vector type </p>
 
@@ -1513,9 +1523,10 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; <span class="keyword">static</span> T svec_cast_bits(svec&lt;LANES,SFROM&gt; val);     \ \</div>
-<div class="line">template &lt;&gt; FORCEINLINE svec&lt;LANES,STO&gt; svec_cast_bits&lt;svec&lt;LANES,STO&gt; &gt;(svec&lt;LANES,SFROM&gt; val) {      \</div>
+<div class="line">template &lt;&gt; <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STO&gt; svec_cast_bits&lt;svec&lt;LANES,STO&gt; &gt;(svec&lt;LANES,SFROM&gt; val) {      \</div>
 <div class="line">    return svec&lt;LANES,STO&gt;((__vector STO)(val.v[0]), (__vector STO)(val.v[1])); \</div>
 <div class="line">}</div>
+<div class="ttc" id="gsimd__utility_8h_html_a724fb9f82013c782db5c3c12ea36aac8"><div class="ttname"><a href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a></div><div class="ttdeci">#define FORCEINLINE</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:175</div></div>
 </div><!-- fragment -->
 <p>cast based on directly change the __vector type </p>
 
@@ -1545,9 +1556,10 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; <span class="keyword">static</span> T svec_cast(svec&lt;LANES,SFROM&gt; val);     \ \</div>
-<div class="line">template &lt;&gt; FORCEINLINE svec&lt;LANES,STO&gt; svec_cast&lt;svec&lt;LANES,STO&gt; &gt;(svec&lt;LANES,SFROM&gt; val) {      \</div>
+<div class="line">template &lt;&gt; <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STO&gt; svec_cast&lt;svec&lt;LANES,STO&gt; &gt;(svec&lt;LANES,SFROM&gt; val) {      \</div>
 <div class="line">    return svec&lt;LANES,STO&gt;((val.v)); \</div>
 <div class="line">}</div>
+<div class="ttc" id="gsimd__utility_8h_html_a724fb9f82013c782db5c3c12ea36aac8"><div class="ttname"><a href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a></div><div class="ttdeci">#define FORCEINLINE</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:175</div></div>
 </div><!-- fragment -->
 <p>cast based on directly change the __vector type </p>
 
@@ -1577,9 +1589,10 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; <span class="keyword">static</span> T svec_cast(svec&lt;LANES,SFROM&gt; val);     \ \</div>
-<div class="line">template &lt;&gt; FORCEINLINE svec&lt;LANES,STO&gt; svec_cast&lt;svec&lt;LANES,STO&gt; &gt;(svec&lt;LANES,SFROM&gt; val) {      \</div>
+<div class="line">template &lt;&gt; <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STO&gt; svec_cast&lt;svec&lt;LANES,STO&gt; &gt;(svec&lt;LANES,SFROM&gt; val) {      \</div>
 <div class="line">    return svec&lt;LANES,STO&gt;((val.v[0]),(val.v[1])); \</div>
 <div class="line">}</div>
+<div class="ttc" id="gsimd__utility_8h_html_a724fb9f82013c782db5c3c12ea36aac8"><div class="ttname"><a href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a></div><div class="ttdeci">#define FORCEINLINE</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:175</div></div>
 </div><!-- fragment -->
 <p>cast based on directly change the __vector type </p>
 
@@ -1598,12 +1611,13 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> FORCEINLINE STYPE svec_extract(svec&lt;LANES,STYPE&gt; v, <span class="keywordtype">int</span> index) {    \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> STYPE svec_extract(svec&lt;LANES,STYPE&gt; v, <span class="keywordtype">int</span> index) {    \</div>
 <div class="line">    return vec_extract(v.v, index);                      \</div>
 <div class="line">  }                                                                     \</div>
-<div class="line">  static FORCEINLINE <span class="keywordtype">void</span> svec_insert(svec&lt;LANES,STYPE&gt; *v, <span class="keywordtype">int</span> index, STYPE val) { \</div>
+<div class="line">  static <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> <span class="keywordtype">void</span> svec_insert(svec&lt;LANES,STYPE&gt; *v, <span class="keywordtype">int</span> index, STYPE val) { \</div>
 <div class="line">    (*v).v = vec_insert(val, v-&gt;v, index);                      \</div>
 <div class="line">  }</div>
+<div class="ttc" id="gsimd__utility_8h_html_a724fb9f82013c782db5c3c12ea36aac8"><div class="ttname"><a href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a></div><div class="ttdeci">#define FORCEINLINE</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:175</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1620,12 +1634,13 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> FORCEINLINE STYPE svec_extract(svec&lt;LANES,STYPE&gt; v, <span class="keywordtype">int</span> index) {    \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> STYPE svec_extract(svec&lt;LANES,STYPE&gt; v, <span class="keywordtype">int</span> index) {    \</div>
 <div class="line">    return vec_extract(v.v[index &gt;&gt; 1], index%2);                      \</div>
 <div class="line">  }                                                                     \</div>
-<div class="line">  static FORCEINLINE <span class="keywordtype">void</span> svec_insert(svec&lt;LANES,STYPE&gt; *v, <span class="keywordtype">int</span> index, STYPE val) { \</div>
+<div class="line">  static <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> <span class="keywordtype">void</span> svec_insert(svec&lt;LANES,STYPE&gt; *v, <span class="keywordtype">int</span> index, STYPE val) { \</div>
 <div class="line">    (*v).v[index &gt;&gt; 1] = vec_insert(val, v-&gt;v[index&gt;&gt;1], index%2);                      \</div>
 <div class="line">  }</div>
+<div class="ttc" id="gsimd__utility_8h_html_a724fb9f82013c782db5c3c12ea36aac8"><div class="ttname"><a href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a></div><div class="ttdeci">#define FORCEINLINE</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:175</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1654,9 +1669,10 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">BINARY_OP_REDUCE_FUNC_L4(STYPE, svec_reduce_add, add&lt;STYPE&gt;); \</div>
-<div class="line">BINARY_OP_REDUCE_FUNC_L4(STYPE, svec_reduce_max, max&lt;STYPE&gt;); \</div>
-<div class="line">BINARY_OP_REDUCE_FUNC_L4(STYPE, svec_reduce_min, min&lt;STYPE&gt;); \</div>
+<b>Value:</b><div class="fragment"><div class="line"><a class="code" href="gsimd__utility_8h.html#a34f547e853b376627abdbb1e98b21555">BINARY_OP_REDUCE_FUNC_L4</a>(STYPE, svec_reduce_add, add&lt;STYPE&gt;); <a class="code" href="gsimd__utility_8h.html#a34f547e853b376627abdbb1e98b21555">\</a></div>
+<div class="line"><a class="code" href="gsimd__utility_8h.html#a34f547e853b376627abdbb1e98b21555">BINARY_OP_REDUCE_FUNC_L4</a>(STYPE, svec_reduce_max, max&lt;STYPE&gt;); <a class="code" href="gsimd__utility_8h.html#a34f547e853b376627abdbb1e98b21555">\</a></div>
+<div class="line"><a class="code" href="gsimd__utility_8h.html#a34f547e853b376627abdbb1e98b21555">BINARY_OP_REDUCE_FUNC_L4</a>(STYPE, svec_reduce_min, min&lt;STYPE&gt;); \</div>
+<div class="ttc" id="gsimd__utility_8h_html_a34f547e853b376627abdbb1e98b21555"><div class="ttname"><a href="gsimd__utility_8h.html#a34f547e853b376627abdbb1e98b21555">BINARY_OP_REDUCE_FUNC_L4</a></div><div class="ttdeci">#define BINARY_OP_REDUCE_FUNC_L4(STYPE, NAME, FUNC)</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:1039</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1673,13 +1689,15 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">FORCEINLINE STYPE&amp; svec&lt;LANES,STYPE&gt;::operator[](<span class="keywordtype">int</span> index) { \</div>
-<div class="line">  INC_STATS_NAME(STATS_INSERT, 1, <span class="stringliteral">&quot;insert &quot;</span>#STYPE);   \</div>
+<b>Value:</b><div class="fragment"><div class="line"><a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> STYPE&amp; svec&lt;LANES,STYPE&gt;::operator[](<span class="keywordtype">int</span> index) { <a class="code" href="gsimd__utility_8h.html#aebd393387e63ae1910f0ff12ef75248a">\</a></div>
+<div class="line"><a class="code" href="gsimd__utility_8h.html#aebd393387e63ae1910f0ff12ef75248a">  INC_STATS_NAME</a>(STATS_INSERT, 1, <span class="stringliteral">&quot;insert &quot;</span>#STYPE);   \</div>
 <div class="line">  return ((STYPE *)&amp;v)[index];   \</div>
 <div class="line">} \</div>
-<div class="line">const FORCEINLINE STYPE  svec&lt;LANES,STYPE&gt;::operator[](<span class="keywordtype">int</span> index)<span class="keyword"> const </span>{ \</div>
+<div class="line">const <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> STYPE  svec&lt;LANES,STYPE&gt;::operator[](<span class="keywordtype">int</span> index)<span class="keyword"> const </span>{ \</div>
 <div class="line">  return svec_extract(*<span class="keyword">this</span>, index); \</div>
 <div class="line">}</div>
+<div class="ttc" id="gsimd__utility_8h_html_aebd393387e63ae1910f0ff12ef75248a"><div class="ttname"><a href="gsimd__utility_8h.html#aebd393387e63ae1910f0ff12ef75248a">INC_STATS_NAME</a></div><div class="ttdeci">#define INC_STATS_NAME(stat, inc, opname)</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:156</div></div>
+<div class="ttc" id="gsimd__utility_8h_html_a724fb9f82013c782db5c3c12ea36aac8"><div class="ttname"><a href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a></div><div class="ttdeci">#define FORCEINLINE</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:175</div></div>
 </div><!-- fragment -->
 <p>this macro uses vsx specific intrinsics to do extract, insert </p>
 
@@ -1714,9 +1732,10 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> FORCEINLINE svec&lt;LANES,STYPE&gt; NAME(svec&lt;LANES,STYPE&gt; a) { \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STYPE&gt; NAME(svec&lt;LANES,STYPE&gt; a) { \</div>
 <div class="line">  return OP(a.v); \</div>
 <div class="line">}</div>
+<div class="ttc" id="gsimd__utility_8h_html_a724fb9f82013c782db5c3c12ea36aac8"><div class="ttname"><a href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a></div><div class="ttdeci">#define FORCEINLINE</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:175</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1749,9 +1768,10 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> FORCEINLINE svec&lt;LANES,STYPE&gt; NAME(svec&lt;LANES,STYPE&gt; a) { \</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">static</span> <a class="code" href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a> svec&lt;LANES,STYPE&gt; NAME(svec&lt;LANES,STYPE&gt; a) { \</div>
 <div class="line">  return  svec&lt;LANES,STYPE&gt;(OP(a.v[0]), OP(a.v[1]));  \</div>
 <div class="line">}</div>
+<div class="ttc" id="gsimd__utility_8h_html_a724fb9f82013c782db5c3c12ea36aac8"><div class="ttname"><a href="gsimd__utility_8h.html#a724fb9f82013c782db5c3c12ea36aac8">FORCEINLINE</a></div><div class="ttdeci">#define FORCEINLINE</div><div class="ttdef"><b>Definition:</b> gsimd_utility.h:175</div></div>
 </div><!-- fragment -->
 <p>macros for 64bit object, i64/u64/double </p>
 
@@ -1760,7 +1780,7 @@ Haichuan Wang (<a href="#" onclick="location.href='mai'+'lto:'+'hai'+'ch'+'uan'+
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Oct 9 2013 16:14:02 for Generic SIMD Intrinsic Library API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Nov 21 2013 15:40:09 for Generic SIMD Intrinsic Library API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

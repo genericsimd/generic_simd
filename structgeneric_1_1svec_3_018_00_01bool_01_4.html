@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Generic SIMD Intrinsic Library API
-   &#160;<span id="projectnumber">0.7</span>
+   &#160;<span id="projectnumber">0.6</span>
    </div>
   </td>
  </tr>
@@ -72,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -88,19 +88,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="structgeneric_1_1svec_3_018_00_01bool_01_4-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">generic::svec&lt; 8, bool &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Data representation and operations on a vector of 4 boolean values. This is used in predicated vector operations. Specifically the ith value of <a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html" title="Data representation and operations on a vector of 4 boolean values. This is used in predicated vector...">svec&lt;8,bool&gt;</a> indicates whether the ith lane of a predicated vector operation is enabled or not.  
+<p>Data representation and operations on a vector of 8 boolean values. This is used in predicated vector operations. Specifically the ith value of <a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html" title="Data representation and operations on a vector of 8 boolean values. This is used in predicated vector...">svec&lt;8,bool&gt;</a> indicates whether the ith lane of a predicated vector operation is enabled or not.  
  <a href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="generic8_8h_source.html">generic8.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4_1_1Helper.html">Helper</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A special helper class to support customized subscript[] operations.  <a href="structgeneric_1_1svec_3_018_00_01bool_01_4_1_1Helper.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a625a001b52e3fd99714c95275b047b86"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a625a001b52e3fd99714c95275b047b86">svec</a> ()</td></tr>
@@ -112,23 +121,59 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aee11fa307b8490c1d40a21529ea148e9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#aee11fa307b8490c1d40a21529ea148e9">svec</a> (uint32_t a)</td></tr>
 <tr class="memdesc:aee11fa307b8490c1d40a21529ea148e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#aee11fa307b8490c1d40a21529ea148e9">More...</a><br/></td></tr>
 <tr class="separator:aee11fa307b8490c1d40a21529ea148e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99f166f765c84d6a7316f58e442fa951"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a99f166f765c84d6a7316f58e442fa951">SUBSCRIPT_FUNC_BOOL_DECL</a> (uint32_t)</td></tr>
-<tr class="separator:a99f166f765c84d6a7316f58e442fa951"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91b7772c6eac0f9eaa6495866b2edb6d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a91b7772c6eac0f9eaa6495866b2edb6d">COUT_FUNC_BOOL_DECL</a> ()</td></tr>
-<tr class="separator:a91b7772c6eac0f9eaa6495866b2edb6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32039428037a664f6028cb279d650fe0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a32039428037a664f6028cb279d650fe0">SVEC_BOOL_CLASS_METHOD_DECL</a> ()</td></tr>
-<tr class="separator:a32039428037a664f6028cb279d650fe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9c99dd21121df6d746f0fcd95e8da30"><td class="memItemLeft" align="right" valign="top">Helper&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#ad9c99dd21121df6d746f0fcd95e8da30">operator[]</a> (int index)</td></tr>
+<tr class="separator:ad9c99dd21121df6d746f0fcd95e8da30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54534abd0981c59361faf70973900280"><td class="memItemLeft" align="right" valign="top">const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a54534abd0981c59361faf70973900280">operator[]</a> (int index) const </td></tr>
+<tr class="separator:a54534abd0981c59361faf70973900280"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a469c2e1f798fb6e3d4357f0c5ae0ecd2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a469c2e1f798fb6e3d4357f0c5ae0ecd2">operator==</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; a)</td></tr>
+<tr class="separator:a469c2e1f798fb6e3d4357f0c5ae0ecd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dbd5f17a4ad91c81700b4a5942613da"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a6dbd5f17a4ad91c81700b4a5942613da">operator!=</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; a)</td></tr>
+<tr class="separator:a6dbd5f17a4ad91c81700b4a5942613da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86321b7faf56c6462174b74feaf99a0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a86321b7faf56c6462174b74feaf99a0b">store</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; *p)</td></tr>
+<tr class="memdesc:a86321b7faf56c6462174b74feaf99a0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store the vector to address p.  <a href="#a86321b7faf56c6462174b74feaf99a0b">More...</a><br/></td></tr>
+<tr class="separator:a86321b7faf56c6462174b74feaf99a0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a553665a2c105e22876fbf9d6be80f2a2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a553665a2c105e22876fbf9d6be80f2a2">any_true</a> ()</td></tr>
+<tr class="separator:a553665a2c105e22876fbf9d6be80f2a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78bc60f36b9322eec23213ced06173a3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a78bc60f36b9322eec23213ced06173a3">all_true</a> ()</td></tr>
+<tr class="separator:a78bc60f36b9322eec23213ced06173a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0546a439ba38e43e75d0c84da61c6a8e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a0546a439ba38e43e75d0c84da61c6a8e">none_true</a> ()</td></tr>
+<tr class="separator:a0546a439ba38e43e75d0c84da61c6a8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af499fffa481bd28ebebcb5329bb43e7b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#af499fffa481bd28ebebcb5329bb43e7b">operator|</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt;)</td></tr>
+<tr class="separator:af499fffa481bd28ebebcb5329bb43e7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d538611ced58f7fa5b7968826dbd39b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a6d538611ced58f7fa5b7968826dbd39b">operator&amp;</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; a)</td></tr>
+<tr class="separator:a6d538611ced58f7fa5b7968826dbd39b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4e14020813214e7ee484baa3e515479"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#af4e14020813214e7ee484baa3e515479">operator^</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; a)</td></tr>
+<tr class="separator:af4e14020813214e7ee484baa3e515479"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e30da270523e8d7d03c72460349d238"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a1e30da270523e8d7d03c72460349d238">operator~</a> ()</td></tr>
+<tr class="separator:a1e30da270523e8d7d03c72460349d238"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93cda920bdd23dd83fd7ae5b8fdb4fb2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a93cda920bdd23dd83fd7ae5b8fdb4fb2">operator!</a> ()</td></tr>
+<tr class="separator:a93cda920bdd23dd83fd7ae5b8fdb4fb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90ba0b4398688e02c8928e9540ff27db"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a90ba0b4398688e02c8928e9540ff27db">operator&amp;&amp;</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; a)</td></tr>
+<tr class="separator:a90ba0b4398688e02c8928e9540ff27db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e00d63a9cf1d6c8d9ffadf7ebf944ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a7e00d63a9cf1d6c8d9ffadf7ebf944ea">operator||</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; a)</td></tr>
+<tr class="separator:a7e00d63a9cf1d6c8d9ffadf7ebf944ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ae58dadbf2ee0d2d0b6a7764ca5c8a35a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8,bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#ae58dadbf2ee0d2d0b6a7764ca5c8a35a">load</a> (<a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; *p)</td></tr>
+<tr class="memdesc:ae58dadbf2ee0d2d0b6a7764ca5c8a35a"><td class="mdescLeft">&#160;</td><td class="mdescRight">load the vector from the pointer p  <a href="#ae58dadbf2ee0d2d0b6a7764ca5c8a35a">More...</a><br/></td></tr>
+<tr class="separator:ae58dadbf2ee0d2d0b6a7764ca5c8a35a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a70f5f5dda886cacc81ee1040d004773c"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a70f5f5dda886cacc81ee1040d004773c">v</a></td></tr>
 <tr class="separator:a70f5f5dda886cacc81ee1040d004773c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a2ffc0402efcab0d5db2e964713e5e7c6"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a2ffc0402efcab0d5db2e964713e5e7c6">operator&lt;&lt;</a> (std::ostream &amp;out, const <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; &amp;<a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a70f5f5dda886cacc81ee1040d004773c">v</a>)</td></tr>
+<tr class="separator:a2ffc0402efcab0d5db2e964713e5e7c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;&gt;<br/>
 struct generic::svec&lt; 8, bool &gt;</h3>
 
-<p>Data representation and operations on a vector of 4 boolean values. This is used in predicated vector operations. Specifically the ith value of <a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html" title="Data representation and operations on a vector of 4 boolean values. This is used in predicated vector...">svec&lt;8,bool&gt;</a> indicates whether the ith lane of a predicated vector operation is enabled or not. </p>
+<p>Data representation and operations on a vector of 8 boolean values. This is used in predicated vector operations. Specifically the ith value of <a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html" title="Data representation and operations on a vector of 8 boolean values. This is used in predicated vector...">svec&lt;8,bool&gt;</a> indicates whether the ith lane of a predicated vector operation is enabled or not. </p>
 <p>See also gather, scatter, load, store, and compare operations. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a625a001b52e3fd99714c95275b047b86"></a>
@@ -145,7 +190,7 @@ struct generic::svec&lt; 8, bool &gt;</h3>
 </div><div class="memdoc">
 
 <p>Default constructor. </p>
-<dl class="section return"><dt>Returns</dt><dd>a vector of 4 undefined values. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>a vector of 8 undefined values. </dd></dl>
 
 </div>
 </div>
@@ -217,7 +262,7 @@ struct generic::svec&lt; 8, bool &gt;</h3>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>a,b,c,d must be either 0 or -1 </dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>a vector of 4 mask/booleans: {a,b,c,d}. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>a vector of 8 mask/booleans: {a,b,c,d,e,f,g,h}. </dd></dl>
 
 </div>
 </div>
@@ -243,17 +288,17 @@ struct generic::svec&lt; 8, bool &gt;</h3>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>a must be either 0 or -1 </dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>a vector of 4 mask/booleans: {a,a,a,a}. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>a vector of 8 mask/booleans: {a,a,a,a,a,a,a,a}a,a,a}. </dd></dl>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a91b7772c6eac0f9eaa6495866b2edb6d"></a>
+<a class="anchor" id="a78bc60f36b9322eec23213ced06173a3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::COUT_FUNC_BOOL_DECL </td>
+          <td class="memname">bool <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::all_true </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -263,14 +308,13 @@ struct generic::svec&lt; 8, bool &gt;</h3>
 
 </div>
 </div>
-<a class="anchor" id="a99f166f765c84d6a7316f58e442fa951"></a>
+<a class="anchor" id="a553665a2c105e22876fbf9d6be80f2a2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::SUBSCRIPT_FUNC_BOOL_DECL </td>
+          <td class="memname">bool <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::any_true </td>
           <td>(</td>
-          <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -279,17 +323,285 @@ struct generic::svec&lt; 8, bool &gt;</h3>
 
 </div>
 </div>
-<a class="anchor" id="a32039428037a664f6028cb279d650fe0"></a>
+<a class="anchor" id="ae58dadbf2ee0d2d0b6a7764ca5c8a35a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::load </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>load the vector from the pointer p </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>load address </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>p does not have to be aligned </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>no return value. This vector is updated with value loaded from p. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a0546a439ba38e43e75d0c84da61c6a8e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::SVEC_BOOL_CLASS_METHOD_DECL </td>
+          <td class="memname">bool <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::none_true </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a93cda920bdd23dd83fd7ae5b8fdb4fb2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8 ,bool&gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::operator! </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a6dbd5f17a4ad91c81700b4a5942613da"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8 ,bool&gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::<a class="el" href="structgeneric_1_1svec_3_018_00_01bool_01_4.html#a93cda920bdd23dd83fd7ae5b8fdb4fb2">operator!</a>= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a6d538611ced58f7fa5b7968826dbd39b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8 ,bool&gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::operator&amp; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a90ba0b4398688e02c8928e9540ff27db"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8 ,bool&gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::operator&amp;&amp; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a469c2e1f798fb6e3d4357f0c5ae0ecd2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8 ,bool&gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::operator== </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ad9c99dd21121df6d746f0fcd95e8da30"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Helper <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a54534abd0981c59361faf70973900280"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint32_t <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="af4e14020813214e7ee484baa3e515479"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8 ,bool&gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::operator^ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="af499fffa481bd28ebebcb5329bb43e7b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8 ,bool&gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::operator| </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a7e00d63a9cf1d6c8d9ffadf7ebf944ea"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8 ,bool&gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::operator|| </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a1e30da270523e8d7d03c72460349d238"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8 ,bool&gt; <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::operator~ </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a86321b7faf56c6462174b74feaf99a0b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="structgeneric_1_1svec.html">generic::svec</a>&lt; 8, bool &gt;::store </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Store the vector to address p. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>store address </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>p does not have to be aligned </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a class="anchor" id="a2ffc0402efcab0d5db2e964713e5e7c6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream&amp; operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structgeneric_1_1svec.html">svec</a>&lt; 8, bool &gt; &amp;&#160;</td>
+          <td class="paramname"><em>v</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -308,12 +620,12 @@ struct generic::svec&lt; 8, bool &gt;</h3>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/gsa/yktgsa-h1/01/pengwu/Web20/SPMD_ON_SIMD/generic_simd.github/include/<a class="el" href="generic8_8h_source.html">generic8.h</a></li>
+<li>/cygdrive/c/workspace/ibm-summer/generic_simd/include/<a class="el" href="generic8_8h_source.html">generic8.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Oct 9 2013 16:14:03 for Generic SIMD Intrinsic Library API by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Nov 21 2013 15:40:11 for Generic SIMD Intrinsic Library API by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

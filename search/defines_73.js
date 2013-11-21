@@ -1,5 +1,19 @@
 var searchData=
 [
+  ['scatter_5fbase_5foffsets',['SCATTER_BASE_OFFSETS',['../gsimd__utility_8h.html#a65a29e4e7b74b6a2b54993cfacb0b1cc',1,'gsimd_utility.h']]],
+  ['scatter_5fbase_5foffsets_5fl4',['SCATTER_BASE_OFFSETS_L4',['../gsimd__utility_8h.html#a42ac911c08a24f8f3c5b3c7f1df76f3f',1,'gsimd_utility.h']]],
+  ['scatter_5fgeneral',['SCATTER_GENERAL',['../gsimd__utility_8h.html#aa1d1e12b41272a42b9ba3496f3878bbd',1,'gsimd_utility.h']]],
+  ['scatter_5fgeneral_5fl4',['SCATTER_GENERAL_L4',['../gsimd__utility_8h.html#aac7ed58476e367ed669b52fb5eb80fa4',1,'gsimd_utility.h']]],
+  ['scatter_5fstride',['SCATTER_STRIDE',['../gsimd__utility_8h.html#ae348f6b2121c2161f94f4fe1a806bcdf',1,'gsimd_utility.h']]],
+  ['scatter_5fstride_5fl4',['SCATTER_STRIDE_L4',['../gsimd__utility_8h.html#a1feb5ec25fb23f32bb185583200043a2',1,'gsimd_utility.h']]],
+  ['select',['SELECT',['../gsimd__utility_8h.html#ab555fd9c317770af4deb90cc1243783a',1,'gsimd_utility.h']]],
+  ['select_5fboolcond',['SELECT_BOOLCOND',['../gsimd__utility_8h.html#a1ee49334226cbfcdf0cc7c16dedbb9c1',1,'gsimd_utility.h']]],
+  ['shuffles',['SHUFFLES',['../gsimd__utility_8h.html#af808c31d7e41e61111e2533fc981d2c3',1,'gsimd_utility.h']]],
+  ['shuffles_5fl4',['SHUFFLES_L4',['../gsimd__utility_8h.html#a95dca2631cbff6f6f0a5aee9bda53eef',1,'gsimd_utility.h']]],
+  ['subscript_5ffunc_5fbool_5fdecl',['SUBSCRIPT_FUNC_BOOL_DECL',['../gsimd__utility_8h.html#aa5516b72bf7943f054b1ba97306d559d',1,'gsimd_utility.h']]],
+  ['subscript_5ffunc_5fdecl',['SUBSCRIPT_FUNC_DECL',['../gsimd__utility_8h.html#af2ef1f54f04a9c247bfcb7c579bc1d58',1,'gsimd_utility.h']]],
+  ['subscript_5ffunc_5fimpl',['SUBSCRIPT_FUNC_IMPL',['../gsimd__utility_8h.html#ab7e62bfab453dff65b8580613b63193e',1,'gsimd_utility.h']]],
   ['subscript_5ffunc_5fimpl_5fsse',['SUBSCRIPT_FUNC_IMPL_SSE',['../sse4_8h.html#a9129aca30add37a1c5b763f851eb806d',1,'sse4.h']]],
-  ['subscript_5ffunc_5fimpl_5fvsx',['SUBSCRIPT_FUNC_IMPL_VSX',['../power__vsx4_8h.html#aacb9cbd01bc1ba735ddd8e7f9a0aa628',1,'power_vsx4.h']]]
+  ['subscript_5ffunc_5fimpl_5fvsx',['SUBSCRIPT_FUNC_IMPL_VSX',['../power__vsx4_8h.html#aacb9cbd01bc1ba735ddd8e7f9a0aa628',1,'power_vsx4.h']]],
+  ['svec_5fbool_5fclass_5fmethod_5fdecl',['SVEC_BOOL_CLASS_METHOD_DECL',['../gsimd__utility_8h.html#a547fd64a4a80b2e5865210f1d299d611',1,'gsimd_utility.h']]]
 ];
