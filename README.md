@@ -41,6 +41,7 @@ The library provides:
 
 ##More Information
 - [Generic SIMD Intrinsics Library API](http://pengwuibm.github.io/generic_simd/index.html)
+- [Generic SIMD API Guide](http://pengwuibm.github.io/generic_simd/apiguide/apiguide.html)
 - [Getting Started](docs/getting_started.md)
 - [Programming Guide](docs/programming_guide.md)
 - [Developer Guide](docs/developer_guide.md)
