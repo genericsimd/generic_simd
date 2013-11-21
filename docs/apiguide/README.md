@@ -2,6 +2,14 @@
 
 The Generic SIMD API Guide is a simple tool to search the data types and APIs of the Generic SIMD library.
 
+The tool is a pure static html tool based on [filter.js framework](https://github.com/jiren/filter.js).
+
+The tool uses one search box and three checkbox filters 
+- Lane: filter API json object's Lane attribute
+- Type: filter API json object's Type attribute
+- category: filter API json object's Category attribute
+
+The search box is a full text search of all the json object's text. So if you search "add", you should get the result containting "address".
 
 ## API data
 The api data is defined in apidata.js as a json object.
