@@ -12,7 +12,6 @@ html: intrinsics.doxyfile ../include/power_vsx4.h
 
 gitpub: html
 	cp -fR html/* ${GH_PAGES_ROOT}
-	cp -fR apiguide ${GH_PAGES_ROOT}
 
 copy: html
 	cp -R html/* ${PUBLISH_ROOT}
