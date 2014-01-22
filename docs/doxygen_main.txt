@@ -2,6 +2,6 @@
 \mainpage
 This documentation describes the API of Generic SIMD Intrinsic Library.
 
-For usage instructions, please see the document https://github.com/pengwuibm/generic_simd.
+For usage instructions, please see the document https://github.com/genericsimd/generic_simd.
 
 */

@@ -41,7 +41,7 @@ $ add docs/gh-pages.github to .gitignore
 $ cd docs
 # create a branch gh-pages from the github web interface
 # clone the project repo to docs/gh-pages.github
-$ git clone -b gh-pages https://github.com/pengwuibm/generic_simd.git gh-pages.github
+$ git clone -b gh-pages https://github.com/genericsimd/generic_simd.git gh-pages.github
 $ cd gh-pages.github
 # remove all trunk files from gh-pages branch
 ```
@@ -56,4 +56,4 @@ $ git add -A   # add everything under the directory
 $ git commit -a # checkin new documentation to github
 $ git push     # push to github
 ```
-  Note: it may take 10 minutes before the new pages appear on http://pengwuibm.github.io/generic_simd
+  Note: it may take 10 minutes before the new pages appear on http://genericsimd.github.io/generic_simd

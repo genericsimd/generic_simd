@@ -40,8 +40,8 @@ The library provides:
 - <b>Overloaded C++ semantics on SIMD vectors.</b> We define SIMD vector operations based on semantics of C++ operators instead of platform-specific ISA semantics. This is because the semantics of C++ operators are platform independent. Secondly, C++ operators provide a slightly higher semantics than platform-specific intrinsics and are more natural to program since most users understand C++ operators well.
 
 ##More Information
-- [Generic SIMD Intrinsics Library API](http://pengwuibm.github.io/generic_simd/index.html)
-- [Generic SIMD API Guide](http://pengwuibm.github.io/generic_simd/apiguide/apiguide.html)
+- [Generic SIMD Intrinsics Library API](http://genericsimd.github.io/generic_simd/index.html)
+- [Generic SIMD API Guide](http://genericsimd.github.io/generic_simd/apiguide/apiguide.html)
 - [Getting Started](docs/getting_started.md)
 - [Programming Guide](docs/programming_guide.md)
 - [Developer Guide](docs/developer_guide.md)

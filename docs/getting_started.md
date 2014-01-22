@@ -4,7 +4,7 @@
 
 Clone the library from github
 ```bash
-$ git clone https://github.com/pengwuibm/generic_simd.git gsimd
+$ git clone https://github.com/genericsimd/generic_simd.git generic_simd
 ```
 The package contains the following directories:
 
