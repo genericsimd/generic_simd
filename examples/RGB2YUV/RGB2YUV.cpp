@@ -160,12 +160,13 @@ void sse_rgb2gray(float* ra, float* ga, float* ba, float* ya, float* ua, float* 
 #endif
 
 
-float r[N] POST_ALIGN(16);
-float g[N] POST_ALIGN(16);
-float b[N] POST_ALIGN(16);
-float y[N] POST_ALIGN(16);
-float u[N] POST_ALIGN(16);
-float v[N] POST_ALIGN(16);
+//the strange 100,200,300,... offset is used to reduce the effect of "address conflicts"
+float r[N+100] POST_ALIGN(16);
+float g[N+200] POST_ALIGN(16);
+float b[N+300] POST_ALIGN(16);
+float y[N+400] POST_ALIGN(16);
+float u[N+500] POST_ALIGN(16);
+float v[N+600] POST_ALIGN(16);
 
 #define ITERATIONS 1000
 int main (int argc, char* argv[])
