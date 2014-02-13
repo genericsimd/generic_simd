@@ -45,7 +45,7 @@ The library provides:
 - [Getting Started](docs/getting_started.md)
 - [Programming Guide](docs/programming_guide.md)
 - [Developer Guide](docs/developer_guide.md)
-- [WPMVP2014 Paper] (https://github.com/genericsimd/generic_simd/raw/master/)
+- [WPMVP2014 Paper] (https://github.com/genericsimd/generic_simd/raw/master/docs/Generic.SIMD.Library.WPMVP2014.pdf)
 - [FAQ & Trouble Shooting](docs/faq.md)
 - [Performance Data](docs/performance.md)
 - [History](docs/history.md)
